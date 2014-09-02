@@ -56,7 +56,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "\n" +
     "        </ion-content>\n" +
     "        <div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
-    "            <div class=\"title\"><h4>Commander ></h4></div>\n" +
+    "            <div class=\"title\">Commander ></div>\n" +
     "        </div>\n" +
     "      </ion-view>\n" +
     "");
@@ -108,55 +108,52 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
 
 angular.module("home/order/order.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/order/order.tpl.html",
-    "      <ion-view title=\"Order\">\n" +
-    "        <ion-content class=\"has-footer\">\n" +
+    "<ion-view title=\"Order\">\n" +
+    "	<ion-content class=\"has-footer\">\n" +
+    "		<div class=\"bottle-number-selector\">\n" +
+    "			<h4 class=\"centered\">Nombre de bouteilles</h4>\n" +
+    "			<p class=\"segmented-control\">\n" +
+    "					<span class=\"segmented\">\n" +
+    "							<label><input type=\"radio\" name=\"list\" ng-model=\"order.data.quantity\" value=\"1\"><span class=\"label\">3 bouteilles</span></label>\n" +
+    "							<label><input type=\"radio\" name=\"list\" ng-model=\"order.data.quantity\" value=\"2\"><span class=\"label\">6 bouteilles</span></label>\n" +
+    "					</span>\n" +
+    "			</p>\n" +
+    "		</div>\n" +
     "\n" +
-    "          <div ng-style=\"calcHeight\" class=\"order-header\">\n" +
-    "          </div>\n" +
-    "          <div class=\"bottle-number-selector\">\n" +
-    "            <h4 class=\"centered\">Nombre de bouteilles</h4>\n" +
-    "            <p class=\"segmented-control\">\n" +
-    "                <span class=\"segmented\">\n" +
-    "                    <label><input type=\"radio\" name=\"list\" ng-model=\"order.data.quantity\" value=\"1\"><span class=\"label\">3 bouteilles</span></label>\n" +
-    "                    <label><input type=\"radio\" name=\"list\" ng-model=\"order.data.quantity\" value=\"2\"><span class=\"label\">6 bouteilles</span></label>\n" +
-    "                </span>\n" +
-    "            </p>\n" +
-    "          </div>\n" +
-    "\n" +
-    "          <div class=\"list\">\n" +
-    "            <h4 class=\"centered\">Recharge 1</h4>\n" +
-    "            <div class=\"item price-selector\">\n" +
-    "              <div class=\"row centered\">\n" +
-    "                <div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '3990' }\">39€90</span></div>\n" +
-    "                <div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '4990' }\">49€90</span></div>\n" +
-    "                <div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '5990' }\">59€90</span></div>\n" +
-    "              </div>\n" +
-    "              <div class=\"range range-assertive\">\n" +
-    "                <input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" ng-model=\"price.valueA\">\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "         </div>\n" +
+    "		<div class=\"list first-refill\">\n" +
+    "			<div class=\"item price-selector\">\n" +
+    "				<h4 class=\"centered\">Recharge 1</h4>\n" +
+    "				<div class=\"row centered\">\n" +
+    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '3990' }\">39€90</span></div>\n" +
+    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '4990' }\">49€90</span></div>\n" +
+    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '5990' }\">59€90</span></div>\n" +
+    "				</div>\n" +
+    "				<div class=\"range range-assertive\">\n" +
+    "					<input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" ng-model=\"price.valueA\">\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		 </div>\n" +
     "\n" +
     "\n" +
-    "          <div class=\"list\" ng-show=\"order.data.quantity == '2'\" id=\"refill_2\">\n" +
-    "            <h4 class=\"centered\">Recharge 2</h4>\n" +
-    "            <div class=\"item price-selector\">\n" +
-    "              <div class=\"row centered\">\n" +
-    "                <div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '3990' }\">39€90</span></div>\n" +
-    "                <div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '4990' }\">49€90</span></div>\n" +
-    "                <div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '5990' }\">59€90</span></div>\n" +
-    "              </div>\n" +
-    "              <div class=\"range range-assertive\">\n" +
-    "                <input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" ng-model=\"price.valueB\">\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
+    "		<div class=\"list second-refill\" ng-show=\"order.data.quantity == '2'\">\n" +
+    "			<div class=\"item price-selector\">\n" +
+    "				<h4 class=\"centered\">Recharge 2</h4>\n" +
+    "				<div class=\"row centered\">\n" +
+    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '3990' }\">39€90</span></div>\n" +
+    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '4990' }\">49€90</span></div>\n" +
+    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '5990' }\">59€90</span></div>\n" +
+    "				</div>\n" +
+    "				<div class=\"range range-assertive\">\n" +
+    "					<input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" ng-model=\"price.valueB\">\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "\n" +
-    "        </ion-content>\n" +
-    "        <div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
-    "            <div class=\"title\"><h4>Mode de Livraison ></h4></div>\n" +
-    "        </div>\n" +
-    "      </ion-view>");
+    "	</ion-content>\n" +
+    "	<div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
+    "			<div class=\"title\">Mode de Livraison ></div>\n" +
+    "	</div>\n" +
+    "</ion-view>");
 }]);
 
 angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -249,138 +246,135 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "         <img class=\"pull-right\" src=\"assets/utils/poweredbystripe.svg\" alt=\"stripe_verification\">\n" +
     "       </div>\n" +
     "       <div class=\"row row-submit centered\">\n" +
-    "         <button class=\"button button-outline-primary\" value=\"submit\">Commander</button>\n" +
+    "         <button class=\"button button-order\" value=\"submit\">Payer ma commande</button>\n" +
     "       </div>\n" +
     "     </form>\n" +
     "\n" +
     "   </div>\n" +
     "\n" +
-    " </ion-content>\n" +
-    "<!--         <div class=\"bar bar-footer bar-positive\" ng-sparkline id=\"goStripeGo\" class=\"button button-block button-positive\">\n" +
-    "     <div class=\"title\"><h4>Procéder au Paiement ></h4></div>\n" +
-    " </div> -->\n" +
+    "  </ion-content>\n" +
     "</ion-view>");
 }]);
 
 angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/profile/profile.tpl.html",
-    "      <ion-view title=\"Profil\">\n" +
-    "        <ion-content>\n" +
-    "          <div class=\"item centered\">\n" +
-    "            <h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
-    "            <p>{{user.email}}</p>\n" +
-    "          </div>\n" +
-    "          <div class=\"item item-gray centered\">\n" +
-    "              <p>{{user.delivery_address.street}}</p>\n" +
-    "              <div class=\"row\">\n" +
-    "                <div class=\"col\">\n" +
-    "                    <p> {{user.delivery_address.zipcode}}</p>\n" +
-    "                </div>\n" +
-    "                <div class=\"col\">\n" +
-    "                    <p>{{user.delivery_address.city}}</p>\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "              <div class=\"row\">\n" +
-    "                <div class=\"col\">\n" +
-    "                    <p><i class=\"icon ion-ios7-telephone\"></i> {{user.phone}}</p>\n" +
-    "                </div>\n" +
-    "                <div class=\"col\">\n" +
-    "                    <p class=\"p-button\" ng-click=\"openUserModal()\">Modifier</p></button>\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "          </div>\n" +
-    "          <div class=\"item centered item-profile\">\n" +
-    "            <div class=\"row\">\n" +
-    "              <div class=\"col\">\n" +
-    "                <h4>Note Moyenne</h4>\n" +
-    "              <ul class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              </div>\n" +
+    "<ion-view title=\"Profil\">\n" +
+    "	<ion-content>\n" +
+    "		<div class=\"item centered\">\n" +
+    "			<h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
+    "			<p>{{user.email}}</p>\n" +
+    "		</div>\n" +
+    "		<div class=\"item centered item-profile\">\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col\">\n" +
+    "					<h4>Note Moyenne</h4>\n" +
+    "				<ul class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				</div>\n" +
     "\n" +
-    "            </div>\n" +
-    "            <div class=\"row\">\n" +
-    "              <div class=\"col\">\n" +
-    "                <div class=\"row row-center\">\n" +
-    "                  <div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
-    "                  <div class=\"col\">\n" +
-    "                      <h4>Cépage Préféré</h4>\n" +
-    "                      <p class=\"subtitle\">Cab. Sauv.</p>\n" +
-    "                  </div>\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "              <div class=\"col\">\n" +
-    "                <div class=\"row row-center\">\n" +
-    "                  <div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
-    "                  <div class=\"col\">\n" +
-    "                      <h4>Région Préférée</h4>\n" +
-    "                      <p class=\"subtitle\">Bretagne {{favorite_region}}</p>\n" +
-    "                  </div>\n" +
-    "                </div>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"row row-center\">\n" +
-    "                  <div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
-    "                  <div class=\"col align-left\">\n" +
-    "                      <h4>Consommation</h4>\n" +
-    "                      <p class=\"subtitle\">50% rouge, 40% blanc, 10% rosé.</p>\n" +
-    "                  </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
+    "			</div>\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col\">\n" +
+    "					<div class=\"row row-center\">\n" +
+    "						<div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
+    "						<div class=\"col\">\n" +
+    "								<h4>Cépage Préféré</h4>\n" +
+    "								<p class=\"subtitle\">Cab. Sauv.</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<div class=\"col\">\n" +
+    "					<div class=\"row row-center\">\n" +
+    "						<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
+    "						<div class=\"col\">\n" +
+    "								<h4>Région Préférée</h4>\n" +
+    "								<p class=\"subtitle\">Bretagne {{favorite_region}}</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<div class=\"row row-center\">\n" +
+    "						<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
+    "						<div class=\"col align-left\">\n" +
+    "								<h4>Consommation</h4>\n" +
+    "								<p class=\"subtitle\">50% rouge, 40% blanc, 10% rosé.</p>\n" +
+    "						</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "\n" +
-    "          <div class=\"item item-gray\">\n" +
-    "            <div class=\"row row-center\">\n" +
-    "              <div class=\"col centered\">\n" +
-    "                <h4>ViniPoints</h4>\n" +
-    "                <span class=\"subtitle\">48</span>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
+    "		<div class=\"item item-gray\">\n" +
+    "			<div class=\"row row-center\">\n" +
+    "				<div class=\"col centered\">\n" +
+    "					<h4>ViniPoints</h4>\n" +
+    "					<span class=\"subtitle\">48</span>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "\n" +
-    "          <div class=\"item\">\n" +
-    "            <div class=\"row\">\n" +
-    "              <div class=\"col centered\">\n" +
-    "                  <h4>Filleul</h4>\n" +
-    "              </div>\n" +
-    "              <div class=\"col centered\">\n" +
-    "                  <h4>Mail envoyé</h4>\n" +
-    "              </div>\n" +
-    "              <div class=\"col centered\">\n" +
-    "                  <h4>Achat</h4>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "            <div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
-    "              <div class=\"col centered\">\n" +
-    "                  <p>{{referral.referred_first_name}}</p>\n" +
-    "              </div>\n" +
-    "              <div class=\"col centered\">\n" +
-    "                  <p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
-    "              </div>\n" +
-    "              <div class=\"col centered\">\n" +
-    "                  <p><img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
+    "		<div class=\"item\">\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col centered\">\n" +
+    "						<h4>Filleul</h4>\n" +
+    "				</div>\n" +
+    "				<div class=\"col centered\">\n" +
+    "						<h4>Mail envoyé</h4>\n" +
+    "				</div>\n" +
+    "				<div class=\"col centered\">\n" +
+    "						<h4>Achat</h4>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
+    "				<div class=\"col centered\">\n" +
+    "						<p>{{referral.referred.first_name}}</p>\n" +
+    "				</div>\n" +
+    "				<div class=\"col centered\">\n" +
+    "						<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
+    "				</div>\n" +
+    "				<div class=\"col centered\">\n" +
+    "						<p><img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "\n" +
-    "          <div class=\"item\">\n" +
-    "            <div class=\"row\">\n" +
-    "              <div class=\"col centered\"><button class=\"button button-outline-primary\"><p>Récupérer ma récompense</p></button></div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
+    "		<div class=\"item\">\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col centered\"><button class=\"button button-outline-primary\"><p>Récupérer ma récompense</p></button></div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div class=\"item item-gray centered\">\n" +
+    "				<p>{{user.delivery_address.street}}</p>\n" +
+    "				<div class=\"row\">\n" +
+    "					<div class=\"col\">\n" +
+    "							<p> {{user.delivery_address.zipcode}}</p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col\">\n" +
+    "							<p>{{user.delivery_address.city}}</p>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<div class=\"row\">\n" +
+    "					<div class=\"col\">\n" +
+    "							<p><i class=\"icon ion-ios7-telephone\"></i> {{user.phone}}</p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col\">\n" +
+    "							<p class=\"p-button\" ng-click=\"openUserModal()\">Modifier</p></button>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "		</div>\n" +
     "<!--             <div class=\"row\">\n" +
-    "              <div class=\"col\">\n" +
-    "                  <button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
-    "              </div>\n" +
-    "              <div class=\"col\">\n" +
-    "                  <button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
-    "              </div>\n" +
-    "          </div> -->\n" +
-    "        </ion-content>\n" +
-    "      </ion-view>");
+    "				<div class=\"col\">\n" +
+    "						<button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
+    "				</div>\n" +
+    "				<div class=\"col\">\n" +
+    "						<button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
+    "				</div>\n" +
+    "		</div> -->\n" +
+    "	</ion-content>\n" +
+    "</ion-view>");
 }]);
 
 angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -747,61 +741,61 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
 
 angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/wine.rating/wine.rating.tpl.html",
-    "  <ion-modal-view>\n" +
-    "    <ion-header-bar class=\"bar-positive\">\n" +
-    "          <button class=\"button\" ng-click=\"closeModal()\">Annuler</button>\n" +
-    "      <h1 class=\"title\">Noter mon Vin</h1>\n" +
-    "    </ion-header-bar>\n" +
-    "    <ion-content>\n" +
-    "  <div class=\"wine-header\">\n" +
-    "    <div class=\"row row-center\">\n" +
-    "        <div class=\"col centered\">\n" +
-    "          <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "          <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "          <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"row row-header-bottom row-center\">\n" +
-    "        <div class=\"col\">\n" +
-    "          <div class=\"row row-center align-left\">\n" +
-    "            <div class=\"col col-20\">\n" +
-    "                  <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
-    "            </div>\n" +
-    "            <div class=\"col\">\n" +
-    "                  <p>{{bottle.wine.variety}}</p>\n" +
-    "                  <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"col align-right\">\n" +
-    "          <div class=\"row\">\n" +
-    "            <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "  </div>\n" +
+    "	<ion-modal-view>\n" +
+    "	<ion-header-bar class=\"bar-positive\">\n" +
+    "			<button class=\"button\" ng-click=\"closeModal()\">Annuler</button>\n" +
+    "		<h1 class=\"title\">Noter mon Vin</h1>\n" +
+    "	</ion-header-bar>\n" +
+    "	<ion-content>\n" +
+    "	<div class=\"wine-header\">\n" +
+    "	<div class=\"row row-center\">\n" +
+    "		<div class=\"col centered\">\n" +
+    "			<h3>{{bottle.wine.display_name}}</h3>\n" +
+    "			<h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
+    "			<!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "	<div class=\"row row-header-bottom row-center\">\n" +
+    "		<div class=\"col col-75\">\n" +
+    "			<div class=\"row row-center align-left\">\n" +
+    "			<div class=\"col col-20\">\n" +
+    "					<img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
+    "			</div>\n" +
+    "			<div class=\"col\">\n" +
+    "					<p>{{bottle.wine.variety}}</p>\n" +
+    "					<!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "			</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "		<div class=\"col align-right\">\n" +
+    "			<div class=\"row\">\n" +
+    "			<div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "	</div>\n" +
     "\n" +
-    "    <div class=\"wine-content padding\">\n" +
-    "      <form class=\"rating-form\">\n" +
-    "        <h4>Note</h4>\n" +
-    "        <p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
-    "        <rating ng-model=\"rating.data.rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
+    "	<div class=\"wine-content padding\">\n" +
+    "		<form class=\"rating-form\">\n" +
+    "		<h4>Note</h4>\n" +
+    "		<p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
+    "		<rating ng-model=\"rating.data.rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
     "\n" +
     "\n" +
-    "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
+    "		<h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
+    "		<textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
     "\n" +
-    "        <div class=\"checkbox-nude\">\n" +
-    "          <ion-checkbox><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
-    "      </div>\n" +
+    "		<div class=\"checkbox-nude\">\n" +
+    "			<ion-checkbox><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
+    "		</div>\n" +
     "\n" +
-    "      </form>\n" +
-    "    </div>\n" +
-    "    <button class=\"button bar-footer-button\" ng-click=\"rateWine()\"><h4>Noter</h4></button>\n" +
-    "    </ion-content>\n" +
-    "    <!-- <div class=\"bar bar-footer bar-footer-button\"> -->\n" +
-    "    <!-- </div> -->\n" +
-    "  </ion-modal-view>");
+    "		</form>\n" +
+    "	</div>\n" +
+    "	<button class=\"button bar-footer-button\" ng-click=\"rateWine()\"><h4>Noter</h4></button>\n" +
+    "	</ion-content>\n" +
+    "	<!-- <div class=\"bar bar-footer bar-footer-button\"> -->\n" +
+    "	<!-- </div> -->\n" +
+    "	</ion-modal-view>");
 }]);
 
 angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -817,7 +811,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "          </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-header-bottom row-center\">\n" +
-    "          <div class=\"col\">\n" +
+    "          <div class=\"col col-75\">\n" +
     "            <div class=\"row row-center align-left\">\n" +
     "              <div class=\"col col-20\">\n" +
     "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +

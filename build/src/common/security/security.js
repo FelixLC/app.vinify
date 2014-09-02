@@ -80,14 +80,11 @@ angular.module('security.service', [
       if ( service.isAuthenticated() ) {
         // let's go home
         console.log('Method isAuth');
-        $location.path('/home');
         return $q.when(service.currentUser);
       } else if ( User.getUser() ) {
             console.log('Logging With Local');
             service.currentUser = User.getUser();
             $window.sessionStorage.token = User.getUser().token;
-            // let's go home
-            $location.path('/home');
             return $q.when(User.getUser());
       } else {
         // We don't need to try isloggedin. Without token we're naked.
