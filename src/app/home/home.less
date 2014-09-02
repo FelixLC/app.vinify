@@ -1,0 +1,39 @@
+#section-vinibar {
+  @bckg_url: 'img/vinibar.png';
+  @break: 40%;
+  .shade(@bckg_url, @break);
+}
+
+#section-order {
+  @bckg_url: 'img/order.png';
+  @break: 40%;
+  .shade(@bckg_url, @break);
+}
+
+#section-profile {
+  @bckg_url: 'img/profile.png';
+  @break: 40%;
+  .shade(@bckg_url, @break);
+}
+
+.section {
+  padding: @padding;
+  cursor: pointer;
+  position: relative;
+  .home-header {
+    h4, h3, p {color: #FFF;}
+    h4 {
+      font-size: 16px;
+    }
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    color: #fff;
+  }
+  .chevron-right{
+    color: #fff;
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+  }
+}

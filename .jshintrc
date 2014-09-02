@@ -1,0 +1,7 @@
+{
+  "node": true,
+  "expr": true,
+  "globals": {
+    "require": false
+  }
+}

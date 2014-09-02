@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="AppCtrl">
+	<head>
+		<title ng-bind="pageTitle"></title>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+		<!-- social media tags -->
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="vinify.co">
+		<meta name="twitter:title" content="Vinify | Commander mon Vinibar">
+		<meta name="twitter:description" content="9 bouteilles choisies pour moi, selon mes goûts">
+		<meta name="twitter:creator" content="Vinify">
+		<meta name="twitter:image:src" content="http://www.vinify.co/img/LogoVinifyMini2.png">
+		<meta property="og:title" content="Vinify | Commander mon Vinibar" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://app.vinify.co" />
+		<meta property="og:image" content="http://www.vinify.co/img/LogoVinifyMini2.png" />
+		<meta property="og:description" content="9 bouteilles choisies pour moi, selon mes goûts">
+
+		<!-- compiled CSS -->
+		<link rel="stylesheet" type="text/css" href="bower_components/ionic/release/css/ionic.css" />
+		<link rel="stylesheet" type="text/css" href="assets/Vinify-1.0.0.css" />
+
+		<!-- compiled JavaScript -->
+		<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+		<script type="text/javascript" src="bower_components/angular-animate/angular-animate.js"></script>
+		<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+		<script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+		<script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
+		<script type="text/javascript" src="bower_components/angular-payments/lib/angular-payments.js"></script>
+		<script type="text/javascript" src="bower_components/angular-local-storage/angular-local-storage.js"></script>
+		<script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script type="text/javascript" src="bower_components/ionic/release/js/ionic-angular.js"></script>
+		<script type="text/javascript" src="bower_components/ionic/release/js/ionic.js"></script>
+		<script type="text/javascript" src="bower_components/ngCordova/dist/ng-cordova.js"></script>
+		<script type="text/javascript" src="bower_components/ionic-rating/ionic-rating.js"></script>
+		<script type="text/javascript" src="src/app/app.js"></script>
+		<script type="text/javascript" src="src/app/home/deliverymode/deliverymode.js"></script>
+		<script type="text/javascript" src="src/app/home/home.js"></script>
+		<script type="text/javascript" src="src/app/home/order/order.js"></script>
+		<script type="text/javascript" src="src/app/home/pay/pay.js"></script>
+		<script type="text/javascript" src="src/app/home/profile/profile.js"></script>
+		<script type="text/javascript" src="src/app/home/ratedwine/ratedwine.js"></script>
+		<script type="text/javascript" src="src/app/home/vinibar/vinibar.js"></script>
+		<script type="text/javascript" src="src/app/home/wine/wine.js"></script>
+		<script type="text/javascript" src="src/app/sidemenu/sidemenu.js"></script>
+		<script type="text/javascript" src="src/common/client.js"></script>
+		<script type="text/javascript" src="src/common/security/LoginFormController.js"></script>
+		<script type="text/javascript" src="src/common/security/index.js"></script>
+		<script type="text/javascript" src="src/common/security/interceptor.js"></script>
+		<script type="text/javascript" src="src/common/security/localizedMessages.js"></script>
+		<script type="text/javascript" src="src/common/security/retryQueue.js"></script>
+		<script type="text/javascript" src="src/common/security/security.js"></script>
+		<script type="text/javascript" src="src/common/security/security_2.js"></script>
+		<script type="text/javascript" src="src/common/services/LoadingService.js"></script>
+		<script type="text/javascript" src="src/common/services/offlineService.js"></script>
+		<script type="text/javascript" src="src/common/services/orderService.js"></script>
+		<script type="text/javascript" src="src/common/services/ratingService.js"></script>
+		<script type="text/javascript" src="src/common/services/referralService.js"></script>
+		<script type="text/javascript" src="src/common/services/resource.js"></script>
+		<script type="text/javascript" src="src/common/services/userFactories.js"></script>
+		<script type="text/javascript" src="templates-common.js"></script>
+		<script type="text/javascript" src="templates-app.js"></script>
+    		<script src="cordova.js"></script>
+	</head>
+	<body>
+
+	<ion-nav-view></ion-nav-view>
+
+      <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	</body>
+</html>

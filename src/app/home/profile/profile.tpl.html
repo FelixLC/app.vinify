@@ -1,0 +1,117 @@
+      <ion-view title="Profil">
+        <ion-content>
+          <div class="item centered">
+            <h3>{{user.first_name}} {{user.last_name}}</h3>
+            <p>{{user.email}}</p>
+          </div>
+          <div class="item item-gray centered">
+              <p>{{user.delivery_address.street}}</p>
+              <div class="row">
+                <div class="col">
+                    <p> {{user.delivery_address.zipcode}}</p>
+                </div>
+                <div class="col">
+                    <p>{{user.delivery_address.city}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                    <p><i class="icon ion-ios7-telephone"></i> {{user.phone}}</p>
+                </div>
+                <div class="col">
+                    <p class="p-button" ng-click="openUserModal()">Modifier</p></button>
+                </div>
+              </div>
+          </div>
+          <div class="item centered item-profile">
+            <div class="row">
+              <div class="col">
+                <h4>Note Moyenne</h4>
+              <ul class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="row row-center">
+                  <div class="col col-20"><img src="assets/utils/grapes-black.svg" alt="cepage"></div>
+                  <div class="col">
+                      <h4>Cépage Préféré</h4>
+                      <p class="subtitle">Cab. Sauv.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row row-center">
+                  <div class="col col-20"><img src="assets/utils/france.svg" alt="cepage"></div>
+                  <div class="col">
+                      <h4>Région Préférée</h4>
+                      <p class="subtitle">Bretagne {{favorite_region}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row row-center">
+                  <div class="col col-20"><img src="assets/utils/chart.png" alt="cepage"></div>
+                  <div class="col align-left">
+                      <h4>Consommation</h4>
+                      <p class="subtitle">50% rouge, 40% blanc, 10% rosé.</p>
+                  </div>
+            </div>
+          </div>
+
+          <div class="item item-gray">
+            <div class="row row-center">
+              <div class="col centered">
+                <h4>ViniPoints</h4>
+                <span class="subtitle">48</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="row">
+              <div class="col centered">
+                  <h4>Filleul</h4>
+              </div>
+              <div class="col centered">
+                  <h4>Mail envoyé</h4>
+              </div>
+              <div class="col centered">
+                  <h4>Achat</h4>
+              </div>
+            </div>
+            <div ng-repeat="referral in referrals" class="row">
+              <div class="col centered">
+                  <p>{{referral.referred_first_name}}</p>
+              </div>
+              <div class="col centered">
+                  <p><img ng-show="referral.created_at" src="assets/utils/tick.svg" alt="tick"></p>
+              </div>
+              <div class="col centered">
+                  <p><img ng-show="referral.validated_at" src="assets/utils/tick.svg" alt="tick"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="item">
+            <div class="row">
+              <div class="col centered"><button class="button button-outline-primary"><p>Récupérer ma récompense</p></button></div>
+            </div>
+          </div>
+<!--             <div class="row">
+              <div class="col">
+                  <button class="button share share-facebook"> <img src="assets/utils/facebook.svg" alt="facebook-logo"><p>Partager sur facebook</p></button>
+              </div>
+              <div class="col">
+                  <button class="button share share-twitter"> <img src="assets/utils/twitter.svg" alt="facebook-logo"> <p>Partager sur twitter</p></button>
+              </div>
+          </div> -->
+        </ion-content>
+      </ion-view>

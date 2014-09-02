@@ -1,0 +1,48 @@
+      <ion-view title="Vinibar">
+      <ion-nav-buttons side="right">
+        <button class="button" ng-click="search.toggle = !search.toggle">
+          <i class="icon ion-search"></i>
+        </button>
+      </ion-nav-buttons>
+        <div class="bar bar-subheader bar-segmented-control">
+          <p class="segmented-control">
+              <span class="segmented">
+                  <label><input type="radio" name="list" ng-model="segmentedControl.value" value="toDrink" checked><span class="label">A boire</span></label>
+                  <label><input type="radio" name="list" ng-model="segmentedControl.value" value="rated"><span class="label">Notés</span></label>
+              </span>
+          </p>
+      </div>
+      <div ng-show="search.toggle" class="bar bar-subheader item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" ng-model="search.value" placeholder="Search">
+        </label>
+        <button class="button-clear" ng-click="search.value = '' ">
+          Annuler
+        </button>
+      </div>
+        <ion-content class="has-subheader">
+          <ion-list ng-show="segmentedControl.value === 'rated'">
+            <a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter" class="item" href="#/ratedwine/{{bottle.uuid}}">
+                <h3>{{bottle.wine.display_name}}</h3>
+                <p class="vinitext">
+                    {{bottle.wine.region}}
+                    <span class="item-note"><i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i></span>
+                    <br>
+                    {{bottle.wine.appellation}}
+                </p>
+            </a>
+          </ion-list>
+          <ion-list ng-show="segmentedControl.value === 'toDrink'">
+            <a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!'}  | filter: searchFilter" class="item" href="#/wine/{{bottle.uuid}}">
+                <h3>{{bottle.wine.display_name}}</h3>
+                <p class="vinitext">
+                    {{bottle.wine.region}}
+                    <span class="item-note">{{bottle.wine.vintage}}</span>
+                    <br>
+                    {{bottle.wine.appellation}}
+                  </p>
+            </a>
+          </ion-list>
+        </ion-content>
+      </ion-view>

@@ -1,0 +1,49 @@
+      <ion-view title="Order">
+        <ion-content class="has-footer">
+
+          <div ng-style="calcHeight" class="order-header">
+          </div>
+          <div class="bottle-number-selector">
+            <h4 class="centered">Nombre de bouteilles</h4>
+            <p class="segmented-control">
+                <span class="segmented">
+                    <label><input type="radio" name="list" ng-model="order.data.quantity" value="1"><span class="label">3 bouteilles</span></label>
+                    <label><input type="radio" name="list" ng-model="order.data.quantity" value="2"><span class="label">6 bouteilles</span></label>
+                </span>
+            </p>
+          </div>
+
+          <div class="list">
+            <h4 class="centered">Recharge 1</h4>
+            <div class="item price-selector">
+              <div class="row centered">
+                <div class="col"><span ng-class="{highlighted: price.levelA == '3990' }">39€90</span></div>
+                <div class="col"><span ng-class="{highlighted: price.levelA == '4990' }">49€90</span></div>
+                <div class="col"><span ng-class="{highlighted: price.levelA == '5990' }">59€90</span></div>
+              </div>
+              <div class="range range-assertive">
+                <input type="range" name="volume" min="0" max="100" ng-model="price.valueA">
+              </div>
+            </div>
+         </div>
+
+
+          <div class="list" ng-show="order.data.quantity == '2'" id="refill_2">
+            <h4 class="centered">Recharge 2</h4>
+            <div class="item price-selector">
+              <div class="row centered">
+                <div class="col"><span ng-class="{highlighted: price.levelB == '3990' }">39€90</span></div>
+                <div class="col"><span ng-class="{highlighted: price.levelB == '4990' }">49€90</span></div>
+                <div class="col"><span ng-class="{highlighted: price.levelB == '5990' }">59€90</span></div>
+              </div>
+              <div class="range range-assertive">
+                <input type="range" name="volume" min="0" max="100" ng-model="price.valueB">
+              </div>
+            </div>
+          </div>
+
+        </ion-content>
+        <div class="bar bar-footer bar-positive" ng-click="createRefillOrder()">
+            <div class="title"><h4>Mode de Livraison ></h4></div>
+        </div>
+      </ion-view>

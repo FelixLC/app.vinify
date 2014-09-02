@@ -1,0 +1,63 @@
+  <ion-modal-view>
+    <ion-header-bar class="bar-positive">
+          <h1 class="title">Mes addresses</h1>
+          <button class="button" ng-click="closeModal()">Terminé</button>
+    </ion-header-bar>
+    <ion-content>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Livraison
+      </div>
+      <select name="addresses" ng-change="fireDelivery(current.delivery_address)" ng-model="current.delivery_address" ng-options="address.uuid as address.street for address in addresses"></select>
+    </label>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Facturation
+      </div>
+      <select name="addresses" ng-change="fireBilling(current.billing_address)" ng-model="current.billing_address" ng-options="address.uuid as address.street for address in addresses"></select>
+    </label>
+
+    <div class="padding centered">
+      <button class="button button-less" ng-show="!form_show" ng-click="form_show = true">Ajouter une adresse</button>
+    </div>
+    <form name="form_address" class="list card" ng-show="form_show">
+
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.company" name="company" autocomplete="company" placeholder="Société">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.street" name="street" autocomplete="street" placeholder="N° et Rue *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.city" name="city" autocomplete="city" placeholder="Ville *" required>
+      </label>
+      <label class="item item-input">
+          <input type="number" ng-model="address_suppl.data.zipcode" name="zipcode" autocomplete="zipcode" placeholder="Code Postal *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.country" name="country" autocomplete="country" placeholder="Pays *" required>
+      </label>
+      <label class="item item-input">
+          <textarea type="text" ng-model="address_suppl.data.other_info" name="other_info" autocomplete="other_info" placeholder="Infos Suppl. (Code, Escalier ..)"></textarea>
+      </label>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+            <input type="checkbox" ng-model="address_suppl.data.current_billing">
+         </label>
+        <p>Adresse de Facturation</p>
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+          <input type="checkbox" ng-model="address_suppl.data.current_delivery">
+         </label>
+        <p>Adresse de Livraison</p>
+      </li>
+      <li class="item">
+        <button class="button button-full button-positive" ng-click="addAddress(form_address)">Ajouter</button>
+      </li>
+
+    </form>
+
+    <button class="button bar-footer-button" ng-click="updateOrCreateAddress()"><h4>Terminé</h4></button>
+    </ion-content>
+  </ion-modal-view>

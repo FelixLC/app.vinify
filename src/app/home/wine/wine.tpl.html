@@ -1,0 +1,61 @@
+<ion-view title="Déguster">
+  <ion-content>
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>{{bottle.wine.display_name}}</h3>
+            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>
+            <!-- <h4>{{bottle.wine.appellation}}</h4> -->
+          </div>
+      </div>
+      <div class="row row-header-bottom row-center">
+          <div class="col">
+            <div class="row row-center align-left">
+              <div class="col col-20">
+                    <img class="img-grapes" src="assets/utils/grapes.svg" alt="grapes-logo">
+              </div>
+              <div class="col">
+                    <p>{{bottle.wine.variety}}</p>
+                    <!-- <h4>{{bottle.wine.variety}}</h4> -->
+              </div>
+            </div>
+          </div>
+          <div class="col align-right">
+            <div class="row">
+              <div class="col"><p>{{bottle.wine.vintage}}</p></div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="wine-content padding">
+
+          <h4>Description</h4>
+
+          <p ng-bind-html="bottle.wine.description" class="justified"><p>
+
+          <div class="row row-buttons">
+                <div class="col">
+                  <a class="button button-outline-primary" ng-click="openModal()">
+                    Noter ce vin
+                  </a>
+                </div>
+                <div class="col">
+                  <a class="button button-less" ng-click="openGroupModal()">
+                    Noter à plusieurs
+                  </a>
+                </div>
+          </div>
+
+        <h4>Service</h4>
+        <div class="row row-center">
+          <div class="col"><p class="service-par"><i class="icon ion-thermometer"></i> {{bottle.wine.temperature}}</p></div>
+          <div class="col"><p class="service-par"><i class="icon ion-beaker"></i> Carafer le vin <span ng-show="bottle.wine.carafage">1h30</span> <span ng-show="!bottle.wine.carafage">1h30</span> avant dégustation.</p></div>
+        </div>
+
+        <h4>Dégustation</h4>
+        <p ng-bind-html="bottle.wine.tasting_info" class="justified"><p>
+  </div>
+
+  </ion-content>
+</ion-view>

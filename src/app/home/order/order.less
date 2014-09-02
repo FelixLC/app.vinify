@@ -1,0 +1,34 @@
+.order-header {
+  @bckg_url: 'img/refill.png';
+  @break: 100%;
+  .shade(@bckg_url, @break);
+}
+
+.bottle-number-selector {
+
+  .segmented input:checked + .label {
+    border-color: @primary;
+    background-color: @primary;
+    color: #fff;
+  }
+
+  .segmented .label {
+    border-color:  @primary;
+    background-color: #fff;
+    color: @primary;
+    width: 160px;
+  }
+
+}
+#refill_2 {
+  margin-bottom: 0;
+}
+
+.price-selector {
+  .highlighted {
+    font-family: 'robotobold';
+    color: @primary;
+    -webkit-transition:0.5s;
+    transition:0.5s;
+  }
+}

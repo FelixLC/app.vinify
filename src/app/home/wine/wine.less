@@ -1,0 +1,62 @@
+.wine-header {
+  padding: 100px 20px 0 20px;
+  @bckg_url: 'img/winery.jpg';
+  @break: 63.5%;
+  .shade(@bckg_url, @break);
+  color: #FFF;
+    h3, h4 {
+      color: #FFF;
+    }
+
+    .row-header-bottom {
+      position: relative;
+      bottom: 0;
+      p {
+        margin: 0;
+      }
+
+        .img-grapes {
+          height: 20px;
+        }
+    }
+}
+
+.wine-content {
+  h4 {
+    color: @primary;
+  }
+  .row-buttons {
+    text-align: center;
+    .button {
+      width: 100%;
+    }
+  }
+  .service-par {
+    position: relative;
+    padding-left: 20px;
+      i {
+          position: absolute;
+          left: 0px;
+          top: 10px;
+      }
+  }
+  .justified {
+    text-align: justify;
+  }
+
+  .rating {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .rating-form {
+      .literal-rating {
+        font-family: 'robotolight_italic';
+        color: @primary;
+        text-align: center;
+      }
+  }
+  .rating-form-group {
+    h2 { text-align: center;}
+  }
+}

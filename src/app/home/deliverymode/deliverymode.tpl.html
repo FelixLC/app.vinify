@@ -1,0 +1,57 @@
+      <ion-view title="Mode de Livraison">
+        <ion-content class="has-footer">
+          <!-- <div class="list radio-delivery"> -->
+            <label class="item item-radio item-thumbnail-left">
+              <input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Transporteur">
+              <div ng-style="calcHeight" class="item-content item-text-wrap">
+                <img src="assets/utils/truck.svg" alt="">
+                <h2>Transporteur</h2>
+                <h3>12 €</h3>
+                <p>Livraison suivie sous 15j par la Poste ou TNT.</p>
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+
+            <label class="item item-radio item-thumbnail-left">
+              <input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Point Relais">
+              <div ng-style="calcHeight" class="item-content item-text-wrap">
+                <img src="assets/utils/store.svg" alt="">
+                <h2>Point Relais</h2>
+                <h3>9 €</h3>
+                <p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous.</p>
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+
+            <label class="item item-radio item-thumbnail-left">
+              <input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Retrait Vinify">
+              <div ng-style="calcHeight" class="item-content item-text-wrap">
+                <img src="assets/utils/deliveryman.svg" alt="">
+                <h2>Chez Vinify</h2>
+                <h3>Gratuit</h3>
+                <p>Venez retirer votre colis en semaine entre 10h et 19h (Issy-Les-Moulineaux).</p>
+              </div>
+              <i class="radio-icon ion-checkmark"></i>
+            </label>
+
+            <div ng-style="calcHeight" class="item centered">
+            <div class="row row-center">
+              <div class="col">
+                  <h4>Adresse de Livraison</h4>
+                  <br>
+                  <p>{{user.delivery_address.street}}
+                  <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>
+              </div>
+              <div class="col">
+                    <button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
+              </div>
+            </div>
+            </div>
+
+          <!-- </div> -->
+
+        </ion-content>
+        <div class="bar bar-footer bar-positive" ng-click="createRefillOrder()">
+            <div class="title"><h4>Commander ></h4></div>
+        </div>
+      </ion-view>
