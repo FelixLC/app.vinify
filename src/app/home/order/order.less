@@ -1,38 +1,40 @@
 .order-header {
-  @bckg_url: 'img/refill.png';
-  @break: 100%;
-  .shade(@bckg_url, @break);
+	@bckg_url: 'img/refill.png';
+	@break: 100%;
+	.shade(@bckg_url, @break);
 }
 
 .bottle-number-selector {
-  margin-top: 40px;
+	margin-top: 40px;
 
-  .segmented input:checked + .label {
-    border-color: @primary;
-    background-color: @primary;
-    color: #fff;
-  }
+	.segmented input:checked + .label {
+		border-color: @primary;
+		background-color: @primary;
+		color: #fff;
+	}
 
-  .segmented .label {
-    border-color:  @primary;
-    background-color: #fff;
-    color: @primary;
-    width: 140px;
-  }
+	.segmented .label {
+		border-color:  @primary;
+		background-color: #fff;
+		color: @primary;
+		width: 140px;
+	}
 
 }
 .second-refill {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 .first-refill {
-  margin-bottom: 0;
+	margin-bottom: 0;
+	.item {
+		background-color: @grey; }
 }
 
 .price-selector {
-  .highlighted {
-    font-family: 'robotobold';
-    color: @primary;
-    -webkit-transition:0.5s;
-    transition:0.5s;
-  }
+	.highlighted {
+		font-family: 'robotobold';
+		color: @primary;
+		-webkit-transition:0.5s;
+		transition:0.5s;
+	}
 }

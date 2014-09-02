@@ -1,10 +1,13 @@
 <ion-view title="Profil">
 	<ion-content>
-		<div class="item centered">
+		<div class="item item-gray centered">
 			<h3>{{user.first_name}} {{user.last_name}}</h3>
 			<p>{{user.email}}</p>
 		</div>
 		<div class="item centered item-profile">
+			<div class="coming-soon">
+				<p>Noter vos vins pour découvrir votre profil !</p>
+			</div>
 			<div class="row">
 				<div class="col">
 					<h4>Note Moyenne</h4>
@@ -57,6 +60,7 @@
 		</div>
 
 		<div class="item">
+			<h3 class="centered">Parrainez des amis et gagnez 10€ !</h3>
 			<div class="row">
 				<div class="col centered">
 						<h4>Filleul</h4>
@@ -79,13 +83,11 @@
 						<p><img ng-show="referral.validated_at" src="assets/utils/tick.svg" alt="tick"></p>
 				</div>
 			</div>
-		</div>
-
-		<div class="item">
 			<div class="row">
-				<div class="col centered"><button class="button button-outline-primary"><p>Récupérer ma récompense</p></button></div>
+				<div class="col centered"><button class="button button-outline-primary"><p>Je parraine !</p></button></div>
 			</div>
 		</div>
+
 		<div class="item item-gray centered">
 				<p>{{user.delivery_address.street}}</p>
 				<div class="row">

@@ -1,17 +1,35 @@
 .item-profile {
-  .col {
-    padding-right: 0;
-    padding-left: 0;
-  }
-  img {
-    max-width: 100%;
-    max-height: 35px;
-  }
+	position: relative;
 
-  .row {
-    margin-bottom: @padding;
-  }
-  .row:first-child {
-    margin-top: @padding;
-  }
+	.coming-soon {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		background-color: rgba(0, 0, 0, 0.5);
+		p {
+			line-height: 340px;
+			height: 340px;
+			color: #fff;
+			font-family:  'robotobold';
+		}
+	}
+
+	.col {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	img {
+		max-width: 100%;
+		max-height: 35px;
+	}
+
+	.row {
+		margin-bottom: @padding;
+	}
+	.row:first-child {
+		margin-top: @padding;
+	}
 }

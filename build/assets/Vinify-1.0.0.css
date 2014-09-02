@@ -2,6 +2,24 @@
   background-color: #cb0001;
   padding: 0;
 }
+.item-profile {
+  position: relative;
+}
+.item-profile .coming-soon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.item-profile .coming-soon p {
+  line-height: 340px;
+  height: 340px;
+  color: #fff;
+  font-family: 'robotobold';
+}
 .item-profile .col {
   padding-right: 0;
   padding-left: 0;
@@ -75,7 +93,8 @@
   position: relative;
   height: 44px;
   width: 100%;
-  background-color: #4a87ee;
+  background-color: #cb0001;
+  border-color: #cb0001;
   color: #FFF;
   bottom: 0px;
   left: 0;
@@ -86,6 +105,16 @@
 }
 .side-list .item i {
   color: #cb0001;
+}
+.item-delivery-mode svg {
+  float: left;
+  margin-right: 20px;
+  width: 100%;
+  max-height: 60px;
+}
+.item-delivery-mode svg .circle-svg {
+  stroke: #cb0001;
+  fill: #cb0001;
 }
 .wine-header {
   padding: 100px 20px 0 20px;
@@ -111,9 +140,13 @@
   /* version standardisée */
   color: #FFF;
 }
-.wine-header h3,
+.wine-header h3 {
+  color: #FFF;
+  font-size: 19px;
+}
 .wine-header h4 {
   color: #FFF;
+  font-size: 17px;
 }
 .wine-header .row-header-bottom {
   position: relative;
@@ -230,6 +263,9 @@
 }
 .first-refill {
   margin-bottom: 0;
+}
+.first-refill .item {
+  background-color: #ebebeb;
 }
 .price-selector .highlighted {
   font-family: 'robotobold';
@@ -472,6 +508,15 @@ p.segmented-control {
 .has-footer {
   bottom: 44px;
 }
+.range.range-assertive input::-webkit-slider-thumb:before {
+  background: #cb0001;
+}
+.item-radio input:checked ~ .item-content {
+  background: #ebebeb;
+}
+.item-radio .radio-icon {
+  top: 30px;
+}
 .button-outline-primary {
   border-radius: 5px;
   border: 1px solid #cb0001;
@@ -535,6 +580,10 @@ p.segmented-control {
   border-color: #cb0001;
   background-color: #cb0001;
   box-shadow: none;
+  color: #fff;
+}
+.button.active p,
+.button.activated p {
   color: #fff;
 }
 .button-less-white {

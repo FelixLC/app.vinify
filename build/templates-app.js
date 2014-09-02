@@ -2,69 +2,126 @@ angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'hom
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
-    "      <ion-view title=\"Mode de Livraison\">\n" +
-    "        <ion-content class=\"has-footer\">\n" +
-    "          <!-- <div class=\"list radio-delivery\"> -->\n" +
-    "            <label class=\"item item-radio item-thumbnail-left\">\n" +
-    "              <input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Transporteur\">\n" +
-    "              <div ng-style=\"calcHeight\" class=\"item-content item-text-wrap\">\n" +
-    "                <img src=\"assets/utils/truck.svg\" alt=\"\">\n" +
-    "                <h2>Transporteur</h2>\n" +
-    "                <h3>12 €</h3>\n" +
-    "                <p>Livraison suivie sous 15j par la Poste ou TNT.</p>\n" +
-    "              </div>\n" +
-    "              <i class=\"radio-icon ion-checkmark\"></i>\n" +
-    "            </label>\n" +
+    "<ion-view title=\"Mode de Livraison\">\n" +
+    "	<ion-content class=\"has-footer\">\n" +
+    "		<!-- <div class=\"list radio-delivery\"> -->\n" +
+    "			<label class=\"item item-radio\">\n" +
+    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Transporteur\">\n" +
+    "				<div class=\"item-content item-delivery-mode item-text-wrap\">\n" +
+    "					<div class=\"row row-center\">\n" +
+    "						<div class=\"col col-25\">\n" +
+    "							<svg viewBox=\"0 0 50 50\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "									<!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->\n" +
+    "									<title>TRUCK</title>\n" +
+    "									<desc>Created with Sketch.</desc>\n" +
+    "									<defs></defs>\n" +
+    "									<g id=\"Page-4\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "											<g id=\"Camion-2\" sketch:type=\"MSLayerGroup\" transform=\"translate(1.000000, 1.000000)\">\n" +
+    "													<circle class=\"circle-svg\" stroke=\"#FC3432\" fill=\"#FC3432\" sketch:type=\"MSShapeGroup\" cx=\"24\" cy=\"24\" r=\"24\"></circle>\n" +
+    "													<path d=\"M32.0615332,31.689462 L21.7671599,31.689462 C21.5846895,30.3969631 20.4784625,29.4085817 19.1365446,29.4085817 C17.7946266,29.4085817 16.6883997,30.3969631 16.5059293,31.689462 L13.4343437,31.689462 L13.4343437,18.0041799 L32.0615332,18.0041799 L32.0615332,31.689462 Z\" id=\"Shape\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\"></path>\n" +
+    "													<path d=\"M37.7637341,21.8056472 L32.8218267,21.8056472 L32.8218267,31.689462 L33.9926786,31.689462 C34.175149,30.3969631 35.281376,29.4085817 36.6232939,29.4085817 C37.9652118,29.4085817 39.0714388,30.3969631 39.2539092,31.689462 L40.4247611,31.689462 L40.4247611,24.4666742 C40.4247611,22.9955064 39.2349019,21.8056472 37.7637341,21.8056472 L37.7637341,21.8056472 Z M39.6644677,25.6071144 L33.5821201,25.6071144 L33.5821201,22.5659406 L37.2999551,22.5659406 C39.284321,22.5659406 39.6644677,23.6227485 39.6644677,24.9304533 L39.6644677,25.6071144 L39.6644677,25.6071144 Z\" id=\"Shape\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\"></path>\n" +
+    "													<ellipse id=\"Oval\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\" cx=\"19.1365446\" cy=\"32.0696087\" rx=\"1.90073362\" ry=\"1.90073362\"></ellipse>\n" +
+    "													<ellipse id=\"Oval\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\" cx=\"36.6232939\" cy=\"32.0696087\" rx=\"1.90073362\" ry=\"1.90073362\"></ellipse>\n" +
+    "													<rect id=\"Rectangle-path\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\" x=\"8.49243631\" y=\"20.2850603\" width=\"3.80146724\" height=\"0.760293449\"></rect>\n" +
+    "													<rect id=\"Rectangle-path\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\" x=\"8.49243631\" y=\"24.0865275\" width=\"3.80146724\" height=\"0.760293449\"></rect>\n" +
+    "													<rect id=\"Rectangle-path\" fill=\"#FFFFFF\" sketch:type=\"MSShapeGroup\" x=\"8.49243631\" y=\"27.8879948\" width=\"3.80146724\" height=\"0.760293449\"></rect>\n" +
+    "											</g>\n" +
+    "									</g>\n" +
+    "							</svg>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "							<h2>Transporteur - 12 €</h2>\n" +
+    "							<p>Livraison suivie sous 15j par la Poste ou TNT.</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<i class=\"radio-icon ion-checkmark\"></i>\n" +
+    "			</label>\n" +
     "\n" +
-    "            <label class=\"item item-radio item-thumbnail-left\">\n" +
-    "              <input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Point Relais\">\n" +
-    "              <div ng-style=\"calcHeight\" class=\"item-content item-text-wrap\">\n" +
-    "                <img src=\"assets/utils/store.svg\" alt=\"\">\n" +
-    "                <h2>Point Relais</h2>\n" +
-    "                <h3>9 €</h3>\n" +
-    "                <p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous.</p>\n" +
-    "              </div>\n" +
-    "              <i class=\"radio-icon ion-checkmark\"></i>\n" +
-    "            </label>\n" +
+    "			<label class=\"item item-radio\">\n" +
+    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Point Relais\">\n" +
+    "				<div class=\"item-content item-delivery-mode item-text-wrap\">\n" +
+    "					<div class=\"row row-center\">\n" +
+    "						<div class=\"col col-25\">\n" +
+    "							<svg viewBox=\"0 0 50 50\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->\n" +
+    "							    <title>STORE</title>\n" +
+    "							    <desc>Created with Sketch.</desc>\n" +
+    "							    <defs></defs>\n" +
+    "							    <g id=\"Page-4\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"Store-2\" sketch:type=\"MSLayerGroup\" transform=\"translate(1.000000, 1.000000)\">\n" +
+    "							            <g id=\"Your_Icon\" transform=\"translate(0.075444, 0.010935)\" sketch:type=\"MSShapeGroup\">\n" +
+    "							                <circle class=\"circle-svg\" stroke=\"#FC3432\" fill=\"#FC3432\" sketch:type=\"MSShapeGroup\" cx=\"24\" cy=\"24\" r=\"24\"></circle>\n" +
+    "							                <path d=\"M15.2216521,35.3692109 L32.7894093,35.3692109 L15.2216521,35.3692109 Z M33.4981159,35.4447738 C33.8741021,35.4447738 34.2059084,35.1400848 34.2059084,34.7628799 L34.2059084,24.4354469 C34.4892692,24.4997362 34.5971291,24.537213 34.8021847,24.537213 C35.9922999,24.537213 36.8792495,23.3099258 36.9395779,22.5058515 L36.9737031,22.1265138 L36.9441483,22.1265138 C36.9456717,22.1265138 36.9481092,22.0561306 36.9362264,22.0171304 C36.9182497,21.9592395 36.8826011,21.9193253 36.8411634,21.8818485 L33.8753209,12.1644029 C33.8317503,12.0215037 33.69982,11.9261361 33.549913,11.9261361 L14.4617578,11.9261361 C14.3115461,11.9261361 14.1787017,12.0248553 14.1354359,12.1689732 L11.2134686,21.8577781 C11.1452182,21.9037861 11.0918976,21.9601536 11.0675225,22.0415055 C11.0583819,22.0741073 11.0620381,22.1265138 11.0620381,22.1265138 L11.0370536,22.1265138 L11.0647803,22.5061562 C11.1254134,23.3099258 12.0178475,24.5311192 13.2082673,24.5311192 C13.4136277,24.5311192 13.5214876,24.4994315 13.8048483,24.4354469 L13.8048483,34.7628799 C13.8048483,35.1400848 14.137264,35.4447738 14.5135549,35.4447738 L33.4981159,35.4447738 Z M29.7413008,22.1265138 L28.461607,12.4928576 L30.5054607,12.4928576 L32.6364555,22.1265138 L29.7413008,22.1265138 L29.7413008,22.1265138 Z M22.562219,22.1265138 L22.985432,12.4928576 L24.9494572,12.4928576 L25.3537794,22.1265138 L22.562219,22.1265138 L22.562219,22.1265138 Z M15.3938014,22.1265138 L17.5019444,12.4928576 L19.5588997,12.4928576 L18.2542215,22.1265138 L15.3938014,22.1265138 L15.3938014,22.1265138 Z M15.2213474,30.627641 L15.2213474,23.6307633 C15.5047082,24.1301485 16.1491253,24.538127 16.8380271,24.538127 C17.6216872,24.538127 18.2499559,24.0094917 18.620153,23.4205279 C18.9897407,24.0094917 19.6280641,24.538127 20.4120289,24.538127 C21.1956889,24.538127 21.8391921,24.0094917 22.2084751,23.4205279 C22.5780628,24.0094917 23.2236988,24.538127 24.0079682,24.538127 C24.7916283,24.538127 25.4387877,24.0094917 25.8086801,23.4205279 C26.1779631,24.0094917 26.8254272,24.538127 27.6087826,24.538127 C28.3933567,24.538127 29.0408208,24.0094917 29.4110179,23.4205279 C29.780301,24.0094917 30.3884602,24.538127 31.1727296,24.538127 C31.8619361,24.538127 32.5054392,24.1301485 32.7888,23.6307633 L32.7888,30.6279457 L15.2213474,30.6279457 L15.2213474,30.627641 Z\" id=\"Shape\" fill=\"#FFFFFF\"></path>\n" +
+    "							            </g>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "							<h2>Point Relais - 9 €</h2>\n" +
+    "							<p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous.</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<i class=\"radio-icon ion-checkmark\"></i>\n" +
+    "			</label>\n" +
     "\n" +
-    "            <label class=\"item item-radio item-thumbnail-left\">\n" +
-    "              <input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Retrait Vinify\">\n" +
-    "              <div ng-style=\"calcHeight\" class=\"item-content item-text-wrap\">\n" +
-    "                <img src=\"assets/utils/deliveryman.svg\" alt=\"\">\n" +
-    "                <h2>Chez Vinify</h2>\n" +
-    "                <h3>Gratuit</h3>\n" +
-    "                <p>Venez retirer votre colis en semaine entre 10h et 19h (Issy-Les-Moulineaux).</p>\n" +
-    "              </div>\n" +
-    "              <i class=\"radio-icon ion-checkmark\"></i>\n" +
-    "            </label>\n" +
+    "			<label class=\"item item-radio\">\n" +
+    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Retrait Vinify\">\n" +
+    "				<div class=\"item-content  item-delivery-mode item-text-wrap\">\n" +
+    "					<div class=\"row row-center\">\n" +
+    "						<div class=\"col col-25\">\n" +
+    "							<svg viewBox=\"0 0 50 50\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->\n" +
+    "							    <title>DELIVERYMAN</title>\n" +
+    "							    <desc>Created with Sketch.</desc>\n" +
+    "							    <defs></defs>\n" +
+    "							    <g id=\"Page-4\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"DeliveryMan-2\" sketch:type=\"MSLayerGroup\" transform=\"translate(2.000000, 1.000000)\">\n" +
+    "							            <g id=\"Symbol_2_copy_3\" sketch:type=\"MSShapeGroup\">\n" +
+    "							                <circle class=\"circle-svg\" stroke=\"#FC3432\" fill=\"#FC3432\" sketch:type=\"MSShapeGroup\" cx=\"24\" cy=\"24\" r=\"24\"></circle>\n" +
+    "							                <path d=\"M35.1430868,17.763646 L34.0603026,15.9304954 C33.9638538,15.7672343 33.7906723,15.6673729 33.6039026,15.6673729 L27.0270011,15.6673729 C26.8402314,15.6673729 26.6670499,15.7672343 26.5706011,15.9304954 L25.4531806,17.82242 C25.4491841,17.8289505 25.4478519,17.8365693 25.4443883,17.8433719 C25.4286688,17.8724868 25.41588,17.9026901 25.4054891,17.9347981 C25.4014926,17.9467706 25.3977625,17.9581989 25.3945653,17.9704435 C25.3860395,18.0055446 25.3807108,18.0417342 25.3788458,18.0790121 C25.3785793,18.0858147 25.3769807,18.0923451 25.3769807,18.0991477 C25.3769807,18.1005082 25.3764479,18.1021408 25.3764479,18.1035013 L25.3764479,19.8367905 L22.3606914,17.0259777 C21.8872397,16.4483054 21.160943,16.1313067 20.390152,16.2292633 C19.1658918,16.3846335 18.2970534,17.5241963 18.4489203,18.7745046 L19.3031049,25.9628929 L17.8052179,29.8778952 L13.2233675,30.0490473 C12.4962715,30.1181612 11.9428899,30.7576007 11.9759276,31.5102346 C12.0102975,32.2859971 12.6537335,32.8862539 13.4578286,32.8495202 L19.7224706,32.5532012 L21.7961196,27.5152343 L25.5267162,30.4348878 L26.4043469,35.0396684 C26.5801927,35.7631874 27.2827769,36.2257607 28.0064092,36.0793698 C28.7524219,35.9283533 29.2365309,35.1887803 29.0801347,34.3819981 L27.9198184,28.7086733 L23.7290919,25.4635859 L23.2207375,21.1872323 L25.3767143,23.1251421 L25.3767143,24.9226473 C25.3767143,25.2230478 25.6154384,25.4668511 25.9095805,25.4668511 L34.7215896,25.4668511 C35.0157318,25.4668511 35.2544558,25.2230478 35.2544558,24.9226473 L35.2544558,18.156017 C35.2563209,18.1386025 35.2597845,18.12146 35.2597845,18.1032292 C35.2595181,17.9747971 35.2160895,17.8567049 35.1430868,17.763646 L35.1430868,17.763646 Z M30.8484513,16.7557805 L33.3030997,16.7557805 L33.777617,17.5592975 L30.8484513,17.5592975 L30.8484513,16.7557805 L30.8484513,16.7557805 Z M27.3278041,16.7557805 L29.7829853,16.7557805 L29.7829853,17.5592975 L26.8530202,17.5592975 L27.3278041,16.7557805 L27.3278041,16.7557805 Z M34.1884569,24.3781714 L26.4421804,24.3781714 L26.4421804,23.3643197 L29.8818319,23.3700338 L30.0142492,23.3692175 C30.7210963,23.3567008 31.2536961,22.793994 31.2422395,22.1115625 C31.2310493,21.4492664 30.7112383,20.9192119 30.0699337,20.8990763 L26.5101208,20.8933622 L26.4421804,20.8302346 L26.4421804,18.6477051 L34.1884569,18.6477051 L34.1884569,24.3781714 L34.1884569,24.3781714 Z M22.1989665,15.9522636 C23.3664764,16.1011033 24.4308767,15.2554106 24.5766156,14.06306 C24.7223546,12.8707095 23.894014,11.7836623 22.7267705,11.6348226 C21.559527,11.4859828 20.4948602,12.3316756 20.3488549,13.5240262 C20.2033824,14.7161046 21.0314565,15.8034239 22.1989665,15.9522636 L22.1989665,15.9522636 Z\" id=\"Shape\" fill=\"#FFFFFF\"></path>\n" +
+    "							            </g>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "							<h2>Chez Vinify - Gratuit</h2>\n" +
+    "							<p>Venez retirer votre colis en semaine entre 10h et 19h (Issy-Les-Moulineaux).</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<i class=\"radio-icon ion-checkmark\"></i>\n" +
+    "			</label>\n" +
     "\n" +
-    "            <div ng-style=\"calcHeight\" class=\"item centered\">\n" +
-    "            <div class=\"row row-center\">\n" +
-    "              <div class=\"col\">\n" +
-    "                  <h4>Adresse de Livraison</h4>\n" +
-    "                  <br>\n" +
-    "                  <p>{{user.delivery_address.street}}\n" +
-    "                  <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
-    "              </div>\n" +
-    "              <div class=\"col\">\n" +
-    "                    <button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "            </div>\n" +
+    "			<div ng-style=\"calcHeight\" class=\"item centered\">\n" +
+    "			<div class=\"row row-center\">\n" +
+    "				<div class=\"col\">\n" +
+    "						<h4>Adresse de Livraison</h4>\n" +
+    "						<p>{{user.delivery_address.street}}\n" +
+    "						<br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
+    "				</div>\n" +
+    "				<div class=\"col\">\n" +
+    "							<button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			</div>\n" +
     "\n" +
-    "          <!-- </div> -->\n" +
+    "		<!-- </div> -->\n" +
     "\n" +
-    "        </ion-content>\n" +
-    "        <div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
-    "            <div class=\"title\">Commander ></div>\n" +
-    "        </div>\n" +
-    "      </ion-view>\n" +
+    "	</ion-content>\n" +
+    "	<div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
+    "			<div class=\"title\">Commander ></div>\n" +
+    "	</div>\n" +
+    "</ion-view>\n" +
     "");
 }]);
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "      <ion-view title=\"Welcome\">\n" +
+    "      <ion-view hide-back-button=\"true\" title=\"Welcome\">\n" +
     "        <ion-content>\n" +
     "          <ion-nav-buttons side=\"left\">\n" +
     "            <button class=\"button button-icon button-clear ion-navicon\" ng-click=\"toggleLeft()\">\n" +
@@ -260,11 +317,14 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
   $templateCache.put("home/profile/profile.tpl.html",
     "<ion-view title=\"Profil\">\n" +
     "	<ion-content>\n" +
-    "		<div class=\"item centered\">\n" +
+    "		<div class=\"item item-gray centered\">\n" +
     "			<h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
     "			<p>{{user.email}}</p>\n" +
     "		</div>\n" +
     "		<div class=\"item centered item-profile\">\n" +
+    "			<div class=\"coming-soon\">\n" +
+    "				<p>Noter vos vins pour découvrir votre profil !</p>\n" +
+    "			</div>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col\">\n" +
     "					<h4>Note Moyenne</h4>\n" +
@@ -317,6 +377,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "		</div>\n" +
     "\n" +
     "		<div class=\"item\">\n" +
+    "			<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
     "						<h4>Filleul</h4>\n" +
@@ -339,13 +400,11 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<p><img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "		</div>\n" +
-    "\n" +
-    "		<div class=\"item\">\n" +
     "			<div class=\"row\">\n" +
-    "				<div class=\"col centered\"><button class=\"button button-outline-primary\"><p>Récupérer ma récompense</p></button></div>\n" +
+    "				<div class=\"col centered\"><button class=\"button button-outline-primary\"><p>Je parraine !</p></button></div>\n" +
     "			</div>\n" +
     "		</div>\n" +
+    "\n" +
     "		<div class=\"item item-gray centered\">\n" +
     "				<p>{{user.delivery_address.street}}</p>\n" +
     "				<div class=\"row\">\n" +
@@ -676,7 +735,7 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
     "        <input type=\"text\" ng-name=\"commentaire\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\">\n" +
     "\n" +
     "        <div class=\"checkbox-nude\">\n" +
-    "          <ion-checkbox><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
+    "          <ion-checkbox ng-model=\"rating.data.get_more\"><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
     "      </div>\n" +
     "\n" +
     "      </form>\n" +
@@ -786,7 +845,7 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "		<textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
     "\n" +
     "		<div class=\"checkbox-nude\">\n" +
-    "			<ion-checkbox><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
+    "			<ion-checkbox  ng-model=\"rating.data.get_more\"><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
     "		</div>\n" +
     "\n" +
     "		</form>\n" +
@@ -869,7 +928,7 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "\n" +
     "        <ion-side-menu-content>\n" +
     "          <ion-nav-bar class=\"bar-positive\">\n" +
-    "            <ion-nav-back-button class=\"button-icon ion-arrow-left-c\">\n" +
+    "            <ion-nav-back-button class=\"button-icon ion-ios7-arrow-back\">\n" +
     "            </ion-nav-back-button>\n" +
     "          </ion-nav-bar>\n" +
     "          <ion-nav-view animation=\"slide-left-right-ios7\" name=\"menuContent\"></ion-nav-view>\n" +

@@ -96,8 +96,10 @@ angular.module("tpl/address.tpl.html", []).run(["$templateCache", function($temp
     "\n" +
     "    </form>\n" +
     "\n" +
-    "    <button class=\"button bar-footer-button\" ng-click=\"updateOrCreateAddress()\"><h4>Terminé</h4></button>\n" +
     "    </ion-content>\n" +
+    "    <div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
+    "        <div class=\"title\" ng-click=\"updateOrCreateAddress()\">Terminé</div>\n" +
+    "    </div>\n" +
     "  </ion-modal-view>");
 }]);
 
