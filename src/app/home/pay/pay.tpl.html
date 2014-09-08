@@ -4,26 +4,35 @@
        <h3 class="centered">Récapitulatif de ma commande</h3>
    </div>
    <div class="list">
-     <div class="item item-text-wrap">
+     <div class="item item-text-wrap item-bill">
        <div class="row">
          <div class="col">
-           <p ng-show="serializedOrder.quantity == 1">{{serializedOrder.quantity}} recharge</p>
-           <p ng-show="serializedOrder.quantity == 2">{{serializedOrder.quantity}} recharges</p>
+           <h3 ng-show="serializedOrder.quantity == 1">{{serializedOrder.quantity}} recharge</h3>
+           <h3 ng-show="serializedOrder.quantity == 2">{{serializedOrder.quantity}} recharges</h3>
          </div>
          <div class="col">
-           <p class="subtitle">{{calcPrice()}}</p>
+           <p class="subtitle">{{calcPrice()}} €</p>
          </div>
        </div>
-       <div class="row">
+       <div class="row row-center">
          <div class="col">
-           <p>Livraison - {{serializedOrder.delivery_mode}}</p>
+           <h3>Livraison </h3>
+           <p>{{serializedOrder.delivery_mode}} </p>
          </div>
          <div class="col">
-
+            <p>{{displayPrice(serializedOrder.delivery_cost)}} €</p>
+         </div>
+     </div>
+       <div class="row row-center">
+         <div class="col">
+         </div>
+         <div class="col">
+            <h3>{{displayPrice(serializedOrder.final_price)}} €</h3>
          </div>
      </div>
      </div>
      <form name="stripe-form" id="stripe-form" stripe-form="submit">
+      <img class="pull-right" src="assets/utils/poweredbystripe.svg" alt="stripe_verification">
        <div class="row item">
          <div class="col">
             <label class="item-input">
@@ -81,9 +90,6 @@
              <i class="icon ion-locked"></i> <input type="text" name="cvc" id="cvc" ng-model="cvc" placeholder="CVC" payments-validate="cvc" payments-format="cvc" required/>
            </label> -->
          </div>
-       </div>
-       <div class="row">
-         <img class="pull-right" src="assets/utils/poweredbystripe.svg" alt="stripe_verification">
        </div>
        <div class="row row-submit centered">
          <button class="button button-order" value="submit">Payer ma commande</button>

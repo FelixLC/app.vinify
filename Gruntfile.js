@@ -122,7 +122,7 @@ module.exports = function ( grunt ) {
         files: [
           {
             src: [ '<%= vendor_files.assets %>' ],
-            dest: '<%= build_dir %>/assets/',
+            dest: '<%= build_dir %>/assets/fonts/',
             cwd: '.',
             expand: true,
             flatten: true
@@ -634,7 +634,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'index:compile'
   ]);
 
   /**

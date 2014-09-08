@@ -29,11 +29,18 @@
 
            // We can retrieve a collection from the server
            Bottles.getList().then(function(response){
-            $scope.bottleList = response.data;
+              $scope.bottleList = response.data;
            });
 
            $scope.update = function() {
-            Bottles.updateList();
+            Bottles.updateList().then(function(response){
+              $scope.bottleList = response.data;
+             // Stop the ion-refresher from spinning
+             $scope.$broadcast('scroll.refreshComplete');
+             },function(response){
+              $scope.$broadcast('scroll.refreshComplete');
+              $cordovaToast.show('Problème de connexion ...', 'short', 'top');
+             });
            };
 
            $scope.get = function() {

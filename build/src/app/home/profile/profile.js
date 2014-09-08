@@ -1,4 +1,4 @@
-  angular.module( 'app.profile', ['User'])
+  angular.module( 'app.profile', ['User', 'Referrals'])
       .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.profile', {
@@ -12,7 +12,7 @@
           });
      })
 
-      .controller( 'profileCtrl', function profileCtrl( $scope, $http, $location, User, $ionicModal, Referrals, Addresses, Address) {
+      .controller( 'profileCtrl', function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address) {
         $scope.user = User.getUser();
         console.log(User);
         console.log($scope.user.phone);
@@ -46,6 +46,41 @@
       $scope.closeUserModal = function() {
         // TODO UPDATE USER INFOS
         $scope.userModal.hide();
+      };
+
+      // YIPEE MODAL
+      $ionicModal.fromTemplateUrl('home/profile/referral.tpl.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.referralModal = modal;
+      });
+
+      // Open & close the modal
+      $scope.openReferralModal = function() {
+        $scope.referralModal.show();
+          $scope.referral = new Referral();
+      };
+      $scope.closeReferralModal = function() {
+        // TODO UPDATE USER INFOS
+        $scope.referralModal.hide();
+      };
+      $scope.sendReferral = function() {
+        // TODO UPDATE USER INFOS
+        $scope.referral.sendReferral().success(function(data, status, headers, config) {
+                                                                          Referrals.updateList().then(function(results){
+                                                                            $scope.referrals = Referrals.data;
+                                                                          $scope.referralModal.hide();
+                                                                          });
+                                                                    }).error(function(data, status, headers, config) {
+                                                                        // TODO gracefully manage errors/successes
+                                                                          $scope.referralModal.hide();
+                                                                          if (data === 'User with email already a client') {
+                                                                              $ionicLoading.show({ template: $scope.referral.first_name + ' est déja un de nos clients :)', noBackdrop: true, duration: 3000 });
+                                                                          } else {
+                                                                              $scope.openOopsModal();
+                                                                          }
+                                                                    });
       };
 
         $scope.fireBilling = function(id) {

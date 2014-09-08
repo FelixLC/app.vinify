@@ -1,0 +1,24 @@
+<ion-modal-view>
+	<ion-header-bar class="bar-positive">
+		<button class="button" ng-click="closeReferralModal()">Annuler</button>
+		<h1 class="title">Inviter un ami</h1>
+		<button class="button" ng-click="sendReferral()">Terminé</button>
+	</ion-header-bar>
+	<ion-content>
+
+	<form name="form_address" class="list">
+		<div class="item item-text-wrap">
+		<p>Vinify pense à vos proches : en les parrainant offrez leur <span class="p-highlight">10€ de réduction</span> pour leur première commande. </p>
+		</div>
+		<label class="item item-input">
+				<input type="text" ng-model="referral.first_name" name="first_name" autocomplete="first_name" placeholder="Prénom">
+		</label>
+		<label class="item item-input">
+				<input type="text" ng-model="referral.email" name="email" autocomplete="email" placeholder="Email">
+		</label>
+		<div class="item item-text-wrap">
+			<p>Et vous dans l’histoire ? Ne vous inquiétez pas vous recevez aussi <span class="p-highlight">10€ de réduction</span> sur votre prochaine commande.</p>
+		</div>
+	</form>
+	</ion-content>
+</ion-modal-view>

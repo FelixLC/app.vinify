@@ -2,7 +2,7 @@
 	<ion-content class="has-footer">
 		<!-- <div class="list radio-delivery"> -->
 			<label class="item item-radio">
-				<input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Transporteur">
+				<input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Colissimo">
 				<div class="item-content item-delivery-mode item-text-wrap">
 					<div class="row row-center">
 						<div class="col col-25">
@@ -26,8 +26,8 @@
 							</svg>
 						</div>
 						<div class="col">
-							<h2>Transporteur - 12 €</h2>
-							<p>Livraison suivie sous 15j par la Poste ou TNT.</p>
+							<h2>Colissimo - {{displayPrice(deliveryPrices['Colissimo'][order.data.quantity - 1])}} €</h2>
+							<p>Livraison suivie sous 15j par la Poste.</p>
 						</div>
 					</div>
 				</div>
@@ -55,7 +55,7 @@
 							</svg>
 						</div>
 						<div class="col">
-							<h2>Point Relais - 9 €</h2>
+							<h2>Point Relais -  {{displayPrice(deliveryPrices['Point Relais'][order.data.quantity - 1])}}  €</h2>
 							<p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous.</p>
 						</div>
 					</div>
@@ -64,7 +64,7 @@
 			</label>
 
 			<label class="item item-radio">
-				<input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Retrait Vinify">
+				<input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Vinify">
 				<div class="item-content  item-delivery-mode item-text-wrap">
 					<div class="row row-center">
 						<div class="col col-25">
@@ -84,7 +84,7 @@
 							</svg>
 						</div>
 						<div class="col">
-							<h2>Chez Vinify - Gratuit</h2>
+							<h2>Chez Vinify -  Gratuit</h2>
 							<p>Venez retirer votre colis en semaine entre 10h et 19h (Issy-Les-Moulineaux).</p>
 						</div>
 					</div>

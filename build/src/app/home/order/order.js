@@ -21,19 +21,6 @@
           levelB: 4990
         };
 
-        // watchers for the price change
-        $scope.$watch('price.valueA', function(newVal, oldVal) {
-          if (newVal <= 25)  { $scope.price.levelA = 3990;}
-          else if (newVal > 25 && newVal <= 75)  { $scope.price.levelA = 4990;}
-          else if (newVal > 75)  { $scope.price.levelA = 5990;}
-        });
-
-        $scope.$watch('price.valueB', function(newVal, oldVal) {
-          if (newVal <= 25)  { $scope.price.levelB = 3990;}
-          else if (newVal > 25 && newVal <= 75)  { $scope.price.levelB = 4990;}
-          else if (newVal > 75)  { $scope.price.levelB = 5990;}
-        });
-
         // TODO VERIFY WITH STATUS BAR
         var appropriatedHeight = ($window.innerHeight - 43) / 3;
 

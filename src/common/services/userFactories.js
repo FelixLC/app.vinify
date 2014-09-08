@@ -117,8 +117,15 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 						// Error Handler
 						function(data){}
 					);
-		}
+		},
 
+		setList : function (list) {
+			_bottles.results = list;
+		},
+
+		removeBottles: function () {
+			_bottles = null;
+		}
 	};
 })
 
@@ -260,6 +267,10 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 				);
 	};
 
+	Addresses.removeAddresses = function () {
+		Addresses.data = null;
+	};
+
 	return Addresses;
 })
 
@@ -334,45 +345,4 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Address;
-})
-
-.factory('Referrals', function($http, $q, OfflineReferralsData) {
-    var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-    var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
-    // instantiate our initial object
-    var Referrals = {};
-
-    Referrals.getList = function () {
-        // TODO REFACTOR
-        var promise;
-        if (Referrals.data) {
-                var deferred = $q.defer();
-                promise = deferred.promise;
-                deferred.resolve(Referrals.data);
-        }
-
-        else {
-
-                // promise = $resource( restApiEndPoint + '/vinibar/' )
-                promise = $http({
-                                                url:  apiEndPoint + '/users/referrals/' ,
-                                                method: 'GET'
-                                              })
-                                        .success(
-                                            // Success Handler
-                                            function(data, status, headers, config) {
-                                                Referrals.data =  data;
-                                                OfflineReferralsData.setReferrals(data);
-                                            })
-                                        .error(
-                                            // Error Handler
-                                            function(data){}
-                                        );
-        }
-
-        return promise;
-
-    };
-
-    return Referrals;
 });

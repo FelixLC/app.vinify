@@ -1,4 +1,4 @@
-  angular.module( 'app.wine', ['ngResource', 'User', 'Rating', 'ionic.rating', 'Offline'])
+  angular.module( 'app.wine', ['ngResource', 'User', 'Rating', 'ionic.rating', 'Offline', 'Loading'])
       .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.wine', {
@@ -11,7 +11,7 @@
               }
           });
      })
-      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast) {
+      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, Loading) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -22,6 +22,25 @@
                 }
             }
           };
+
+          $scope.rateStars = {
+            value: 4
+          };
+          $scope.showHalf = false;
+          $scope.star = {
+            full: new Array(4),
+            outline: new Array(1)
+          };
+
+          $scope.$watch('rateStars.value', function(newValue, oldValue, scope) {
+            console.log(newValue);
+            // Toggle half star if we have a non integer rating
+            $scope.showHalf = (Math.floor(newValue)!=newValue) ? true : false;
+            $scope.star = {
+              full: new Array(Math.floor(newValue)),
+              outline: (Math.floor(newValue)!=newValue) ?  new Array(4-Math.floor(newValue)) : new Array(5-Math.floor(newValue))
+            };
+          });
 
            Bottles.getList().then(function(response){
               $scope.bottle = getById(response.data.results, $scope.id);
@@ -46,11 +65,11 @@
             $scope.openModal = function() {
               $scope.rating = new Rating($scope.bottle.uuid, 4);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Je n'ai pas aimé";}
-                if (newVal == 2)  { $scope.literalRating.value = "Sans plus";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Super";}
-                if (newVal == 5)  { $scope.literalRating.value = "Incroyable !";}
+                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
+                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
+                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
               });
               $scope.modal.show();
             };
@@ -60,11 +79,22 @@
 
             $scope.rateWine = function() {
               // if (true) {
-                    $scope.rating.rateWine().then(function(response){
-                                  $scope.closeModal();
-                                  $state.go('sidemenu.vinibar');
-                                  $cordovaToast.show('Ratings Sent !', 'short', 'top');
-                  });
+                    Loading.show();
+                    $scope.rating.rateWine().then(function(data, status, headers, config) {
+                                                                            Loading.hide();
+                                                                            $scope.closeModal();
+                                                                            $state.go('sidemenu.vinibar');
+                                                                            $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                      }, function(data, status, headers, config) {
+                                                                          Loading.hide();
+                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                          }, function (error) {
+                                                                          // error
+                                                                          });
+                                                                            // TODO gracefully manage errors/successes
+                                                                             console.log(data);
+                                                                        });
+
               // } else {
               //   // Store Rating and Fake it
               //     OfflineQueue.addRating($scope.rating);
@@ -102,11 +132,11 @@
               $scope.rating = new Rating($scope.bottle.uuid, 4);
               $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Je n'ai pas aimé";}
-                if (newVal == 2)  { $scope.literalRating.value = "Sans plus";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Super";}
-                if (newVal == 5)  { $scope.literalRating.value = "Incroyable !";}
+                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
+                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
+                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
               });
               $scope.group.show();
             };

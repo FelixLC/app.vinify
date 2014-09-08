@@ -1,6 +1,10 @@
+@import 'ionic.min.css';
 .bar-segmented-control {
   background-color: #cb0001;
   padding: 0;
+}
+.search-vinibar {
+  background-color: #FFF;
 }
 .item-profile {
   position: relative;
@@ -12,7 +16,7 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .item-profile .coming-soon p {
   line-height: 340px;
@@ -65,6 +69,13 @@
   right: 0;
   color: #FFF;
 }
+.item-bill {
+  padding-bottom: 0;
+}
+#stripe-form {
+  position: relative;
+  overflow: visible;
+}
 #stripe-form .ng-invalid {
   border-bottom: 1px solid #f00;
 }
@@ -72,22 +83,26 @@
   border: none !important;
 }
 #stripe-form .row-submit {
-  margin-top: 40px;
+  margin-top: 0px;
 }
 #stripe-form .row-submit button {
   margin: 0 auto;
 }
 #stripe-form img {
-  padding-top: 10px;
-  height: 30px;
   position: absolute;
-  right: 10px;
+  height: 15px;
+  right: 5px;
+  top: -20px;
+  z-index: 9999;
 }
 #stripe-form i {
   color: #cb0001;
 }
 #stripe-form .col .item {
   border: none;
+}
+.col-total {
+  border-top: 1px solid #cb0001;
 }
 .button-order {
   position: relative;
@@ -245,7 +260,7 @@
   /* version standardisée */
 }
 .bottle-number-selector {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .bottle-number-selector .segmented input:checked + .label {
   border-color: #cb0001;
@@ -264,14 +279,41 @@
 .first-refill {
   margin-bottom: 0;
 }
-.first-refill .item {
-  background-color: #ebebeb;
-}
 .price-selector .highlighted {
   font-family: 'robotobold';
   color: #cb0001;
   -webkit-transition: 0.5s;
   transition: 0.5s;
+}
+.refill-description p {
+  font-size: 16px;
+}
+.list-select {
+  margin-bottom: 0;
+}
+.list-select h4 {
+  text-align: center;
+  margin: 10px 0 0 0;
+}
+.list-select h4 span {
+  font-size: 14px;
+  font-family: 'robotolight';
+}
+.list-select .item-select select {
+  width: 40%;
+  padding-left: 0;
+}
+.list-select .item-select .input-label svg {
+  width: 10px;
+  display: inline-block;
+}
+.list-select .item-select .input-label svg:nth-child(even) {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.list-select .item-select .input-label {
+  padding: 7px 0;
+  width: 60%;
 }
 #section-vinibar {
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.65) 100%), url('img/vinibar.png') no-repeat center;
@@ -419,6 +461,10 @@ body h1 {
 .p-white {
   color: #FFF;
 }
+.p-highlight {
+  color: #cb0001;
+  font-family: 'robotobold';
+}
 .subtitle {
   color: #cb0001;
 }
@@ -469,6 +515,55 @@ p.segmented-control {
 }
 .header-margin-top {
   margin-top: 45px;
+}
+input[type="range"] {
+  display: inline-block;
+  overflow: visible;
+  margin: -45px auto 5px auto;
+  width: 300px;
+  height: 60px;
+  outline: none;
+  background: transparent;
+  background-position: center;
+  background-size: 99% 4px;
+  background-repeat: no-repeat;
+  -webkit-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb:before {
+  /* what creates the colorful line on the left side of the slider */
+  position: absolute;
+  top: 8px;
+  left: -2001px;
+  width: 2000px;
+  height: 0px;
+  background: #FFF;
+  content: ' ';
+}
+input[type="range"]::-webkit-slider-thumb:after {
+  /* create a larger (but hidden) hit area */
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  padding: 30px;
+  content: ' ';
+}
+.icon-rating {
+  color: #cb0001;
+  font-size: 45px;
+}
+.range-container {
+  margin: 0 auto;
+  width: 300px;
 }
 .bar.bar-positive {
   border-color: #cb0001;

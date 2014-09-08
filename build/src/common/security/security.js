@@ -1,12 +1,12 @@
 // Based loosely around work by Witold Szczerba - https://github.com/witoldsz/angular-http-auth
 angular.module('security.service', [
   'security.login.form',         // Contains the login form template and controller
-  'User',
+  'User', 'Referrals',
   'Loading',
   'Offline',
   'ngCookies'
 ])
-.factory('security', [ '$http', '$q', '$location', 'User', '$window', 'Loading', 'OfflineUser', '$cookies', function($http, $q, $location, User, $window, Loading, OfflineUser, $cookies) {
+.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies) {
  var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
  var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
   // Redirect to the given url (defaults to '/')
@@ -55,7 +55,6 @@ angular.module('security.service', [
                                       service.currentUser = data;
                                       // SET USER IN ANGULAR AND LOCAL STORAGE
                                       User.setUser(data);
-                                      OfflineUser.setUser(data);
                                       // SET AUTH TOKEN FOR FURTHER REQUESTS
                                       $window.sessionStorage.token = data.token;
                                       console.log($window.sessionStorage.token);
@@ -71,6 +70,10 @@ angular.module('security.service', [
         service.currentUser = null;
         // Erase all traces.
         User.removeUser();
+        Addresses.removeAddresses();
+        Referrals.removeReferrals();
+        Bottles.removeBottles();
+        console.log('removing traces');
         delete $window.sessionStorage.token;
         redirect(redirectTo);
     },

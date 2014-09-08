@@ -13,8 +13,12 @@
 		color: #FFF;
 	}
 }
-
+.item-bill {
+	padding-bottom: 0;
+}
 #stripe-form {
+	position: relative;
+	overflow: visible;
      .ng-invalid {
         border-bottom: 1px solid #f00;
       }
@@ -24,16 +28,17 @@
 	}
 
 	.row-submit {
-		margin-top: 40px;
+		margin-top: 0px;
 		button {
 			margin: 0 auto;
 		}
 	}
 	img {
-		padding-top: 10px;
-		height: 30px;
 		position: absolute;
-		right: 10px;
+		height: 15px;
+		right: 5px;
+		top: -20px;
+		z-index: 9999;
 	}
 
 	input {
@@ -47,6 +52,10 @@
 			border: none;
 		}
 	}
+}
+
+.col-total {
+	border-top: 1px solid @primary;
 }
 
 .button-order {

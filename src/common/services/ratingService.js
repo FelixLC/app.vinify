@@ -33,15 +33,9 @@ angular.module('Rating', ['ngResource', 'User'])
                           'Content-Type': 'application/json; charset=UTF-8'
                         }
                       });
-          return request
-                            .success(function(data, status, headers, config) {
-                                // TODO gracefully manage errors/successes
-                                Bottles.updateList();
-                            })
-                            .error(function(data, status, headers, config) {
-                                // TODO gracefully manage errors/successes
-                                 alert(data);
-                            });
+          return request.success(function(data, status, headers, config) {
+                                                            Bottles.setList(data);
+                                                        });
     };
 
     Rating.prototype.rateWine = function() {
@@ -56,14 +50,9 @@ angular.module('Rating', ['ngResource', 'User'])
                           'Content-Type': 'application/json; charset=UTF-8'
                         }
                       });
-          return request
-                            .success(function(data, status, headers, config) {
-                               Bottles.updateList();
-                            })
-                            .error(function(data, status, headers, config) {
-                                // TODO gracefully manage errors/successes
-                                 alert(data);
-                            });
+          return request.success(function(data, status, headers, config) {
+                                                            Bottles.setList(data);
+                                                        });
     };
 
     return Rating;
@@ -103,15 +92,9 @@ angular.module('Rating', ['ngResource', 'User'])
                             }
                           });
 
-          return request
-                            .success(function(data, status, headers, config) {
-                                // TODO gracefully manage errors/successes
-                                Bottles.updateList();
-                            })
-                            .error(function(data, status, headers, config) {
-                                // TODO gracefully manage errors/successes
-                                 alert(data);
-                            });
+          return request.success(function(data, status, headers, config) {
+                                                            Bottles.setList(data);
+                                                        });
     };
 
     return GroupRating;

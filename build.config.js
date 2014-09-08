@@ -62,21 +62,16 @@ module.exports = {
    */
   vendor_files: {
     js: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-animate/angular-animate.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
-      'bower_components/angular-resource/angular-resource.js',
-      'bower_components/angular-cookies/angular-cookies.js',
-      'bower_components/angular-payments/lib/angular-payments.js',
-      'bower_components/angular-local-storage/angular-local-storage.js',
-      'bower_components/angular-ui-router/release/angular-ui-router.js',
-      'bower_components/ionic/release/js/ionic-angular.js',
-      'bower_components/ionic/release/js/ionic.js',
+      'bower_components/ionic/release/js/ionic.bundle.min.js',
+      'bower_components/angular-resource/angular-resource.min.js',
+      'bower_components/angular-cookies/angular-cookies.min.js',
+      'bower_components/angular-payments/lib/angular-payments.min.js',
+      'bower_components/angular-local-storage/angular-local-storage.min.js',
       'bower_components/ngCordova/dist/ng-cordova.js',
-      'bower_components/ionic-rating/ionic-rating.js'
+      'bower_components/ionic-rating/ionic-rating.min.js'
     ],
     css: [
-      'bower_components/ionic/release/css/ionic.css',
+      'bower_components/ionic/release/css/ionic.min.css',
       'bower_components/ionic/release/fonts/*.*'
     ],
     assets: [

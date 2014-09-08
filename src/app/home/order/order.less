@@ -5,7 +5,7 @@
 }
 
 .bottle-number-selector {
-	margin-top: 40px;
+	margin-top: 20px;
 
 	.segmented input:checked + .label {
 		border-color: @primary;
@@ -26,8 +26,8 @@
 }
 .first-refill {
 	margin-bottom: 0;
-	.item {
-		background-color: @grey; }
+	// .item {
+	// 	background-color: @grey; }
 }
 
 .price-selector {
@@ -37,4 +37,38 @@
 		-webkit-transition:0.5s;
 		transition:0.5s;
 	}
+}
+
+.refill-description {
+	p {
+		font-size: 16px;
+	}
+}
+
+.list-select {
+	margin-bottom: 0;
+}
+.list-select h4 {
+	text-align: center;
+	margin: 10px 0 0 0;
+}
+.list-select h4 span {
+	font-size: 14px;
+	font-family: 'robotolight';
+}
+.list-select .item-select select {
+	width: 40%;
+	padding-left: 0;
+}
+.list-select .item-select .input-label svg {
+	width: 10px;
+	display: inline-block;
+}
+.list-select .item-select .input-label svg:nth-child(even) {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+.list-select .item-select .input-label {
+	padding: 7px 0;
+	width: 60%;
 }

@@ -1,4 +1,4 @@
-angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
+angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
@@ -6,7 +6,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "	<ion-content class=\"has-footer\">\n" +
     "		<!-- <div class=\"list radio-delivery\"> -->\n" +
     "			<label class=\"item item-radio\">\n" +
-    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Transporteur\">\n" +
+    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Colissimo\">\n" +
     "				<div class=\"item-content item-delivery-mode item-text-wrap\">\n" +
     "					<div class=\"row row-center\">\n" +
     "						<div class=\"col col-25\">\n" +
@@ -30,8 +30,8 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "							</svg>\n" +
     "						</div>\n" +
     "						<div class=\"col\">\n" +
-    "							<h2>Transporteur - 12 €</h2>\n" +
-    "							<p>Livraison suivie sous 15j par la Poste ou TNT.</p>\n" +
+    "							<h2>Colissimo - {{displayPrice(deliveryPrices['Colissimo'][order.data.quantity - 1])}} €</h2>\n" +
+    "							<p>Livraison suivie sous 15j par la Poste.</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
     "				</div>\n" +
@@ -59,7 +59,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "							</svg>\n" +
     "						</div>\n" +
     "						<div class=\"col\">\n" +
-    "							<h2>Point Relais - 9 €</h2>\n" +
+    "							<h2>Point Relais -  {{displayPrice(deliveryPrices['Point Relais'][order.data.quantity - 1])}}  €</h2>\n" +
     "							<p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous.</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
@@ -68,7 +68,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "			</label>\n" +
     "\n" +
     "			<label class=\"item item-radio\">\n" +
-    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Retrait Vinify\">\n" +
+    "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Vinify\">\n" +
     "				<div class=\"item-content  item-delivery-mode item-text-wrap\">\n" +
     "					<div class=\"row row-center\">\n" +
     "						<div class=\"col col-25\">\n" +
@@ -88,7 +88,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "							</svg>\n" +
     "						</div>\n" +
     "						<div class=\"col\">\n" +
-    "							<h2>Chez Vinify - Gratuit</h2>\n" +
+    "							<h2>Chez Vinify -  Gratuit</h2>\n" +
     "							<p>Venez retirer votre colis en semaine entre 10h et 19h (Issy-Les-Moulineaux).</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
@@ -180,29 +180,140 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "		<div class=\"list first-refill\">\n" +
     "			<div class=\"item price-selector\">\n" +
     "				<h4 class=\"centered\">Recharge 1</h4>\n" +
-    "				<div class=\"row centered\">\n" +
-    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '3990' }\">39€90</span></div>\n" +
-    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '4990' }\">49€90</span></div>\n" +
-    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelA == '5990' }\">59€90</span></div>\n" +
+    "				<div class=\"button-bar\">\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelA == '2990' }\" ng-click=\"price.levelA = 2990 \" class=\"button\">29€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelA == '3990' }\" ng-click=\"price.levelA = 3990 \" class=\"button\">39€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelA == '4990' }\" ng-click=\"price.levelA = 4990 \" class=\"button\">49€90</a>\n" +
     "				</div>\n" +
-    "				<div class=\"range range-assertive\">\n" +
-    "					<input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" ng-model=\"price.valueA\">\n" +
+    "			</div>\n" +
+    "			<div ng-show=\"order.data.quantity == '2'\" class=\"item price-selector\">\n" +
+    "				<h4 class=\"centered\">Recharge 2</h4>\n" +
+    "				<div class=\"button-bar\">\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelB == '2990' }\" ng-click=\"price.levelB = 2990 \" class=\"button\">29€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelB == '3990' }\" ng-click=\"price.levelB = 3990 \" class=\"button\">39€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelB == '4990' }\" ng-click=\"price.levelB = 4990 \" class=\"button\">49€90</a>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "		 </div>\n" +
     "\n" +
+    "		<div class=\"list card\" ng-show=\"order.data.quantity == '1'\">\n" +
+    "			<div class=\"item item-text-wrap refill-description\">\n" +
+    "				<p ng-show=\"price.levelA == '2990' \">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>\n" +
+    "				<p ng-show=\"price.levelA == '3990' \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
+    "				<p ng-show=\"price.levelA == '4990' \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
     "\n" +
-    "		<div class=\"list second-refill\" ng-show=\"order.data.quantity == '2'\">\n" +
-    "			<div class=\"item price-selector\">\n" +
-    "				<h4 class=\"centered\">Recharge 2</h4>\n" +
-    "				<div class=\"row centered\">\n" +
-    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '3990' }\">39€90</span></div>\n" +
-    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '4990' }\">49€90</span></div>\n" +
-    "					<div class=\"col\"><span ng-class=\"{highlighted: price.levelB == '5990' }\">59€90</span></div>\n" +
+    "		<div class=\"list list-select\">\n" +
+    "			<h4>Composition des recharges</h4>\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col\">\n" +
+    "					<label class=\"item-input item-select\">\n" +
+    "						<div class=\"input-label\">\n" +
+    "							<svg viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"red-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.red > 0\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"red-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.red > 1\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"red-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "						</div>\n" +
+    "						<select ng-model=\"order.data.split.red\">\n" +
+    "							<option value=\"0\">Pas du tout</option>\n" +
+    "							<option value=\"1\">Un peu</option>\n" +
+    "							<option value=\"2\">Beaucoup</option>\n" +
+    "						</select>\n" +
+    "					</label>\n" +
     "				</div>\n" +
-    "				<div class=\"range range-assertive\">\n" +
-    "					<input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" ng-model=\"price.valueB\">\n" +
+    "				<div class=\"col\">\n" +
+    "					<label class=\"item-input item-select\">\n" +
+    "						<div class=\"input-label\">\n" +
+    "							<svg viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <defs></defs>\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"white-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#ECC617\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "							<svg  ng-show=\"order.data.split.white > 0\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <defs></defs>\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"white-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#ECC617\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.white > 1\"  viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <defs></defs>\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"white-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#ECC617\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "						</div>\n" +
+    "						<select ng-model=\"order.data.split.white\">\n" +
+    "							<option value=\"0\">Pas du tout</option>\n" +
+    "							<option value=\"1\">Un peu</option>\n" +
+    "							<option value=\"2\">Beaucoup</option>\n" +
+    "						</select>\n" +
+    "					</label>\n" +
     "				</div>\n" +
+    "				<div class=\"col\">\n" +
+    "					<label class=\"item-input item-select\">\n" +
+    "						<div class=\"input-label\">\n" +
+    "							<svg viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"rose-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\" fill-opacity=\"0.5\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.rose > 0\"  viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"rose-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\" fill-opacity=\"0.5\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.rose > 1\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
+    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
+    "							        <g id=\"rose-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\" fill-opacity=\"0.5\">\n" +
+    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
+    "							        </g>\n" +
+    "							    </g>\n" +
+    "							</svg>\n" +
+    "						</div>\n" +
+    "						<select ng-model=\"order.data.split.rose\">\n" +
+    "							<option value=\"0\">Pas du tout</option>\n" +
+    "							<option value=\"1\">Un peu</option>\n" +
+    "							<option value=\"2\">Beaucoup</option>\n" +
+    "						</select>\n" +
+    "					</label>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
+    "		<div class=\"list card\" ng-show=\"order.data.quantity == '2'\">\n" +
+    "			<div class=\"item item-text-wrap refill-description\">\n" +
+    "				<p ng-show=\"price.levelB == '2990' \">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>\n" +
+    "				<p ng-show=\"price.levelB == '3990' \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
+    "				<p ng-show=\"price.levelB == '4990' \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
@@ -221,26 +332,35 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "       <h3 class=\"centered\">Récapitulatif de ma commande</h3>\n" +
     "   </div>\n" +
     "   <div class=\"list\">\n" +
-    "     <div class=\"item item-text-wrap\">\n" +
+    "     <div class=\"item item-text-wrap item-bill\">\n" +
     "       <div class=\"row\">\n" +
     "         <div class=\"col\">\n" +
-    "           <p ng-show=\"serializedOrder.quantity == 1\">{{serializedOrder.quantity}} recharge</p>\n" +
-    "           <p ng-show=\"serializedOrder.quantity == 2\">{{serializedOrder.quantity}} recharges</p>\n" +
+    "           <h3 ng-show=\"serializedOrder.quantity == 1\">{{serializedOrder.quantity}} recharge</h3>\n" +
+    "           <h3 ng-show=\"serializedOrder.quantity == 2\">{{serializedOrder.quantity}} recharges</h3>\n" +
     "         </div>\n" +
     "         <div class=\"col\">\n" +
-    "           <p class=\"subtitle\">{{calcPrice()}}</p>\n" +
+    "           <p class=\"subtitle\">{{calcPrice()}} €</p>\n" +
     "         </div>\n" +
     "       </div>\n" +
-    "       <div class=\"row\">\n" +
+    "       <div class=\"row row-center\">\n" +
     "         <div class=\"col\">\n" +
-    "           <p>Livraison - {{serializedOrder.delivery_mode}}</p>\n" +
+    "           <h3>Livraison </h3>\n" +
+    "           <p>{{serializedOrder.delivery_mode}} </p>\n" +
     "         </div>\n" +
     "         <div class=\"col\">\n" +
-    "\n" +
+    "            <p>{{displayPrice(serializedOrder.delivery_cost)}} €</p>\n" +
+    "         </div>\n" +
+    "     </div>\n" +
+    "       <div class=\"row row-center\">\n" +
+    "         <div class=\"col\">\n" +
+    "         </div>\n" +
+    "         <div class=\"col\">\n" +
+    "            <h3>{{displayPrice(serializedOrder.final_price)}} €</h3>\n" +
     "         </div>\n" +
     "     </div>\n" +
     "     </div>\n" +
     "     <form name=\"stripe-form\" id=\"stripe-form\" stripe-form=\"submit\">\n" +
+    "      <img class=\"pull-right\" src=\"assets/utils/poweredbystripe.svg\" alt=\"stripe_verification\">\n" +
     "       <div class=\"row item\">\n" +
     "         <div class=\"col\">\n" +
     "            <label class=\"item-input\">\n" +
@@ -299,9 +419,6 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "           </label> -->\n" +
     "         </div>\n" +
     "       </div>\n" +
-    "       <div class=\"row\">\n" +
-    "         <img class=\"pull-right\" src=\"assets/utils/poweredbystripe.svg\" alt=\"stripe_verification\">\n" +
-    "       </div>\n" +
     "       <div class=\"row row-submit centered\">\n" +
     "         <button class=\"button button-order\" value=\"submit\">Payer ma commande</button>\n" +
     "       </div>\n" +
@@ -322,21 +439,8 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "			<p>{{user.email}}</p>\n" +
     "		</div>\n" +
     "		<div class=\"item centered item-profile\">\n" +
-    "			<div class=\"coming-soon\">\n" +
-    "				<p>Noter vos vins pour découvrir votre profil !</p>\n" +
-    "			</div>\n" +
-    "			<div class=\"row\">\n" +
-    "				<div class=\"col\">\n" +
-    "					<h4>Note Moyenne</h4>\n" +
-    "				<ul class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				</div>\n" +
-    "\n" +
+    "			<div ng-show=\"!user.profile.rated_count || user.profile.rated_count < 6\" class=\"coming-soon\">\n" +
+    "				<p>Notez 6 vins pour découvrir votre profil !</p>\n" +
     "			</div>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col\">\n" +
@@ -344,7 +448,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
     "						<div class=\"col\">\n" +
     "								<h4>Cépage Préféré</h4>\n" +
-    "								<p class=\"subtitle\">Cab. Sauv.</p>\n" +
+    "								<p class=\"subtitle\">{{user.profile.favorite_variety}}</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
     "				</div>\n" +
@@ -353,7 +457,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
     "						<div class=\"col\">\n" +
     "								<h4>Région Préférée</h4>\n" +
-    "								<p class=\"subtitle\">Bretagne {{favorite_region}}</p>\n" +
+    "								<p class=\"subtitle\">{{user.profile.favorite_region}}</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
     "				</div>\n" +
@@ -362,22 +466,30 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
     "						<div class=\"col align-left\">\n" +
     "								<h4>Consommation</h4>\n" +
-    "								<p class=\"subtitle\">50% rouge, 40% blanc, 10% rosé.</p>\n" +
+    "								<p class=\"subtitle\">{{user.profile.conso[red]}} %, {{user.profile.conso[white]}} %, {{user.profile.conso[rose]}} %</p>\n" +
     "						</div>\n" +
     "			</div>\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col\">\n" +
+    "					<h4>Note Moyenne</h4>\n" +
+    "					<h3>{{user.profile.average_rating}}</h3>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
     "		</div>\n" +
-    "\n" +
     "		<div class=\"item item-gray\">\n" +
     "			<div class=\"row row-center\">\n" +
     "				<div class=\"col centered\">\n" +
     "					<h4>ViniPoints</h4>\n" +
-    "					<span class=\"subtitle\">48</span>\n" +
+    "					<span class=\"subtitle\">{{user.profile.vinipoints}}</span>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +
-    "\n" +
     "		<div class=\"item\">\n" +
     "			<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
+    "			<div class=\"row\">\n" +
+    "				<div class=\"col centered\"><p>Mon Code : <br> {{user.referral_code}}</p></div>\n" +
+    "				<div class=\"col centered\"><button class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
+    "			</div>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
     "						<h4>Filleul</h4>\n" +
@@ -399,9 +511,6 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "				<div class=\"col centered\">\n" +
     "						<p><img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
     "				</div>\n" +
-    "			</div>\n" +
-    "			<div class=\"row\">\n" +
-    "				<div class=\"col centered\"><button class=\"button button-outline-primary\"><p>Je parraine !</p></button></div>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
@@ -434,6 +543,34 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "		</div> -->\n" +
     "	</ion-content>\n" +
     "</ion-view>");
+}]);
+
+angular.module("home/profile/referral.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/profile/referral.tpl.html",
+    "<ion-modal-view>\n" +
+    "	<ion-header-bar class=\"bar-positive\">\n" +
+    "		<button class=\"button\" ng-click=\"closeReferralModal()\">Annuler</button>\n" +
+    "		<h1 class=\"title\">Inviter un ami</h1>\n" +
+    "		<button class=\"button\" ng-click=\"sendReferral()\">Terminé</button>\n" +
+    "	</ion-header-bar>\n" +
+    "	<ion-content>\n" +
+    "\n" +
+    "	<form name=\"form_address\" class=\"list\">\n" +
+    "		<div class=\"item item-text-wrap\">\n" +
+    "		<p>Vinify pense à vos proches : en les parrainant offrez leur <span class=\"p-highlight\">10€ de réduction</span> pour leur première commande. </p>\n" +
+    "		</div>\n" +
+    "		<label class=\"item item-input\">\n" +
+    "				<input type=\"text\" ng-model=\"referral.first_name\" name=\"first_name\" autocomplete=\"first_name\" placeholder=\"Prénom\">\n" +
+    "		</label>\n" +
+    "		<label class=\"item item-input\">\n" +
+    "				<input type=\"text\" ng-model=\"referral.email\" name=\"email\" autocomplete=\"email\" placeholder=\"Email\">\n" +
+    "		</label>\n" +
+    "		<div class=\"item item-text-wrap\">\n" +
+    "			<p>Et vous dans l’histoire ? Ne vous inquiétez pas vous recevez aussi <span class=\"p-highlight\">10€ de réduction</span> sur votre prochaine commande.</p>\n" +
+    "		</div>\n" +
+    "	</form>\n" +
+    "	</ion-content>\n" +
+    "</ion-modal-view>");
 }]);
 
 angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -530,7 +667,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"row row-header-bottom row-center\">\n" +
-    "        <div class=\"col\">\n" +
+    "        <div class=\"col  col-75\">\n" +
     "          <div class=\"row row-center align-left\">\n" +
     "            <div class=\"col col-20\">\n" +
     "                  <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
@@ -637,54 +774,58 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
 
 angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/vinibar/vinibar.tpl.html",
-    "      <ion-view title=\"Vinibar\">\n" +
-    "      <ion-nav-buttons side=\"right\">\n" +
-    "        <button class=\"button\" ng-click=\"search.toggle = !search.toggle\">\n" +
-    "          <i class=\"icon ion-search\"></i>\n" +
-    "        </button>\n" +
-    "      </ion-nav-buttons>\n" +
-    "        <div class=\"bar bar-subheader bar-segmented-control\">\n" +
-    "          <p class=\"segmented-control\">\n" +
-    "              <span class=\"segmented\">\n" +
-    "                  <label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"toDrink\" checked><span class=\"label\">A boire</span></label>\n" +
-    "                  <label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"rated\"><span class=\"label\">Notés</span></label>\n" +
-    "              </span>\n" +
-    "          </p>\n" +
-    "      </div>\n" +
-    "      <div ng-show=\"search.toggle\" class=\"bar bar-subheader item-input-inset\">\n" +
-    "        <label class=\"item-input-wrapper\">\n" +
-    "          <i class=\"icon ion-ios7-search placeholder-icon\"></i>\n" +
-    "          <input type=\"search\" ng-model=\"search.value\" placeholder=\"Search\">\n" +
-    "        </label>\n" +
-    "        <button class=\"button-clear\" ng-click=\"search.value = '' \">\n" +
-    "          Annuler\n" +
-    "        </button>\n" +
-    "      </div>\n" +
-    "        <ion-content class=\"has-subheader\">\n" +
-    "          <ion-list ng-show=\"segmentedControl.value === 'rated'\">\n" +
-    "            <a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
-    "                <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "                <p class=\"vinitext\">\n" +
-    "                    {{bottle.wine.region}}\n" +
-    "                    <span class=\"item-note\"><i ng-repeat=\"i in getNumber(bottle.rating) track by $index\" class=\"icon ion-ios7-star full-star\"></i></span>\n" +
-    "                    <br>\n" +
-    "                    {{bottle.wine.appellation}}\n" +
-    "                </p>\n" +
-    "            </a>\n" +
-    "          </ion-list>\n" +
-    "          <ion-list ng-show=\"segmentedControl.value === 'toDrink'\">\n" +
-    "            <a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{bottle.uuid}}\">\n" +
-    "                <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "                <p class=\"vinitext\">\n" +
-    "                    {{bottle.wine.region}}\n" +
-    "                    <span class=\"item-note\">{{bottle.wine.vintage}}</span>\n" +
-    "                    <br>\n" +
-    "                    {{bottle.wine.appellation}}\n" +
-    "                  </p>\n" +
-    "            </a>\n" +
-    "          </ion-list>\n" +
-    "        </ion-content>\n" +
-    "      </ion-view>");
+    "	<ion-view title=\"Vinibar\">\n" +
+    "	<ion-nav-buttons side=\"right\">\n" +
+    "		<button class=\"button\" ng-click=\"search.toggle = !search.toggle\">\n" +
+    "			<i class=\"icon ion-search\"></i>\n" +
+    "		</button>\n" +
+    "	</ion-nav-buttons>\n" +
+    "	<ion-header-bar align-title=\"left\" class=\"bar-positive bar-subheader bar-segmented-control\">\n" +
+    "		<p ng-show=\"!search.toggle\" class=\"segmented-control\">\n" +
+    "				<span class=\"segmented\">\n" +
+    "						<label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"toDrink\" checked><span class=\"label\">A boire</span></label>\n" +
+    "						<label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"rated\"><span class=\"label\">Notés</span></label>\n" +
+    "				</span>\n" +
+    "		</p>\n" +
+    "		<div ng-show=\"search.toggle\" class=\"item-input-inset search-vinibar\">\n" +
+    "			<label class=\"item-input-wrapper\">\n" +
+    "				<i class=\"icon ion-ios7-search placeholder-icon\"></i>\n" +
+    "				<input type=\"search\" ng-model=\"search.value\" placeholder=\"Search\">\n" +
+    "			</label>\n" +
+    "			<button class=\"button-clear\" ng-click=\"search.value = '' \">\n" +
+    "				Annuler\n" +
+    "			</button>\n" +
+    "		</div>\n" +
+    "	</ion-header-bar>\n" +
+    "	<ion-content class=\"has-subheader\">\n" +
+    "	<ion-refresher\n" +
+    "		pulling-text=\"Pull to refresh...\"\n" +
+    "		on-refresh=\"update()\">\n" +
+    "	</ion-refresher>\n" +
+    "		<ion-list ng-show=\"segmentedControl.value === 'rated'\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
+    "					<h3>{{bottle.wine.display_name}}</h3>\n" +
+    "					<p class=\"vinitext\">\n" +
+    "							{{bottle.wine.region}}\n" +
+    "							<span class=\"item-note\"><i ng-repeat=\"i in getNumber(bottle.rating) track by $index\" class=\"icon ion-ios7-star full-star\"></i></span>\n" +
+    "							<br>\n" +
+    "							{{bottle.wine.appellation}}\n" +
+    "					</p>\n" +
+    "			</a>\n" +
+    "		</ion-list>\n" +
+    "		<ion-list ng-show=\"segmentedControl.value === 'toDrink'\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{bottle.uuid}}\">\n" +
+    "					<h3>{{bottle.wine.display_name}}</h3>\n" +
+    "					<p class=\"vinitext\">\n" +
+    "							{{bottle.wine.region}}\n" +
+    "							<span class=\"item-note\">{{bottle.wine.vintage}}</span>\n" +
+    "							<br>\n" +
+    "							{{bottle.wine.appellation}}\n" +
+    "						</p>\n" +
+    "			</a>\n" +
+    "		</ion-list>\n" +
+    "	</ion-content>\n" +
+    "	</ion-view>");
 }]);
 
 angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -705,7 +846,7 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"row row-header-bottom row-center\">\n" +
-    "        <div class=\"col\">\n" +
+    "        <div class=\"col col-75\">\n" +
     "          <div class=\"row row-center align-left\">\n" +
     "            <div class=\"col col-20\">\n" +
     "                  <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
@@ -837,8 +978,84 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "	<div class=\"wine-content padding\">\n" +
     "		<form class=\"rating-form\">\n" +
     "		<h4>Note</h4>\n" +
+    "		<pre>{{rateStars.value}}</pre>\n" +
     "		<p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
-    "		<rating ng-model=\"rating.data.rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
+    "		<!-- <rating ng-model=\"rating.data.rating\" isReadonly=\"false\" max=\"5\"></rating> -->\n" +
+    "\n" +
+    "\n" +
+    "		<div class=\"icon-rating centered\">\n" +
+    "	<!-- 		       <ul class=\"rating\">\n" +
+    "			         <li ng-repeat=\"i in star.full track by $index\"><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "			         <li ng-show=\"showHalf\"><i class=\"icon icon-rating ion-ios7-star-half\"></i></li>\n" +
+    "			         <li ng-repeat=\"i in star.outline track by $index\"><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "			       </ul> -->\n" +
+    "				<ul ng-show=\"rateStars.value == '1' \" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '1.5' \" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '2'\" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '2.5' \" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '3'\" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '3.5' \" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '4'\" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '4.5' \" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "				</ul>\n" +
+    "				<ul ng-show=\"rateStars.value == '5'\" class=\"rating\">\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "				</ul>\n" +
+    "			</div>\n" +
+    "			<div class=\"range-container\">\n" +
+    "		    		<input ng-model=\"rateStars.value\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
+    "			</div>\n" +
     "\n" +
     "\n" +
     "		<h4 class=\"header-margin-top\">Commentaire :</h4>\n" +

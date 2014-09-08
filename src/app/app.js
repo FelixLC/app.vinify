@@ -56,7 +56,7 @@ angular.module( 'app', [
 		}
 ])
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, Bottles) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
 
 	$scope.$watch('online', function(newValue, oldValue) {
 		if (newValue === true) {
@@ -87,6 +87,7 @@ angular.module( 'app', [
 		};
 
 	$ionicPlatform.ready(function(){
+		if(ionic.Platform.isWebView()) {$cordovaSplashscreen.hide();}
 		console.log(ionic.Platform.device());
 		console.log(ionic.Platform.isIOS());
 		// console.log( $cordovaNetwork.isOnline());

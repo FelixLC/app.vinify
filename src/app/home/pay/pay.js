@@ -31,8 +31,9 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 	.controller( 'payCtrl', function payCtrl( $scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state ) {
 		$scope.serializedOrder = SerializedOrder;
 		console.log(SerializedOrder);
+		var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
 
-		Stripe.setPublishableKey('pk_test_sK21onMmCuKNuoY7pbml8z3Q');
+		Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
 		$scope.submit = function(status, response) {
 
 				if (response.error) {
@@ -92,7 +93,6 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 						token: response.id,
 						order_id: $scope.serializedOrder.uuid
 					};
-					var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
 					$http({
 						url: apiEndPoint + '/orders/chargerefill/',
 						method: "POST",
@@ -101,6 +101,16 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 					.success(function(data, status, headers, config) {
 						Loading.hide();
 						$scope.openYipeeModal();
+						if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
+							$http({
+								url: apiEndPoint + '/orders/pickmremail/',
+								method: "POST",
+								data: { 'order_id': $scope.serializedOrder.uuid },
+								headers: {
+									'Content-Type': 'application/json; charset=UTF-8'
+								}
+							});
+						}
 						$state.go('sidemenu.home');
 					})
 					.error(function(data, status, headers, config) {
@@ -112,7 +122,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 		};
 
 		// TODO VERIFY WITH STATUS BAR
-		var appropriatedHeight = ($window.innerHeight - 43) / 3;
+		var appropriatedHeight = ($window.innerHeight - 60) / 3;
 
 		$scope.calcHeight = {
 			"height": appropriatedHeight + 'px'
@@ -123,7 +133,13 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 				for (var i = SerializedOrder.refills.length - 1; i >= 0; i--) {
 					price += SerializedOrder.refills[i].price_level;
 				}
-				return price;
+				return price.toString().substring(0, 2) + "." + price.toString().substring(2);
+		};
+
+		$scope.displayPrice = function(price) {
+			var string = price.toString();
+			var len = string.length - 2;
+			return string.substring(0, len) + "." + string.substring(len);
 		};
 
 		$scope.user = User.getUser();

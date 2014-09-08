@@ -88,11 +88,11 @@
             $scope.openModal = function() {
               $scope.rating = new Rating($scope.bottle.uuid, $scope.bottle.rating, $scope.bottle.comment);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Je n'ai pas aimé";}
-                if (newVal == 2)  { $scope.literalRating.value = "Sans plus";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Super";}
-                if (newVal == 5)  { $scope.literalRating.value = "Incroyable !";}
+                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
+                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
+                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
               });
               $scope.modal.show();
             };
@@ -132,6 +132,13 @@
             // Open & close the modal
             $scope.openGroupModal = function() {
               $scope.rating = new Rating($scope.bottle.uuid, $scope.bottle.rating, $scope.bottle.comment);
+              $scope.$watch('rating.data.rating', function(newVal, oldVal) {
+                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
+                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
+                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+              });
               $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4);
               $scope.group.show();
             };

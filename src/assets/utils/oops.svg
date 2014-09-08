@@ -1,18 +1,25 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
-    <title>Oops</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Oops-2" sketch:type="MSLayerGroup" transform="translate(1.000000, 1.000000)">
-            <g id="Tick" sketch:type="MSShapeGroup">
-                <path d="M23.87904,47.75808 C37.0670696,47.75808 47.75808,37.0670696 47.75808,23.87904 C47.75808,10.6910104 37.0670696,0 23.87904,0 C10.6910104,0 0,10.6910104 0,23.87904 C0,37.0670696 10.6910104,47.75808 23.87904,47.75808 Z" id="Oval" fill="#FFFFFF"></path>
-                <g id="Shape-2-+-Shape-3" transform="translate(18.240000, 18.720000)" fill="#FC3432">
-                    <path d="M5.7692047,-1.68 C6.16198087,-1.68 6.44206177,-1.54938483 6.44206177,-1.39802489 L6.44206177,13.2516192 C6.44206177,13.4037474 6.16115223,13.5343626 5.7692047,13.5343626 C5.3200809,13.5343626 5.04,13.4037474 5.04,13.2516192 L5.04,-1.39802489 C5.04,-1.54938483 5.3200809,-1.68 5.7692047,-1.68 Z" id="Shape-2" transform="translate(5.760000, 5.880000) rotate(45.000000) translate(-5.760000, -5.880000) "></path>
-                    <path d="M5.7692047,-1.68 C6.16198087,-1.68 6.44206177,-1.54938483 6.44206177,-1.39802489 L6.44206177,13.2516192 C6.44206177,13.4037474 6.16115223,13.5343626 5.7692047,13.5343626 C5.3200809,13.5343626 5.04,13.4037474 5.04,13.2516192 L5.04,-1.39802489 C5.04,-1.54938483 5.3200809,-1.68 5.7692047,-1.68 Z" id="Shape-3" transform="translate(5.760000, 5.880000) scale(-1, 1) rotate(45.000000) translate(-5.760000, -5.880000) "></path>
-                </g>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
+	 viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+<title>Oops</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-4" sketch:type="MSPage">
+	<g id="Oops-2" transform="translate(1.000000, 1.000000)" sketch:type="MSLayerGroup">
+		<g id="Tick" sketch:type="MSShapeGroup">
+			<path id="Oval" fill="#FFFFFF" d="M23.879,47.758c13.188,0,23.879-10.691,23.879-23.879C47.758,10.691,37.066,0,23.879,0
+				C10.691,0,0,10.691,0,23.879C0,37.066,10.691,47.758,23.879,47.758z"/>
+			<g id="Shape-2-_x2B_-Shape-3" transform="translate(18.240000, 18.720000)">
+				<path id="Shape-2" fill="#CB0001" d="M11.112,0.541c0.278,0.278,0.385,0.568,0.277,0.675L1.03,11.575
+					c-0.107,0.107-0.398,0.001-0.675-0.275c-0.318-0.318-0.423-0.608-0.316-0.717L10.397,0.224
+					C10.504,0.117,10.795,0.223,11.112,0.541z"/>
+				<path id="Shape-3" fill="#CB0001" d="M0.408,0.541C0.13,0.819,0.024,1.109,0.132,1.216L10.49,11.575
+					c0.107,0.107,0.398,0.001,0.676-0.275c0.317-0.318,0.423-0.608,0.315-0.717L1.123,0.224C1.016,0.117,0.725,0.223,0.408,0.541z"
+					/>
+			</g>
+		</g>
+	</g>
+</g>
 </svg>
