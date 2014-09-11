@@ -1,14 +1,14 @@
 angular.module('Order', [])
 
-.factory('Order', function($http, Bottles, SerializedOrder) {
-		var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-		var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('Order', ["$http", "Bottles", "SerializedOrder", function($http, Bottles, SerializedOrder) {
+		var apiEndPoint =  'https://api.vinify.co/api';
+		var restApiEndPoint =  'https://api.vinify.co/restapi';
 
 		var Order = function (id){
 				this.data = {
 						quantity: 1,
-						refills: [new Refill(1, 4990)],
-						coupon: null,
+						refills: [new Refill(1, 49.90)],
+						coupon: "",
 						delivery_mode: null,
 						delivery_cost: null,
 						split:  {
@@ -50,34 +50,34 @@ angular.module('Order', [])
 														})
 														.error(function(data, status, headers, config) {
 																// TODO gracefully manage errors/successes
-																alert(data);
+																console.log(data);
 														});
 		};
 
 		return Order;
-})
+}])
 
-.factory('orderInstance', function(Order) {
+.factory('orderInstance', ["Order", function(Order) {
 		var orderInstance = new Order();
 
 		orderInstance.setOrderInstance = function(orderData) {
 				angular.extend(orderInstance, orderData);
 		};
 		return orderInstance;
-})
+}])
 
 // Store the Order
-.factory('SerializedOrder', function($http, Bottles) {
+.factory('SerializedOrder', ["$http", "Bottles", function($http, Bottles) {
 
 		var SerializedOrder = {};
 
 		return SerializedOrder;
-})
+}])
 // Stripe Directive
 	.directive('ngSparkline', function() {
 		return {
 			restrict: 'A',
-			controller: function($scope, $http, $state) {
+			controller: ["$scope", "$http", "$state", function($scope, $http, $state) {
 				$scope.handler = StripeCheckout.configure({
 					key: "pk_live_gNv4cCe8tsZpettPUsdQj25F",
 					//key: "pk_test_sK21onMmCuKNuoY7pbml8z3Q",
@@ -87,7 +87,7 @@ angular.module('Order', [])
 							token: token,
 							order_id: $scope.serializedOrder.uuid
 					};
-						var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
+						var apiEndPoint =  'https://api.vinify.co/api';
 						$http({
 															url: apiEndPoint + '/orders/chargerefill',
 															method: "POST",
@@ -114,7 +114,7 @@ angular.module('Order', [])
 											});
 					}
 				});
-			},
+			}],
 			link: function(scope, element, attrs) {
 
 

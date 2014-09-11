@@ -1,5 +1,5 @@
   angular.module( 'app.home', ['User'])
-      .config(function($stateProvider, $urlRouterProvider) {
+      .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.home', {
               url: "/home",
@@ -10,9 +10,9 @@
                 }
               }
           });
-     })
+     }])
 
-      .controller( 'homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, $window ) {
+      .controller( 'homeCtrl', ["$scope", "$rootScope", "$http", "$state", "$window", function homeCtrl( $scope, $rootScope, $http, $state, $window ) {
 
         $scope.stateGo = function(to) {
           $state.go('sidemenu.' + to);
@@ -31,4 +31,4 @@
         };
 
         console.log($window.innerHeight);
-      });
+      }]);

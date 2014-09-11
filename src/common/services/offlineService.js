@@ -1,7 +1,7 @@
 angular.module('Offline', ['LocalStorageModule'])
 .factory('OfflineQueue', function(localStorageService) {
-	var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-	var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+	var apiEndPoint =  'https://api.vinify.co/api';
+	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var _ratingQueue =[];
 	var _groupRatingQueue =[];
@@ -67,6 +67,7 @@ angular.module('Offline', ['LocalStorageModule'])
 		},
 		removeUser: function(user) {
 			localStorageService.clearAll();
+			console.log(localStorageService.keys());
 			return _user;
 		}
 	};

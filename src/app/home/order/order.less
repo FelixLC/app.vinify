@@ -30,15 +30,6 @@
 	// 	background-color: @grey; }
 }
 
-.price-selector {
-	.highlighted {
-		font-family: 'robotobold';
-		color: @primary;
-		-webkit-transition:0.5s;
-		transition:0.5s;
-	}
-}
-
 .refill-description {
 	p {
 		font-size: 16px;
@@ -59,12 +50,29 @@
 .list-select .item-select select {
 	width: 40%;
 	padding-left: 0;
+	color: #FFF;
 }
-.list-select .item-select .input-label svg {
+.list-select .item-select .input-label {
+	padding: 7px 0;
+	width: 60%;
+}
+.list-select .item-select .input-label > div {
 	width: 10px;
+	height: 10px;
+	border-radius: 5px;
 	display: inline-block;
 }
-.list-select .item-select .input-label svg:nth-child(even) {
+.list-select .item-select .input-label > div.red-pin {
+	background-color: @primary;
+}
+.list-select .item-select .input-label > div.white-pin {
+	background-color: @white-wine;
+}
+.list-select .item-select .input-label > div.rose-pin {
+	background-color: @primary;
+	opacity: 0.5;
+}
+.list-select .item-select .input-label > div:nth-child(even) {
 	margin-left: 2px;
 	margin-right: 2px;
 }

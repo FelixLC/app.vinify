@@ -1,5 +1,5 @@
   angular.module( 'app.sidemenu', ['security'])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('sidemenu', {
           // url: "/event",
@@ -7,12 +7,12 @@
           templateUrl: "sidemenu/sidemenu.tpl.html",
           controller: 'sidemenuCtrl'
         });
-})
+}])
 
-      .controller( 'sidemenuCtrl', function sidemenuCtrl( $scope, $http, $location, security ) {
+      .controller( 'sidemenuCtrl', ["$scope", "$http", "$location", "security", function sidemenuCtrl( $scope, $http, $location, security ) {
 
         $scope.logOut = function () {
           security.logout('/login');
         };
 
-      });
+      }]);

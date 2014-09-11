@@ -1,10 +1,10 @@
 angular.module('User', ['ngResource', 'Loading', 'Offline'])
-.factory('User', function(OfflineUser, $http, $location) {
-	var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-	var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('User', ["OfflineUser", "$http", "$location", function(OfflineUser, $http, $location) {
+	var apiEndPoint =  'https://api.vinify.co/api';
+	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var _user = null;
-
+	var self = this;
 	return  {
 		setUser: function(UserData) {
 			_user =  UserData;
@@ -30,8 +30,8 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 		updateUser: function() {
 			return $http.get(apiEndPoint + '/users/isloggedin/')
 					.success(function(data, status, headers, config) {
-						User.setUser(data);
-						return User.getUser();
+						setUser(data);
+						return getUser();
 					})
 					.error(function(response){
 						// TODO manage errors
@@ -39,16 +39,19 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 						location.path('/login');
 					});
 		},
+		postUser: function() {
+			return $http.put(restApiEndPoint + '/users/'+_user.uuid + '/', _user);
+		},
 		removeUser: function () {
 			_user = {};
 			OfflineUser.removeUser();
 		}
 	};
-})
+}])
 
-.factory('Bottles', function($q, $http, Loading, OfflineWineData) {
-	var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-	var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('Bottles', ["$q", "$http", "Loading", "OfflineWineData", function($q, $http, Loading, OfflineWineData) {
+	var apiEndPoint =  'https://api.vinify.co/api';
+	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var _bottles = null;
 
@@ -121,15 +124,16 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 
 		setList : function (list) {
 			_bottles.results = list;
+			OfflineWineData.setWines(list);
 		},
 
 		removeBottles: function () {
 			_bottles = null;
 		}
 	};
-})
+}])
 
-.factory('Bottle', function(User) {
+.factory('Bottle', ["User", function(User) {
 
 	// instantiate our initial object
 	var Bottle = {
@@ -146,12 +150,12 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Bottle;
-})
+}])
 
 
-.factory('Addresses', function($q, $http, Loading, User) {
-	var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-	var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('Addresses', ["$q", "$http", "Loading", "User", function($q, $http, Loading, User) {
+	var apiEndPoint =  'https://api.vinify.co/api';
+	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var Addresses = {};
 
@@ -259,7 +263,6 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 					// Success Handler
 					function(addressData) {
 					Addresses.data = addressData;
-					console.log(Addresses);
 				})
 				.error(
 					// Error Handler
@@ -272,22 +275,24 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Addresses;
-})
+}])
 
-.factory('Address', function($http, Addresses, User) {
-	var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-	var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('Address', ["$http", "Addresses", "User", function($http, Addresses, User) {
+	var apiEndPoint =  'https://api.vinify.co/api';
+	var restApiEndPoint =  'https://api.vinify.co/restapi';
 
 	var Address = function (user){
 		this.data = {
-		city: null,
+		city: "",
 		current_billing: true,
 		class_name: 'address',
-		country: null,
-		company: null,
-		other_info: null,
-		zipcode: null,
-		street: null,
+		country: "",
+		company: "",
+		intercom: "",
+		digicode: "",
+		other_info: "",
+		zipcode: "",
+		street: "",
 		user: user,
 		current_delivery: true
 		};
@@ -307,15 +312,7 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 							'Content-Type': 'application/json; charset=UTF-8'
 							}
 						});
-		return request.success(function(data, status, headers, config) {
-							// TODO gracefully manage errors/successes
-							User.setUser(data);
-							Addresses.updateList();
-						})
-						.error(function(data, status, headers, config) {
-							// TODO gracefully manage errors/successes
-							alert(data);
-						});
+		return request;
 	};
 
 	Address.prototype.createAddress = function() {
@@ -328,16 +325,7 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 							'Content-Type': 'application/json; charset=UTF-8'
 							}
 						});
-		return request.success(function(data, status, headers, config) {
-							// TODO gracefully manage errors/successes
-							// We might have changed the USer so we update it
-							User.setUser(data);
-							Addresses.updateList();
-						})
-						.error(function(data, status, headers, config) {
-							// TODO gracefully manage errors/successes
-							alert(data);
-						});
+		return request;
 	};
 
 	Address.prototype.setAddress = function(address) {
@@ -345,4 +333,4 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Address;
-});
+}]);

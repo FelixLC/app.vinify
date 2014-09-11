@@ -1,5 +1,5 @@
 <ion-view title="Order">
-	<ion-content class="has-footer">
+	<ion-content class="has-footer" has-bouncing="false">
 		<div class="bottle-number-selector">
 			<h4 class="centered">Nombre de bouteilles</h4>
 			<p class="segmented-control">
@@ -10,60 +10,15 @@
 			</p>
 		</div>
 
-		<div class="list first-refill">
-			<div class="item price-selector">
-				<h4 class="centered">Recharge 1</h4>
-				<div class="button-bar">
-				  <a  ng-class="{highlighted: price.levelA == '2990' }" ng-click="price.levelA = 2990 " class="button">29€90</a>
-				  <a  ng-class="{highlighted: price.levelA == '3990' }" ng-click="price.levelA = 3990 " class="button">39€90</a>
-				  <a  ng-class="{highlighted: price.levelA == '4990' }" ng-click="price.levelA = 4990 " class="button">49€90</a>
-				</div>
-			</div>
-			<div ng-show="order.data.quantity == '2'" class="item price-selector">
-				<h4 class="centered">Recharge 2</h4>
-				<div class="button-bar">
-				  <a  ng-class="{highlighted: price.levelB == '2990' }" ng-click="price.levelB = 2990 " class="button">29€90</a>
-				  <a  ng-class="{highlighted: price.levelB == '3990' }" ng-click="price.levelB = 3990 " class="button">39€90</a>
-				  <a  ng-class="{highlighted: price.levelB == '4990' }" ng-click="price.levelB = 4990 " class="button">49€90</a>
-				</div>
-			</div>
-		 </div>
-
-		<div class="list card" ng-show="order.data.quantity == '1'">
-			<div class="item item-text-wrap refill-description">
-				<p ng-show="price.levelA == '2990' ">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>
-				<p ng-show="price.levelA == '3990' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-				<p ng-show="price.levelA == '4990' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
-			</div>
-		</div>
-
 		<div class="list list-select">
 			<h4>Composition des recharges</h4>
 			<div class="row">
 				<div class="col">
 					<label class="item-input item-select">
 						<div class="input-label">
-							<svg viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="red-pin" sketch:type="MSArtboardGroup" fill="#CB0001">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
-							<svg ng-class="fade-in" ng-show="order.data.split.red > 0" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="red-pin" sketch:type="MSArtboardGroup" fill="#CB0001">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
-							<svg ng-class="fade-in" ng-show="order.data.split.red > 1" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="red-pin" sketch:type="MSArtboardGroup" fill="#CB0001">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
+							<div class="red-pin"></div>
+							<div ng-show="order.data.split.red > 0" class="red-pin"></div>
+							<div ng-show="order.data.split.red > 1" class="red-pin"></div>
 						</div>
 						<select ng-model="order.data.split.red">
 							<option value="0">Pas du tout</option>
@@ -75,30 +30,9 @@
 				<div class="col">
 					<label class="item-input item-select">
 						<div class="input-label">
-							<svg viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <defs></defs>
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="white-pin" sketch:type="MSArtboardGroup" fill="#ECC617">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
-							<svg  ng-show="order.data.split.white > 0" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <defs></defs>
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="white-pin" sketch:type="MSArtboardGroup" fill="#ECC617">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
-							<svg ng-class="fade-in" ng-show="order.data.split.white > 1"  viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <defs></defs>
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="white-pin" sketch:type="MSArtboardGroup" fill="#ECC617">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
+							<div class="white-pin"></div>
+							<div ng-show="order.data.split.white > 0" class="white-pin"></div>
+							<div ng-show="order.data.split.white > 1" class="white-pin"></div>
 						</div>
 						<select ng-model="order.data.split.white">
 							<option value="0">Pas du tout</option>
@@ -110,27 +44,9 @@
 				<div class="col">
 					<label class="item-input item-select">
 						<div class="input-label">
-							<svg viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="rose-pin" sketch:type="MSArtboardGroup" fill="#CB0001" fill-opacity="0.5">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
-							<svg ng-class="fade-in" ng-show="order.data.split.rose > 0"  viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="rose-pin" sketch:type="MSArtboardGroup" fill="#CB0001" fill-opacity="0.5">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
-							<svg ng-class="fade-in" ng-show="order.data.split.rose > 1" viewBox="0 0 31 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-							    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-							        <g id="rose-pin" sketch:type="MSArtboardGroup" fill="#CB0001" fill-opacity="0.5">
-							            <circle id="Oval-1" sketch:type="MSShapeGroup" cx="15.5" cy="15.5" r="14.5"></circle>
-							        </g>
-							    </g>
-							</svg>
+							<div class="rose-pin"></div>
+							<div ng-show="order.data.split.rose > 0" class="rose-pin"></div>
+							<div ng-show="order.data.split.rose > 1" class="rose-pin"></div>
 						</div>
 						<select ng-model="order.data.split.rose">
 							<option value="0">Pas du tout</option>
@@ -142,11 +58,38 @@
 			</div>
 		</div>
 
+		<div class="list first-refill">
+			<div class="item price-selector">
+				<h4 class="centered">Recharge 1</h4>
+				<div class="button-bar">
+				  <a  ng-class="{highlighted: price.levelA == '29.90' }" ng-click="price.levelA = 29.90 " class="button">29€90</a>
+				  <a  ng-class="{highlighted: price.levelA == '39.90' }" ng-click="price.levelA = 39.90 " class="button">39€90</a>
+				  <a  ng-class="{highlighted: price.levelA == '49.90' }" ng-click="price.levelA = 49.90 " class="button">49€90</a>
+				</div>
+			</div>
+			<div ng-show="order.data.quantity == '2'" class="item price-selector">
+				<h4 class="centered">Recharge 2</h4>
+				<div class="button-bar">
+				  <a  ng-class="{highlighted: price.levelB == '29.90' }" ng-click="price.levelB = 29.90 " class="button">29€90</a>
+				  <a  ng-class="{highlighted: price.levelB == '39.90' }" ng-click="price.levelB = 39.90 " class="button">39€90</a>
+				  <a  ng-class="{highlighted: price.levelB == '49.90' }" ng-click="price.levelB = 49.90 " class="button">49€90</a>
+				</div>
+			</div>
+		 </div>
+
+		<div class="list card" ng-show="order.data.quantity == '1'">
+			<div class="item item-text-wrap refill-description">
+				<p ng-show="price.levelA == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>
+				<p ng-show="price.levelA == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+				<p ng-show="price.levelA == '49.90' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
+			</div>
+		</div>
+
 		<div class="list card" ng-show="order.data.quantity == '2'">
 			<div class="item item-text-wrap refill-description">
-				<p ng-show="price.levelB == '2990' ">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>
-				<p ng-show="price.levelB == '3990' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-				<p ng-show="price.levelB == '4990' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
+				<p ng-show="price.levelB == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>
+				<p ng-show="price.levelB == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+				<p ng-show="price.levelB == '49.90' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
 			</div>
 		</div>
 

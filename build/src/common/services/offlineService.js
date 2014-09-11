@@ -1,7 +1,7 @@
 angular.module('Offline', ['LocalStorageModule'])
-.factory('OfflineQueue', function(localStorageService) {
-	var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-	var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('OfflineQueue', ["localStorageService", function(localStorageService) {
+	var apiEndPoint =  'https://api.vinify.co/api';
+	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var _ratingQueue =[];
 	var _groupRatingQueue =[];
@@ -47,9 +47,9 @@ angular.module('Offline', ['LocalStorageModule'])
 			} else { console.log('no GroupRatings to send');}
 		}
 	};
-})
+}])
 
-.factory('OfflineUser', function(localStorageService) {
+.factory('OfflineUser', ["localStorageService", function(localStorageService) {
 	// instantiate our initial object
 	var _user = null;
 
@@ -67,12 +67,13 @@ angular.module('Offline', ['LocalStorageModule'])
 		},
 		removeUser: function(user) {
 			localStorageService.clearAll();
+			console.log(localStorageService.keys());
 			return _user;
 		}
 	};
-})
+}])
 
-.factory('OfflineWineData', function(localStorageService) {
+.factory('OfflineWineData', ["localStorageService", function(localStorageService) {
 
 	return {
 		getWines : function() {
@@ -87,9 +88,9 @@ angular.module('Offline', ['LocalStorageModule'])
 		}
 	};
 
-})
+}])
 
-.factory('OfflineReferralsData', function(localStorageService) {
+.factory('OfflineReferralsData', ["localStorageService", function(localStorageService) {
 
 	return {
 		getReferrals : function() {
@@ -102,4 +103,4 @@ angular.module('Offline', ['LocalStorageModule'])
 			return localStorageService.get('referrals');
 		}
 	};
-});
+}]);

@@ -14,11 +14,14 @@
 				<input type="text" ng-model="referral.first_name" name="first_name" autocomplete="first_name" placeholder="Prénom">
 		</label>
 		<label class="item item-input">
-				<input type="text" ng-model="referral.email" name="email" autocomplete="email" placeholder="Email">
+				<input type="email" ng-model="referral.email" name="email" autocomplete="email" placeholder="Email">
 		</label>
 		<div class="item item-text-wrap">
 			<p>Et vous dans l’histoire ? Ne vous inquiétez pas vous recevez aussi <span class="p-highlight">10€ de réduction</span> sur votre prochaine commande.</p>
 		</div>
 	</form>
+	<div class="centered">
+		<button ng-click="sendReferral()" class="button button-outline-primary">Je parraine !</button>
+	</div>
 	</ion-content>
 </ion-modal-view>

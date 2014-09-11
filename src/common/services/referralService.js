@@ -1,7 +1,7 @@
 angular.module('Referrals', ['Offline'])
 .factory('Referrals', function($http, $q, OfflineReferralsData) {
-    var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-    var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+    var apiEndPoint =  'https://api.vinify.co/api';
+    var restApiEndPoint =  'https://api.vinify.co/restapi';
     // instantiate our initial object
     var Referrals = {};
 
@@ -66,9 +66,9 @@ angular.module('Referrals', ['Offline'])
     return Referrals;
 })
 
-.factory('Referral', function($http) {
-    var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-    var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+.factory('Referral', function($http, OfflineReferralsData, Referrals) {
+    var apiEndPoint =  'https://api.vinify.co/api';
+    var restApiEndPoint =  'https://api.vinify.co/restapi';
 
     var Referral = function (){
         this.first_name = null;
@@ -87,7 +87,16 @@ angular.module('Referrals', ['Offline'])
                             'Content-Type': 'application/json; charset=UTF-8'
                             }
                         });
-        return request;
+        return request.success(
+                                        // Success Handler
+                                        function(data, status, headers, config) {
+                                            Referrals.data =  data;
+                                            OfflineReferralsData.setReferrals(data);
+                                        })
+                                    .error(
+                                        // Error Handler
+                                        function(data){}
+                                    );
     };
 
     return Referral;

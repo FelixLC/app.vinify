@@ -7,8 +7,8 @@ angular.module('security.service', [
   'ngCookies'
 ])
 .factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies) {
- var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
- var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+ var apiEndPoint =  'https://api.vinify.co/api';
+ var restApiEndPoint =  'https://api.vinify.co/restapi';
   // Redirect to the given url (defaults to '/')
   function redirect(url) {
     url = url || '/';

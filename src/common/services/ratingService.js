@@ -1,8 +1,8 @@
 angular.module('Rating', ['ngResource', 'User'])
 
 .factory('Rating', function($http, Bottles) {
-     var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-     var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+     var apiEndPoint =  'https://api.vinify.co/api';
+     var restApiEndPoint =  'https://api.vinify.co/restapi';
 
     var Rating = function (uuid, urating, ucomment){
         this.data = {
@@ -59,15 +59,18 @@ angular.module('Rating', ['ngResource', 'User'])
 })
 
 .factory('GroupRating', function($http, Bottles, Rating) {
-     var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-     var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+     var apiEndPoint =  'https://api.vinify.co/api';
+     var restApiEndPoint =  'https://api.vinify.co/restapi';
 
-    var GroupRating = function (uuid, urating){
+    var GroupRating = function (uuid, urating, num){
         // TODO PUSH RATING WHEN THEY COME
         this.data = {
-            ratings: [new GuestRating(urating), new GuestRating(urating), new GuestRating(urating), new GuestRating(urating)],
-            wine_uuid: uuid
+            wine_uuid: uuid,
+            ratings:[]
         };
+        for (var i = num - 1; i >= 0; i--) {
+            this.data.ratings.push(new GuestRating(urating));
+         }
     };
 
     var GuestRating = function (urating){

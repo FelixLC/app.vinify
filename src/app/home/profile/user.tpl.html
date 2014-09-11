@@ -2,7 +2,7 @@
     <ion-header-bar class="bar-positive">
           <button class="button" ng-click="closeUserModal()">Annuler</button>
           <h1 class="title">Mes Infos</h1>
-          <button class="button" ng-click="closeUserModal()">Terminé</button>
+          <button class="button" ng-click="updateUser()">Terminé</button>
     </ion-header-bar>
     <ion-content>
 
@@ -14,7 +14,7 @@
           <input type="text" ng-model="user.last_name" name="last_name" autocomplete="last_name" placeholder="Nom">
       </label>
       <label class="item item-input">
-          <input type="number" ng-model="user.phone" name="phone" autocomplete="phone" placeholder="Téléphone">
+          <input type="text" ng-model="user.phone" name="phone" autocomplete="phone" placeholder="Téléphone">
       </label>
 
       <label class="item item-input item-select">
@@ -34,9 +34,9 @@
 
 
     <div class="padding centered">
-      <button class="button button-less" ng-show="!form_show" ng-click="form_show = true">Ajouter une adresse</button>
+      <button class="button button-less" ng-show="!form.show" ng-click="form.show = true">Ajouter une adresse</button>
     </div>
-    <form name="form_address" class="list card" ng-show="form_show">
+    <form name="form_address" class="list card" ng-show="form.show">
 
       <label class="item item-input">
           <input type="text" ng-model="address_suppl.data.company" name="company" autocomplete="company" placeholder="Société">
@@ -52,6 +52,12 @@
       </label>
       <label class="item item-input">
           <input type="text" ng-model="address_suppl.data.country" name="country" autocomplete="country" placeholder="Pays *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.intercom" name="intercom" autocomplete="intercom" placeholder="Interphone">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.digicode" name="digicode" autocomplete="digicode" placeholder="Code">
       </label>
       <label class="item item-input">
           <textarea type="text" ng-model="address_suppl.data.other_info" name="other_info" autocomplete="other_info" placeholder="Infos Suppl. (Code, Escalier ..)"></textarea>

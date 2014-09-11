@@ -45,9 +45,9 @@ angular.module( 'app', [
 
 }])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
-})
+}])
 
 .config(['$httpProvider', function($httpProvider) {
 				delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -56,7 +56,7 @@ angular.module( 'app', [
 		}
 ])
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
+.controller('AppCtrl', ["$scope", "$rootScope", "$ionicSideMenuDelegate", "$ionicModal", "$window", "OfflineQueue", "$ionicPlatform", "$ionicLoading", "$cordovaToast", "$cordovaNetwork", "$cordovaSplashscreen", "Bottles", function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
 
 	$scope.$watch('online', function(newValue, oldValue) {
 		if (newValue === true) {
@@ -167,4 +167,4 @@ var height = $window.innerHeight;
 		$scope.oops.hide();
 	};
 
-});
+}]);

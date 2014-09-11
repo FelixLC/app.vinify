@@ -1,14 +1,14 @@
 angular.module('Order', [])
 
 .factory('Order', function($http, Bottles, SerializedOrder) {
-		var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
-		var restApiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/restapi';
+		var apiEndPoint =  'https://api.vinify.co/api';
+		var restApiEndPoint =  'https://api.vinify.co/restapi';
 
 		var Order = function (id){
 				this.data = {
 						quantity: 1,
-						refills: [new Refill(1, 4990)],
-						coupon: null,
+						refills: [new Refill(1, 49.90)],
+						coupon: "",
 						delivery_mode: null,
 						delivery_cost: null,
 						split:  {
@@ -50,7 +50,7 @@ angular.module('Order', [])
 														})
 														.error(function(data, status, headers, config) {
 																// TODO gracefully manage errors/successes
-																alert(data);
+																console.log(data);
 														});
 		};
 
@@ -87,7 +87,7 @@ angular.module('Order', [])
 							token: token,
 							order_id: $scope.serializedOrder.uuid
 					};
-						var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
+						var apiEndPoint =  'https://api.vinify.co/api';
 						$http({
 															url: apiEndPoint + '/orders/chargerefill',
 															method: "POST",

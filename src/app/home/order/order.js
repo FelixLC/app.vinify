@@ -16,9 +16,9 @@
 
         $scope.price = {
           valueA: 50,
-          levelA: 4990,
+          levelA: 49.90,
           valueB: 50,
-          levelB: 4990
+          levelB: 49.90
         };
 
         // TODO VERIFY WITH STATUS BAR

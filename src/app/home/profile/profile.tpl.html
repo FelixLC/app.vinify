@@ -1,12 +1,12 @@
 <ion-view title="Profil">
-	<ion-content>
+	<ion-content has-bouncing="false">
 		<div class="item item-gray centered">
 			<h3>{{user.first_name}} {{user.last_name}}</h3>
 			<p>{{user.email}}</p>
 		</div>
 		<div class="item centered item-profile">
-			<div ng-show="!user.profile.rated_count || user.profile.rated_count < 6" class="coming-soon">
-				<p>Notez 6 vins pour découvrir votre profil !</p>
+			<div class="coming-soon">
+				<p>Coming Soon !</p>
 			</div>
 			<div class="row">
 				<div class="col">
@@ -41,8 +41,6 @@
 					<h3>{{user.profile.average_rating}}</h3>
 				</div>
 			</div>
-		</div>
-		<div class="item item-gray">
 			<div class="row row-center">
 				<div class="col centered">
 					<h4>ViniPoints</h4>

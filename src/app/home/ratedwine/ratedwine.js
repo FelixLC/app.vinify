@@ -62,11 +62,6 @@
 
            Bottles.getList().then(function(response){
               $scope.bottle = getById(response.data.results, $scope.id);
-              // arrays for ng-repeat stars
-              $scope.star = {
-                full: new Array($scope.bottle.rating),
-                outline: new Array(5- $scope.bottle.rating)
-              };
               console.log($scope.star);
            });
 
@@ -88,11 +83,11 @@
             $scope.openModal = function() {
               $scope.rating = new Rating($scope.bottle.uuid, $scope.bottle.rating, $scope.bottle.comment);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
-                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
+                if (newVal  == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
               });
               $scope.modal.show();
             };

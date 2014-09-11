@@ -1,5 +1,5 @@
 angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading'])
-	.config(function($stateProvider, $urlRouterProvider) {
+	.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 			.state('sidemenu.pay', {
 					url: "/pay",
@@ -10,8 +10,8 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 						}
 					}
 			});
-	})
-	.directive('syncFocusWith', function($timeout, $rootScope) {
+	}])
+	.directive('syncFocusWith', ["$timeout", "$rootScope", function($timeout, $rootScope) {
 			return {
 					restrict: 'A',
 					scope: {
@@ -27,11 +27,11 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 							});
 					}
 			};
-	})
-	.controller( 'payCtrl', function payCtrl( $scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state ) {
+	}])
+	.controller( 'payCtrl', ["$scope", "$http", "$location", "SerializedOrder", "User", "$window", "$ionicPlatform", "$cordovaToast", "Loading", "$state", function payCtrl( $scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state ) {
 		$scope.serializedOrder = SerializedOrder;
 		console.log(SerializedOrder);
-		var apiEndPoint =  'http://powerful-cliffs-5344.herokuapp.com/api';
+		var apiEndPoint =  'https://api.vinify.co/api';
 
 		Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
 		$scope.submit = function(status, response) {
@@ -133,14 +133,16 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 				for (var i = SerializedOrder.refills.length - 1; i >= 0; i--) {
 					price += SerializedOrder.refills[i].price_level;
 				}
-				return price.toString().substring(0, 2) + "." + price.toString().substring(2);
+				//return price.toString().substring(0, 2) + "." + price.toString().substring(2);
+				return price;
 		};
 
 		$scope.displayPrice = function(price) {
-			var string = price.toString();
-			var len = string.length - 2;
-			return string.substring(0, len) + "." + string.substring(len);
+			return price;
+			//var string = price.toString();
+			//var len = string.length - 2;
+			//return string.substring(0, len) + "." + string.substring(len);
 		};
 
 		$scope.user = User.getUser();
-	});
+	}]);

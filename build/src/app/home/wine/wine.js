@@ -1,5 +1,5 @@
-  angular.module( 'app.wine', ['ngResource', 'User', 'Rating', 'ionic.rating', 'Offline', 'Loading'])
-      .config(function($stateProvider, $urlRouterProvider) {
+  angular.module( 'app.wine', ['ngResource', 'User', 'Rating', 'ionic.rating', 'Offline', 'Loading', 'ngCordova'])
+      .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.wine', {
               url: '/wine/{uuid:[^/]*}',
@@ -10,8 +10,8 @@
                 }
               }
           });
-     })
-      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, Loading) {
+     }])
+      .controller( 'wineCtrl', ["$scope", "$rootScope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "OfflineQueue", "$ionicLoading", "$cordovaToast", "Loading", function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, Loading) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -65,11 +65,11 @@
             $scope.openModal = function() {
               $scope.rating = new Rating($scope.bottle.uuid, 4);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
-                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
+                if (newVal  == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
               });
               $scope.modal.show();
             };
@@ -129,8 +129,12 @@
 
             // Open & close the modal
             $scope.openGroupModal = function() {
+              $scope.invite = {value: []};
+              $scope.updateInviteValue = function(num){
+                $scope.invite = {value: new Array(num)};
+                $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4, num);
+              };
               $scope.rating = new Rating($scope.bottle.uuid, 4);
-              $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
                 if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
                 if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
@@ -146,10 +150,12 @@
 
             $scope.rateWines = function() {
               if (true) {
+                Loading.show();
                   // Rate Wine then rate group wines
                   $scope.groupRating.rateWines().then(function(){
                     $scope.rating.rateWine().then(function(response){
                           $scope.closeGroupModal();
+                          Loading.hide();
                           $state.go('sidemenu.vinibar');
                     });
                   });
@@ -176,4 +182,4 @@
             $scope.$on('group.removed', function() {
               // Execute action
             });
-        });
+        }]);

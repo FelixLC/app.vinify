@@ -38,6 +38,12 @@
           <input type="text" ng-model="address_suppl.data.country" name="country" autocomplete="country" placeholder="Pays *" required>
       </label>
       <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.intercom" name="intercom" autocomplete="intercom" placeholder="Interphone">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="address_suppl.data.digicode" name="digicode" autocomplete="digicode" placeholder="Code">
+      </label>
+      <label class="item item-input">
           <textarea type="text" ng-model="address_suppl.data.other_info" name="other_info" autocomplete="other_info" placeholder="Infos Suppl. (Code, Escalier ..)"></textarea>
       </label>
       <li class="item item-checkbox">
@@ -59,7 +65,7 @@
     </form>
 
     </ion-content>
-    <div class="bar bar-footer bar-positive" ng-click="createRefillOrder()">
-        <div class="title" ng-click="updateOrCreateAddress()">Terminé</div>
+    <div class="bar bar-footer bar-positive" ng-click="updateOrCreateAddress()">
+        <div class="title">Terminé</div>
     </div>
   </ion-modal-view>

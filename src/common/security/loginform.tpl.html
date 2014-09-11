@@ -1,30 +1,33 @@
-<ion-view title="Login" ng-controller="LoginFormController">
-  <ion-content has-header="true" has-footer="false" class="full-background-primary" id="login-screen">
+<ion-view title="Login" ng-controller="LoginFormController"  class="full-background-primary" >
+  <ion-content has-header="true" has-footer="false" id="login-screen">
 
     <img src="assets/utils/logo-vinify-primary.svg" alt="logo-vinify">
 
     <form name="form" novalidate>
-              <p class="p-white" ng-show="authError">
+              <p class="padding p-white" ng-show="authError">
                 {{authError}}
               </p>
-            <div class="list card">
-                <label for="email" class="item item-input">
-                  <!-- <span class="input-label">Email</span> -->
-                  <input id="email" name="email" autocomplete="email" type="email" ng-model="user.email" required placeholder="Email">
-                </label>
-                <label for="password" class="item item-input">
-                  <!-- <span class="input-label">Mot de Passe</span> -->
-                  <input id="password" autocomplete="password" name="pass" type="password" ng-model="user.password" required placeholder="Mot de Passe">
-                </label>
-            </div>
+        <div class="list card">
+            <label for="email" class="item item-input">
+              <!-- <span class="input-label">Email</span> -->
+              <input id="email" name="email" autocomplete="email" type="email" ng-model="user.email" required placeholder="Email">
+            </label>
+            <label for="password" class="item item-input">
+              <!-- <span class="input-label">Mot de Passe</span> -->
+              <input id="password" autocomplete="password" name="pass" type="password" ng-model="user.password" required placeholder="Mot de Passe">
+            </label>
+        </div>
 
-            <div>
-              <button class="button button-outline-white" ng-click="login()" ng-disabled='form.$invalid'>Se connecter</button>
-          </div>
+        <div>
+          <button class="button button-outline-white" ng-click="login()" ng-disabled='form.$invalid'>Se connecter</button>
+        </div>
 
-<!--           <div>
-              <a href="/user/password/reset" class="button button-less-white"><p>J'ai oublié mon mot de passe</p></a>
-          </div> -->
+        <div>
+          <a href="https://api.vinify.co/api/users/password/reset" class="p-white">J'ai oublié mon mot de passe</a>
+        </div>
+        <div>
+          <a href="https://start.vinify.co" class="p-white">Je n'ai pas de compte, commencer l'aventure</a>
+        </div>
     </form>
   </ion-content>
 </ion-view>

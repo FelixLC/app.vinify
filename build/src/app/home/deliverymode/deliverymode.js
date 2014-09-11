@@ -1,5 +1,5 @@
 angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
-.config(function($stateProvider, $urlRouterProvider) {
+.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('sidemenu.deliverymode', {
 			url: "/deliverymode",
@@ -10,11 +10,12 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 				}
 			}
 	});
-})
+}])
 
-.controller( 'deliverymodeCtrl', function deliverymodeCtrl( $scope, $http, $state, orderInstance, SerializedOrder, $window, User, Addresses, Address, $ionicModal, $ionicLoading, Loading, $cordovaToast ) {
+.controller( 'deliverymodeCtrl', ["$scope", "$http", "$state", "orderInstance", "SerializedOrder", "$window", "User", "Addresses", "Address", "$ionicModal", "$ionicLoading", "Loading", "$cordovaToast", function deliverymodeCtrl( $scope, $http, $state, orderInstance, SerializedOrder, $window, User, Addresses, Address, $ionicModal, $ionicLoading, Loading, $cordovaToast ) {
 	$scope.order = orderInstance;
 	$scope.user = User.getUser();
+	var apiEndPoint =  'https://api.vinify.co/api';
 	Addresses.getList().then(function(response){
 			$scope.addresses = response.data;
 			console.log($scope.addresses);
@@ -27,6 +28,14 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 				$scope.order.createRefillOrder().then(function(data){
 					Loading.hide();
 					$state.go('sidemenu.pay');
+				},function(data){
+					Loading.hide();
+					if (ionic.Platform.isWebView()) {
+						$cordovaToast.show('Oops, un erreur est survenue. Merci de réessayer ...', 'short', 'top').then(function(success) {
+						}, function (error) {
+							// error
+						});
+					}
 				});
 		} else {
 			if (ionic.Platform.isWebView()) {
@@ -38,16 +47,65 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 		}
 	};
 	$scope.displayPrice = function(price) {
-		var string = price.toString();
-		var len = string.length - 2;
-		return string.substring(0, len) + "." + string.substring(len);
+		return price;
+		//var string = price.toString();
+		//var len = string.length - 2;
+		//return string.substring(0, len) + "." + string.substring(len);
 	};
 	$scope.deliveryPrices = {
-		'Point Relais': [490, 690],
+		'Point Relais': [4.90, 6.90],
 		'Vinify': [0, 0],
-		'Colissimo': [890, 1190]
+		'Colissimo': [8.90, 11.90]
 	};
 
+          // BLUR EVENT
+          $scope.onBlur = function(){
+             $scope.testCoupon();
+          };
+
+
+        $scope.testCoupon = function() {
+              Loading.show();
+              var request = $http({
+                                  url: apiEndPoint + '/orders/testcoupon/',
+                                  method: 'POST',
+                                  data: {coupon: $scope.order.data.coupon},
+                                  headers: {
+                                    'Content-Type': 'application/json; charset=UTF-8'
+                                  }
+                                })
+
+                                .success(function(data, status, headers, config) {
+						Loading.hide();
+						if (ionic.Platform.isWebView()) {
+							$cordovaToast.show('Coupon Validé!', 'short', 'top').then(function(success) {
+							}, function (error) {
+								//error
+							});
+						}
+                                  })
+                                .error(function(data, status, headers, config) {
+                                    Loading.hide();
+						//IF THE COUPON IS NOT VALID WE TELL THE USER DEPENDING ON THE ERROR
+						if (data === 'This code is not valid') {
+							if (ionic.Platform.isWebView()) {
+								$cordovaToast.show('Oops, votre code d\'accès semble erroné !', 'short', 'top').then(function(success) {
+								}, function (error) {
+									//error
+								});
+							}
+						}
+
+						else if (data === 'This coupon has been redeemed') {
+							if (ionic.Platform.isWebView()) {
+								$cordovaToast.show('Ce coupon n\'est plus valable', 'short', 'top').then(function(success) {
+								}, function (error) {
+									// error
+								});
+							}
+						}
+                                  });
+        };
 	// TODO VERIFY WITH STATUS BAR
 	var appropriatedHeight = ($window.innerHeight - 135) / 4;
 
@@ -66,8 +124,8 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 	// Open & close the modal
 	$scope.openModal = function() {
 		$scope.current = {
-			'delivery_address' : User.getUser().delivery_address.uuid,
-			'billing_address' : User.getUser().billing_address.uuid
+			'delivery_address' : (User.getUser().delivery_address) ? User.getUser().delivery_address.uuid : null,
+			'billing_address' : (User.getUser().billing_address) ? User.getUser().billing_address.uuid : null
 		};
 		$scope.modal.show();
 		$scope.address_suppl = new Address(User.getUser().uuid);
@@ -85,28 +143,30 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 		Addresses.fireDelivery(id);
 	};
 
-	// CHECK FORM AND ADD ADRESS
-	$scope.addAddress = function(form) {
-		if(!form.$valid) {
-				$cordovaToast.show('Merci de vérifier votre formulaire, un ou plusieurs champs requis sont manquants.', 'short', 'top').then(function(success) {
-				}, function (error) {
-					// error
-				});
-		} else {
-				$scope.address_suppl.createAddress()
-								.success(function(data, status, headers, config) {
-									$scope.addresses.push(data);
-									console.log(data);
-									$scope.uuid = data.uuid;
-								})
-								.error(function(data, status, headers, config) {
-										// TODO gracefully manage errors/successes
-										$cordovaToast.show('Une erreur est survenue. Merci de réessayer.', 'short', 'top').then(function(success) {
-										}, function (error) {
-											// error
-										});
-								});
-		}
-	};
+        // CHECK FORM AND ADD ADRESS
+        $scope.addAddress = function(form) {
+          if(!form.$valid) {
+                $ionicLoading.show({ template: 'Merci de vérifier votre formulaire, un ou plusieurs champs requis sont manquants.', noBackdrop: true, duration: 3000 });
+          } else {
+            Loading.show();
+              $scope.address_suppl.createAddress()
+                                              .success(function(data, status, headers, config) {
+                                                          Loading.hide();
+                                                          $scope.form.show = false;
+                                                            // TODO gracefully manage errors/successes
+                                                            User.setUser(data);
+                                                            $scope.user = data;
+                                                            Addresses.updateList().then(function(response){
+                                                              $scope.addresses = Addresses.data;
+                                                              console.log($scope.addresses);
+                                                            });
+                                                          })
+                                                          .error(function(data, status, headers, config) {
+                                                            // TODO gracefully manage errors/successes
+                                                            console.log(data);
+                                                            Loading.hide();
+                                                          });
+          }
+        };
 
-});
+}]);

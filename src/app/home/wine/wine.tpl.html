@@ -1,5 +1,5 @@
 <ion-view title="Déguster">
-  <ion-content>
+  <ion-content has-bouncing="false">
     <div class="wine-header">
       <div class="row row-center">
           <div class="col centered">
@@ -29,23 +29,22 @@
     </div>
 
     <div class="wine-content padding">
+        <div class="row row-buttons">
+              <div class="col">
+                <a class="button button-outline-primary" ng-click="openModal()">
+                  Noter ce vin
+                </a>
+              </div>
+              <div class="col">
+                <a class="button button-less" ng-click="openGroupModal()">
+                  Noter à plusieurs
+                </a>
+              </div>
+        </div>
 
           <h4>Description</h4>
 
           <p ng-bind-html="bottle.wine.description" class="justified"><p>
-
-          <div class="row row-buttons">
-                <div class="col">
-                  <a class="button button-outline-primary" ng-click="openModal()">
-                    Noter ce vin
-                  </a>
-                </div>
-                <div class="col">
-                  <a class="button button-less" ng-click="openGroupModal()">
-                    Noter à plusieurs
-                  </a>
-                </div>
-          </div>
 
         <h4>Service</h4>
         <div class="row row-center">

@@ -3,7 +3,7 @@
 			<button class="button" ng-click="closeModal()">Annuler</button>
 		<h1 class="title">Noter mon Vin</h1>
 	</ion-header-bar>
-	<ion-content>
+	<ion-content  has-bouncing="false">
 	<div class="wine-header">
 	<div class="row row-center">
 		<div class="col centered">
@@ -34,75 +34,67 @@
 
 	<div class="wine-content padding">
 		<form class="rating-form">
-		<h4>Note</h4>
-		<pre>{{rateStars.value}}</pre>
+		<h4>Note <span class="item-note">glissez jusqu'à votre note</span></h4>
 		<p class="literal-rating">"{{literalRating.value}}"</p>
-		<!-- <rating ng-model="rating.data.rating" isReadonly="false" max="5"></rating> -->
-
 
 		<div class="icon-rating centered">
-	<!-- 		       <ul class="rating">
-			         <li ng-repeat="i in star.full track by $index"><i class="icon ion-ios7-star"></i></li>
-			         <li ng-show="showHalf"><i class="icon icon-rating ion-ios7-star-half"></i></li>
-			         <li ng-repeat="i in star.outline track by $index"><i class="icon ion-ios7-star-outline"></i></li>
-			       </ul> -->
-				<ul ng-show="rateStars.value == '1' " class="rating">
+				<ul ng-show="rating.data.rating == '1' " class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '1.5' " class="rating">
+				<ul ng-show="rating.data.rating == '1.5' " class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-half"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '2'" class="rating">
+				<ul ng-show="rating.data.rating == '2'" class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '2.5' " class="rating">
+				<ul ng-show="rating.data.rating == '2.5' " class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-half"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '3'" class="rating">
+				<ul ng-show="rating.data.rating == '3'" class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '3.5' " class="rating">
+				<ul ng-show="rating.data.rating == '3.5' " class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-half"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '4'" class="rating">
+				<ul ng-show="rating.data.rating == '4'" class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-outline"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '4.5' " class="rating">
+				<ul ng-show="rating.data.rating == '4.5' " class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star-half"></i></li>
 				</ul>
-				<ul ng-show="rateStars.value == '5'" class="rating">
+				<ul ng-show="rating.data.rating == '5'" class="rating">
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
 					<li><i class="icon ion-ios7-star"></i></li>
@@ -111,7 +103,7 @@
 				</ul>
 			</div>
 			<div class="range-container">
-		    		<input ng-model="rateStars.value" type="range" name="volume" min="1" max="5" value="4" step="0.5">
+		    		<input ng-model="rating.data.rating" type="range" name="volume" min="1" max="5" value="4" step="0.5">
 			</div>
 
 

@@ -31,7 +31,10 @@
 					<h3>{{bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{bottle.wine.region}}
-							<span class="item-note"><i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i></span>
+							<span class="item-note">
+								<i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
+								<i ng-hide="isInteger(bottle.rating)" class="icon ion-ios7-star-half full-star"></i>
+							</span>
 							<br>
 							{{bottle.wine.appellation}}
 					</p>

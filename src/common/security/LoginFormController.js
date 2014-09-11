@@ -1,4 +1,4 @@
-angular.module('security.login.form', ['ngCordova', 'ionic'])
+angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('login', {
@@ -10,7 +10,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic'])
 
 // The LoginFormController provides the behaviour behind a reusable form to allow users to authenticate.
 // This controller and its template (login/form.tpl.html) are used in a modal dialog box by the security service.
-.controller('LoginFormController', ['$location', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', function($location, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform) {
+.controller('LoginFormController', ['$location', 'Loading', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', function($location, Loading, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform) {
   // The model for this form
   $scope.user = {};
 
@@ -46,14 +46,17 @@ angular.module('security.login.form', ['ngCordova', 'ionic'])
             if ( !loggedIn ) {
               // If we get here then the login failed due to bad credentials
               // $scope.hide();
+            Loading.hide();
               $scope.authError = 'Combinaison email/mot de passe erronée';
             }
             else {
               // $scope.hide();
+            Loading.hide();
               $location.path('/home'); }
           }, function(x) {
             // If we get here then there was a problem with the login request to the server
             // $scope.hide();
+            Loading.hide();
             $scope.authError = 'Il y a un problème de connexion. Merci de réessayer';
           });
     } else {
@@ -67,14 +70,17 @@ angular.module('security.login.form', ['ngCordova', 'ionic'])
           if ( !loggedIn ) {
             // If we get here then the login failed due to bad credentials
             // $scope.hide();
+                        Loading.hide();
             $scope.authError = 'Combinaison email/mot de passe erronée';
           }
           else {
             // $scope.hide();
+            Loading.hide();
             $location.path('/home'); }
         }, function(x) {
           // If we get here then there was a problem with the login request to the server
           // $scope.hide();
+            Loading.hide();
           $scope.authError = 'Il y a un problème de connexion. Merci de réessayer';
         });
     }

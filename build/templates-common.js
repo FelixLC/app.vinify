@@ -2,33 +2,36 @@ angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.
 
 angular.module("security/loginform.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("security/loginform.tpl.html",
-    "<ion-view title=\"Login\" ng-controller=\"LoginFormController\">\n" +
-    "  <ion-content has-header=\"true\" has-footer=\"false\" class=\"full-background-primary\" id=\"login-screen\">\n" +
+    "<ion-view title=\"Login\" ng-controller=\"LoginFormController\"  class=\"full-background-primary\" >\n" +
+    "  <ion-content has-header=\"true\" has-footer=\"false\" id=\"login-screen\">\n" +
     "\n" +
     "    <img src=\"assets/utils/logo-vinify-primary.svg\" alt=\"logo-vinify\">\n" +
     "\n" +
     "    <form name=\"form\" novalidate>\n" +
-    "              <p class=\"p-white\" ng-show=\"authError\">\n" +
+    "              <p class=\"padding p-white\" ng-show=\"authError\">\n" +
     "                {{authError}}\n" +
     "              </p>\n" +
-    "            <div class=\"list card\">\n" +
-    "                <label for=\"email\" class=\"item item-input\">\n" +
-    "                  <!-- <span class=\"input-label\">Email</span> -->\n" +
-    "                  <input id=\"email\" name=\"email\" autocomplete=\"email\" type=\"email\" ng-model=\"user.email\" required placeholder=\"Email\">\n" +
-    "                </label>\n" +
-    "                <label for=\"password\" class=\"item item-input\">\n" +
-    "                  <!-- <span class=\"input-label\">Mot de Passe</span> -->\n" +
-    "                  <input id=\"password\" autocomplete=\"password\" name=\"pass\" type=\"password\" ng-model=\"user.password\" required placeholder=\"Mot de Passe\">\n" +
-    "                </label>\n" +
-    "            </div>\n" +
+    "        <div class=\"list card\">\n" +
+    "            <label for=\"email\" class=\"item item-input\">\n" +
+    "              <!-- <span class=\"input-label\">Email</span> -->\n" +
+    "              <input id=\"email\" name=\"email\" autocomplete=\"email\" type=\"email\" ng-model=\"user.email\" required placeholder=\"Email\">\n" +
+    "            </label>\n" +
+    "            <label for=\"password\" class=\"item item-input\">\n" +
+    "              <!-- <span class=\"input-label\">Mot de Passe</span> -->\n" +
+    "              <input id=\"password\" autocomplete=\"password\" name=\"pass\" type=\"password\" ng-model=\"user.password\" required placeholder=\"Mot de Passe\">\n" +
+    "            </label>\n" +
+    "        </div>\n" +
     "\n" +
-    "            <div>\n" +
-    "              <button class=\"button button-outline-white\" ng-click=\"login()\" ng-disabled='form.$invalid'>Se connecter</button>\n" +
-    "          </div>\n" +
+    "        <div>\n" +
+    "          <button class=\"button button-outline-white\" ng-click=\"login()\" ng-disabled='form.$invalid'>Se connecter</button>\n" +
+    "        </div>\n" +
     "\n" +
-    "<!--           <div>\n" +
-    "              <a href=\"/user/password/reset\" class=\"button button-less-white\"><p>J'ai oublié mon mot de passe</p></a>\n" +
-    "          </div> -->\n" +
+    "        <div>\n" +
+    "          <a href=\"https://api.vinify.co/api/users/password/reset\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
+    "        </div>\n" +
+    "        <div>\n" +
+    "          <a href=\"https://start.vinify.co\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
+    "        </div>\n" +
     "    </form>\n" +
     "  </ion-content>\n" +
     "</ion-view>");
@@ -76,6 +79,12 @@ angular.module("tpl/address.tpl.html", []).run(["$templateCache", function($temp
     "          <input type=\"text\" ng-model=\"address_suppl.data.country\" name=\"country\" autocomplete=\"country\" placeholder=\"Pays *\" required>\n" +
     "      </label>\n" +
     "      <label class=\"item item-input\">\n" +
+    "          <input type=\"text\" ng-model=\"address_suppl.data.intercom\" name=\"intercom\" autocomplete=\"intercom\" placeholder=\"Interphone\">\n" +
+    "      </label>\n" +
+    "      <label class=\"item item-input\">\n" +
+    "          <input type=\"text\" ng-model=\"address_suppl.data.digicode\" name=\"digicode\" autocomplete=\"digicode\" placeholder=\"Code\">\n" +
+    "      </label>\n" +
+    "      <label class=\"item item-input\">\n" +
     "          <textarea type=\"text\" ng-model=\"address_suppl.data.other_info\" name=\"other_info\" autocomplete=\"other_info\" placeholder=\"Infos Suppl. (Code, Escalier ..)\"></textarea>\n" +
     "      </label>\n" +
     "      <li class=\"item item-checkbox\">\n" +
@@ -97,8 +106,8 @@ angular.module("tpl/address.tpl.html", []).run(["$templateCache", function($temp
     "    </form>\n" +
     "\n" +
     "    </ion-content>\n" +
-    "    <div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
-    "        <div class=\"title\" ng-click=\"updateOrCreateAddress()\">Terminé</div>\n" +
+    "    <div class=\"bar bar-footer bar-positive\" ng-click=\"updateOrCreateAddress()\">\n" +
+    "        <div class=\"title\">Terminé</div>\n" +
     "    </div>\n" +
     "  </ion-modal-view>");
 }]);

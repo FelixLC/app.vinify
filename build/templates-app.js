@@ -3,7 +3,7 @@ angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'hom
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
     "<ion-view title=\"Mode de Livraison\">\n" +
-    "	<ion-content class=\"has-footer\">\n" +
+    "	<ion-content class=\"has-footer\" has-bouncing=\"false\">\n" +
     "		<!-- <div class=\"list radio-delivery\"> -->\n" +
     "			<label class=\"item item-radio\">\n" +
     "				<input type=\"radio\" ng-model=\"order.data.delivery_mode\" name=\"choice\" value=\"Colissimo\">\n" +
@@ -95,18 +95,23 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "				</div>\n" +
     "				<i class=\"radio-icon ion-checkmark\"></i>\n" +
     "			</label>\n" +
-    "\n" +
-    "			<div ng-style=\"calcHeight\" class=\"item centered\">\n" +
-    "			<div class=\"row row-center\">\n" +
-    "				<div class=\"col\">\n" +
-    "						<h4>Adresse de Livraison</h4>\n" +
-    "						<p>{{user.delivery_address.street}}\n" +
-    "						<br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
-    "				</div>\n" +
-    "				<div class=\"col\">\n" +
-    "							<button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
-    "				</div>\n" +
+    "			<div class=\"item item-input-inset input-coupon\">\n" +
+    "				<h2>Coupon</h2>\n" +
+    "				<label class=\"item-input-wrapper\">\n" +
+    "					<input type=\"text\" placeholder=\"Coupon de Reduction\" ng-model=\"order.data.coupon\" ng-blur=\"onBlur()\">\n" +
+    "				</label>\n" +
     "			</div>\n" +
+    "			<div class=\"item centered item-delivery-address\">\n" +
+    "				<div class=\"row row-center\">\n" +
+    "					<div class=\"col\">\n" +
+    "							<h4>Adresse de Livraison</h4>\n" +
+    "							<p>{{user.delivery_address.street}}\n" +
+    "							<br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col\">\n" +
+    "								<button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
     "			</div>\n" +
     "\n" +
     "		<!-- </div> -->\n" +
@@ -122,7 +127,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
     "      <ion-view hide-back-button=\"true\" title=\"Welcome\">\n" +
-    "        <ion-content>\n" +
+    "        <ion-content has-bouncing=\"false\">\n" +
     "          <ion-nav-buttons side=\"left\">\n" +
     "            <button class=\"button button-icon button-clear ion-navicon\" ng-click=\"toggleLeft()\">\n" +
     "            </button>\n" +
@@ -166,7 +171,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
 angular.module("home/order/order.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/order/order.tpl.html",
     "<ion-view title=\"Order\">\n" +
-    "	<ion-content class=\"has-footer\">\n" +
+    "	<ion-content class=\"has-footer\" has-bouncing=\"false\">\n" +
     "		<div class=\"bottle-number-selector\">\n" +
     "			<h4 class=\"centered\">Nombre de bouteilles</h4>\n" +
     "			<p class=\"segmented-control\">\n" +
@@ -177,60 +182,15 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "			</p>\n" +
     "		</div>\n" +
     "\n" +
-    "		<div class=\"list first-refill\">\n" +
-    "			<div class=\"item price-selector\">\n" +
-    "				<h4 class=\"centered\">Recharge 1</h4>\n" +
-    "				<div class=\"button-bar\">\n" +
-    "				  <a  ng-class=\"{highlighted: price.levelA == '2990' }\" ng-click=\"price.levelA = 2990 \" class=\"button\">29€90</a>\n" +
-    "				  <a  ng-class=\"{highlighted: price.levelA == '3990' }\" ng-click=\"price.levelA = 3990 \" class=\"button\">39€90</a>\n" +
-    "				  <a  ng-class=\"{highlighted: price.levelA == '4990' }\" ng-click=\"price.levelA = 4990 \" class=\"button\">49€90</a>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "			<div ng-show=\"order.data.quantity == '2'\" class=\"item price-selector\">\n" +
-    "				<h4 class=\"centered\">Recharge 2</h4>\n" +
-    "				<div class=\"button-bar\">\n" +
-    "				  <a  ng-class=\"{highlighted: price.levelB == '2990' }\" ng-click=\"price.levelB = 2990 \" class=\"button\">29€90</a>\n" +
-    "				  <a  ng-class=\"{highlighted: price.levelB == '3990' }\" ng-click=\"price.levelB = 3990 \" class=\"button\">39€90</a>\n" +
-    "				  <a  ng-class=\"{highlighted: price.levelB == '4990' }\" ng-click=\"price.levelB = 4990 \" class=\"button\">49€90</a>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "		 </div>\n" +
-    "\n" +
-    "		<div class=\"list card\" ng-show=\"order.data.quantity == '1'\">\n" +
-    "			<div class=\"item item-text-wrap refill-description\">\n" +
-    "				<p ng-show=\"price.levelA == '2990' \">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>\n" +
-    "				<p ng-show=\"price.levelA == '3990' \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
-    "				<p ng-show=\"price.levelA == '4990' \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "\n" +
     "		<div class=\"list list-select\">\n" +
     "			<h4>Composition des recharges</h4>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col\">\n" +
     "					<label class=\"item-input item-select\">\n" +
     "						<div class=\"input-label\">\n" +
-    "							<svg viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"red-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
-    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.red > 0\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"red-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
-    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.red > 1\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"red-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
+    "							<div class=\"red-pin\"></div>\n" +
+    "							<div ng-show=\"order.data.split.red > 0\" class=\"red-pin\"></div>\n" +
+    "							<div ng-show=\"order.data.split.red > 1\" class=\"red-pin\"></div>\n" +
     "						</div>\n" +
     "						<select ng-model=\"order.data.split.red\">\n" +
     "							<option value=\"0\">Pas du tout</option>\n" +
@@ -242,30 +202,9 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "				<div class=\"col\">\n" +
     "					<label class=\"item-input item-select\">\n" +
     "						<div class=\"input-label\">\n" +
-    "							<svg viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <defs></defs>\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"white-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#ECC617\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
-    "							<svg  ng-show=\"order.data.split.white > 0\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <defs></defs>\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"white-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#ECC617\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
-    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.white > 1\"  viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <defs></defs>\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"white-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#ECC617\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
+    "							<div class=\"white-pin\"></div>\n" +
+    "							<div ng-show=\"order.data.split.white > 0\" class=\"white-pin\"></div>\n" +
+    "							<div ng-show=\"order.data.split.white > 1\" class=\"white-pin\"></div>\n" +
     "						</div>\n" +
     "						<select ng-model=\"order.data.split.white\">\n" +
     "							<option value=\"0\">Pas du tout</option>\n" +
@@ -277,27 +216,9 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "				<div class=\"col\">\n" +
     "					<label class=\"item-input item-select\">\n" +
     "						<div class=\"input-label\">\n" +
-    "							<svg viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"rose-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\" fill-opacity=\"0.5\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
-    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.rose > 0\"  viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"rose-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\" fill-opacity=\"0.5\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
-    "							<svg ng-class=\"fade-in\" ng-show=\"order.data.split.rose > 1\" viewBox=\"0 0 31 31\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:sketch=\"http://www.bohemiancoding.com/sketch/ns\">\n" +
-    "							    <g id=\"Page-1\" stroke=\"none\" stroke-width=\"1\" fill=\"none\" fill-rule=\"evenodd\" sketch:type=\"MSPage\">\n" +
-    "							        <g id=\"rose-pin\" sketch:type=\"MSArtboardGroup\" fill=\"#CB0001\" fill-opacity=\"0.5\">\n" +
-    "							            <circle id=\"Oval-1\" sketch:type=\"MSShapeGroup\" cx=\"15.5\" cy=\"15.5\" r=\"14.5\"></circle>\n" +
-    "							        </g>\n" +
-    "							    </g>\n" +
-    "							</svg>\n" +
+    "							<div class=\"rose-pin\"></div>\n" +
+    "							<div ng-show=\"order.data.split.rose > 0\" class=\"rose-pin\"></div>\n" +
+    "							<div ng-show=\"order.data.split.rose > 1\" class=\"rose-pin\"></div>\n" +
     "						</div>\n" +
     "						<select ng-model=\"order.data.split.rose\">\n" +
     "							<option value=\"0\">Pas du tout</option>\n" +
@@ -309,11 +230,38 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
+    "		<div class=\"list first-refill\">\n" +
+    "			<div class=\"item price-selector\">\n" +
+    "				<h4 class=\"centered\">Recharge 1</h4>\n" +
+    "				<div class=\"button-bar\">\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelA == '29.90' }\" ng-click=\"price.levelA = 29.90 \" class=\"button\">29€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelA == '39.90' }\" ng-click=\"price.levelA = 39.90 \" class=\"button\">39€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelA == '49.90' }\" ng-click=\"price.levelA = 49.90 \" class=\"button\">49€90</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<div ng-show=\"order.data.quantity == '2'\" class=\"item price-selector\">\n" +
+    "				<h4 class=\"centered\">Recharge 2</h4>\n" +
+    "				<div class=\"button-bar\">\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelB == '29.90' }\" ng-click=\"price.levelB = 29.90 \" class=\"button\">29€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelB == '39.90' }\" ng-click=\"price.levelB = 39.90 \" class=\"button\">39€90</a>\n" +
+    "				  <a  ng-class=\"{highlighted: price.levelB == '49.90' }\" ng-click=\"price.levelB = 49.90 \" class=\"button\">49€90</a>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "		 </div>\n" +
+    "\n" +
+    "		<div class=\"list card\" ng-show=\"order.data.quantity == '1'\">\n" +
+    "			<div class=\"item item-text-wrap refill-description\">\n" +
+    "				<p ng-show=\"price.levelA == '29.90' \">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>\n" +
+    "				<p ng-show=\"price.levelA == '39.90' \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
+    "				<p ng-show=\"price.levelA == '49.90' \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
+    "			</div>\n" +
+    "		</div>\n" +
+    "\n" +
     "		<div class=\"list card\" ng-show=\"order.data.quantity == '2'\">\n" +
     "			<div class=\"item item-text-wrap refill-description\">\n" +
-    "				<p ng-show=\"price.levelB == '2990' \">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>\n" +
-    "				<p ng-show=\"price.levelB == '3990' \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
-    "				<p ng-show=\"price.levelB == '4990' \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
+    "				<p ng-show=\"price.levelB == '29.90' \">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>\n" +
+    "				<p ng-show=\"price.levelB == '39.90' \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
+    "				<p ng-show=\"price.levelB == '49.90' \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
     "			</div>\n" +
     "		</div>\n" +
     "\n" +
@@ -327,7 +275,7 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
 angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/pay/pay.tpl.html",
     "<ion-view title=\"Commander\">\n" +
-    " <ion-content>\n" +
+    " <ion-content has-bouncing=\"false\">\n" +
     "   <div ng-style=\"calcHeight\" class=\"pay-header\">\n" +
     "       <h3 class=\"centered\">Récapitulatif de ma commande</h3>\n" +
     "   </div>\n" +
@@ -351,8 +299,17 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "            <p>{{displayPrice(serializedOrder.delivery_cost)}} €</p>\n" +
     "         </div>\n" +
     "     </div>\n" +
+    "       <div class=\"row row-center\" ng-show=\"serializedOrder.coupon\">\n" +
+    "         <div class=\"col\">\n" +
+    "           <h3>Réduction :</h3>\n" +
+    "         </div>\n" +
+    "         <div class=\"col\">\n" +
+    "            <h3>{{serializedOrder.coupon.value}} €</h3>\n" +
+    "         </div>\n" +
+    "     </div>\n" +
     "       <div class=\"row row-center\">\n" +
     "         <div class=\"col\">\n" +
+    "           <h3>Total : </h3>\n" +
     "         </div>\n" +
     "         <div class=\"col\">\n" +
     "            <h3>{{displayPrice(serializedOrder.final_price)}} €</h3>\n" +
@@ -433,14 +390,14 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
 angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/profile/profile.tpl.html",
     "<ion-view title=\"Profil\">\n" +
-    "	<ion-content>\n" +
+    "	<ion-content has-bouncing=\"false\">\n" +
     "		<div class=\"item item-gray centered\">\n" +
     "			<h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
     "			<p>{{user.email}}</p>\n" +
     "		</div>\n" +
     "		<div class=\"item centered item-profile\">\n" +
-    "			<div ng-show=\"!user.profile.rated_count || user.profile.rated_count < 6\" class=\"coming-soon\">\n" +
-    "				<p>Notez 6 vins pour découvrir votre profil !</p>\n" +
+    "			<div class=\"coming-soon\">\n" +
+    "				<p>Coming Soon !</p>\n" +
     "			</div>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col\">\n" +
@@ -475,8 +432,6 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "					<h3>{{user.profile.average_rating}}</h3>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"item item-gray\">\n" +
     "			<div class=\"row row-center\">\n" +
     "				<div class=\"col centered\">\n" +
     "					<h4>ViniPoints</h4>\n" +
@@ -563,12 +518,15 @@ angular.module("home/profile/referral.tpl.html", []).run(["$templateCache", func
     "				<input type=\"text\" ng-model=\"referral.first_name\" name=\"first_name\" autocomplete=\"first_name\" placeholder=\"Prénom\">\n" +
     "		</label>\n" +
     "		<label class=\"item item-input\">\n" +
-    "				<input type=\"text\" ng-model=\"referral.email\" name=\"email\" autocomplete=\"email\" placeholder=\"Email\">\n" +
+    "				<input type=\"email\" ng-model=\"referral.email\" name=\"email\" autocomplete=\"email\" placeholder=\"Email\">\n" +
     "		</label>\n" +
     "		<div class=\"item item-text-wrap\">\n" +
     "			<p>Et vous dans l’histoire ? Ne vous inquiétez pas vous recevez aussi <span class=\"p-highlight\">10€ de réduction</span> sur votre prochaine commande.</p>\n" +
     "		</div>\n" +
     "	</form>\n" +
+    "	<div class=\"centered\">\n" +
+    "		<button ng-click=\"sendReferral()\" class=\"button button-outline-primary\">Je parraine !</button>\n" +
+    "	</div>\n" +
     "	</ion-content>\n" +
     "</ion-modal-view>");
 }]);
@@ -579,7 +537,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
     "    <ion-header-bar class=\"bar-positive\">\n" +
     "          <button class=\"button\" ng-click=\"closeUserModal()\">Annuler</button>\n" +
     "          <h1 class=\"title\">Mes Infos</h1>\n" +
-    "          <button class=\"button\" ng-click=\"closeUserModal()\">Terminé</button>\n" +
+    "          <button class=\"button\" ng-click=\"updateUser()\">Terminé</button>\n" +
     "    </ion-header-bar>\n" +
     "    <ion-content>\n" +
     "\n" +
@@ -591,7 +549,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
     "          <input type=\"text\" ng-model=\"user.last_name\" name=\"last_name\" autocomplete=\"last_name\" placeholder=\"Nom\">\n" +
     "      </label>\n" +
     "      <label class=\"item item-input\">\n" +
-    "          <input type=\"number\" ng-model=\"user.phone\" name=\"phone\" autocomplete=\"phone\" placeholder=\"Téléphone\">\n" +
+    "          <input type=\"text\" ng-model=\"user.phone\" name=\"phone\" autocomplete=\"phone\" placeholder=\"Téléphone\">\n" +
     "      </label>\n" +
     "\n" +
     "      <label class=\"item item-input item-select\">\n" +
@@ -611,9 +569,9 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
     "\n" +
     "\n" +
     "    <div class=\"padding centered\">\n" +
-    "      <button class=\"button button-less\" ng-show=\"!form_show\" ng-click=\"form_show = true\">Ajouter une adresse</button>\n" +
+    "      <button class=\"button button-less\" ng-show=\"!form.show\" ng-click=\"form.show = true\">Ajouter une adresse</button>\n" +
     "    </div>\n" +
-    "    <form name=\"form_address\" class=\"list card\" ng-show=\"form_show\">\n" +
+    "    <form name=\"form_address\" class=\"list card\" ng-show=\"form.show\">\n" +
     "\n" +
     "      <label class=\"item item-input\">\n" +
     "          <input type=\"text\" ng-model=\"address_suppl.data.company\" name=\"company\" autocomplete=\"company\" placeholder=\"Société\">\n" +
@@ -629,6 +587,12 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
     "      </label>\n" +
     "      <label class=\"item item-input\">\n" +
     "          <input type=\"text\" ng-model=\"address_suppl.data.country\" name=\"country\" autocomplete=\"country\" placeholder=\"Pays *\" required>\n" +
+    "      </label>\n" +
+    "      <label class=\"item item-input\">\n" +
+    "          <input type=\"text\" ng-model=\"address_suppl.data.intercom\" name=\"intercom\" autocomplete=\"intercom\" placeholder=\"Interphone\">\n" +
+    "      </label>\n" +
+    "      <label class=\"item item-input\">\n" +
+    "          <input type=\"text\" ng-model=\"address_suppl.data.digicode\" name=\"digicode\" autocomplete=\"digicode\" placeholder=\"Code\">\n" +
     "      </label>\n" +
     "      <label class=\"item item-input\">\n" +
     "          <textarea type=\"text\" ng-model=\"address_suppl.data.other_info\" name=\"other_info\" autocomplete=\"other_info\" placeholder=\"Infos Suppl. (Code, Escalier ..)\"></textarea>\n" +
@@ -657,7 +621,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
 angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/ratedwine/ratedwine.tpl.html",
     "<ion-view title=\"Déguster\">\n" +
-    "  <ion-content>\n" +
+    "  <ion-content has-bouncing=\"false\">\n" +
     "  <div class=\"wine-header\">\n" +
     "    <div class=\"row row-center\">\n" +
     "        <div class=\"col centered\">\n" +
@@ -693,7 +657,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "            </div>\n" +
     "            <div class=\"col centered\">\n" +
     "            <!-- TODO BUY WINE -->\n" +
-    "              <a class=\"button button-outline-primary\">\n" +
+    "            <a class=\"button button-outline-primary\" href=\"mailto:charlotte@vinify.co?subject=Commande%20de%20{{bottle.wine.display_name}}&body=Bonjour%2C%0AJe%20voudrais%20effectuer%20une%20commande%20de%20vin.%0A%0AR%C3%A9f%C3%A9rence%3A%20{{bottle.wine.display_name}},%20{{bottle.wine.region}},%20{{bottle.wine.vintage}}%0ANombre%20de%20bouteilles:%20(par%20trois)%3A%20%5BX%5D%0A%0AMerci%20de%20m'indiquer%20la%20disponibilit%C3%A9%20et%20de%20confirmer%20le%20prix%20de%20{{bottle.wine.public_price}}%20euros.%0A%0ACordialement%2C%0A\">\n" +
     "                Commander\n" +
     "              </a>\n" +
     "            </div>\n" +
@@ -706,8 +670,69 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "        <h4>Note</h4>\n" +
     "\n" +
     "       <ul class=\"rating\">\n" +
-    "         <li ng-repeat=\"i in star.full track by $index\"><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "         <li ng-repeat=\"i in star.outline track by $index\"><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        <ul ng-show=\"bottle.rating == '1' \" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '2'\" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '3'\" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '4'\" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "        </ul>\n" +
+    "        <ul ng-show=\"bottle.rating == '5'\" class=\"rating\">\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "        </ul>\n" +
     "       </ul>\n" +
     "\n" +
     "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
@@ -807,7 +832,10 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "					<h3>{{bottle.wine.display_name}}</h3>\n" +
     "					<p class=\"vinitext\">\n" +
     "							{{bottle.wine.region}}\n" +
-    "							<span class=\"item-note\"><i ng-repeat=\"i in getNumber(bottle.rating) track by $index\" class=\"icon ion-ios7-star full-star\"></i></span>\n" +
+    "							<span class=\"item-note\">\n" +
+    "								<i ng-repeat=\"i in getNumber(bottle.rating) track by $index\" class=\"icon ion-ios7-star full-star\"></i>\n" +
+    "								<i ng-hide=\"isInteger(bottle.rating)\" class=\"icon ion-ios7-star-half full-star\"></i>\n" +
+    "							</span>\n" +
     "							<br>\n" +
     "							{{bottle.wine.appellation}}\n" +
     "					</p>\n" +
@@ -835,7 +863,7 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
     "          <button class=\"button\" ng-click=\"closeGroupModal()\">Close</button>\n" +
     "      <h1 class=\"title\">Noter mon Vin</h1>\n" +
     "    </ion-header-bar>\n" +
-    "    <ion-content>\n" +
+    "    <ion-content  has-bouncing=\"false\">\n" +
     "\n" +
     "  <div class=\"wine-header\">\n" +
     "    <div class=\"row row-center\">\n" +
@@ -869,7 +897,74 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
     "      <form class=\"rating-form\">\n" +
     "        <h4>Note</h4>\n" +
     "        <p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
-    "        <rating ng-model=\"rating.data.rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
+    "        <div class=\"icon-rating centered\">\n" +
+    "            <ul ng-show=\"rating.data.rating == '1' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '1.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '2'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '2.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '3'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '3.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '4'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '4.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"rating.data.rating == '5'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "            </ul>\n" +
+    "          </div>\n" +
+    "          <div class=\"range-container\">\n" +
+    "                <input ng-model=\"rating.data.rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
+    "          </div>\n" +
     "\n" +
     "\n" +
     "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
@@ -881,56 +976,95 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
     "\n" +
     "      </form>\n" +
     "    </div>\n" +
-    "\n" +
-    "    <div class=\"wine-content item item-body\">\n" +
-    "      <form class=\"rating-form-group\">\n" +
-    "        <h2>Invité 1</h2>\n" +
-    "        <input type=\"email\" ng-model=\"groupRating.data.ratings[0].email\" placeholder=\"Email\">\n" +
-    "        <h4>Note</h4>\n" +
-    "        <rating ng-model=\"groupRating.data.ratings[0].rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
-    "\n" +
-    "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <input type=\"text\" ng-name=\"commentaire\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"groupRating.data.ratings[0].comment\">\n" +
-    "      </form>\n" +
+    "    <div class=\"card card-guests\">\n" +
+    "      <h4>Nombre d'invités</h4>\n" +
+    "        <div class=\"button-bar\">\n" +
+    "          <a ng-class=\"{highlighted: invite.value.length == 1}\" ng-click=\"updateInviteValue(1)\" class=\"button\">1</a>\n" +
+    "          <a ng-class=\"{highlighted: invite.value.length == 2}\" ng-click=\"updateInviteValue(2)\" class=\"button\">2</a>\n" +
+    "          <a ng-class=\"{highlighted: invite.value.length == 3}\" ng-click=\"updateInviteValue(3)\" class=\"button\">3</a>\n" +
+    "          <a ng-class=\"{highlighted: invite.value.length == 4}\" ng-click=\"updateInviteValue(4)\" class=\"button\">4</a>\n" +
+    "          <a ng-class=\"{highlighted: invite.value.length == 5}\" ng-click=\"updateInviteValue(5)\" class=\"button\">5</a>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "\n" +
-    "    <div class=\"wine-content item item-body\">\n" +
+    "    <div ng-repeat=\"i in invite.value track by $index\" class=\"wine-content item item-body\">\n" +
     "      <form class=\"rating-form-group\">\n" +
-    "        <h2>Invité 2</h2>\n" +
-    "        <input type=\"email\" ng-model=\"groupRating.data.ratings[1].email\" placeholder=\"Email\">\n" +
+    "        <h2>Invité {{$index +1}}</h2>\n" +
+    "        <input type=\"email\" ng-model=\"groupRating.data.ratings[$index].email\" placeholder=\"Email\">\n" +
     "        <h4>Note</h4>\n" +
-    "        <rating ng-model=\"groupRating.data.ratings[1].rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
+    "        <div class=\"icon-rating centered\">\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '1' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '1.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '2'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '2.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '3'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '3.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '4'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '4.5' \" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "            </ul>\n" +
+    "            <ul ng-show=\"groupRating.data.ratings[$index].rating == '5'\" class=\"rating\">\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "            </ul>\n" +
+    "          </div>\n" +
+    "          <div class=\"range-container\">\n" +
+    "                <input ng-model=\"groupRating.data.ratings[$index].rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
+    "          </div>\n" +
     "\n" +
     "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <input type=\"text\" ng-name=\"commentaire\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"groupRating.data.ratings[1].comment\">\n" +
+    "        <input type=\"text\" ng-name=\"commentaire\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"groupRating.data.ratings[$index].comment\">\n" +
     "      </form>\n" +
     "    </div>\n" +
-    "\n" +
-    "    <div class=\"wine-content item item-body\">\n" +
-    "      <form class=\"rating-form-group\">\n" +
-    "        <h2>Invité 3</h2>\n" +
-    "        <input type=\"email\" ng-model=\"groupRating.data.ratings[2].email\" placeholder=\"Email\">\n" +
-    "        <h4>Note</h4>\n" +
-    "        <rating ng-model=\"groupRating.data.ratings[2].rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
-    "\n" +
-    "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <input type=\"text\" ng-name=\"commentaire\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"groupRating.data.ratings[2].comment\">\n" +
-    "      </form>\n" +
-    "    </div>\n" +
-    "\n" +
-    "        <div class=\"wine-content item item-body\">\n" +
-    "      <form class=\"rating-form-group\">\n" +
-    "        <h2>Invité 4</h2>\n" +
-    "        <input type=\"email\" ng-model=\"groupRating.data.ratings[3].email\" placeholder=\"Email\">\n" +
-    "        <h4>Note</h4>\n" +
-    "        <rating ng-model=\"groupRating.data.ratings[3].rating\" isReadonly=\"false\" max=\"5\"></rating>\n" +
-    "\n" +
-    "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <input type=\"text\" ng-name=\"commentaire\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"groupRating.data.ratings[3].comment\">\n" +
-    "      </form>\n" +
-    "    </div>\n" +
-    "\n" +
-    "      <button class=\"button button-less\" ng-click=\"addGuest()\">Ajouter un invité</button>\n" +
     "\n" +
     "\n" +
     "      <button class=\"button bar-footer-button\" ng-click=\"rateWines()\"><h4>Noter</h4></button>\n" +
@@ -946,7 +1080,7 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "			<button class=\"button\" ng-click=\"closeModal()\">Annuler</button>\n" +
     "		<h1 class=\"title\">Noter mon Vin</h1>\n" +
     "	</ion-header-bar>\n" +
-    "	<ion-content>\n" +
+    "	<ion-content  has-bouncing=\"false\">\n" +
     "	<div class=\"wine-header\">\n" +
     "	<div class=\"row row-center\">\n" +
     "		<div class=\"col centered\">\n" +
@@ -977,75 +1111,67 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "\n" +
     "	<div class=\"wine-content padding\">\n" +
     "		<form class=\"rating-form\">\n" +
-    "		<h4>Note</h4>\n" +
-    "		<pre>{{rateStars.value}}</pre>\n" +
+    "		<h4>Note <span class=\"item-note\">glissez jusqu'à votre note</span></h4>\n" +
     "		<p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
-    "		<!-- <rating ng-model=\"rating.data.rating\" isReadonly=\"false\" max=\"5\"></rating> -->\n" +
-    "\n" +
     "\n" +
     "		<div class=\"icon-rating centered\">\n" +
-    "	<!-- 		       <ul class=\"rating\">\n" +
-    "			         <li ng-repeat=\"i in star.full track by $index\"><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "			         <li ng-show=\"showHalf\"><i class=\"icon icon-rating ion-ios7-star-half\"></i></li>\n" +
-    "			         <li ng-repeat=\"i in star.outline track by $index\"><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "			       </ul> -->\n" +
-    "				<ul ng-show=\"rateStars.value == '1' \" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '1' \" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '1.5' \" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '1.5' \" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '2'\" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '2'\" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '2.5' \" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '2.5' \" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '3'\" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '3'\" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '3.5' \" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '3.5' \" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '4'\" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '4'\" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '4.5' \" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '4.5' \" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "				</ul>\n" +
-    "				<ul ng-show=\"rateStars.value == '5'\" class=\"rating\">\n" +
+    "				<ul ng-show=\"rating.data.rating == '5'\" class=\"rating\">\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
@@ -1054,7 +1180,7 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "				</ul>\n" +
     "			</div>\n" +
     "			<div class=\"range-container\">\n" +
-    "		    		<input ng-model=\"rateStars.value\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
+    "		    		<input ng-model=\"rating.data.rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
     "			</div>\n" +
     "\n" +
     "\n" +
@@ -1077,7 +1203,7 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
 angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/wine/wine.tpl.html",
     "<ion-view title=\"Déguster\">\n" +
-    "  <ion-content>\n" +
+    "  <ion-content has-bouncing=\"false\">\n" +
     "    <div class=\"wine-header\">\n" +
     "      <div class=\"row row-center\">\n" +
     "          <div class=\"col centered\">\n" +
@@ -1107,23 +1233,22 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "    </div>\n" +
     "\n" +
     "    <div class=\"wine-content padding\">\n" +
+    "        <div class=\"row row-buttons\">\n" +
+    "              <div class=\"col\">\n" +
+    "                <a class=\"button button-outline-primary\" ng-click=\"openModal()\">\n" +
+    "                  Noter ce vin\n" +
+    "                </a>\n" +
+    "              </div>\n" +
+    "              <div class=\"col\">\n" +
+    "                <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
+    "                  Noter à plusieurs\n" +
+    "                </a>\n" +
+    "              </div>\n" +
+    "        </div>\n" +
     "\n" +
     "          <h4>Description</h4>\n" +
     "\n" +
     "          <p ng-bind-html=\"bottle.wine.description\" class=\"justified\"><p>\n" +
-    "\n" +
-    "          <div class=\"row row-buttons\">\n" +
-    "                <div class=\"col\">\n" +
-    "                  <a class=\"button button-outline-primary\" ng-click=\"openModal()\">\n" +
-    "                    Noter ce vin\n" +
-    "                  </a>\n" +
-    "                </div>\n" +
-    "                <div class=\"col\">\n" +
-    "                  <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
-    "                    Noter à plusieurs\n" +
-    "                  </a>\n" +
-    "                </div>\n" +
-    "          </div>\n" +
     "\n" +
     "        <h4>Service</h4>\n" +
     "        <div class=\"row row-center\">\n" +

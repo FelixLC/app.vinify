@@ -1,5 +1,5 @@
 <ion-view title="Mode de Livraison">
-	<ion-content class="has-footer">
+	<ion-content class="has-footer" has-bouncing="false">
 		<!-- <div class="list radio-delivery"> -->
 			<label class="item item-radio">
 				<input type="radio" ng-model="order.data.delivery_mode" name="choice" value="Colissimo">
@@ -91,18 +91,23 @@
 				</div>
 				<i class="radio-icon ion-checkmark"></i>
 			</label>
-
-			<div ng-style="calcHeight" class="item centered">
-			<div class="row row-center">
-				<div class="col">
-						<h4>Adresse de Livraison</h4>
-						<p>{{user.delivery_address.street}}
-						<br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>
-				</div>
-				<div class="col">
-							<button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
-				</div>
+			<div class="item item-input-inset input-coupon">
+				<h2>Coupon</h2>
+				<label class="item-input-wrapper">
+					<input type="text" placeholder="Coupon de Reduction" ng-model="order.data.coupon" ng-blur="onBlur()">
+				</label>
 			</div>
+			<div class="item centered item-delivery-address">
+				<div class="row row-center">
+					<div class="col">
+							<h4>Adresse de Livraison</h4>
+							<p>{{user.delivery_address.street}}
+							<br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>
+					</div>
+					<div class="col">
+								<button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
+					</div>
+				</div>
 			</div>
 
 		<!-- </div> -->

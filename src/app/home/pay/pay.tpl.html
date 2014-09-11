@@ -1,5 +1,5 @@
 <ion-view title="Commander">
- <ion-content>
+ <ion-content has-bouncing="false">
    <div ng-style="calcHeight" class="pay-header">
        <h3 class="centered">Récapitulatif de ma commande</h3>
    </div>
@@ -23,8 +23,17 @@
             <p>{{displayPrice(serializedOrder.delivery_cost)}} €</p>
          </div>
      </div>
+       <div class="row row-center" ng-show="serializedOrder.coupon">
+         <div class="col">
+           <h3>Réduction :</h3>
+         </div>
+         <div class="col">
+            <h3>{{serializedOrder.coupon.value}} €</h3>
+         </div>
+     </div>
        <div class="row row-center">
          <div class="col">
+           <h3>Total : </h3>
          </div>
          <div class="col">
             <h3>{{displayPrice(serializedOrder.final_price)}} €</h3>
