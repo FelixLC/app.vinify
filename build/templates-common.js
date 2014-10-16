@@ -11,6 +11,10 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "              <p class=\"padding p-white\" ng-show=\"authError\">\n" +
     "                {{authError}}\n" +
     "              </p>\n" +
+    "              <p class=\"padding p-white\">\n" +
+    "                L'appli Vinify évolue !, pour vous logguer <br><a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" >cliquez ici</a> et réinitialisez votre mot de passe.\n" +
+    "              </p>\n" +
+    "              <!-- TODO SUPPR -->\n" +
     "        <div class=\"list card\">\n" +
     "            <label for=\"email\" class=\"item item-input\">\n" +
     "              <!-- <span class=\"input-label\">Email</span> -->\n" +
@@ -27,10 +31,10 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "        </div>\n" +
     "\n" +
     "        <div>\n" +
-    "          <a href=\"https://api.vinify.co/api/users/password/reset\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
+    "          <a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
     "        </div>\n" +
     "        <div>\n" +
-    "          <a href=\"https://start.vinify.co\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
+    "          <a href=\"https://start.vinify.co\" target=\"_blank\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "  </ion-content>\n" +

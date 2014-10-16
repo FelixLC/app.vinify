@@ -11,7 +11,7 @@
               }
           });
      })
-      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, Loading) {
+      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -78,32 +78,50 @@
             };
 
             $scope.rateWine = function() {
-              // if (true) {
-                    Loading.show();
-                    $scope.rating.rateWine().then(function(data, status, headers, config) {
-                                                                            Loading.hide();
-                                                                            $scope.closeModal();
-                                                                            $state.go('sidemenu.vinibar');
-                                                                            $cordovaToast.show('Bien reçu !', 'short', 'top');
-                                                                      }, function(data, status, headers, config) {
-                                                                          Loading.hide();
-                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
-                                                                          }, function (error) {
-                                                                          // error
-                                                                          });
-                                                                            // TODO gracefully manage errors/successes
-                                                                             console.log(data);
-                                                                        });
+              if(ionic.Platform.isWebView()) { //if we use cordova
+                if ($cordovaNetwork.isOffline()) {//if we are offline
+                  // Store Rating and Fake it
+                    OfflineQueue.addRating($scope.rating);
+                    Bottles.fakeRating($scope.rating).then(function(response){
+                                    $scope.closeModal();
+                                    $state.go('sidemenu.vinibar');
+                                    $cordovaToast.show('Offline Rating ...', 'short', 'top');
+                    });
 
-              // } else {
-              //   // Store Rating and Fake it
-              //     OfflineQueue.addRating($scope.rating);
-              //     Bottles.fakeRating($scope.rating).then(function(response){
-              //                     $scope.closeModal();
-              //                     $state.go('sidemenu.vinibar');
-              //                     $cordovaToast.show('Offline Rating ...', 'short', 'top');
-              //     });
-              // }
+                } else {//if we are online
+                      Loading.show();
+                      $scope.rating.rateWine().then(function(data, status, headers, config) {
+                                                                              Loading.hide();
+                                                                              $scope.closeModal();
+                                                                              $state.go('sidemenu.vinibar');
+                                                                              $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                        }, function(data, status, headers, config) {
+                                                                            Loading.hide();
+                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                            }, function (error) {
+                                                                            // error
+                                                                            });
+                                                                              // TODO gracefully manage errors/successes
+                                                                               console.log(data);
+                                                                          });
+                }
+              } else { // if we are on the web app
+                      Loading.show();
+                      $scope.rating.rateWine().then(function(data, status, headers, config) {
+                                                                              Loading.hide();
+                                                                              $scope.closeModal();
+                                                                              $state.go('sidemenu.vinibar');
+                                                                              $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                        }, function(data, status, headers, config) {
+                                                                            Loading.hide();
+                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                            }, function (error) {
+                                                                            // error
+                                                                            });
+                                                                              // TODO gracefully manage errors/successes
+                                                                               console.log(data);
+                                                                          });
+              }
             };
 
             //Cleanup the modal when we're done with it!
@@ -149,25 +167,37 @@
             };
 
             $scope.rateWines = function() {
-              if (true) {
-                Loading.show();
-                  // Rate Wine then rate group wines
-                  $scope.groupRating.rateWines().then(function(){
-                    $scope.rating.rateWine().then(function(response){
-                          $scope.closeGroupModal();
-                          Loading.hide();
-                          $state.go('sidemenu.vinibar');
+              if(ionic.Platform.isWebView()) { //if we use cordova
+                if ($cordovaNetwork.isOffline()) {
+                  // Store Rating and Fake it
+                    OfflineQueue.addRating($scope.rating);
+                    OfflineQueue.addGroupRating($scope.groupRating);
+                    Bottles.fakeRating($scope.rating).then(function(response){
+                                    $scope.closeGroupModal();
+                                    $state.go('sidemenu.vinibar');
                     });
-                  });
-              } else {
-                // Store Rating and Fake it
-                  OfflineQueue.addRating($scope.rating);
-                  OfflineQueue.addGroupRating($scope.groupRating);
-                  Bottles.fakeRating($scope.rating).then(function(response){
-                                  $scope.closeGroupModal();
-                                  $state.go('sidemenu.vinibar');
-                  });
-              }
+                } else {
+                  Loading.show();
+                    // Rate Wine then rate group wines
+                    $scope.groupRating.rateWines().then(function(){
+                      $scope.rating.rateWine().then(function(response){
+                            $scope.closeGroupModal();
+                            Loading.hide();
+                            $state.go('sidemenu.vinibar');
+                      });
+                    });
+                }
+              } else { // if we are on the web app
+                  Loading.show();
+                    // Rate Wine then rate group wines
+                    $scope.groupRating.rateWines().then(function(){
+                      $scope.rating.rateWine().then(function(response){
+                            $scope.closeGroupModal();
+                            Loading.hide();
+                            $state.go('sidemenu.vinibar');
+                      });
+                    });
+                }
             };
 
             //Cleanup the modal when we're done with it!

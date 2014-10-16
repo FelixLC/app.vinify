@@ -7,6 +7,10 @@
               <p class="padding p-white" ng-show="authError">
                 {{authError}}
               </p>
+              <p class="padding p-white">
+                L'appli Vinify évolue !, pour vous logguer <br><a href="https://api.vinify.co/api/users/password/reset" target="_blank" >cliquez ici</a> et réinitialisez votre mot de passe.
+              </p>
+              <!-- TODO SUPPR -->
         <div class="list card">
             <label for="email" class="item item-input">
               <!-- <span class="input-label">Email</span> -->
@@ -23,10 +27,10 @@
         </div>
 
         <div>
-          <a href="https://api.vinify.co/api/users/password/reset" class="p-white">J'ai oublié mon mot de passe</a>
+          <a href="https://api.vinify.co/api/users/password/reset" target="_blank" class="p-white">J'ai oublié mon mot de passe</a>
         </div>
         <div>
-          <a href="https://start.vinify.co" class="p-white">Je n'ai pas de compte, commencer l'aventure</a>
+          <a href="https://start.vinify.co" target="_blank" class="p-white">Je n'ai pas de compte, commencer l'aventure</a>
         </div>
     </form>
   </ion-content>

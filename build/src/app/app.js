@@ -22,32 +22,31 @@ angular.module( 'app', [
 ])
 
 	.run(['security', '$window', '$rootScope', function(security, $window, $rootScope) {
-	// Get the current user state the application starts
-	// (in case they are still logged in from a previous session)
+		// Get the current user state the application starts
+		// (in case they are still logged in from a previous session)
 		security.requestCurrentUser();
-		$rootScope.online = $window.navigator.onLine;
-
-		$window.addEventListener("offline", function () {
-			$rootScope.$apply(function() {
-				$rootScope.online = false;
-			});
-		}, false);
-
-		$window.addEventListener("online", function () {
-			$rootScope.$apply(function() {
-				$rootScope.online = true;
-			});
-		}, false);
-
-		$rootScope.toggleOnline = function(){
-			$rootScope.isOnline = !$rootScope.isOnline;
+		var onNetworkOff = function() {
+			$rootScope.$broadcast('offline');
 		};
 
+		var onNetworkOn = function() {
+			$rootScope.$broadcast('online');
+		};
+
+		// Triggers on network state change.
+		var onDeviceReady = function(){
+			document.addEventListener("offline", onNetworkOff, false);
+			document.addEventListener("online", onNetworkOn, false);
+		};
+
+		document.addEventListener("deviceready", onDeviceReady, false);
+
+
 }])
 
-.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
-}])
+})
 
 .config(['$httpProvider', function($httpProvider) {
 				delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -56,35 +55,25 @@ angular.module( 'app', [
 		}
 ])
 
-.controller('AppCtrl', ["$scope", "$rootScope", "$ionicSideMenuDelegate", "$ionicModal", "$window", "OfflineQueue", "$ionicPlatform", "$ionicLoading", "$cordovaToast", "$cordovaNetwork", "$cordovaSplashscreen", "Bottles", function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
 
-	$scope.$watch('online', function(newValue, oldValue) {
-		if (newValue === true) {
-				console.log('Onliiiiiine');
-				OfflineQueue.sendRatings();
-				Bottles.updateList();
-				//if (ionic.Platform.isWebView()) {
-				//		$cordovaToast.show('Mise à jour de la liste des  vins ...', 'short', 'top').then(function(success) {
-				//		}, function (error) {
-				//			//error
-				//		});
-				//}
-		}
-
-		if (newValue === false) {
-				console.log('Offfliiiiiine');
-				// $cordovaToast.show('Offline ...', 'short', 'top').then(function(success) {
-				// }, function (error) {
-				//   // error
-				// });
-		}
+	// Catches online event and fires Offline Queue
+	$rootScope.$on('online',function(event){
+		$cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
+		OfflineQueue.sendRatings().then(function(response){
+			console.log(response);
+			Bottles.updateList().then(function(response){
+				$cordovaToast.show('Terminé ...', 'short', 'top');
+			},function(response){
+				//error
+			});
+		});
 	});
 
-
-		$scope.windowSize = {
-			'height': ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
-			'width': $window.innerWidth
-		};
+	$scope.windowSize = {
+		'height': ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
+		'width': $window.innerWidth
+	};
 
 	$ionicPlatform.ready(function(){
 		if(ionic.Platform.isWebView()) {$cordovaSplashscreen.hide();}
@@ -167,4 +156,4 @@ var height = $window.innerHeight;
 		$scope.oops.hide();
 	};
 
-}]);
+});

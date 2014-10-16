@@ -1,5 +1,5 @@
   angular.module( 'app.order', ['Order'])
-      .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+      .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.order', {
               url: "/order",
@@ -10,9 +10,9 @@
                 }
               }
           });
-     }])
+     })
 
-      .controller( 'orderCtrl', ["$scope", "$http", "$state", "Order", "orderInstance", "SerializedOrder", "$window", function orderCtrl( $scope, $http, $state, Order, orderInstance, SerializedOrder, $window ) {
+      .controller( 'orderCtrl', function orderCtrl( $scope, $http, $state, Order, orderInstance, SerializedOrder, $window ) {
 
         $scope.price = {
           valueA: 50,
@@ -46,4 +46,4 @@
           $state.go('sidemenu.deliverymode');
         };
 
-      }]);
+      });

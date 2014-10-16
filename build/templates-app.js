@@ -785,11 +785,11 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "                  Modifier\n" +
     "                </a>\n" +
     "              </div>\n" +
-    "              <div class=\"col\">\n" +
+    "<!--               <div class=\"col\">\n" +
     "                <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
     "                  Noter à plusieurs\n" +
     "                </a>\n" +
-    "              </div>\n" +
+    "              </div> -->\n" +
     "        </div>\n" +
     "</div>\n" +
     "\n" +

@@ -1,5 +1,5 @@
 /**
- * Vinify - v1.0.0 - 2014-09-11
+ * Vinify - v1.0.0 - 2014-10-16
  * http://vinify.co
  *
  * Copyright (c) 2014 Felix
@@ -2032,26 +2032,25 @@ angular.module( 'app', [
 ])
 
 	.run(['security', '$window', '$rootScope', function(security, $window, $rootScope) {
-	// Get the current user state the application starts
-	// (in case they are still logged in from a previous session)
+		// Get the current user state the application starts
+		// (in case they are still logged in from a previous session)
 		security.requestCurrentUser();
-		$rootScope.online = $window.navigator.onLine;
-
-		$window.addEventListener("offline", function () {
-			$rootScope.$apply(function() {
-				$rootScope.online = false;
-			});
-		}, false);
-
-		$window.addEventListener("online", function () {
-			$rootScope.$apply(function() {
-				$rootScope.online = true;
-			});
-		}, false);
-
-		$rootScope.toggleOnline = function(){
-			$rootScope.isOnline = !$rootScope.isOnline;
+		var onNetworkOff = function() {
+			$rootScope.$broadcast('offline');
 		};
+
+		var onNetworkOn = function() {
+			$rootScope.$broadcast('online');
+		};
+
+		// Triggers on network state change.
+		var onDeviceReady = function(){
+			document.addEventListener("offline", onNetworkOff, false);
+			document.addEventListener("online", onNetworkOn, false);
+		};
+
+		document.addEventListener("deviceready", onDeviceReady, false);
+
 
 }])
 
@@ -2068,33 +2067,23 @@ angular.module( 'app', [
 
 .controller('AppCtrl', ["$scope", "$rootScope", "$ionicSideMenuDelegate", "$ionicModal", "$window", "OfflineQueue", "$ionicPlatform", "$ionicLoading", "$cordovaToast", "$cordovaNetwork", "$cordovaSplashscreen", "Bottles", function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
 
-	$scope.$watch('online', function(newValue, oldValue) {
-		if (newValue === true) {
-				console.log('Onliiiiiine');
-				OfflineQueue.sendRatings();
-				Bottles.updateList();
-				//if (ionic.Platform.isWebView()) {
-				//		$cordovaToast.show('Mise à jour de la liste des  vins ...', 'short', 'top').then(function(success) {
-				//		}, function (error) {
-				//			//error
-				//		});
-				//}
-		}
-
-		if (newValue === false) {
-				console.log('Offfliiiiiine');
-				// $cordovaToast.show('Offline ...', 'short', 'top').then(function(success) {
-				// }, function (error) {
-				//   // error
-				// });
-		}
+	// Catches online event and fires Offline Queue
+	$rootScope.$on('online',function(event){
+		$cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
+		OfflineQueue.sendRatings().then(function(response){
+			console.log(response);
+			Bottles.updateList().then(function(response){
+				$cordovaToast.show('Terminé ...', 'short', 'top');
+			},function(response){
+				//error
+			});
+		});
 	});
 
-
-		$scope.windowSize = {
-			'height': ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
-			'width': $window.innerWidth
-		};
+	$scope.windowSize = {
+		'height': ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
+		'width': $window.innerWidth
+	};
 
 	$ionicPlatform.ready(function(){
 		if(ionic.Platform.isWebView()) {$cordovaSplashscreen.hide();}
@@ -2733,7 +2722,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               }
           });
      }])
-      .controller( 'ratedwineCtrl', ["$scope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "$cordovaSocialSharing", "$ionicPlatform", function ratedwineCtrl( $scope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating,  $cordovaSocialSharing, $ionicPlatform) {
+      .controller( 'ratedwineCtrl', ["$scope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "$cordovaSocialSharing", "$ionicPlatform", "$cordovaToast", function ratedwineCtrl( $scope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating,  $cordovaSocialSharing, $ionicPlatform, $cordovaToast) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -2818,13 +2807,48 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             };
 
             $scope.rateWine = function() {
-                $scope.rating.updateWine().then(function(response){
-                                $scope.closeModal();
-                                console.log(response);
-                                $state.go('sidemenu.vinibar');
-                });
+              if(ionic.Platform.isWebView()) { //if we use cordova
+                if ($cordovaNetwork.isOffline()) {//if we are offline
+                  $cordovaToast.show('Vous ne pouvez pas modifier votre note quand vous n\'êtes pas connecté :(', 'short', 'top');
+                } else {
+                  $scope.rating.updateWine().then(function(response){
+                                  $scope.closeModal();
+                                  console.log(response);
+                                  $state.go('sidemenu.vinibar');
+                  });
+                }
+              } else {
+                  $scope.rating.updateWine().then(function(response){
+                                  $scope.closeModal();
+                                  console.log(response);
+                                  $state.go('sidemenu.vinibar');
+                  });
+              }
             };
+              // if ($cordovaNetwork.isOffline()) {
+              //   // Store Rating and Fake it
+              //     OfflineQueue.addUpdateRating($scope.rating);
+              //     Bottles.fakeRating($scope.rating).then(function(response){
+              //                     $scope.closeModal();
+              //                     $state.go('sidemenu.vinibar');
+              //                     $cordovaToast.show('Offline Rating ...', 'short', 'top');
+              //     });
 
+              // } else {
+              //       Loading.show();
+              //       $scope.rating.updateWine()
+              //         .then(function(data, status, headers, config) {
+              //               Loading.hide();
+              //               $scope.closeModal();
+              //               $state.go('sidemenu.vinibar');
+              //               $cordovaToast.show('Bien reçu !', 'short', 'top');
+              //         }, function(data, status, headers, config) {
+              //             Loading.hide();
+              //             $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top');
+              //               // TODO gracefully manage errors/successes
+              //                console.log(data);
+              //       });
+              // }
             //Cleanup the modal when we're done with it!
             $scope.$on('$destroy', function() {
               $scope.modal.remove();
@@ -2864,12 +2888,25 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             };
 
             $scope.rateWines = function() {
-              // Rate wine then rate group wines
-              $scope.groupRating.rateWines().then(function(){
-                $scope.rating.updateWine().then(function(){
-                      $scope.closeGroupModal();
-                });
-              });
+              if ($cordovaNetwork.isOffline()) {
+                // Store Rating and Fake it
+                  OfflineQueue.addRating($scope.rating);
+                  OfflineQueue.addGroupRating($scope.groupRating);
+                  Bottles.fakeRating($scope.rating).then(function(response){
+                                  $scope.closeGroupModal();
+                                  $state.go('sidemenu.vinibar');
+                  });
+              } else {
+                Loading.show();
+                  // Rate Wine then rate group wines
+                  $scope.groupRating.rateWines().then(function(){
+                    $scope.rating.rateWine().then(function(response){
+                          $scope.closeGroupModal();
+                          Loading.hide();
+                          $state.go('sidemenu.vinibar');
+                    });
+                  });
+              }
             };
 
             //Cleanup the modal when we're done with it!
@@ -2885,7 +2922,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               // Execute action
             });
         }]);
-  angular.module( 'app.vinibar', ['ngResource', 'User'])
+  angular.module( 'app.vinibar', ['ngResource', 'User', 'ngCordova'])
       .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.vinibar', {
@@ -2898,7 +2935,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               }
           });
      }])
-      .controller( 'vinibarCtrl', ["$scope", "$rootScope", "$http", "$location", "$resource", "User", "Bottles", "$stateParams", function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams ) {
+      .controller( 'vinibarCtrl', ["$scope", "$rootScope", "$http", "$location", "$resource", "User", "Bottles", "$stateParams", "$cordovaToast", function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast ) {
 
             $scope.getNumber = function(num) {
               var _num = Math.floor(num);
@@ -2957,7 +2994,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               }
           });
      }])
-      .controller( 'wineCtrl', ["$scope", "$rootScope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "OfflineQueue", "$ionicLoading", "$cordovaToast", "Loading", function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, Loading) {
+      .controller( 'wineCtrl', ["$scope", "$rootScope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "OfflineQueue", "$ionicLoading", "$cordovaToast", "$ionicPlatform", "$cordovaNetwork", "Loading", function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -3024,32 +3061,50 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             };
 
             $scope.rateWine = function() {
-              // if (true) {
-                    Loading.show();
-                    $scope.rating.rateWine().then(function(data, status, headers, config) {
-                                                                            Loading.hide();
-                                                                            $scope.closeModal();
-                                                                            $state.go('sidemenu.vinibar');
-                                                                            $cordovaToast.show('Bien reçu !', 'short', 'top');
-                                                                      }, function(data, status, headers, config) {
-                                                                          Loading.hide();
-                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
-                                                                          }, function (error) {
-                                                                          // error
-                                                                          });
-                                                                            // TODO gracefully manage errors/successes
-                                                                             console.log(data);
-                                                                        });
+              if(ionic.Platform.isWebView()) { //if we use cordova
+                if ($cordovaNetwork.isOffline()) {//if we are offline
+                  // Store Rating and Fake it
+                    OfflineQueue.addRating($scope.rating);
+                    Bottles.fakeRating($scope.rating).then(function(response){
+                                    $scope.closeModal();
+                                    $state.go('sidemenu.vinibar');
+                                    $cordovaToast.show('Offline Rating ...', 'short', 'top');
+                    });
 
-              // } else {
-              //   // Store Rating and Fake it
-              //     OfflineQueue.addRating($scope.rating);
-              //     Bottles.fakeRating($scope.rating).then(function(response){
-              //                     $scope.closeModal();
-              //                     $state.go('sidemenu.vinibar');
-              //                     $cordovaToast.show('Offline Rating ...', 'short', 'top');
-              //     });
-              // }
+                } else {//if we are online
+                      Loading.show();
+                      $scope.rating.rateWine().then(function(data, status, headers, config) {
+                                                                              Loading.hide();
+                                                                              $scope.closeModal();
+                                                                              $state.go('sidemenu.vinibar');
+                                                                              $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                        }, function(data, status, headers, config) {
+                                                                            Loading.hide();
+                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                            }, function (error) {
+                                                                            // error
+                                                                            });
+                                                                              // TODO gracefully manage errors/successes
+                                                                               console.log(data);
+                                                                          });
+                }
+              } else { // if we are on the web app
+                      Loading.show();
+                      $scope.rating.rateWine().then(function(data, status, headers, config) {
+                                                                              Loading.hide();
+                                                                              $scope.closeModal();
+                                                                              $state.go('sidemenu.vinibar');
+                                                                              $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                        }, function(data, status, headers, config) {
+                                                                            Loading.hide();
+                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                            }, function (error) {
+                                                                            // error
+                                                                            });
+                                                                              // TODO gracefully manage errors/successes
+                                                                               console.log(data);
+                                                                          });
+              }
             };
 
             //Cleanup the modal when we're done with it!
@@ -3095,25 +3150,37 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             };
 
             $scope.rateWines = function() {
-              if (true) {
-                Loading.show();
-                  // Rate Wine then rate group wines
-                  $scope.groupRating.rateWines().then(function(){
-                    $scope.rating.rateWine().then(function(response){
-                          $scope.closeGroupModal();
-                          Loading.hide();
-                          $state.go('sidemenu.vinibar');
+              if(ionic.Platform.isWebView()) { //if we use cordova
+                if ($cordovaNetwork.isOffline()) {
+                  // Store Rating and Fake it
+                    OfflineQueue.addRating($scope.rating);
+                    OfflineQueue.addGroupRating($scope.groupRating);
+                    Bottles.fakeRating($scope.rating).then(function(response){
+                                    $scope.closeGroupModal();
+                                    $state.go('sidemenu.vinibar');
                     });
-                  });
-              } else {
-                // Store Rating and Fake it
-                  OfflineQueue.addRating($scope.rating);
-                  OfflineQueue.addGroupRating($scope.groupRating);
-                  Bottles.fakeRating($scope.rating).then(function(response){
-                                  $scope.closeGroupModal();
-                                  $state.go('sidemenu.vinibar');
-                  });
-              }
+                } else {
+                  Loading.show();
+                    // Rate Wine then rate group wines
+                    $scope.groupRating.rateWines().then(function(){
+                      $scope.rating.rateWine().then(function(response){
+                            $scope.closeGroupModal();
+                            Loading.hide();
+                            $state.go('sidemenu.vinibar');
+                      });
+                    });
+                }
+              } else { // if we are on the web app
+                  Loading.show();
+                    // Rate Wine then rate group wines
+                    $scope.groupRating.rateWines().then(function(){
+                      $scope.rating.rateWine().then(function(response){
+                            $scope.closeGroupModal();
+                            Loading.hide();
+                            $state.go('sidemenu.vinibar');
+                      });
+                    });
+                }
             };
 
             //Cleanup the modal when we're done with it!
@@ -3530,19 +3597,40 @@ angular.module('Loading', ['ionic'])
     };
 }]);
 angular.module('Offline', ['LocalStorageModule'])
-.factory('OfflineQueue', ["localStorageService", function(localStorageService) {
+.factory('OfflineQueue', ["localStorageService", "$q", function(localStorageService, $q) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var _ratingQueue =[];
+	var _updateRatingQueue =[];
 	var _groupRatingQueue =[];
+	var _rateAndDelete = function(i){
+		_ratingQueue[i].rateWine()
+			.success(function(response){
+				_ratingQueue.splice(i,1);
+			});
+	};
+	var _updateRatingAndDelete = function(i){
+		_updateRatingQueue[i].updateWine()
+			.success(function(response){
+				_updateRatingQueue.splice(i,1);
+			});
+	};
+	var _groupRateAndDelete = function(i){
+		_groupRatingQueue[j].rateWines()
+			.success(function(response){
+				_groupRatingQueue.splice(i,1);
+			});
+	};
 
 	return {
 		getRatings : function() {
 			_ratingQueue = localStorageService.get('ratings');
+			_updateRatingQueue = localStorageService.get('updateRatings');
 			_groupRatingQueue = localStorageService.get('groupRatings');
 			return {
 				'ratings': _ratingQueue,
+				'updateRatings': _updateRatingQueue,
 				'groupRatings': _groupRatingQueue
 			};
 		},
@@ -3553,6 +3641,13 @@ angular.module('Offline', ['LocalStorageModule'])
 			console.log(localStorageService.get('ratings'));
 			return localStorageService.get('ratings');
 		},
+		addUpdateRating : function(rating) {
+			_updateRatingQueue.push(rating);
+			localStorageService.set('updateRatings', _updateRatingQueue);
+			console.log('added updateRating to local storage');
+			console.log(localStorageService.get('updateRatings'));
+			return localStorageService.get('updateRatings');
+		},
 		addGroupRating : function(groupRating) {
 			_groupRatingQueue.push(groupRating);
 			localStorageService.set('groupRatings', _groupRatingQueue);
@@ -3561,21 +3656,48 @@ angular.module('Offline', ['LocalStorageModule'])
 			return localStorageService.get('groupRatings');
 		},
 		sendRatings : function() {
-			// TODO MANAGE ERRORS
-			if (_ratingQueue.length) {
+			// Creates two promises that will tell if all is in order
+			var rating = $q.defer();
+			var groupRating = $q.defer();
+			var updateRating = $q.defer();
+
+			if (_ratingQueue.length) { // we have ratings to send
 				for (var i = _ratingQueue.length - 1; i >= 0; i--) {
-						_ratingQueue[i].rateWine();
+					_rateAndDelete(i); // rate a wine and delete it from the array
+					console.log(i);
 				}
+				console.log(_ratingQueue);
 				localStorageService.remove('ratings');
 				console.log('sent Ratings');
-			} else { console.log('no ratings to send');}
-			if (_groupRatingQueue.length) {
+				rating.resolve('RatingsSent');
+
+			} else { // we have no ratings to send
+				console.log('no ratings to send');
+				rating.resolve('NoRatingsToSend');
+			}
+			if (_groupRatingQueue.length) {// we have groupRatings to send
 				for (var j = _groupRatingQueue.length - 1; j >= 0; j--) {
-						_groupRatingQueue[j].rateWines();
+						_groupRateAndDelete(j); // rate a wine and delete it from the array
 				}
 				localStorageService.remove('groupRatings');
 				console.log('sent groupRatings');
-			} else { console.log('no GroupRatings to send');}
+				rating.resolve('GroupRatingsSent');
+			} else {// we have no ratings to send
+				console.log('no GroupRatings to send');
+				rating.resolve('NoGroupRatingsToSend');
+			}
+			if (_updateRatingQueue.length) {// we have updates to send
+				for (var k = _updateRatingQueue.length - 1; k >= 0; k--) {
+						_updateRatingAndDelete(k); // rate a wine and delete it from the array
+				}
+				localStorageService.remove('updateRatings');
+				console.log('sent updateRatings');
+				updateRating.resolve('updateRatingsSent');
+			} else {// we have no updateRatings to send
+				console.log('no updateRatings to send');
+				updateRating.resolve('NoUpdateRatingsToSend');
+			}
+			return $q.all([rating.promise, groupRating.promise, updateRating.promise]);
 		}
 	};
 }])
@@ -5155,11 +5277,11 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "                  Modifier\n" +
     "                </a>\n" +
     "              </div>\n" +
-    "              <div class=\"col\">\n" +
+    "<!--               <div class=\"col\">\n" +
     "                <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
     "                  Noter à plusieurs\n" +
     "                </a>\n" +
-    "              </div>\n" +
+    "              </div> -->\n" +
     "        </div>\n" +
     "</div>\n" +
     "\n" +
@@ -5678,6 +5800,10 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "              <p class=\"padding p-white\" ng-show=\"authError\">\n" +
     "                {{authError}}\n" +
     "              </p>\n" +
+    "              <p class=\"padding p-white\">\n" +
+    "                L'appli Vinify évolue !, pour vous logguer <br><a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" >cliquez ici</a> et réinitialisez votre mot de passe.\n" +
+    "              </p>\n" +
+    "              <!-- TODO SUPPR -->\n" +
     "        <div class=\"list card\">\n" +
     "            <label for=\"email\" class=\"item item-input\">\n" +
     "              <!-- <span class=\"input-label\">Email</span> -->\n" +
@@ -5694,10 +5820,10 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "        </div>\n" +
     "\n" +
     "        <div>\n" +
-    "          <a href=\"https://api.vinify.co/api/users/password/reset\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
+    "          <a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
     "        </div>\n" +
     "        <div>\n" +
-    "          <a href=\"https://start.vinify.co\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
+    "          <a href=\"https://start.vinify.co\" target=\"_blank\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "  </ion-content>\n" +

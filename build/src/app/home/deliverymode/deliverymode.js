@@ -1,5 +1,5 @@
 angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
-.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('sidemenu.deliverymode', {
 			url: "/deliverymode",
@@ -10,9 +10,9 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 				}
 			}
 	});
-}])
+})
 
-.controller( 'deliverymodeCtrl', ["$scope", "$http", "$state", "orderInstance", "SerializedOrder", "$window", "User", "Addresses", "Address", "$ionicModal", "$ionicLoading", "Loading", "$cordovaToast", function deliverymodeCtrl( $scope, $http, $state, orderInstance, SerializedOrder, $window, User, Addresses, Address, $ionicModal, $ionicLoading, Loading, $cordovaToast ) {
+.controller( 'deliverymodeCtrl', function deliverymodeCtrl( $scope, $http, $state, orderInstance, SerializedOrder, $window, User, Addresses, Address, $ionicModal, $ionicLoading, Loading, $cordovaToast ) {
 	$scope.order = orderInstance;
 	$scope.user = User.getUser();
 	var apiEndPoint =  'https://api.vinify.co/api';
@@ -169,4 +169,4 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
           }
         };
 
-}]);
+});

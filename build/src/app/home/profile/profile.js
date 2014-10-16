@@ -1,5 +1,5 @@
   angular.module( 'app.profile', ['User', 'Referrals', 'Loading', 'ngCordova'])
-      .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+      .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.profile', {
               url: "/profile",
@@ -10,9 +10,9 @@
                 }
               }
           });
-     }])
+     })
 
-      .controller( 'profileCtrl', ["$scope", "$http", "$location", "User", "$ionicModal", "$ionicLoading", "Referrals", "Referral", "Addresses", "Address", "Loading", "$cordovaToast", function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast) {
+      .controller( 'profileCtrl', function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast) {
         $scope.user = User.getUser();
         $scope.form = {show: false};
         console.log(User);
@@ -136,4 +136,4 @@
                                                           });
           }
         };
-      }]);
+      });

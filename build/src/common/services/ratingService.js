@@ -1,6 +1,6 @@
 angular.module('Rating', ['ngResource', 'User'])
 
-.factory('Rating', ["$http", "Bottles", function($http, Bottles) {
+.factory('Rating', function($http, Bottles) {
      var apiEndPoint =  'https://api.vinify.co/api';
      var restApiEndPoint =  'https://api.vinify.co/restapi';
 
@@ -56,9 +56,9 @@ angular.module('Rating', ['ngResource', 'User'])
     };
 
     return Rating;
-}])
+})
 
-.factory('GroupRating', ["$http", "Bottles", "Rating", function($http, Bottles, Rating) {
+.factory('GroupRating', function($http, Bottles, Rating) {
      var apiEndPoint =  'https://api.vinify.co/api';
      var restApiEndPoint =  'https://api.vinify.co/restapi';
 
@@ -101,4 +101,4 @@ angular.module('Rating', ['ngResource', 'User'])
     };
 
     return GroupRating;
-}]);
+});

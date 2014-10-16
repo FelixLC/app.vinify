@@ -1,17 +1,38 @@
 angular.module('Offline', ['LocalStorageModule'])
-.factory('OfflineQueue', ["localStorageService", function(localStorageService) {
+.factory('OfflineQueue', function(localStorageService, $q) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
 	var _ratingQueue =[];
+	var _updateRatingQueue =[];
 	var _groupRatingQueue =[];
+	var _rateAndDelete = function(i){
+		_ratingQueue[i].rateWine()
+			.success(function(response){
+				_ratingQueue.splice(i,1);
+			});
+	};
+	var _updateRatingAndDelete = function(i){
+		_updateRatingQueue[i].updateWine()
+			.success(function(response){
+				_updateRatingQueue.splice(i,1);
+			});
+	};
+	var _groupRateAndDelete = function(i){
+		_groupRatingQueue[i].rateWines()
+			.success(function(response){
+				_groupRatingQueue.splice(i,1);
+			});
+	};
 
 	return {
 		getRatings : function() {
 			_ratingQueue = localStorageService.get('ratings');
+			_updateRatingQueue = localStorageService.get('updateRatings');
 			_groupRatingQueue = localStorageService.get('groupRatings');
 			return {
 				'ratings': _ratingQueue,
+				'updateRatings': _updateRatingQueue,
 				'groupRatings': _groupRatingQueue
 			};
 		},
@@ -22,6 +43,13 @@ angular.module('Offline', ['LocalStorageModule'])
 			console.log(localStorageService.get('ratings'));
 			return localStorageService.get('ratings');
 		},
+		addUpdateRating : function(rating) {
+			_updateRatingQueue.push(rating);
+			localStorageService.set('updateRatings', _updateRatingQueue);
+			console.log('added updateRating to local storage');
+			console.log(localStorageService.get('updateRatings'));
+			return localStorageService.get('updateRatings');
+		},
 		addGroupRating : function(groupRating) {
 			_groupRatingQueue.push(groupRating);
 			localStorageService.set('groupRatings', _groupRatingQueue);
@@ -30,26 +58,53 @@ angular.module('Offline', ['LocalStorageModule'])
 			return localStorageService.get('groupRatings');
 		},
 		sendRatings : function() {
-			// TODO MANAGE ERRORS
-			if (_ratingQueue.length) {
+			// Creates two promises that will tell if all is in order
+			var rating = $q.defer();
+			var groupRating = $q.defer();
+			var updateRating = $q.defer();
+
+			if (_ratingQueue.length) { // we have ratings to send
 				for (var i = _ratingQueue.length - 1; i >= 0; i--) {
-						_ratingQueue[i].rateWine();
+					_rateAndDelete(i); // rate a wine and delete it from the array
+					console.log(i);
 				}
+				console.log(_ratingQueue);
 				localStorageService.remove('ratings');
 				console.log('sent Ratings');
-			} else { console.log('no ratings to send');}
-			if (_groupRatingQueue.length) {
+				rating.resolve('RatingsSent');
+
+			} else { // we have no ratings to send
+				console.log('no ratings to send');
+				rating.resolve('NoRatingsToSend');
+			}
+			if (_groupRatingQueue.length) {// we have groupRatings to send
 				for (var j = _groupRatingQueue.length - 1; j >= 0; j--) {
-						_groupRatingQueue[j].rateWines();
+						_groupRateAndDelete(j); // rate a wine and delete it from the array
 				}
 				localStorageService.remove('groupRatings');
 				console.log('sent groupRatings');
-			} else { console.log('no GroupRatings to send');}
+				rating.resolve('GroupRatingsSent');
+			} else {// we have no ratings to send
+				console.log('no GroupRatings to send');
+				rating.resolve('NoGroupRatingsToSend');
+			}
+			if (_updateRatingQueue.length) {// we have updates to send
+				for (var k = _updateRatingQueue.length - 1; k >= 0; k--) {
+						_updateRatingAndDelete(k); // rate a wine and delete it from the array
+				}
+				localStorageService.remove('updateRatings');
+				console.log('sent updateRatings');
+				updateRating.resolve('updateRatingsSent');
+			} else {// we have no updateRatings to send
+				console.log('no updateRatings to send');
+				updateRating.resolve('NoUpdateRatingsToSend');
+			}
+			return $q.all([rating.promise, groupRating.promise, updateRating.promise]);
 		}
 	};
-}])
+})
 
-.factory('OfflineUser', ["localStorageService", function(localStorageService) {
+.factory('OfflineUser', function(localStorageService) {
 	// instantiate our initial object
 	var _user = null;
 
@@ -71,9 +126,9 @@ angular.module('Offline', ['LocalStorageModule'])
 			return _user;
 		}
 	};
-}])
+})
 
-.factory('OfflineWineData', ["localStorageService", function(localStorageService) {
+.factory('OfflineWineData', function(localStorageService) {
 
 	return {
 		getWines : function() {
@@ -88,9 +143,9 @@ angular.module('Offline', ['LocalStorageModule'])
 		}
 	};
 
-}])
+})
 
-.factory('OfflineReferralsData', ["localStorageService", function(localStorageService) {
+.factory('OfflineReferralsData', function(localStorageService) {
 
 	return {
 		getReferrals : function() {
@@ -103,4 +158,4 @@ angular.module('Offline', ['LocalStorageModule'])
 			return localStorageService.get('referrals');
 		}
 	};
-}]);
+});

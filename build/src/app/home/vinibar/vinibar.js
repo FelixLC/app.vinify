@@ -1,5 +1,5 @@
-  angular.module( 'app.vinibar', ['ngResource', 'User'])
-      .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+  angular.module( 'app.vinibar', ['ngResource', 'User', 'ngCordova'])
+      .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.vinibar', {
               url: "/vinibar?q",
@@ -10,8 +10,8 @@
                 }
               }
           });
-     }])
-      .controller( 'vinibarCtrl', ["$scope", "$rootScope", "$http", "$location", "$resource", "User", "Bottles", "$stateParams", function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams ) {
+     })
+      .controller( 'vinibarCtrl', function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast ) {
 
             $scope.getNumber = function(num) {
               var _num = Math.floor(num);
@@ -56,4 +56,4 @@
               value: ($stateParams.q == 'rated') ? 'rated' : 'toDrink'
            };
 
-        }]);
+        });

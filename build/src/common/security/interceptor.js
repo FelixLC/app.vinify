@@ -1,7 +1,7 @@
 angular.module('security.interceptor', ['ngCookies'])
 
 // We'll intercept all request and put the token in it
-.factory('authInterceptor', ["$rootScope", "$q", "$window", "$location", function ($rootScope, $q, $window, $location) {
+.factory('authInterceptor', function ($rootScope, $q, $window, $location) {
   return {
     request: function (config) {
       config.headers = config.headers || {};
@@ -18,7 +18,7 @@ angular.module('security.interceptor', ['ngCookies'])
       return response || $q.when(response);
     }
   };
-}])
-.config(["$httpProvider", function ($httpProvider) {
+})
+.config(function ($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
-}]);
+});

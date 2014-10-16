@@ -1,5 +1,5 @@
 angular.module('User', ['ngResource', 'Loading', 'Offline'])
-.factory('User', ["OfflineUser", "$http", "$location", function(OfflineUser, $http, $location) {
+.factory('User', function(OfflineUser, $http, $location) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
@@ -47,9 +47,9 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 			OfflineUser.removeUser();
 		}
 	};
-}])
+})
 
-.factory('Bottles', ["$q", "$http", "Loading", "OfflineWineData", function($q, $http, Loading, OfflineWineData) {
+.factory('Bottles', function($q, $http, Loading, OfflineWineData) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
@@ -131,9 +131,9 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 			_bottles = null;
 		}
 	};
-}])
+})
 
-.factory('Bottle', ["User", function(User) {
+.factory('Bottle', function(User) {
 
 	// instantiate our initial object
 	var Bottle = {
@@ -150,10 +150,10 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Bottle;
-}])
+})
 
 
-.factory('Addresses', ["$q", "$http", "Loading", "User", function($q, $http, Loading, User) {
+.factory('Addresses', function($q, $http, Loading, User) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
 	// instantiate our initial object
@@ -275,9 +275,9 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Addresses;
-}])
+})
 
-.factory('Address', ["$http", "Addresses", "User", function($http, Addresses, User) {
+.factory('Address', function($http, Addresses, User) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
 
@@ -333,4 +333,4 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 
 	return Address;
-}]);
+});

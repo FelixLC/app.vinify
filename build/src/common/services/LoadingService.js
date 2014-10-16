@@ -2,7 +2,7 @@ angular.module('Loading', ['ionic'])
 
   //  The base Class from which every object will inherit
 
-.factory('Loading', ["$ionicLoading", function($ionicLoading) {
+.factory('Loading', function($ionicLoading) {
 
   // Trigger the loading indicator
   var show = function() {
@@ -37,4 +37,4 @@ angular.module('Loading', ['ionic'])
       'show': show,
       'hide': hide
     };
-}]);
+});

@@ -1,5 +1,5 @@
 angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading'])
-	.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+	.config(function($stateProvider, $urlRouterProvider) {
 		$stateProvider
 			.state('sidemenu.pay', {
 					url: "/pay",
@@ -10,8 +10,8 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 						}
 					}
 			});
-	}])
-	.directive('syncFocusWith', ["$timeout", "$rootScope", function($timeout, $rootScope) {
+	})
+	.directive('syncFocusWith', function($timeout, $rootScope) {
 			return {
 					restrict: 'A',
 					scope: {
@@ -27,8 +27,8 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 							});
 					}
 			};
-	}])
-	.controller( 'payCtrl', ["$scope", "$http", "$location", "SerializedOrder", "User", "$window", "$ionicPlatform", "$cordovaToast", "Loading", "$state", function payCtrl( $scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state ) {
+	})
+	.controller( 'payCtrl', function payCtrl( $scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state ) {
 		$scope.serializedOrder = SerializedOrder;
 		console.log(SerializedOrder);
 		var apiEndPoint =  'https://api.vinify.co/api';
@@ -145,4 +145,4 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 		};
 
 		$scope.user = User.getUser();
-	}]);
+	});

@@ -1,12 +1,12 @@
 angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
-  .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('login', {
         url: "/login",
         templateUrl: "security/loginform.tpl.html",
         controlller: 'LoginFormController'
       });
-  }])
+  })
 
 // The LoginFormController provides the behaviour behind a reusable form to allow users to authenticate.
 // This controller and its template (login/form.tpl.html) are used in a modal dialog box by the security service.

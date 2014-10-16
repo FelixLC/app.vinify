@@ -1,5 +1,5 @@
 angular.module('Referrals', ['Offline'])
-.factory('Referrals', ["$http", "$q", "OfflineReferralsData", function($http, $q, OfflineReferralsData) {
+.factory('Referrals', function($http, $q, OfflineReferralsData) {
     var apiEndPoint =  'https://api.vinify.co/api';
     var restApiEndPoint =  'https://api.vinify.co/restapi';
     // instantiate our initial object
@@ -64,9 +64,9 @@ angular.module('Referrals', ['Offline'])
     };
 
     return Referrals;
-}])
+})
 
-.factory('Referral', ["$http", "OfflineReferralsData", "Referrals", function($http, OfflineReferralsData, Referrals) {
+.factory('Referral', function($http, OfflineReferralsData, Referrals) {
     var apiEndPoint =  'https://api.vinify.co/api';
     var restApiEndPoint =  'https://api.vinify.co/restapi';
 
@@ -100,4 +100,4 @@ angular.module('Referrals', ['Offline'])
     };
 
     return Referral;
-}]);
+});

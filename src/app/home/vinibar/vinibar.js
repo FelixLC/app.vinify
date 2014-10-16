@@ -1,4 +1,4 @@
-  angular.module( 'app.vinibar', ['ngResource', 'User'])
+  angular.module( 'app.vinibar', ['ngResource', 'User', 'ngCordova'])
       .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.vinibar', {
@@ -11,7 +11,7 @@
               }
           });
      })
-      .controller( 'vinibarCtrl', function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams ) {
+      .controller( 'vinibarCtrl', function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast ) {
 
             $scope.getNumber = function(num) {
               var _num = Math.floor(num);

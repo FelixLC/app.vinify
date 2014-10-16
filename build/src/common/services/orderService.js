@@ -1,6 +1,6 @@
 angular.module('Order', [])
 
-.factory('Order', ["$http", "Bottles", "SerializedOrder", function($http, Bottles, SerializedOrder) {
+.factory('Order', function($http, Bottles, SerializedOrder) {
 		var apiEndPoint =  'https://api.vinify.co/api';
 		var restApiEndPoint =  'https://api.vinify.co/restapi';
 
@@ -55,29 +55,29 @@ angular.module('Order', [])
 		};
 
 		return Order;
-}])
+})
 
-.factory('orderInstance', ["Order", function(Order) {
+.factory('orderInstance', function(Order) {
 		var orderInstance = new Order();
 
 		orderInstance.setOrderInstance = function(orderData) {
 				angular.extend(orderInstance, orderData);
 		};
 		return orderInstance;
-}])
+})
 
 // Store the Order
-.factory('SerializedOrder', ["$http", "Bottles", function($http, Bottles) {
+.factory('SerializedOrder', function($http, Bottles) {
 
 		var SerializedOrder = {};
 
 		return SerializedOrder;
-}])
+})
 // Stripe Directive
 	.directive('ngSparkline', function() {
 		return {
 			restrict: 'A',
-			controller: ["$scope", "$http", "$state", function($scope, $http, $state) {
+			controller: function($scope, $http, $state) {
 				$scope.handler = StripeCheckout.configure({
 					key: "pk_live_gNv4cCe8tsZpettPUsdQj25F",
 					//key: "pk_test_sK21onMmCuKNuoY7pbml8z3Q",
@@ -114,7 +114,7 @@ angular.module('Order', [])
 											});
 					}
 				});
-			}],
+			},
 			link: function(scope, element, attrs) {
 
 
