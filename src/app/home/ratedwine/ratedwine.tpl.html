@@ -35,7 +35,7 @@
             </div>
             <div class="col centered">
             <!-- TODO BUY WINE -->
-            <a class="button button-outline-primary" href="mailto:charlotte@vinify.co?subject=Commande%20de%20{{bottle.wine.display_name}}&body=Bonjour%2C%0AJe%20voudrais%20effectuer%20une%20commande%20de%20vin.%0A%0AR%C3%A9f%C3%A9rence%3A%20{{bottle.wine.display_name}},%20{{bottle.wine.region}},%20{{bottle.wine.vintage}}%0ANombre%20de%20bouteilles:%20(par%20trois)%3A%20%5BX%5D%0A%0AMerci%20de%20m'indiquer%20la%20disponibilit%C3%A9%20et%20de%20confirmer%20le%20prix%20de%20{{bottle.wine.public_price}}%20euros.%0A%0ACordialement%2C%0A">
+            <a class="button button-outline-primary" ng-click="buy()">
                 Commander
               </a>
             </div>

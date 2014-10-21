@@ -67,9 +67,9 @@
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
                 if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
                 if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal  == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
+                if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
               });
               $scope.modal.show();
             };
@@ -154,11 +154,11 @@
               };
               $scope.rating = new Rating($scope.bottle.uuid, 4);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
-                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
+                if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
               });
               $scope.group.show();
             };

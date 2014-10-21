@@ -1,4 +1,4 @@
-angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
+angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'])
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('login', {
@@ -10,11 +10,16 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
 
 // The LoginFormController provides the behaviour behind a reusable form to allow users to authenticate.
 // This controller and its template (login/form.tpl.html) are used in a modal dialog box by the security service.
-.controller('LoginFormController', ['$location', 'Loading', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', function($location, Loading, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform) {
+.controller('LoginFormController', ['$location', '$window', 'Loading', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', 'Update', function($location, $window, Loading, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform, Update) {
   // The model for this form
   $scope.user = {};
 
-
+  $scope.questionnaire = function() {
+    window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');
+  };
+  $scope.password = function() {
+    window.open('https://api.vinify.co/api/users/password/reset', '_system', 'location=yes');
+  };
   // Any error message from failing to login
   $scope.authError = null;
 
@@ -29,7 +34,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
 
   // Attempt to authenticate the user specified in the form's model
   $scope.login = function() {
-    if (ionic.Platform.isWebView()) {
+    if (ionic.Platform.isWebView()) {// if we are in cordova
           if(!$cordovaNetwork.isOnline()) {
               $cordovaToast.show('Vous n\'êtes pas connecté au réseau', 'long', 'top').then(function(success) {
               }, function (error) {
@@ -47,10 +52,17 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
               // If we get here then the login failed due to bad credentials
               // $scope.hide();
             Loading.hide();
-              $scope.authError = 'Combinaison email/mot de passe erronée';
+            $scope.authError = 'Combinaison email/mot de passe erronée';
             }
             else {
-              // $scope.hide();
+              //check if there is an update
+            Update.checkUpdate(loggedIn.data.uuid, ionic.Platform.device())
+              .success(function(response){
+                Update.isOutdated = false;
+              })
+              .error(function(response){
+                Update.isOutdated = true;
+              });
             Loading.hide();
               $location.path('/home'); }
           }, function(x) {
@@ -59,7 +71,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
             Loading.hide();
             $scope.authError = 'Il y a un problème de connexion. Merci de réessayer';
           });
-    } else {
+    } else { // not Webview
         console.log("try to login");
         // $scope.show();
         // Clear any previous security errors
@@ -76,6 +88,8 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
           else {
             // $scope.hide();
             Loading.hide();
+            console.log('Hoy');
+            console.log(loggedIn);
             $location.path('/home'); }
         }, function(x) {
           // If we get here then there was a problem with the login request to the server

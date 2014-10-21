@@ -1,4 +1,4 @@
-  angular.module( 'app.home', ['User'])
+  angular.module( 'app.home', ['User', 'Update', 'ngCordova'])
       .config(function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.home', {
@@ -12,11 +12,21 @@
           });
      })
 
-      .controller( 'homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, $window ) {
+      .controller( 'homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User, $cordovaDialogs ) {
 
         $scope.stateGo = function(to) {
           $state.go('sidemenu.' + to);
         };
+        $ionicPlatform.ready(function(){
+          if(ionic.Platform.isWebView()) {
+            $cordovaDialogs.prompt('msg', 'title', ['btn 1','btn 2'], 'default text')
+              .then(function(result) {
+                var input = result.input1;
+                // no button = 0, 'OK' = 1, 'Cancel' = 2
+                var btnIndex = buttonIndex;
+              });
+          }
+        });
         // console.log($rootScope.isOnline);
         // TODO VERIFY WITH STATUS BAR
         var appropriatedHeight = Math.round(($scope.windowSize.height  - 43) / 3); //43 because of -1 margin on scroll content

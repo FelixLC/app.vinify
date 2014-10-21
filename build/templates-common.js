@@ -1,4 +1,4 @@
-angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.tpl.html', 'tpl/oops.tpl.html', 'tpl/yipee.tpl.html']);
+angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.tpl.html', 'tpl/oops.tpl.html', 'tpl/update.tpl.html', 'tpl/yipee.tpl.html']);
 
 angular.module("security/loginform.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("security/loginform.tpl.html",
@@ -10,9 +10,6 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "    <form name=\"form\" novalidate>\n" +
     "              <p class=\"padding p-white\" ng-show=\"authError\">\n" +
     "                {{authError}}\n" +
-    "              </p>\n" +
-    "              <p class=\"padding p-white\">\n" +
-    "                L'appli Vinify évolue !, pour vous logguer <br><a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" >cliquez ici</a> et réinitialisez votre mot de passe.\n" +
     "              </p>\n" +
     "              <!-- TODO SUPPR -->\n" +
     "        <div class=\"list card\">\n" +
@@ -30,11 +27,13 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "          <button class=\"button button-outline-white\" ng-click=\"login()\" ng-disabled='form.$invalid'>Se connecter</button>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div>\n" +
-    "          <a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
-    "        </div>\n" +
-    "        <div>\n" +
-    "          <a href=\"https://start.vinify.co\" target=\"_blank\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col links\">\n" +
+    "            <a ng-click=\"password()\" target=\"_blank\" class=\"p-white\">Mot de passe oublié</a>\n" +
+    "          </div>\n" +
+    "          <div class=\"col links\">\n" +
+    "            <a ng-click=\"questionnaire()\" target=\"_blank\" class=\"p-white\">Je n'ai pas de compte</a>\n" +
+    "          </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "  </ion-content>\n" +
@@ -130,6 +129,26 @@ angular.module("tpl/oops.tpl.html", []).run(["$templateCache", function($templat
     "        <img src=\"assets/utils/oops.svg\" alt=\"Oops\">\n" +
     "        <h3>Oops ...</h3>\n" +
     "        <h4>Il y a eu une erreur, merci de recommencer.</h4>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    </ion-content>\n" +
+    "  </ion-modal-view>");
+}]);
+
+angular.module("tpl/update.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tpl/update.tpl.html",
+    "  <ion-modal-view>\n" +
+    "    <ion-header-bar class=\"bar-positive\">\n" +
+    "          <button class=\"button\" ng-click=\"closeUpdateModal()\"><i class=\"icon ion-android-close\"></i></button>\n" +
+    "          <h1 class=\"title\"></h1>\n" +
+    "    </ion-header-bar>\n" +
+    "    <ion-content>\n" +
+    "    <div ng-style=\"full_height\" class=\"row row-center response-modal\">\n" +
+    "      <div class=\"col centered\">\n" +
+    "        <img src=\"assets/utils/oops.svg\" alt=\"Oops\">\n" +
+    "        <h4>Votre application n'est pas à jour</h4>\n" +
+    "        <p class=\"p-white\">Merci de télécharger la nouvelle version pour profiter de toutes les fonctionnalitées</p>\n" +
+    "        <a class=\"button button-outline-white\" ng-href=\"{{link}}\">Mettre à jour</a>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "    </ion-content>\n" +

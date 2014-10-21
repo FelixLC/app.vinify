@@ -65,7 +65,7 @@
 						<h4>Achat</h4>
 				</div>
 			</div>
-			<div ng-repeat="referral in referrals" class="row">
+			<div ng-repeat="referral in user.referrals" class="row">
 				<div class="col centered">
 						<p>{{referral.referred.first_name}}</p>
 				</div>
@@ -73,7 +73,10 @@
 						<p><img ng-show="referral.created_at" src="assets/utils/tick.svg" alt="tick"></p>
 				</div>
 				<div class="col centered">
-						<p><img ng-show="referral.validated_at" src="assets/utils/tick.svg" alt="tick"></p>
+						<p>
+							<img ng-show="referral.validated_at" src="assets/utils/tick.svg" alt="tick">
+							<a class="link-dotted link-black" ng-show="isWebView && !referral.validated_at" ng-click="sendMail(referral.referred.first_name, referral.referred.email)">Relancer</a>
+						</p>
 				</div>
 			</div>
 		</div>

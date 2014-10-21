@@ -5,7 +5,7 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	// instantiate our initial object
 	var _user = null;
 	var self = this;
-	return  {
+	User =  {
 		setUser: function(UserData) {
 			_user =  UserData;
 			OfflineUser.setUser(UserData);
@@ -30,8 +30,8 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 		updateUser: function() {
 			return $http.get(apiEndPoint + '/users/isloggedin/')
 					.success(function(data, status, headers, config) {
-						setUser(data);
-						return getUser();
+						User.setUser(data);
+						return User.getUser();
 					})
 					.error(function(response){
 						// TODO manage errors
@@ -45,8 +45,21 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 		removeUser: function () {
 			_user = {};
 			OfflineUser.removeUser();
+		},
+		orderReceived : function() {
+			$http.get(apiEndPoint + '/orders/orderreceived/')
+				.success(function(data, status, headers, config) {
+					User.setUser(data);
+					return User.getUser();
+				})
+				.error(function(response){
+					User.setUser(data);
+					console.log('No waiting orders');
+					return User.getUser();
+				});
 		}
 	};
+	return User;
 })
 
 .factory('Bottles', function($q, $http, Loading, OfflineWineData) {
@@ -151,8 +164,12 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 
 	return Bottle;
 })
-
-
+// Just to maintain the state of Segmented fliter
+.factory('SegmentedControlState', function() {
+	return {
+		value: null
+	};
+})
 .factory('Addresses', function($q, $http, Loading, User) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';

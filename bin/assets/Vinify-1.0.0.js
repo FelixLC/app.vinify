@@ -1,5 +1,5 @@
 /**
- * Vinify - v1.0.0 - 2014-10-16
+ * Vinify - v1.0.0 - 2014-10-21
  * http://vinify.co
  *
  * Copyright (c) 2014 Felix
@@ -2009,9 +2009,9 @@ angular.module('ngCordova.plugins.vibration', [])
 (function ( window, angular, undefined ) {
 
 angular.module( 'app', [
-	// 'ngAnimate',
+	//	'ngAnimate',
 	'ngSanitize',
-	// 'ngTouch',
+	//	'ngTouch',
 	'ngCordova',
 	'ngCookies',
 	'ionic',
@@ -2027,28 +2027,38 @@ angular.module( 'app', [
 	'app.profile',
 	'app.pay',
 	'security',
+	'Update',
 	'templates-app',
 	'templates-common'
 ])
 
-	.run(['security', '$window', '$rootScope', function(security, $window, $rootScope) {
-		// Get the current user state the application starts
-		// (in case they are still logged in from a previous session)
-		security.requestCurrentUser();
+	.run(['security', '$window', '$rootScope', '$document', 'User', function(security, $window, $rootScope, $document, User) {
+		//	Get the current user state the application starts
+		//	(in case they are still logged in from a previous session)
+		security.requestCurrentUser().then(function(result){
+			console.log(result);
+			console.log(window.device);
+		});
 		var onNetworkOff = function() {
 			$rootScope.$broadcast('offline');
 		};
-
 		var onNetworkOn = function() {
 			$rootScope.$broadcast('online');
+			User.updateUser();
+			console.log('Updating User ...');
 		};
-
-		// Triggers on network state change.
+		//	Triggers on network state change.
 		var onDeviceReady = function(){
+			security.requestCurrentUser().then(function(result){
+				console.log(result);
+			});
 			document.addEventListener("offline", onNetworkOff, false);
 			document.addEventListener("online", onNetworkOn, false);
+			//	Mock device.platform property if not available
+			if (!window.device) {
+				window.device = { platform: 'Browser' };
+			}
 		};
-
 		document.addEventListener("deviceready", onDeviceReady, false);
 
 
@@ -2065,11 +2075,11 @@ angular.module( 'app', [
 		}
 ])
 
-.controller('AppCtrl', ["$scope", "$rootScope", "$ionicSideMenuDelegate", "$ionicModal", "$window", "OfflineQueue", "$ionicPlatform", "$ionicLoading", "$cordovaToast", "$cordovaNetwork", "$cordovaSplashscreen", "Bottles", function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles) {
+.controller('AppCtrl', ["$scope", "$rootScope", "$ionicSideMenuDelegate", "$ionicModal", "$window", "OfflineQueue", "$ionicPlatform", "$ionicLoading", "$cordovaToast", "$cordovaNetwork", "$cordovaSplashscreen", "Bottles", "Update", "security", function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security) {
 
-	// Catches online event and fires Offline Queue
+	//	Catches online event and fires Offline Queue
 	$rootScope.$on('online',function(event){
-		$cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
+		// $cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
 		OfflineQueue.sendRatings().then(function(response){
 			console.log(response);
 			Bottles.updateList().then(function(response){
@@ -2086,10 +2096,23 @@ angular.module( 'app', [
 	};
 
 	$ionicPlatform.ready(function(){
-		if(ionic.Platform.isWebView()) {$cordovaSplashscreen.hide();}
+		if(ionic.Platform.isWebView()) { // if we are in cordova
+			$cordovaSplashscreen.hide();
+			// we check if there is an update
+			security.requestCurrentUser().then(function(result){
+				console.log(result);
+				Update.checkUpdate(result.uuid, ionic.Platform.device())
+					.success(function(response){
+						Update.isOutdated = false;
+					})
+					.error(function(response){
+						Update.isOutdated = true;
+					});
+			});
+		}
 		console.log(ionic.Platform.device());
 		console.log(ionic.Platform.isIOS());
-		// console.log( $cordovaNetwork.isOnline());
+		//	console.log( $cordovaNetwork.isOnline());
 		console.log( ionic.Platform.isWebView());
 		console.log( ionic.Platform.isWebView());
 		console.log( ionic.Platform.isWebView());
@@ -2099,42 +2122,42 @@ angular.module( 'app', [
 		$ionicSideMenuDelegate.toggleLeft();
 	};
 
-	// Trigger the loading indicator
+	//	Trigger the loading indicator
 	$scope.show = function() {
 
-		// Show the loading overlay and text
+		//	Show the loading overlay and text
 		$scope.loading = $ionicLoading.show({
 
-			// The text to display in the loading indicator
+			//	The text to display in the loading indicator
 			content: '<i class="icon ion-loading-a">',
 
-			// The animation to use
+			//	The animation to use
 			animation: 'fade-in',
 
-			// Will a dark overlay or backdrop cover the entire view
+			//	Will a dark overlay or backdrop cover the entire view
 			showBackdrop: true,
 
-			// The maximum width of the loading indicator
-			// Text will be wrapped if longer than maxWidth
+			//	The maximum width of the loading indicator
+			//	Text will be wrapped if longer than maxWidth
 			maxWidth: 0,
 
-			// The delay in showing the indicator
+			//	The delay in showing the indicator
 			showDelay: 500
 		});
 	};
 
-	// Hide the loading indicator
+	//	Hide the loading indicator
 	$scope.hide = function(){
 		$ionicLoading.hide();
 	};
 
-	// TODO VERIFY WITH STATUS BAR
+	//	TODO VERIFY WITH STATUS BAR
 var height = $window.innerHeight;
 	$scope.full_height = {
 		"height": height+ 'px'
 	};
 
-	// YIPEE MODAL
+	//	YIPEE MODAL
 	$ionicModal.fromTemplateUrl('tpl/yipee.tpl.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -2142,7 +2165,7 @@ var height = $window.innerHeight;
 		$scope.yipee = modal;
 	});
 
-	// Open & close the modal
+	//	Open & close the modal
 	$scope.openYipeeModal = function() {
 		$scope.yipee.show();
 	};
@@ -2150,7 +2173,7 @@ var height = $window.innerHeight;
 		$scope.yipee.hide();
 	};
 
-	// OOPS MODAL
+	//	OOPS MODAL
 	$ionicModal.fromTemplateUrl('tpl/oops.tpl.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -2158,12 +2181,34 @@ var height = $window.innerHeight;
 		$scope.oops = modal;
 	});
 
-	// Open & close the modal
+	//	Open & close the modal
 	$scope.openOopsModal = function() {
 		$scope.oops.show();
 	};
 	$scope.closeOopsModal = function() {
 		$scope.oops.hide();
+	};
+
+	//	UPDATE MODAL
+	$ionicModal.fromTemplateUrl('tpl/update.tpl.html', {
+		scope: $scope,
+		animation: 'fade-in'
+	}).then(function(modal) {
+		$scope.update = modal;
+	});
+
+	//	Open & close the modal
+	$scope.openUpdateModal = function() {
+		$ionicPlatform.ready(function(){
+			if(ionic.Platform.isWebView()) {
+				$scope.link = (ionic.Platform.isIOS()) ? 'https://itunes.apple.com/us/app/vinify/id912757586?mt=8' : 'https://play.google.com/store/apps/details?id=com.vinify.viniapp.android';
+			}
+		});
+		$scope.update.show();
+	};
+
+	$scope.closeUpdateModal = function() {
+		$scope.update.hide();
 	};
 
 }]);
@@ -2339,7 +2384,7 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
         };
 
 }]);
-  angular.module( 'app.home', ['User'])
+  angular.module( 'app.home', ['User', 'Update', 'ngCordova'])
       .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.home', {
@@ -2353,11 +2398,21 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
           });
      }])
 
-      .controller( 'homeCtrl', ["$scope", "$rootScope", "$http", "$state", "$window", function homeCtrl( $scope, $rootScope, $http, $state, $window ) {
+      .controller( 'homeCtrl', ["$scope", "$rootScope", "$http", "$state", "Update", "$window", "$ionicPlatform", "User", "$cordovaDialogs", function homeCtrl( $scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User, $cordovaDialogs ) {
 
         $scope.stateGo = function(to) {
           $state.go('sidemenu.' + to);
         };
+        $ionicPlatform.ready(function(){
+          if(ionic.Platform.isWebView()) {
+            $cordovaDialogs.prompt('msg', 'title', ['btn 1','btn 2'], 'default text')
+              .then(function(result) {
+                var input = result.input1;
+                // no button = 0, 'OK' = 1, 'Cancel' = 2
+                var btnIndex = buttonIndex;
+              });
+          }
+        });
         // console.log($rootScope.isOnline);
         // TODO VERIFY WITH STATUS BAR
         var appropriatedHeight = Math.round(($scope.windowSize.height  - 43) / 3); //43 because of -1 margin on scroll content
@@ -2584,8 +2639,9 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           });
      }])
 
-      .controller( 'profileCtrl', ["$scope", "$http", "$location", "User", "$ionicModal", "$ionicLoading", "Referrals", "Referral", "Addresses", "Address", "Loading", "$cordovaToast", function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast) {
+      .controller( 'profileCtrl', ["$scope", "$http", "$location", "User", "$ionicModal", "$ionicLoading", "Referrals", "Referral", "Addresses", "Address", "Loading", "$cordovaToast", "$ionicPlatform", "$cordovaSocialSharing", function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast, $ionicPlatform, $cordovaSocialSharing) {
         $scope.user = User.getUser();
+        var apiEndPoint =  'https://api.vinify.co/api';
         $scope.form = {show: false};
         console.log(User);
         console.log($scope.user.phone);
@@ -2598,6 +2654,22 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             $scope.addresses = response.data;
             console.log($scope.addresses);
           });
+        $scope.isWebView = ionic.Platform.isWebView();
+          $scope.sendMail = function (name, email) {
+            if (ionic.Platform.isWebView()) {
+                var message = "Bonjour, " + name + "\n" + "J'aimerais te faire découvrir Vinify. Pour te convaincre de me rejoindre dans cette aventure, je t'offre 10€ de réduction sur ta première commande grâce à mon code parrainage. \n" + "Rendez-vous sur www.vinify.co avec le code :" + $scope.user.referral_code + "\n" + "Je te propose une aventure unique : avoir toujours du bon vin à portée de main ! Vinify, c'est un bar à vin sur mesure. Livré chez toi, selon tes goûts. \n \n" +"À bientôt, \n" + $scope.user.first_name;
+                var subject = "Re: " + name + ", découvre des vins à tes goûts";
+                $cordovaSocialSharing.shareViaEmail(message, subject, [email]).then(
+                  function(result) {
+                    $http.post(apiEndPoint + '/orders/referredreminder/', {
+                      referred: email
+                    });
+                    // Success!
+                  }, function(err) {
+                    // An error occured. Show a message to the user
+                  });
+            }
+          };
 
       // YIPEE MODAL
       $ionicModal.fromTemplateUrl('home/profile/user.tpl.html', {
@@ -2722,7 +2794,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               }
           });
      }])
-      .controller( 'ratedwineCtrl', ["$scope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "$cordovaSocialSharing", "$ionicPlatform", "$cordovaToast", function ratedwineCtrl( $scope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating,  $cordovaSocialSharing, $ionicPlatform, $cordovaToast) {
+      .controller( 'ratedwineCtrl', ["$scope", "$stateParams", "$resource", "$state", "Bottles", "$ionicModal", "Rating", "GroupRating", "$cordovaSocialSharing", "$ionicPlatform", "$cordovaToast", "$cordovaNetwork", function ratedwineCtrl( $scope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating,  $cordovaSocialSharing, $ionicPlatform, $cordovaToast, $cordovaNetwork) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -2741,8 +2813,20 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           };
 
           if (ionic.Platform.isWebView()) {
+
+            $scope.buy = function () {
+                  var message = "Bonjour, \n" + "Je souhaiterais commander [X] bouteilles de " + $scope.bottle.wine.display_name + "\n" + "Merci de me confirmer le prix et la disponiblité.";
+                  var subject = $scope.bottle.wine.display_name + " | Commande";
+                  $cordovaSocialSharing.shareViaEmail(message, subject, ['commande@vinify.co']).then(
+                    function(result) {
+                      // Success!
+                    }, function(err) {
+                      // An error occured. Show a message to the user
+                    });
+            };
+
             $scope.share.twitter = function () {
-                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + ". Super découverte grâce à @vinifyco !";
+                  var message = "Je viens de noter le " + $scope.bottle.wine.display_name + ". Super découverte grâce à @vinifyco !";
                   $cordovaSocialSharing.shareViaTwitter(message).then(function(result) {
                       // Success!
                   }, function(err) {
@@ -2751,7 +2835,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             };
 
             $scope.share.facebook = function () {
-                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + "Super découverte grâce à @vinify !";
+                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + ". Super découverte grâce à www.vinify.co !";
                   $cordovaSocialSharing.shareViaFacebook(message).then(function(result) {
                       // Success!
                   }, function(err) {
@@ -2760,7 +2844,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             };
 
             $scope.share.mail = function () {
-                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + "Super découverte grâce à @vinify !";
+                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + ". Super découverte grâce à www.vinify.co !";
                   var subject = $scope.bottle.wine.display_name + " | Vinify";
                   $cordovaSocialSharing.shareViaEmail(message, subject).then(
                     function(result) {
@@ -2796,9 +2880,9 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
                 if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
                 if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal  == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
+                if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
               });
               $scope.modal.show();
             };
@@ -2935,8 +3019,20 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               }
           });
      }])
-      .controller( 'vinibarCtrl', ["$scope", "$rootScope", "$http", "$location", "$resource", "User", "Bottles", "$stateParams", "$cordovaToast", function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast ) {
+      .controller( 'vinibarCtrl', ["$scope", "$rootScope", "$http", "$location", "$resource", "User", "Bottles", "$stateParams", "$cordovaToast", "SegmentedControlState", function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast, SegmentedControlState ) {
 
+            $scope.user = User.getUser();
+            $scope.orderReceived = function() {
+              User.orderReceived.then(function(response){
+                $scope.user = User.getUser();
+              });
+            };
+            $scope.questionnaire = function() {
+              window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');
+            };
+            $scope.payOrder = function() {
+              window.open('https://start.vinify.co/#/paiement/login', '_system', 'location=yes');
+            };
             $scope.getNumber = function(num) {
               var _num = Math.floor(num);
                 return new Array(Math.floor(_num));
@@ -2977,8 +3073,11 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
            console.log($stateParams.q);
 
            $scope.segmentedControl = {
-              value: ($stateParams.q == 'rated') ? 'rated' : 'toDrink'
+              value: (SegmentedControlState.value) ? SegmentedControlState.value : 'toDrink'
            };
+           $scope.$watch("segmentedControl.value", function(newVal, OldVal){
+            SegmentedControlState.value = newVal;
+           });
 
         }]);
   angular.module( 'app.wine', ['ngResource', 'User', 'Rating', 'ionic.rating', 'Offline', 'Loading', 'ngCordova'])
@@ -3050,9 +3149,9 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
                 if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
                 if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal  == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
+                if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
               });
               $scope.modal.show();
             };
@@ -3137,11 +3236,11 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               };
               $scope.rating = new Rating($scope.bottle.uuid, 4);
               $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
-                if (newVal == 2)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal == 3)  { $scope.literalRating.value = "J'ai bien aimé ce vin";}
-                if (newVal == 4)  { $scope.literalRating.value = "Oui, c’est bien mon style";}
-                if (newVal == 5)  { $scope.literalRating.value = "C’est exactement le style que j’aime !";}
+                if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
+                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
+                if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
               });
               $scope.group.show();
             };
@@ -3214,8 +3313,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         };
 
       }]);
-
-angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
+angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'])
   .config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('login', {
@@ -3227,11 +3325,16 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
 
 // The LoginFormController provides the behaviour behind a reusable form to allow users to authenticate.
 // This controller and its template (login/form.tpl.html) are used in a modal dialog box by the security service.
-.controller('LoginFormController', ['$location', 'Loading', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', function($location, Loading, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform) {
+.controller('LoginFormController', ['$location', '$window', 'Loading', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', 'Update', function($location, $window, Loading, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform, Update) {
   // The model for this form
   $scope.user = {};
 
-
+  $scope.questionnaire = function() {
+    window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');
+  };
+  $scope.password = function() {
+    window.open('https://api.vinify.co/api/users/password/reset', '_system', 'location=yes');
+  };
   // Any error message from failing to login
   $scope.authError = null;
 
@@ -3246,7 +3349,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
 
   // Attempt to authenticate the user specified in the form's model
   $scope.login = function() {
-    if (ionic.Platform.isWebView()) {
+    if (ionic.Platform.isWebView()) {// if we are in cordova
           if(!$cordovaNetwork.isOnline()) {
               $cordovaToast.show('Vous n\'êtes pas connecté au réseau', 'long', 'top').then(function(success) {
               }, function (error) {
@@ -3264,10 +3367,17 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
               // If we get here then the login failed due to bad credentials
               // $scope.hide();
             Loading.hide();
-              $scope.authError = 'Combinaison email/mot de passe erronée';
+            $scope.authError = 'Combinaison email/mot de passe erronée';
             }
             else {
-              // $scope.hide();
+              //check if there is an update
+            Update.checkUpdate(loggedIn.data.uuid, ionic.Platform.device())
+              .success(function(response){
+                Update.isOutdated = false;
+              })
+              .error(function(response){
+                Update.isOutdated = true;
+              });
             Loading.hide();
               $location.path('/home'); }
           }, function(x) {
@@ -3276,7 +3386,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
             Loading.hide();
             $scope.authError = 'Il y a un problème de connexion. Merci de réessayer';
           });
-    } else {
+    } else { // not Webview
         console.log("try to login");
         // $scope.show();
         // Clear any previous security errors
@@ -3293,6 +3403,8 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading'])
           else {
             // $scope.hide();
             Loading.hide();
+            console.log('Hoy');
+            console.log(loggedIn);
             $location.path('/home'); }
         }, function(x) {
           // If we get here then there was a problem with the login request to the server
@@ -3430,9 +3542,10 @@ angular.module('security.service', [
   'User', 'Referrals',
   'Loading',
   'Offline',
-  'ngCookies'
+  'ngCookies',
+  'Update'
 ])
-.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies) {
+.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update) {
  var apiEndPoint =  'https://api.vinify.co/api';
  var restApiEndPoint =  'https://api.vinify.co/restapi';
   // Redirect to the given url (defaults to '/')
@@ -3532,6 +3645,10 @@ angular.module('security.service', [
             $location.path('/login');
             console.log('Redirect');
             delete $window.sessionStorage.token;
+            return $q.reject('Not logged in');
+            // var deferred = $q.defer;
+            // deferred.reject('error');
+            // return deferred.promise;
           // }
         // );
       }
@@ -3617,7 +3734,7 @@ angular.module('Offline', ['LocalStorageModule'])
 			});
 	};
 	var _groupRateAndDelete = function(i){
-		_groupRatingQueue[j].rateWines()
+		_groupRatingQueue[i].rateWines()
 			.success(function(response){
 				_groupRatingQueue.splice(i,1);
 			});
@@ -4154,6 +4271,26 @@ angular.module('Referrals', ['Offline'])
         // User.beta_tester = UserData.beta_tester;
         // User.email = UserData.email;
         // User.addresses = UserData.addresses;
+angular.module('Update', [])
+  .factory('Update', ["$http", function($http) {
+    var apiEndPoint =  'https://api.vinify.co/api';
+    var restApiEndPoint =  'https://api.vinify.co/restapi';
+    var that = this;
+    var _version = 1.1;
+    return {
+      version: _version, // This is the version name to be manually updated at each build
+      isOutdated: false,
+      checkUpdate: function (user_uuid, device) {
+        return $http.post(apiEndPoint + '/appversion/', {
+          "user": user_uuid,
+          "version": _version,
+          "device_platform": device.platform,
+          "device_name": device.name,
+          "device_version": device.version
+        });
+      }
+    };
+  }]);
 angular.module('User', ['ngResource', 'Loading', 'Offline'])
 .factory('User', ["OfflineUser", "$http", "$location", function(OfflineUser, $http, $location) {
 	var apiEndPoint =  'https://api.vinify.co/api';
@@ -4161,7 +4298,7 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	// instantiate our initial object
 	var _user = null;
 	var self = this;
-	return  {
+	User =  {
 		setUser: function(UserData) {
 			_user =  UserData;
 			OfflineUser.setUser(UserData);
@@ -4186,7 +4323,7 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 		updateUser: function() {
 			return $http.get(apiEndPoint + '/users/isloggedin/')
 					.success(function(data, status, headers, config) {
-						setUser(data);
+						User.setUser(data);
 						return getUser();
 					})
 					.error(function(response){
@@ -4201,8 +4338,21 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 		removeUser: function () {
 			_user = {};
 			OfflineUser.removeUser();
+		},
+		orderReceived : function() {
+			$http.get(apiEndPoint + '/orders/orderreceived/')
+				.success(function(data, status, headers, config) {
+					setUser(data);
+					return getUser();
+				})
+				.error(function(response){
+					setUser(data);
+					console.log('No waiting orders');
+					return getUser();
+				});
 		}
 	};
+	return User;
 }])
 
 .factory('Bottles', ["$q", "$http", "Loading", "OfflineWineData", function($q, $http, Loading, OfflineWineData) {
@@ -4307,8 +4457,12 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 
 	return Bottle;
 }])
-
-
+// Just to maintain the state of Segmented fliter
+.factory('SegmentedControlState', function() {
+	return {
+		value: null
+	};
+})
 .factory('Addresses', ["$q", "$http", "Loading", "User", function($q, $http, Loading, User) {
 	var apiEndPoint =  'https://api.vinify.co/api';
 	var restApiEndPoint =  'https://api.vinify.co/restapi';
@@ -4523,7 +4677,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "						</div>\n" +
     "						<div class=\"col\">\n" +
     "							<h2>Colissimo - {{displayPrice(deliveryPrices['Colissimo'][order.data.quantity - 1])}} €</h2>\n" +
-    "							<p>Livraison suivie sous 15j par la Poste.</p>\n" +
+    "							<p>Livraison suivie par la Poste.</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
     "				</div>\n" +
@@ -4618,7 +4772,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "      <ion-view hide-back-button=\"true\" title=\"Welcome\">\n" +
+    "      <ion-view hide-back-button=\"true\" title=\"Accueil\">\n" +
     "        <ion-content has-bouncing=\"false\">\n" +
     "          <ion-nav-buttons side=\"left\">\n" +
     "            <button class=\"button button-icon button-clear ion-navicon\" ng-click=\"toggleLeft()\">\n" +
@@ -4662,7 +4816,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
 
 angular.module("home/order/order.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/order/order.tpl.html",
-    "<ion-view title=\"Order\">\n" +
+    "<ion-view title=\"Commander\">\n" +
     "	<ion-content class=\"has-footer\" has-bouncing=\"false\">\n" +
     "		<div class=\"bottle-number-selector\">\n" +
     "			<h4 class=\"centered\">Nombre de bouteilles</h4>\n" +
@@ -4948,7 +5102,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<h4>Achat</h4>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "			<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
+    "			<div ng-repeat=\"referral in user.referrals\" class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
     "						<p>{{referral.referred.first_name}}</p>\n" +
     "				</div>\n" +
@@ -4956,7 +5110,10 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
     "				</div>\n" +
     "				<div class=\"col centered\">\n" +
-    "						<p><img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
+    "						<p>\n" +
+    "							<img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\">\n" +
+    "							<a class=\"link-dotted link-black\" ng-show=\"isWebView && !referral.validated_at\" ng-click=\"sendMail(referral.referred.first_name, referral.referred.email)\">Relancer</a>\n" +
+    "						</p>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +
@@ -5149,7 +5306,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "            </div>\n" +
     "            <div class=\"col centered\">\n" +
     "            <!-- TODO BUY WINE -->\n" +
-    "            <a class=\"button button-outline-primary\" href=\"mailto:charlotte@vinify.co?subject=Commande%20de%20{{bottle.wine.display_name}}&body=Bonjour%2C%0AJe%20voudrais%20effectuer%20une%20commande%20de%20vin.%0A%0AR%C3%A9f%C3%A9rence%3A%20{{bottle.wine.display_name}},%20{{bottle.wine.region}},%20{{bottle.wine.vintage}}%0ANombre%20de%20bouteilles:%20(par%20trois)%3A%20%5BX%5D%0A%0AMerci%20de%20m'indiquer%20la%20disponibilit%C3%A9%20et%20de%20confirmer%20le%20prix%20de%20{{bottle.wine.public_price}}%20euros.%0A%0ACordialement%2C%0A\">\n" +
+    "            <a class=\"button button-outline-primary\" ng-click=\"buy()\">\n" +
     "                Commander\n" +
     "              </a>\n" +
     "            </div>\n" +
@@ -5291,7 +5448,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
 
 angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/vinibar/vinibar.tpl.html",
-    "	<ion-view title=\"Vinibar\">\n" +
+    "<ion-view title=\"Vinibar\">\n" +
     "	<ion-nav-buttons side=\"right\">\n" +
     "		<button class=\"button\" ng-click=\"search.toggle = !search.toggle\">\n" +
     "			<i class=\"icon ion-search\"></i>\n" +
@@ -5315,10 +5472,23 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "		</div>\n" +
     "	</ion-header-bar>\n" +
     "	<ion-content class=\"has-subheader\">\n" +
-    "	<ion-refresher\n" +
-    "		pulling-text=\"Pull to refresh...\"\n" +
-    "		on-refresh=\"update()\">\n" +
-    "	</ion-refresher>\n" +
+    "		<ion-refresher\n" +
+    "			pulling-text=\"Pull to refresh...\"\n" +
+    "			on-refresh=\"update()\">\n" +
+    "		</ion-refresher>\n" +
+    "		<!-- order notification -->\n" +
+    "		<a ng-show=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
+    "			<h3>Une commande est en route !</h3>\n" +
+    "			<p>Cliquez ici si vous l'avez reçue</p>\n" +
+    "		</a>\n" +
+    "		<a  ng-show=\"user.status == 1\" class=\"item centered\" ng-click=\"questionnaire()\">\n" +
+    "			<h3>Vous n'avez pas encore de vinibar !</h3>\n" +
+    "			<p>Cliquez ici pour démarrer l'aventure</p>\n" +
+    "		</a>\n" +
+    "		<a  ng-show=\"user.status == 2 || user.status == 2.5\" class=\"item centered\" ng-click=\"payOrder()\">\n" +
+    "			<h3>Vous n'avez pas finalisé votre commande !</h3>\n" +
+    "			<p>Cliquez ici pour continuer l'aventure</p>\n" +
+    "		</a>\n" +
     "		<ion-list ng-show=\"segmentedControl.value === 'rated'\">\n" +
     "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
     "					<h3>{{bottle.wine.display_name}}</h3>\n" +
@@ -5345,7 +5515,7 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "			</a>\n" +
     "		</ion-list>\n" +
     "	</ion-content>\n" +
-    "	</ion-view>");
+    "</ion-view>");
 }]);
 
 angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -5787,7 +5957,7 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "</ion-side-menus>");
 }]);
 
-angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.tpl.html', 'tpl/oops.tpl.html', 'tpl/yipee.tpl.html']);
+angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.tpl.html', 'tpl/oops.tpl.html', 'tpl/update.tpl.html', 'tpl/yipee.tpl.html']);
 
 angular.module("security/loginform.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("security/loginform.tpl.html",
@@ -5799,9 +5969,6 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "    <form name=\"form\" novalidate>\n" +
     "              <p class=\"padding p-white\" ng-show=\"authError\">\n" +
     "                {{authError}}\n" +
-    "              </p>\n" +
-    "              <p class=\"padding p-white\">\n" +
-    "                L'appli Vinify évolue !, pour vous logguer <br><a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" >cliquez ici</a> et réinitialisez votre mot de passe.\n" +
     "              </p>\n" +
     "              <!-- TODO SUPPR -->\n" +
     "        <div class=\"list card\">\n" +
@@ -5819,11 +5986,13 @@ angular.module("security/loginform.tpl.html", []).run(["$templateCache", functio
     "          <button class=\"button button-outline-white\" ng-click=\"login()\" ng-disabled='form.$invalid'>Se connecter</button>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div>\n" +
-    "          <a href=\"https://api.vinify.co/api/users/password/reset\" target=\"_blank\" class=\"p-white\">J'ai oublié mon mot de passe</a>\n" +
-    "        </div>\n" +
-    "        <div>\n" +
-    "          <a href=\"https://start.vinify.co\" target=\"_blank\" class=\"p-white\">Je n'ai pas de compte, commencer l'aventure</a>\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col links\">\n" +
+    "            <a ng-click=\"password()\" target=\"_blank\" class=\"p-white\">Mot de passe oublié</a>\n" +
+    "          </div>\n" +
+    "          <div class=\"col links\">\n" +
+    "            <a ng-click=\"questionnaire()\" target=\"_blank\" class=\"p-white\">Je n'ai pas de compte</a>\n" +
+    "          </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
     "  </ion-content>\n" +
@@ -5919,6 +6088,26 @@ angular.module("tpl/oops.tpl.html", []).run(["$templateCache", function($templat
     "        <img src=\"assets/utils/oops.svg\" alt=\"Oops\">\n" +
     "        <h3>Oops ...</h3>\n" +
     "        <h4>Il y a eu une erreur, merci de recommencer.</h4>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    </ion-content>\n" +
+    "  </ion-modal-view>");
+}]);
+
+angular.module("tpl/update.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tpl/update.tpl.html",
+    "  <ion-modal-view>\n" +
+    "    <ion-header-bar class=\"bar-positive\">\n" +
+    "          <button class=\"button\" ng-click=\"closeUpdateModal()\"><i class=\"icon ion-android-close\"></i></button>\n" +
+    "          <h1 class=\"title\"></h1>\n" +
+    "    </ion-header-bar>\n" +
+    "    <ion-content>\n" +
+    "    <div ng-style=\"full_height\" class=\"row row-center response-modal\">\n" +
+    "      <div class=\"col centered\">\n" +
+    "        <img src=\"assets/utils/oops.svg\" alt=\"Oops\">\n" +
+    "        <h4>Votre application n'est pas à jour</h4>\n" +
+    "        <p class=\"p-white\">Merci de télécharger la nouvelle version pour profiter de toutes les fonctionnalitées</p>\n" +
+    "        <a class=\"button button-outline-white\" ng-href=\"{{link}}\">Mettre à jour</a>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "    </ion-content>\n" +

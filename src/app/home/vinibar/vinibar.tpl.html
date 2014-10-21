@@ -1,4 +1,4 @@
-	<ion-view title="Vinibar">
+<ion-view title="Vinibar">
 	<ion-nav-buttons side="right">
 		<button class="button" ng-click="search.toggle = !search.toggle">
 			<i class="icon ion-search"></i>
@@ -22,10 +22,23 @@
 		</div>
 	</ion-header-bar>
 	<ion-content class="has-subheader">
-	<ion-refresher
-		pulling-text="Pull to refresh..."
-		on-refresh="update()">
-	</ion-refresher>
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="update()">
+		</ion-refresher>
+		<!-- order notification -->
+		<a ng-show="user.awaiting_order" class="item centered" ng-click="orderReceived()">
+			<h3>Une commande est en route !</h3>
+			<p>Cliquez ici si vous l'avez reçue</p>
+		</a>
+		<a  ng-show="user.status == 1" class="item centered" ng-click="questionnaire()">
+			<h3>Vous n'avez pas encore de vinibar !</h3>
+			<p>Cliquez ici pour démarrer l'aventure</p>
+		</a>
+		<a  ng-show="user.status == 2 || user.status == 2.5" class="item centered" ng-click="payOrder()">
+			<h3>Vous n'avez pas finalisé votre commande !</h3>
+			<p>Cliquez ici pour continuer l'aventure</p>
+		</a>
 		<ion-list ng-show="segmentedControl.value === 'rated'">
 			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter" class="item" href="#/ratedwine/{{bottle.uuid}}">
 					<h3>{{bottle.wine.display_name}}</h3>
@@ -52,4 +65,4 @@
 			</a>
 		</ion-list>
 	</ion-content>
-	</ion-view>
+</ion-view>

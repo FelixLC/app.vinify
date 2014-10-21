@@ -4,9 +4,10 @@ angular.module('security.service', [
   'User', 'Referrals',
   'Loading',
   'Offline',
-  'ngCookies'
+  'ngCookies',
+  'Update'
 ])
-.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies) {
+.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update) {
  var apiEndPoint =  'https://api.vinify.co/api';
  var restApiEndPoint =  'https://api.vinify.co/restapi';
   // Redirect to the given url (defaults to '/')
@@ -106,6 +107,10 @@ angular.module('security.service', [
             $location.path('/login');
             console.log('Redirect');
             delete $window.sessionStorage.token;
+            return $q.reject('Not logged in');
+            // var deferred = $q.defer;
+            // deferred.reject('error');
+            // return deferred.promise;
           // }
         // );
       }

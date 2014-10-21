@@ -1,0 +1,16 @@
+  <ion-modal-view>
+    <ion-header-bar class="bar-positive">
+          <button class="button" ng-click="closeUpdateModal()"><i class="icon ion-android-close"></i></button>
+          <h1 class="title"></h1>
+    </ion-header-bar>
+    <ion-content>
+    <div ng-style="full_height" class="row row-center response-modal">
+      <div class="col centered">
+        <img src="assets/utils/oops.svg" alt="Oops">
+        <h4>Votre application n'est pas à jour</h4>
+        <p class="p-white">Merci de télécharger la nouvelle version pour profiter de toutes les fonctionnalitées</p>
+        <a class="button button-outline-white" ng-href="{{link}}">Mettre à jour</a>
+      </div>
+    </div>
+    </ion-content>
+  </ion-modal-view>

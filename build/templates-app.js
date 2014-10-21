@@ -31,7 +31,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "						</div>\n" +
     "						<div class=\"col\">\n" +
     "							<h2>Colissimo - {{displayPrice(deliveryPrices['Colissimo'][order.data.quantity - 1])}} €</h2>\n" +
-    "							<p>Livraison suivie sous 15j par la Poste.</p>\n" +
+    "							<p>Livraison suivie par la Poste.</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
     "				</div>\n" +
@@ -126,7 +126,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "      <ion-view hide-back-button=\"true\" title=\"Welcome\">\n" +
+    "      <ion-view hide-back-button=\"true\" title=\"Accueil\">\n" +
     "        <ion-content has-bouncing=\"false\">\n" +
     "          <ion-nav-buttons side=\"left\">\n" +
     "            <button class=\"button button-icon button-clear ion-navicon\" ng-click=\"toggleLeft()\">\n" +
@@ -170,7 +170,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
 
 angular.module("home/order/order.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/order/order.tpl.html",
-    "<ion-view title=\"Order\">\n" +
+    "<ion-view title=\"Commander\">\n" +
     "	<ion-content class=\"has-footer\" has-bouncing=\"false\">\n" +
     "		<div class=\"bottle-number-selector\">\n" +
     "			<h4 class=\"centered\">Nombre de bouteilles</h4>\n" +
@@ -456,7 +456,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<h4>Achat</h4>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "			<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
+    "			<div ng-repeat=\"referral in user.referrals\" class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
     "						<p>{{referral.referred.first_name}}</p>\n" +
     "				</div>\n" +
@@ -464,7 +464,10 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
     "				</div>\n" +
     "				<div class=\"col centered\">\n" +
-    "						<p><img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
+    "						<p>\n" +
+    "							<img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\">\n" +
+    "							<a class=\"link-dotted link-black\" ng-show=\"isWebView && !referral.validated_at\" ng-click=\"sendMail(referral.referred.first_name, referral.referred.email)\">Relancer</a>\n" +
+    "						</p>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "		</div>\n" +
@@ -657,7 +660,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "            </div>\n" +
     "            <div class=\"col centered\">\n" +
     "            <!-- TODO BUY WINE -->\n" +
-    "            <a class=\"button button-outline-primary\" href=\"mailto:charlotte@vinify.co?subject=Commande%20de%20{{bottle.wine.display_name}}&body=Bonjour%2C%0AJe%20voudrais%20effectuer%20une%20commande%20de%20vin.%0A%0AR%C3%A9f%C3%A9rence%3A%20{{bottle.wine.display_name}},%20{{bottle.wine.region}},%20{{bottle.wine.vintage}}%0ANombre%20de%20bouteilles:%20(par%20trois)%3A%20%5BX%5D%0A%0AMerci%20de%20m'indiquer%20la%20disponibilit%C3%A9%20et%20de%20confirmer%20le%20prix%20de%20{{bottle.wine.public_price}}%20euros.%0A%0ACordialement%2C%0A\">\n" +
+    "            <a class=\"button button-outline-primary\" ng-click=\"buy()\">\n" +
     "                Commander\n" +
     "              </a>\n" +
     "            </div>\n" +
@@ -799,7 +802,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
 
 angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/vinibar/vinibar.tpl.html",
-    "	<ion-view title=\"Vinibar\">\n" +
+    "<ion-view title=\"Vinibar\">\n" +
     "	<ion-nav-buttons side=\"right\">\n" +
     "		<button class=\"button\" ng-click=\"search.toggle = !search.toggle\">\n" +
     "			<i class=\"icon ion-search\"></i>\n" +
@@ -823,10 +826,23 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "		</div>\n" +
     "	</ion-header-bar>\n" +
     "	<ion-content class=\"has-subheader\">\n" +
-    "	<ion-refresher\n" +
-    "		pulling-text=\"Pull to refresh...\"\n" +
-    "		on-refresh=\"update()\">\n" +
-    "	</ion-refresher>\n" +
+    "		<ion-refresher\n" +
+    "			pulling-text=\"Pull to refresh...\"\n" +
+    "			on-refresh=\"update()\">\n" +
+    "		</ion-refresher>\n" +
+    "		<!-- order notification -->\n" +
+    "		<a ng-show=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
+    "			<h3>Une commande est en route !</h3>\n" +
+    "			<p>Cliquez ici si vous l'avez reçue</p>\n" +
+    "		</a>\n" +
+    "		<a  ng-show=\"user.status == 1\" class=\"item centered\" ng-click=\"questionnaire()\">\n" +
+    "			<h3>Vous n'avez pas encore de vinibar !</h3>\n" +
+    "			<p>Cliquez ici pour démarrer l'aventure</p>\n" +
+    "		</a>\n" +
+    "		<a  ng-show=\"user.status == 2 || user.status == 2.5\" class=\"item centered\" ng-click=\"payOrder()\">\n" +
+    "			<h3>Vous n'avez pas finalisé votre commande !</h3>\n" +
+    "			<p>Cliquez ici pour continuer l'aventure</p>\n" +
+    "		</a>\n" +
     "		<ion-list ng-show=\"segmentedControl.value === 'rated'\">\n" +
     "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
     "					<h3>{{bottle.wine.display_name}}</h3>\n" +
@@ -853,7 +869,7 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "			</a>\n" +
     "		</ion-list>\n" +
     "	</ion-content>\n" +
-    "	</ion-view>");
+    "</ion-view>");
 }]);
 
 angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templateCache", function($templateCache) {

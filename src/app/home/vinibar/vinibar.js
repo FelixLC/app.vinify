@@ -11,8 +11,20 @@
               }
           });
      })
-      .controller( 'vinibarCtrl', function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast ) {
+      .controller( 'vinibarCtrl', function vinibarCtrl( $scope, $rootScope, $http, $location, $resource, User, Bottles, $stateParams, $cordovaToast, SegmentedControlState ) {
 
+            $scope.user = User.getUser();
+            $scope.orderReceived = function() {
+              User.orderReceived.then(function(response){
+                $scope.user = User.getUser();
+              });
+            };
+            $scope.questionnaire = function() {
+              window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');
+            };
+            $scope.payOrder = function() {
+              window.open('https://start.vinify.co/#/paiement/login', '_system', 'location=yes');
+            };
             $scope.getNumber = function(num) {
               var _num = Math.floor(num);
                 return new Array(Math.floor(_num));
@@ -53,7 +65,10 @@
            console.log($stateParams.q);
 
            $scope.segmentedControl = {
-              value: ($stateParams.q == 'rated') ? 'rated' : 'toDrink'
+              value: (SegmentedControlState.value) ? SegmentedControlState.value : 'toDrink'
            };
+           $scope.$watch("segmentedControl.value", function(newVal, OldVal){
+            SegmentedControlState.value = newVal;
+           });
 
         });
