@@ -66,7 +66,7 @@ angular.module('Referrals', ['Offline'])
     return Referrals;
 })
 
-.factory('Referral', function($http, User) {
+.factory('Referral', function($http, OfflineReferralsData, Referrals) {
     var apiEndPoint =  'https://api.vinify.co/api';
     var restApiEndPoint =  'https://api.vinify.co/restapi';
 
@@ -75,41 +75,29 @@ angular.module('Referrals', ['Offline'])
         this.email = null;
     };
 
+
     // TODO REFACTOR
     Referral.prototype.sendReferral = function() {
         var self = this;
         var request = $http({
-                            url:  apiEndPoint + '/orders/referralemailv2/',
+                            url:  apiEndPoint + '/orders/referralemail/',
                             method: 'POST',
                             data: self,
                             headers: {
                             'Content-Type': 'application/json; charset=UTF-8'
                             }
                         });
-        return request;
+        return request.success(
+                                        // Success Handler
+                                        function(data, status, headers, config) {
+                                            Referrals.data =  data;
+                                            OfflineReferralsData.setReferrals(data);
+                                        })
+                                    .error(
+                                        // Error Handler
+                                        function(data){}
+                                    );
     };
-    // // TODO REFACTOR
-    // Referral.prototype.sendReferral = function() {
-    //     var self = this;
-    //     var request = $http({
-    //                         url:  apiEndPoint + '/orders/referralemail/',
-    //                         method: 'POST',
-    //                         data: self,
-    //                         headers: {
-    //                         'Content-Type': 'application/json; charset=UTF-8'
-    //                         }
-    //                     });
-    //     return request.success(
-    //                                     // Success Handler
-    //                                     function(data, status, headers, config) {
-    //                                         Referrals.data =  data;
-    //                                         OfflineReferralsData.setReferrals(data);
-    //                                     })
-    //                                 .error(
-    //                                     // Error Handler
-    //                                     function(data){}
-    //                                 );
-    // };
 
     return Referral;
 });

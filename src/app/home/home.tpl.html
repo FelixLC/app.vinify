@@ -4,6 +4,9 @@
             <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
             </button>
           </ion-nav-buttons>
+          <div ng-click="appStore()" id="update-app" ng-show="update">
+              <p class="centered"><i class="icon ion-alert-circled"></i> Votre version n'est pas à jour. <br>Cliquez ici pour télécharger la nouvelle version</p>
+          </div>
           <div ng-style="calcHeight" class="section" id="section-vinibar" ng-click="stateGo('vinibar')">
           <!-- <div class="section" id="section-vinibar" ng-click="stateGo('vinibar')"> -->
             <div class="home-header">

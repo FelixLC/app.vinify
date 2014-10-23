@@ -43,7 +43,7 @@
             };
 
             $scope.share.twitter = function () {
-                  var message = "Je viens de noter le " + $scope.bottle.wine.display_name + ". Super découverte grâce à @vinifyco !";
+                  var message = "Je viens de déguster le " + $scope.bottle.wine.display_name + $scope.bottle.wine.vintage + ". Super découverte grâce à @vinifyco !";
                   $cordovaSocialSharing.shareViaTwitter(message).then(function(result) {
                       // Success!
                   }, function(err) {
@@ -52,7 +52,7 @@
             };
 
             $scope.share.facebook = function () {
-                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + ". Super découverte grâce à www.vinify.co !";
+                  var message = "Je viens de déguster le " + $scope.bottle.wine.display_name + $scope.bottle.wine.vintage + ". Super découverte grâce à Vinify (www.vinify.co) !";
                   $cordovaSocialSharing.shareViaFacebook(message).then(function(result) {
                       // Success!
                   }, function(err) {
@@ -61,7 +61,7 @@
             };
 
             $scope.share.mail = function () {
-                  var message = "Je viens de noter le" + $scope.bottle.wine.display_name + ". Super découverte grâce à www.vinify.co !";
+                  var message = "Je viens de déguster le " + $scope.bottle.wine.display_name + $scope.bottle.wine.vintage + ". Super découverte grâce à Vinify (www.vinify.co) !";
                   var subject = $scope.bottle.wine.display_name + " | Vinify";
                   $cordovaSocialSharing.shareViaEmail(message, subject).then(
                     function(result) {
@@ -93,15 +93,19 @@
 
             // Open & close the modal
             $scope.openModal = function() {
-              $scope.rating = new Rating($scope.bottle.uuid, $scope.bottle.rating, $scope.bottle.comment);
-              $scope.$watch('rating.data.rating', function(newVal, oldVal) {
-                if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
-                if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
-                if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
-                if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
-                if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
-              });
-              $scope.modal.show();
+                if(ionic.Platform.isWebView() && $cordovaNetwork.isOffline()) { //if we use cordova
+                  $cordovaToast.show('Vous ne pouvez pas modifier votre note quand vous n\'êtes pas connecté', 'short', 'top');
+                } else {
+                  $scope.rating = new Rating($scope.bottle.uuid, $scope.bottle.rating, $scope.bottle.comment);
+                  $scope.$watch('rating.data.rating', function(newVal, oldVal) {
+                    if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
+                    if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
+                    if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
+                    if (newVal > 3.5 && newVal < 5)  { $scope.literalRating.value = "Bien vu, j'aime beaucoup";}
+                    if (newVal  == 5)  { $scope.literalRating.value = "Bravo, j'adore !";}
+                  });
+                  $scope.modal.show();
+              }
             };
             $scope.closeModal = function() {
               $scope.modal.hide();
@@ -110,7 +114,7 @@
             $scope.rateWine = function() {
               if(ionic.Platform.isWebView()) { //if we use cordova
                 if ($cordovaNetwork.isOffline()) {//if we are offline
-                  $cordovaToast.show('Vous ne pouvez pas modifier votre note quand vous n\'êtes pas connecté :(', 'short', 'top');
+                  $cordovaToast.show('Vous ne pouvez pas modifier votre note quand vous n\'êtes pas connecté', 'short', 'top');
                 } else {
                   $scope.rating.updateWine().then(function(response){
                                   $scope.closeModal();

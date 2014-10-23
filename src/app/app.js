@@ -34,8 +34,9 @@ angular.module( 'app', [
 		};
 		var onNetworkOn = function() {
 			$rootScope.$broadcast('online');
-			User.updateUser();
-			console.log('Updating User ...');
+		};
+		var onResume = function() {
+			$rootScope.$broadcast('resume');
 		};
 		//	Triggers on network state change.
 		var onDeviceReady = function(){
@@ -44,14 +45,13 @@ angular.module( 'app', [
 			});
 			document.addEventListener("offline", onNetworkOff, false);
 			document.addEventListener("online", onNetworkOn, false);
+			document.addEventListener("resume", onResume, false);
 			//	Mock device.platform property if not available
 			if (!window.device) {
 				window.device = { platform: 'Browser' };
 			}
 		};
 		document.addEventListener("deviceready", onDeviceReady, false);
-
-
 }])
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -65,7 +65,7 @@ angular.module( 'app', [
 		}
 ])
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals) {
 
 	//	Catches online event and fires Offline Queue
 	$rootScope.$on('online',function(event){
@@ -73,11 +73,41 @@ angular.module( 'app', [
 		OfflineQueue.sendRatings().then(function(response){
 			console.log(response);
 			Bottles.updateList().then(function(response){
-				$cordovaToast.show('Terminé ...', 'short', 'top');
+				// $cordovaToast.show('Terminé ...', 'short', 'top');
 			},function(response){
 				//error
 			});
 		});
+		User.updateUser();
+		console.log('Updating User ...');
+		Referrals.updateList();
+	});
+
+	$rootScope.$on('resume',function(event){
+		// $cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
+		if(ionic.Platform.isWebView() && $cordovaNetwork.isOnline()) { // if we are in cordova && online
+			// we check if there is an update
+			security.requestCurrentUser().then(function(result){
+				console.log(result);
+				Update.checkUpdate(result.uuid, ionic.Platform.device())
+					.success(function(response){
+						Update.isOutdated = (response.up_to_date === 1) ? false : true;
+					})
+					.error(function(response){
+						Update.isOutdated = false;
+					});
+			});
+			OfflineQueue.sendRatings().then(function(response){
+				console.log(response);
+				Bottles.updateList().then(function(response){
+					// $cordovaToast.show('Terminé ...', 'short', 'top');
+				},function(response){
+					//error
+				});
+			});
+			User.updateUser();
+			Referrals.updateList();
+		}
 	});
 
 	$scope.windowSize = {
@@ -89,16 +119,6 @@ angular.module( 'app', [
 		if(ionic.Platform.isWebView()) { // if we are in cordova
 			$cordovaSplashscreen.hide();
 			// we check if there is an update
-			security.requestCurrentUser().then(function(result){
-				console.log(result);
-				Update.checkUpdate(result.uuid, ionic.Platform.device())
-					.success(function(response){
-						Update.isOutdated = false;
-					})
-					.error(function(response){
-						Update.isOutdated = true;
-					});
-			});
 		}
 		console.log(ionic.Platform.device());
 		console.log(ionic.Platform.isIOS());
@@ -142,7 +162,7 @@ angular.module( 'app', [
 	};
 
 	//	TODO VERIFY WITH STATUS BAR
-var height = $window.innerHeight;
+	var height = $window.innerHeight;
 	$scope.full_height = {
 		"height": height+ 'px'
 	};

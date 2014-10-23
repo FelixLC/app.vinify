@@ -61,10 +61,10 @@ angular.module("tpl/address.tpl.html", []).run(["$templateCache", function($temp
     "      <select name=\"addresses\" ng-change=\"fireBilling(current.billing_address)\" ng-model=\"current.billing_address\" ng-options=\"address.uuid as address.street for address in addresses\"></select>\n" +
     "    </label>\n" +
     "\n" +
-    "    <div class=\"padding centered\">\n" +
-    "      <button class=\"button button-less\" ng-show=\"!form_show\" ng-click=\"form_show = true\">Ajouter une adresse</button>\n" +
+    "    <div class=\"item item-text-wrap\">\n" +
+    "      <p>Vous pouvez ajouter une adresse en bas de l'espace <a class=\"link-dotted\" ng-click=\"toProfile()\">profil</a></p>\n" +
     "    </div>\n" +
-    "    <form name=\"form_address\" class=\"list card\" ng-show=\"form_show\">\n" +
+    "<!--     <form name=\"form_address\" class=\"list card\" ng-show=\"form_show\">\n" +
     "\n" +
     "      <label class=\"item item-input\">\n" +
     "          <input type=\"text\" ng-model=\"address_suppl.data.company\" name=\"company\" autocomplete=\"company\" placeholder=\"Société\">\n" +
@@ -106,12 +106,12 @@ angular.module("tpl/address.tpl.html", []).run(["$templateCache", function($temp
     "        <button class=\"button button-full button-positive\" ng-click=\"addAddress(form_address)\">Ajouter</button>\n" +
     "      </li>\n" +
     "\n" +
-    "    </form>\n" +
+    "    </form> -->\n" +
     "\n" +
     "    </ion-content>\n" +
-    "    <div class=\"bar bar-footer bar-positive\" ng-click=\"updateOrCreateAddress()\">\n" +
+    "<!--     <div class=\"bar bar-footer bar-positive\" ng-click=\"updateOrCreateAddress()\">\n" +
     "        <div class=\"title\">Terminé</div>\n" +
-    "    </div>\n" +
+    "    </div> -->\n" +
     "  </ion-modal-view>");
 }]);
 

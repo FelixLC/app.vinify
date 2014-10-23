@@ -11,7 +11,7 @@
               }
           });
      })
-      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading) {
+      .controller( 'wineCtrl', function wineCtrl($scope, $rootScope, $stateParams , $resource, $state , Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState) {
             $scope.id = $stateParams.uuid;
             // We can retrieve a collection from the server
 
@@ -84,6 +84,7 @@
                     OfflineQueue.addRating($scope.rating);
                     Bottles.fakeRating($scope.rating).then(function(response){
                                     $scope.closeModal();
+                                    SegmentedControlState.value = 'rated';
                                     $state.go('sidemenu.vinibar');
                                     $cordovaToast.show('Offline Rating ...', 'short', 'top');
                     });
@@ -93,11 +94,12 @@
                       $scope.rating.rateWine().then(function(data, status, headers, config) {
                                                                               Loading.hide();
                                                                               $scope.closeModal();
+                                                                              SegmentedControlState.value = 'rated';
                                                                               $state.go('sidemenu.vinibar');
                                                                               $cordovaToast.show('Bien reçu !', 'short', 'top');
                                                                         }, function(data, status, headers, config) {
                                                                             Loading.hide();
-                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function(success) {
                                                                             }, function (error) {
                                                                             // error
                                                                             });
@@ -110,11 +112,12 @@
                       $scope.rating.rateWine().then(function(data, status, headers, config) {
                                                                               Loading.hide();
                                                                               $scope.closeModal();
+                                                                              SegmentedControlState.value = 'rated';
                                                                               $state.go('sidemenu.vinibar');
                                                                               $cordovaToast.show('Bien reçu !', 'short', 'top');
                                                                         }, function(data, status, headers, config) {
                                                                             Loading.hide();
-                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté :(', 'short', 'top').then(function(success) {
+                                                                            $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function(success) {
                                                                             }, function (error) {
                                                                             // error
                                                                             });

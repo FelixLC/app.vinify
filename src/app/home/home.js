@@ -12,24 +12,23 @@
           });
      })
 
-      .controller( 'homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User, $cordovaDialogs ) {
+      .controller( 'homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User ) {
 
         $scope.stateGo = function(to) {
           $state.go('sidemenu.' + to);
         };
-        $ionicPlatform.ready(function(){
-          if(ionic.Platform.isWebView()) {
-            $cordovaDialogs.prompt('msg', 'title', ['btn 1','btn 2'], 'default text')
-              .then(function(result) {
-                var input = result.input1;
-                // no button = 0, 'OK' = 1, 'Cancel' = 2
-                var btnIndex = buttonIndex;
-              });
+        $scope.update = Update.isOutdated;
+        // $scope.update = Update.isOutdated;
+        $scope.appStore = function() {
+          if(ionic.Platform.isIOS()) {
+            window.open('https://itunes.apple.com/us/app/vinify/id912757586?mt=8', '_system', 'location=yes');
+          } else {
+            window.open('https://play.google.com/store/apps/details?id=com.vinify.viniapp.android', '_system', 'location=yes');
           }
-        });
+        };
         // console.log($rootScope.isOnline);
         // TODO VERIFY WITH STATUS BAR
-        var appropriatedHeight = Math.round(($scope.windowSize.height  - 43) / 3); //43 because of -1 margin on scroll content
+        var appropriatedHeight =  Math.round(($scope.windowSize.height  - 43) / 3); //43 because of -1 margin on scroll content
         var thirdHeight = ($scope.windowSize.height  - 43) - 2*appropriatedHeight;
 
         $scope.calcHeight = {

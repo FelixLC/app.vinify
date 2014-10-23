@@ -132,6 +132,9 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "            <button class=\"button button-icon button-clear ion-navicon\" ng-click=\"toggleLeft()\">\n" +
     "            </button>\n" +
     "          </ion-nav-buttons>\n" +
+    "          <div ng-click=\"appStore()\" id=\"update-app\" ng-show=\"update\">\n" +
+    "              <p class=\"centered\"><i class=\"icon ion-alert-circled\"></i> Votre version n'est pas à jour. <br>Cliquez ici pour télécharger la nouvelle version</p>\n" +
+    "          </div>\n" +
     "          <div ng-style=\"calcHeight\" class=\"section\" id=\"section-vinibar\" ng-click=\"stateGo('vinibar')\">\n" +
     "          <!-- <div class=\"section\" id=\"section-vinibar\" ng-click=\"stateGo('vinibar')\"> -->\n" +
     "            <div class=\"home-header\">\n" +
@@ -396,11 +399,9 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "			<p>{{user.email}}</p>\n" +
     "		</div>\n" +
     "		<div class=\"item centered item-profile\">\n" +
-    "			<div class=\"coming-soon\">\n" +
-    "				<p>Coming Soon !</p>\n" +
-    "			</div>\n" +
-    "			<div class=\"row\">\n" +
-    "				<div class=\"col\">\n" +
+    "			<!-- <div ng-show=\"user.bottles_rated_count < 10\" class=\"coming-soon\"><p>Notez 10 vins pour voir profil !</p></div> -->\n" +
+    "			<!-- <div class=\"row\"> -->\n" +
+    "<!-- 				<div class=\"col\">\n" +
     "					<div class=\"row row-center\">\n" +
     "						<div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
     "						<div class=\"col\">\n" +
@@ -408,43 +409,54 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "								<p class=\"subtitle\">{{user.profile.favorite_variety}}</p>\n" +
     "						</div>\n" +
     "					</div>\n" +
-    "				</div>\n" +
-    "				<div class=\"col\">\n" +
-    "					<div class=\"row row-center\">\n" +
-    "						<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
-    "						<div class=\"col\">\n" +
-    "								<h4>Région Préférée</h4>\n" +
-    "								<p class=\"subtitle\">{{user.profile.favorite_region}}</p>\n" +
-    "						</div>\n" +
-    "					</div>\n" +
+    "				</div> -->\n" +
+    "				<!-- <div class=\"col\"> -->\n" +
+    "			<div class=\"row row-center\">\n" +
+    "				<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
+    "				<div class=\"col align-left\">\n" +
+    "						<h4>Région la mieux notée</h4>\n" +
+    "						<p class=\"subtitle\">{{user.profile.top_region}}</p>\n" +
     "				</div>\n" +
     "			</div>\n" +
+    "				<!-- </div> -->\n" +
+    "			<!-- </div> -->\n" +
     "			<div class=\"row row-center\">\n" +
     "						<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
     "						<div class=\"col align-left\">\n" +
     "								<h4>Consommation</h4>\n" +
-    "								<p class=\"subtitle\">{{user.profile.conso[red]}} %, {{user.profile.conso[white]}} %, {{user.profile.conso[rose]}} %</p>\n" +
+    "								<p class=\"subtitle\">Rouge : {{user.profile.red_consumption*100 |number:0}} %, Blanc : {{user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{user.profile.rose_consumption*100 |number:0}} %</p>\n" +
     "						</div>\n" +
     "			</div>\n" +
-    "			<div class=\"row\">\n" +
+    "			<div class=\"row centered\">\n" +
+    "				<div class=\"col item-text-wrap\"><p class=\"p-grey centered\">Vinify vous prépare un profil plein de surprises pour la prochaine version. Des idées, des suggestions ? Ecrivez-nous (suggestions@vinify.co)!</p></div>\n" +
+    "			</div>\n" +
+    "<!-- 			<div class=\"row\">\n" +
     "				<div class=\"col\">\n" +
     "					<h4>Note Moyenne</h4>\n" +
     "					<h3>{{user.profile.average_rating}}</h3>\n" +
     "				</div>\n" +
-    "			</div>\n" +
-    "			<div class=\"row row-center\">\n" +
+    "			</div> -->\n" +
+    "<!-- 			<div class=\"row row-center\">\n" +
     "				<div class=\"col centered\">\n" +
     "					<h4>ViniPoints</h4>\n" +
     "					<span class=\"subtitle\">{{user.profile.vinipoints}}</span>\n" +
     "				</div>\n" +
-    "			</div>\n" +
+    "			</div> -->\n" +
     "		</div>\n" +
     "		<div class=\"item\">\n" +
     "			<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col centered\"><p>Mon Code : <br> {{user.referral_code}}</p></div>\n" +
-    "				<div class=\"col centered\"><button class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
+    "				<div class=\"col\"><button id=\"godfathing\" class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
     "			</div>\n" +
+    "			<div class=\"row row-center centered row-social-profile\">\n" +
+    "				<div class=\"col\"><p class=\"p-grey\">Partager <br> mon code :</p></div>\n" +
+    "				<div class=\"col social-container\">\n" +
+    "					<div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
+    "					<div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "			<h3 class=\"centered\">Mes filleuls</h3>\n" +
     "			<div class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
     "						<h4>Filleul</h4>\n" +
@@ -456,7 +468,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<h4>Achat</h4>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "			<div ng-repeat=\"referral in user.referrals\" class=\"row\">\n" +
+    "			<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
     "						<p>{{referral.referred.first_name}}</p>\n" +
     "				</div>\n" +
@@ -487,7 +499,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "							<p><i class=\"icon ion-ios7-telephone\"></i> {{user.phone}}</p>\n" +
     "					</div>\n" +
     "					<div class=\"col\">\n" +
-    "							<p class=\"p-button\" ng-click=\"openUserModal()\">Modifier</p></button>\n" +
+    "							<p class=\"p-button\" ng-click=\"openUserModal()\"><span class=\"link-dotted\">Modifier</span></p></button>\n" +
     "					</div>\n" +
     "				</div>\n" +
     "		</div>\n" +
@@ -540,7 +552,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
     "    <ion-header-bar class=\"bar-positive\">\n" +
     "          <button class=\"button\" ng-click=\"closeUserModal()\">Annuler</button>\n" +
     "          <h1 class=\"title\">Mes Infos</h1>\n" +
-    "          <button class=\"button\" ng-click=\"updateUser()\">Terminé</button>\n" +
+    "          <button class=\"button\" ng-hide=\"form.show\" ng-click=\"updateUser()\">Terminé</button>\n" +
     "    </ion-header-bar>\n" +
     "    <ion-content>\n" +
     "\n" +
@@ -572,7 +584,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
     "\n" +
     "\n" +
     "    <div class=\"padding centered\">\n" +
-    "      <button class=\"button button-less\" ng-show=\"!form.show\" ng-click=\"form.show = true\">Ajouter une adresse</button>\n" +
+    "      <button class=\"button button-less\" ng-show=\"!form.show\" ng-click=\"form.show = true\"><span class=\"link-dotted link-dotted-primary\">Ajouter une adresse</span></button>\n" +
     "    </div>\n" +
     "    <form name=\"form_address\" class=\"list card\" ng-show=\"form.show\">\n" +
     "\n" +
@@ -665,10 +677,6 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "              </a>\n" +
     "            </div>\n" +
     "          </div>\n" +
-    "\n" +
-    "        <h4>Description</h4>\n" +
-    "\n" +
-    "        <p ng-bind-html=\"bottle.wine.description\" class=\"justified\"><p>\n" +
     "\n" +
     "        <h4>Note</h4>\n" +
     "\n" +
@@ -772,6 +780,9 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "          <div class=\"col col-25\">\n" +
     "          </div>\n" +
     "        </div> -->\n" +
+    "        <h4>Description</h4>\n" +
+    "\n" +
+    "        <p ng-bind-html=\"bottle.wine.description\" class=\"justified\"><p>\n" +
     "\n" +
     "        <h4>Service</h4>\n" +
     "        <div class=\"row row-center\">\n" +
@@ -1204,7 +1215,7 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "		<textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
     "\n" +
     "		<div class=\"checkbox-nude\">\n" +
-    "			<ion-checkbox  ng-model=\"rating.data.get_more\"><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
+    "			<ion-checkbox  ng-model=\"rating.data.get_more\"><p class=\"p-highlight\">Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
     "		</div>\n" +
     "\n" +
     "		</form>\n" +
@@ -1257,7 +1268,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "              </div>\n" +
     "              <div class=\"col\">\n" +
     "                <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
-    "                  Noter à plusieurs\n" +
+    "                  <span class=\"link-dotted link-dotted-primary\">Noter à plusieurs</span>\n" +
     "                </a>\n" +
     "              </div>\n" +
     "        </div>\n" +
@@ -1292,7 +1303,7 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "          <ion-nav-view animation=\"slide-left-right-ios7\" name=\"menuContent\"></ion-nav-view>\n" +
     "        </ion-side-menu-content>\n" +
     "\n" +
-    "        <ion-side-menu side=\"left\">\n" +
+    "        <ion-side-menu expose-aside-when=\"large\" side=\"left\">\n" +
     "          <ion-header-bar class=\"bar-assertive\">\n" +
     "            <h1 class=\"title\">Menu</h1>\n" +
     "          </ion-header-bar>\n" +

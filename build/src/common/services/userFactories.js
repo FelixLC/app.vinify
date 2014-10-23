@@ -39,8 +39,13 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 						location.path('/login');
 					});
 		},
-		postUser: function() {
-			return $http.put(restApiEndPoint + '/users/'+_user.uuid + '/', _user);
+		postUser: function(first_name, last_name, phone, email) {
+			return $http.put(apiEndPoint + '/users/updateuserinfo/', {
+				"first_name": first_name,
+				"last_name": last_name,
+				"phone": phone,
+				"email": email
+			});
 		},
 		removeUser: function () {
 			_user = {};

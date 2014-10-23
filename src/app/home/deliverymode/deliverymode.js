@@ -12,16 +12,19 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 	});
 })
 
-.controller( 'deliverymodeCtrl', function deliverymodeCtrl( $scope, $http, $state, orderInstance, SerializedOrder, $window, User, Addresses, Address, $ionicModal, $ionicLoading, Loading, $cordovaToast ) {
+.controller( 'deliverymodeCtrl', function deliverymodeCtrl( $scope, $http, $state, orderInstance, SerializedOrder, $window, User, Addresses, Address, $ionicModal, $ionicLoading, Loading, $cordovaToast, $cordovaNetwork ) {
 	$scope.order = orderInstance;
 	$scope.user = User.getUser();
+      $scope.form = {show: false};
 	var apiEndPoint =  'https://api.vinify.co/api';
 	Addresses.getList().then(function(response){
 			$scope.addresses = response.data;
 			console.log($scope.addresses);
 		});
-
 	$scope.createRefillOrder = function() {
+          if(ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
+            $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+         } else {
 		if($scope.order.data.delivery_mode) {
 				Loading.show();
 				$scope.order.data.delivery_cost = $scope.deliveryPrices[$scope.order.data.delivery_mode][$scope.order.data.quantity -1];
@@ -45,6 +48,7 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 				});
 			}
 		}
+          }
 	};
 	$scope.displayPrice = function(price) {
 		return price;
@@ -127,11 +131,16 @@ angular.module( 'app.deliverymode', ['Order', 'User', 'Loading', 'ngCordova'])
 			'delivery_address' : (User.getUser().delivery_address) ? User.getUser().delivery_address.uuid : null,
 			'billing_address' : (User.getUser().billing_address) ? User.getUser().billing_address.uuid : null
 		};
+              $scope.toProfile = function () {
+                $scope.modal.hide();
+                $state.go('sidemenu.profile');
+              };
 		$scope.modal.show();
 		$scope.address_suppl = new Address(User.getUser().uuid);
 		delete $scope.address_suppl.uuid;
 	};
 	$scope.closeModal = function() {
+              $scope.user = User.getUser();
 		$scope.modal.hide();
 	};
 
