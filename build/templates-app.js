@@ -1303,7 +1303,7 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "          <ion-nav-view animation=\"slide-left-right-ios7\" name=\"menuContent\"></ion-nav-view>\n" +
     "        </ion-side-menu-content>\n" +
     "\n" +
-    "        <ion-side-menu expose-aside-when=\"large\" side=\"left\">\n" +
+    "        <ion-side-menu side=\"left\">\n" +
     "          <ion-header-bar class=\"bar-assertive\">\n" +
     "            <h1 class=\"title\">Menu</h1>\n" +
     "          </ion-header-bar>\n" +
@@ -1318,6 +1318,7 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "            </ul>\n" +
     "          </ion-content>\n" +
     "        </ion-side-menu>\n" +
+    "\n" +
     "\n" +
     "</ion-side-menus>");
 }]);

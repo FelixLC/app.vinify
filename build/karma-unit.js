@@ -9,7 +9,7 @@ module.exports = function ( karma ) {
      * This is the list of file patterns to load into the browser during testing.
      */
     files: [
-      'bower_components/ionic/release/js/ionic.bundle.min.js',
+      'bower_components/ionic/release/js/ionic.bundle.js',
       'bower_components/angular-resource/angular-resource.min.js',
       'bower_components/angular-cookies/angular-cookies.min.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',

@@ -4,6 +4,7 @@
   "authors": [
     "Lauri Hynynen <@laurihy>"
   ],
+  "main": "lib/angular-payments.js",
   "description": "Directive for formatting and validating credit card forms",
   "keywords": [
     "stripe",
@@ -22,14 +23,13 @@
     "test",
     "tests"
   ],
-  "_release": "95133c133f",
+  "_release": "2472bc9bef",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "95133c133f3876a842bcc6f8b3a70b463b0d248b"
+    "commit": "2472bc9befa256780d106a8e53a9dea12b7341ed"
   },
   "_source": "git://github.com/laurihy/angular-payments.git",
   "_target": "*",
-  "_originalSource": "angular-payments",
-  "_direct": true
+  "_originalSource": "angular-payments"
 }
