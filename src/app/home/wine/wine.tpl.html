@@ -1,4 +1,4 @@
-<ion-view title="Déguster">
+<ion-view title="Déguster" id="wine-view">
   <ion-content has-bouncing="false">
     <div class="wine-header">
       <div class="row row-center">
@@ -27,33 +27,130 @@
           </div>
       </div>
     </div>
+    <div class="occasion">A boire {{bottle.wine.occasion}}</div>
+    <div class="card">
+      <form class="item rating-form">
+        <h4>Note <span class="item-note">glissez jusqu'à votre note</span></h4>
+        <p class="literal-rating">"{{literalRating.value}}"</p>
 
-    <div class="wine-content padding">
-        <div class="row row-buttons">
-              <div class="col">
-                <a class="button button-outline-primary" ng-click="openModal()">
-                  Noter ce vin
-                </a>
-              </div>
-              <div class="col">
-                <a class="button button-less" ng-click="openGroupModal()">
-                  <span class="link-dotted link-dotted-primary">Noter à plusieurs</span>
-                </a>
-              </div>
+        <div class="icon-rating centered">
+            <ul ng-show="rating.data.rating == '1' " class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '1.5' " class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-half"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '2'" class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '2.5' " class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-half"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '3'" class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '3.5' " class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-half"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '4'" class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-outline"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '4.5' " class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star-half"></i></li>
+            </ul>
+            <ul ng-show="rating.data.rating == '5'" class="rating">
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+              <li><i class="icon ion-ios7-star"></i></li>
+            </ul>
+          </div>
+          <div class="range-container">
+                <input ng-model="rating.data.rating" type="range" name="volume" min="1" max="5" value="4" step="0.5">
+          </div>
+
+
+        <h4 class="header-margin-top">Commentaire :</h4>
+        <textarea ng-name="commentaire" rows="4" placeholder="J'écris ici mon commentaire ..." ng-model="rating.data.comment"></textarea>
+
+        <div class="card-action-buttons"><span>valider</span></div>
+      </form>
+    </div>
+    <div class="wine-content">
+      <div class="row row-top wine-description tasting-food padding">
+        <div class="col centered">
+          <img src="assets/utils/logo_glass.svg" alt="">
+          <p>{{bottle.wine.tasting}}</p>
         </div>
-
-          <h4>Description</h4>
-
-          <p ng-bind-html="bottle.wine.description" class="justified"><p>
-
-        <h4>Service</h4>
-        <div class="row row-center">
-          <div class="col"><p class="service-par"><i class="icon ion-thermometer"></i> {{bottle.wine.temperature}}</p></div>
-          <div class="col"><p class="service-par"><i class="icon ion-beaker"></i> Carafer le vin <span ng-show="bottle.wine.carafage">1h30</span> <span ng-show="!bottle.wine.carafage">1h30</span> avant dégustation.</p></div>
+        <div class="col centered">
+          <img src="assets/utils/logo_forks.svg" alt="">
+          <p>{{bottle.wine.food}}</p>
         </div>
+      </div>
 
-        <h4>Dégustation</h4>
-        <p ng-bind-html="bottle.wine.tasting_info" class="justified"><p>
+      <div class="item item-gray item-text-wrap">
+        <h2 class="centered">Domaine</h2>
+        <p>{{bottle.wine.domain}}</p>
+      </div>
+
+      <div class="item item-text-wrap">
+        <h2 class="centered">À savoir</h2>
+        <p>{{bottle.wine.education}}</p>
+      </div>
+
+      <div class="row row-top wine-description testimonial-service padding">
+        <div class="col centered">
+          <div class="testimonial-rating">4,5</div>
+          <h5>Un commentaire client</h5>
+          <p>{{bottle.wine.testimonial}}</p>
+        </div>
+        <div class="col centered">
+          <img src="assets/utils/logo_glass.svg" alt="">
+          <h5>Conseils de service</h5>
+          <p class="advice advice-temp ">
+          <img src="assets/utils/termometer.svg" alt="">
+            Temp. de dégustation : <br>
+            <span class="temp">{{bottle.wine.temperature_min}}°C - {{bottle.wine.temperature_max}}°C </span>
+          </p>
+          <p class="advice advice-stock ">
+            <img src="assets/utils/attention.svg" alt="">
+            voir les conseils de stockage
+          </p>
+        </div>
+      </div>
   </div>
 
   </ion-content>

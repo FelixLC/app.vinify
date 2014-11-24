@@ -1,7 +1,7 @@
 angular.module('Update', [])
   .factory('Update', function($http) {
-    var apiEndPoint =  'https://api.vinify.co/api';
-    var restApiEndPoint =  'https://api.vinify.co/restapi';
+    var apiEndPoint =  'http://127.0.0.1:8000/api';
+    var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
     var that = this;
     var _version = 1.3;
     return {

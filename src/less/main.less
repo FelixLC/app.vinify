@@ -127,9 +127,17 @@ body {
 #login-screen button {
 	margin-bottom: 20px;
 };
-// #login-screen form > div:last-child {
-// 	margin-top: 40px;
-// };
+
+#login-screen {
+	max-width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+};
+#login-screen .list.card{
+	max-width: 320px;
+	margin-left: auto;
+	margin-right: auto;
+};
 
 // SHADE MIXIN BCKG
 .shade (@bckg_url, @break){
@@ -381,6 +389,14 @@ p.segmented-control {
 				background-color: @primary;
 				color: #fff;
 			}
+}
+
+.card-action-buttons {
+	text-align: right;
+}
+.card-action-buttons span {
+	  color: @primary;
+	  text-transform: uppercase;
 }
 
 // .bar-footer-button {

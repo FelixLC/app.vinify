@@ -1,6 +1,6 @@
 module.exports = function ( karma ) {
   karma.configure({
-    /** 
+    /**
      * From where to look for files, starting with the location of this file.
      */
     basePath: '../',
@@ -11,6 +11,7 @@ module.exports = function ( karma ) {
     files: [
       'bower_components/ionic/release/js/ionic.bundle.js',
       'bower_components/angular-resource/angular-resource.min.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-cookies/angular-cookies.min.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',
       'bower_components/angular-local-storage/angular-local-storage.min.js',
@@ -18,7 +19,6 @@ module.exports = function ( karma ) {
       'bower_components/ionic-rating/ionic-rating.min.js',
       'build/templates-app.js',
       'build/templates-common.js',
-      'bower_components/angular-mocks/angular-mocks.js',
       
       'src/**/*.js',
       'src/**/*.coffee',
@@ -45,7 +45,7 @@ module.exports = function ( karma ) {
     runnerPort: 9100,
     urlRoot: '/',
 
-    /** 
+    /**
      * Disable file watching by default.
      */
     autoWatch: false,
@@ -64,7 +64,7 @@ module.exports = function ( karma ) {
      * the aesthetic advantage of not launching a browser every time you save.
      */
     browsers: [
-      'Firefox'
+      'PhantomJS'
     ]
   });
 };

@@ -64,6 +64,7 @@ module.exports = {
     js: [
       'bower_components/ionic/release/js/ionic.bundle.js',
       'bower_components/angular-resource/angular-resource.min.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-cookies/angular-cookies.min.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',
       'bower_components/angular-local-storage/angular-local-storage.min.js',

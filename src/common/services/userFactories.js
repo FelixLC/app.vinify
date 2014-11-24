@@ -1,7 +1,7 @@
 angular.module('User', ['ngResource', 'Loading', 'Offline'])
 .factory('User', function(OfflineUser, $http, $location) {
-	var apiEndPoint =  'https://api.vinify.co/api';
-	var restApiEndPoint =  'https://api.vinify.co/restapi';
+	var apiEndPoint =  'http://127.0.0.1:8000/api';
+	var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 	// instantiate our initial object
 	var _user = null;
 	var self = this;
@@ -68,8 +68,8 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 })
 
 .factory('Bottles', function($q, $http, Loading, OfflineWineData) {
-	var apiEndPoint =  'https://api.vinify.co/api';
-	var restApiEndPoint =  'https://api.vinify.co/restapi';
+	var apiEndPoint =  'http://127.0.0.1:8000/api';
+	var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 	// instantiate our initial object
 	var _bottles = null;
 
@@ -176,8 +176,8 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 	};
 })
 .factory('Addresses', function($q, $http, Loading, User) {
-	var apiEndPoint =  'https://api.vinify.co/api';
-	var restApiEndPoint =  'https://api.vinify.co/restapi';
+	var apiEndPoint =  'http://127.0.0.1:8000/api';
+	var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 	// instantiate our initial object
 	var Addresses = {};
 
@@ -300,8 +300,8 @@ angular.module('User', ['ngResource', 'Loading', 'Offline'])
 })
 
 .factory('Address', function($http, Addresses, User) {
-	var apiEndPoint =  'https://api.vinify.co/api';
-	var restApiEndPoint =  'https://api.vinify.co/restapi';
+	var apiEndPoint =  'http://127.0.0.1:8000/api';
+	var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
 	var Address = function (user){
 		this.data = {

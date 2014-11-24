@@ -8,8 +8,8 @@ angular.module('security.service', [
   'Update'
 ])
 .factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update) {
- var apiEndPoint =  'https://api.vinify.co/api';
- var restApiEndPoint =  'https://api.vinify.co/restapi';
+ var apiEndPoint =  'http://127.0.0.1:8000/api';
+ var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
   // Redirect to the given url (defaults to '/')
   function redirect(url) {
     url = url || '/';

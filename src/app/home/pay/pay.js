@@ -31,7 +31,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 	.controller( 'payCtrl', function payCtrl( $scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state ) {
 		$scope.serializedOrder = SerializedOrder;
 		console.log(SerializedOrder);
-		var apiEndPoint =  'https://api.vinify.co/api';
+		var apiEndPoint =  'http://127.0.0.1:8000/api';
 
 		Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
 		$scope.submit = function(status, response) {

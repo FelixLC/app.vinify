@@ -18,7 +18,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'
     window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');
   };
   $scope.password = function() {
-    window.open('https://api.vinify.co/api/users/password/reset', '_system', 'location=yes');
+    window.open('http://127.0.0.1:8000/api/users/password/reset', '_system', 'location=yes');
   };
   // Any error message from failing to login
   $scope.authError = null;

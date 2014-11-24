@@ -1,7 +1,7 @@
 angular.module('Offline', ['LocalStorageModule'])
 .factory('OfflineQueue', function(localStorageService, $q) {
-	var apiEndPoint =  'https://api.vinify.co/api';
-	var restApiEndPoint =  'https://api.vinify.co/restapi';
+	var apiEndPoint =  'http://127.0.0.1:8000/api';
+	var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 	// instantiate our initial object
 	var _ratingQueue =[];
 	var _updateRatingQueue =[];
