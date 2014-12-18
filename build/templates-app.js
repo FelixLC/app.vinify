@@ -821,13 +821,13 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "		</button>\n" +
     "	</ion-nav-buttons>\n" +
     "	<ion-header-bar align-title=\"left\" class=\"bar-positive bar-subheader bar-segmented-control\">\n" +
-    "		<p ng-show=\"!search.toggle\" class=\"segmented-control\">\n" +
+    "		<p ng-if=\"!search.toggle\" class=\"segmented-control\">\n" +
     "				<span class=\"segmented\">\n" +
     "						<label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"toDrink\" checked><span class=\"label\">A boire</span></label>\n" +
     "						<label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"rated\"><span class=\"label\">Notés</span></label>\n" +
     "				</span>\n" +
     "		</p>\n" +
-    "		<div ng-show=\"search.toggle\" class=\"item-input-inset search-vinibar\">\n" +
+    "		<div ng-if=\"search.toggle\" class=\"item-input-inset search-vinibar\">\n" +
     "			<label class=\"item-input-wrapper\">\n" +
     "				<i class=\"icon ion-ios7-search placeholder-icon\"></i>\n" +
     "				<input type=\"search\" ng-model=\"search.value\" placeholder=\"Search\">\n" +
@@ -843,20 +843,20 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "			on-refresh=\"update()\">\n" +
     "		</ion-refresher>\n" +
     "		<!-- order notification -->\n" +
-    "		<a ng-show=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
+    "		<a ng-if=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
     "			<h3>Une commande est en route !</h3>\n" +
     "			<p>Cliquez ici si vous l'avez reçue</p>\n" +
     "		</a>\n" +
-    "		<a  ng-show=\"user.status == 1\" class=\"item centered\" ng-click=\"questionnaire()\">\n" +
+    "		<a  ng-if=\"user.status == 1\" class=\"item centered\" ng-click=\"questionnaire()\">\n" +
     "			<h3>Vous n'avez pas encore de vinibar !</h3>\n" +
     "			<p>Cliquez ici pour démarrer l'aventure</p>\n" +
     "		</a>\n" +
-    "		<a  ng-show=\"user.status == 2 || user.status == 2.5\" class=\"item centered\" ng-click=\"payOrder()\">\n" +
+    "		<a  ng-if=\"user.status == 2 || user.status == 2.5\" class=\"item centered\" ng-click=\"payOrder()\">\n" +
     "			<h3>Vous n'avez pas finalisé votre commande !</h3>\n" +
     "			<p>Cliquez ici pour continuer l'aventure</p>\n" +
     "		</a>\n" +
-    "		<ion-list ng-show=\"segmentedControl.value === 'rated'\">\n" +
-    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
+    "		<ion-list ng-if=\"segmentedControl.value === 'rated'\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
     "					<h3>{{bottle.wine.display_name}}</h3>\n" +
     "					<p class=\"vinitext\">\n" +
     "							{{bottle.wine.region}}\n" +
@@ -869,8 +869,8 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "					</p>\n" +
     "			</a>\n" +
     "		</ion-list>\n" +
-    "		<ion-list ng-show=\"segmentedControl.value === 'toDrink'\">\n" +
-    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{bottle.uuid}}\">\n" +
+    "		<ion-list ng-if=\"segmentedControl.value === 'toDrink'\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{bottle.uuid}}\">\n" +
     "					<h3>{{bottle.wine.display_name}}</h3>\n" +
     "					<p class=\"vinitext\">\n" +
     "							{{bottle.wine.region}}\n" +

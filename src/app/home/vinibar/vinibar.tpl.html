@@ -5,13 +5,13 @@
 		</button>
 	</ion-nav-buttons>
 	<ion-header-bar align-title="left" class="bar-positive bar-subheader bar-segmented-control">
-		<p ng-show="!search.toggle" class="segmented-control">
+		<p ng-if="!search.toggle" class="segmented-control">
 				<span class="segmented">
 						<label><input type="radio" name="list" ng-model="segmentedControl.value" value="toDrink" checked><span class="label">A boire</span></label>
 						<label><input type="radio" name="list" ng-model="segmentedControl.value" value="rated"><span class="label">Notés</span></label>
 				</span>
 		</p>
-		<div ng-show="search.toggle" class="item-input-inset search-vinibar">
+		<div ng-if="search.toggle" class="item-input-inset search-vinibar">
 			<label class="item-input-wrapper">
 				<i class="icon ion-ios7-search placeholder-icon"></i>
 				<input type="search" ng-model="search.value" placeholder="Search">
@@ -27,20 +27,20 @@
 			on-refresh="update()">
 		</ion-refresher>
 		<!-- order notification -->
-		<a ng-show="user.awaiting_order" class="item centered" ng-click="orderReceived()">
+		<a ng-if="user.awaiting_order" class="item centered" ng-click="orderReceived()">
 			<h3>Une commande est en route !</h3>
 			<p>Cliquez ici si vous l'avez reçue</p>
 		</a>
-		<a  ng-show="user.status == 1" class="item centered" ng-click="questionnaire()">
+		<a  ng-if="user.status == 1" class="item centered" ng-click="questionnaire()">
 			<h3>Vous n'avez pas encore de vinibar !</h3>
 			<p>Cliquez ici pour démarrer l'aventure</p>
 		</a>
-		<a  ng-show="user.status == 2 || user.status == 2.5" class="item centered" ng-click="payOrder()">
+		<a  ng-if="user.status == 2 || user.status == 2.5" class="item centered" ng-click="payOrder()">
 			<h3>Vous n'avez pas finalisé votre commande !</h3>
 			<p>Cliquez ici pour continuer l'aventure</p>
 		</a>
-		<ion-list ng-show="segmentedControl.value === 'rated'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!!'}  | filter: searchFilter" class="item" href="#/ratedwine/{{bottle.uuid}}">
+		<ion-list ng-if="segmentedControl.value === 'rated'">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item" href="#/ratedwine/{{bottle.uuid}}">
 					<h3>{{bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{bottle.wine.region}}
@@ -53,8 +53,8 @@
 					</p>
 			</a>
 		</ion-list>
-		<ion-list ng-show="segmentedControl.value === 'toDrink'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!'}  | filter: searchFilter" class="item" href="#/wine/{{bottle.uuid}}">
+		<ion-list ng-if="segmentedControl.value === 'toDrink'">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item" href="#/wine/{{bottle.uuid}}">
 					<h3>{{bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{bottle.wine.region}}
