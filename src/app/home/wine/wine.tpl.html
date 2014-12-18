@@ -110,45 +110,63 @@
       </form>
     </div>
     <div class="wine-content">
-      <div class="row row-top wine-description tasting-food padding">
-        <div class="col centered">
-          <img src="assets/utils/logo_glass.svg" alt="">
+      <div class="row row-center">
+        <div class="col col-20 centered">
+          <img class="logo-wine-desc" src="assets/utils/logo_glass.png" alt="">
+        </div>
+        <div class="col">
+          <h4>Description</h4>
           <p>{{bottle.wine.tasting}}</p>
         </div>
-        <div class="col centered">
-          <img src="assets/utils/logo_forks.svg" alt="">
+      </div>
+      <div class="row row-center">
+        <div class="col col-20 centered">
+          <img class="logo-wine-desc" src="assets/utils/logo_forks.png" alt="">
+        </div>
+        <div class="col">
+          <h4>Accords mets/vin</h4>
           <p>{{bottle.wine.food}}</p>
         </div>
       </div>
-
-      <div class="item item-gray item-text-wrap">
-        <h2 class="centered">Domaine</h2>
-        <p>{{bottle.wine.domain}}</p>
+      <div class="row row-center">
+        <div class="col col-20 centered">
+          <img class="logo-wine-desc" src="assets/utils/logo_grapes.png" alt="">
+        </div>
+        <div class="col">
+          <h4>Producteur</h4>
+          <p>{{bottle.wine.domain}}</p>
+        </div>
       </div>
-
-      <div class="item item-text-wrap">
-        <h2 class="centered">À savoir</h2>
-        <p>{{bottle.wine.education}}</p>
-      </div>
-
-      <div class="row row-top wine-description testimonial-service padding">
-        <div class="col centered">
+      <div class="row row-center">
+        <div class="col col-20 centered">
           <div class="testimonial-rating">4,5</div>
-          <h5>Un commentaire client</h5>
+        </div>
+        <div class="col">
+          <h4>Un commentaire client</h4>
           <p>{{bottle.wine.testimonial}}</p>
         </div>
-        <div class="col centered">
-          <img src="assets/utils/logo_glass.svg" alt="">
-          <h5>Conseils de service</h5>
-          <p class="advice advice-temp ">
+      </div>
+
+      <div class="row row-center row-advice">
+        <div class="col col-20 centered">
           <img src="assets/utils/termometer.svg" alt="">
+        </div>
+        <div class="col">
+          <h4>Conseils de service</h4>
+          <p class="advice advice-temp ">
             Temp. de dégustation : <br>
             <span class="temp">{{bottle.wine.temperature_min}}°C - {{bottle.wine.temperature_max}}°C </span>
           </p>
           <p class="advice advice-stock ">
-            <img src="assets/utils/attention.svg" alt="">
             voir les conseils de stockage
           </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h2 class="centered">À savoir</h2>
+          <p>{{bottle.wine.education}}</p>
         </div>
       </div>
   </div>

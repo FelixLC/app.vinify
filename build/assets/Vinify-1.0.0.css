@@ -268,6 +268,9 @@
   text-align: center;
   font-family: robotolight_italic, "Helvetica Neue", Helvetica, sans-serif;
 }
+#wine-view .logo-wine-desc {
+  width: 50px;
+}
 #wine-view .wine-description .col:first-child {
   padding: 0 10px 0 0;
 }
@@ -295,18 +298,42 @@
   border-radius: 25px;
 }
 #wine-view .advice {
-  padding-left: 25px;
   position: relative;
 }
 #wine-view .advice img {
   position: absolute;
   width: 20px;
   max-height: 30px;
-  left: 0;
+  left: -40px;
 }
 #wine-view .advice-temp .temp {
   color: #cb0001;
   font-family: 'roboto';
+}
+@media screen and (min-width: 992px) {
+  #wine-view .wine-header h3 {
+    font-size: 24px;
+  }
+  #wine-view .wine-header h4 {
+    font-size: 20px;
+  }
+  #wine-view .wine-header .img-grapes {
+    height: 40px;
+  }
+  #wine-view .wine-content {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  #wine-view .desc-card {
+    min-height: 150px;
+  }
+  #wine-view .rating-card {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  #wine-view .testimonial-rating {
+    margin: 0 auto 25px auto;
+  }
 }
 .row-social .social-container {
   margin: 0 auto;
@@ -533,6 +560,12 @@
   position: absolute;
   bottom: 25px;
   right: 25px;
+}
+@media screen and (min-width: 992px) {
+  p,
+  .item p {
+    font-size: 16px;
+  }
 }
 @font-face {
   font-family: 'robotolight_italic';
