@@ -168,7 +168,7 @@ angular.module("tpl/yipee.tpl.html", []).run(["$templateCache", function($templa
     "      <div class=\"col centered\">\n" +
     "        <img src=\"assets/utils/yipee.svg\" alt=\"Yipee\">\n" +
     "        <h3>Yipee !</h3>\n" +
-    "        <h4>Tout c'est bien passé.</h4>\n" +
+    "        <h4>Tout s'est bien passé.</h4>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "    </ion-content>\n" +
