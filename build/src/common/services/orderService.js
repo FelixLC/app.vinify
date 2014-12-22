@@ -10,12 +10,7 @@ angular.module('Order', [])
       refills: [ new Refill(1, 49.90) ] ,
       coupon: "",
       delivery_mode: null,
-      delivery_cost: null,
-      split:  {
-        red: 2,
-        rose: 2,
-        white: 2
-      }
+      delivery_cost: null
     };
     this.serializedOrder = {};
   };
@@ -23,11 +18,22 @@ angular.module('Order', [])
   var Refill = function (num, price) {
     this.refill_number = num;
     this.price_level = price;
+    this.split =  {
+        red: 1,
+        rose: 1,
+        white: 1
+    };
   };
 
   // add one refill and increment _refillNumber
   Order.prototype.addRefill = function (price) {
+    ++this.data.quantity;
     this.data.refills.push(new Refill(this.data.quantity, price));
+  };
+
+  Order.prototype.removeRefill = function () {
+    this.data.refills = [ this.data.refills[0] ];
+    --this.data.quantity;
   };
 
   // TODO REFACTOR

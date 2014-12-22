@@ -1,100 +1,193 @@
-<ion-view title="Commander">
-	<ion-content class="has-footer" has-bouncing="false">
-		<div class="bottle-number-selector">
-			<h4 class="centered">Nombre de bouteilles</h4>
-			<p class="segmented-control">
-					<span class="segmented">
-							<label><input type="radio" name="list" ng-model="order.data.quantity" value="1"><span class="label">3 bouteilles</span></label>
-							<label><input type="radio" name="list" ng-model="order.data.quantity" value="2"><span class="label">6 bouteilles</span></label>
-					</span>
-			</p>
-		</div>
+<ion-view title="Commander" id="order-view">
+  <ion-content class="has-footer" has-bouncing="false">
+    <div class="view-container">
+      <div class="card">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Première recharge
+          </div>
+          <select ng-model="order.data.refills[0]['price_level']" ng-options="value as key for (key, value) in prices">
+          </select>
+        </label>
+        <div ng-if="!hideFirstCard" class="item">
+          <div class="row row-center">
+            <div class="col col-20 centered"><img class="order-france-logo" src="assets/utils/france.svg" alt="cepage"></div>
+            <div class="col item-text-wrap">
+              <p ng-if="order.data.refills[0]['price_level'] === 29.90 ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === 39.90 ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === 49.90 ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
+            </div>
+          </div>
+        </div>
+        <label ng-if="!hideFirstCard" class="item item-input item-select">
+          <div class="input-label">
+           Nombre de rouges
+          </div>
+          <select ng-model="order.data.refills[0]['split']['red']" ng-options="option for option in options"></select>
+        </label>
+        <label ng-if="!hideFirstCard" class="item item-input item-select">
+          <div class="input-label">
+            Nombre de blancs
+          </div>
+          <select ng-model="order.data.refills[0]['split']['white']" ng-options="option for option in options | filterWhite:order.data.refills[0]['split']['red']"></select>
+        </label>
+        <label ng-if="!hideFirstCard" class="item item-input item-select">
+          <div class="input-label">
+            Nombre de rosés
+          </div>
+          <select ng-model="order.data.refills[0]['split']['rose']" ng-options="option for option in options | filterRose:order.data.refills[0]['split']['red']:order.data.refills[0]['split']['white']"></select>
+        </label>
+        <div class="item">
+          <div class="button-card">
+            <span ng-hide="hideFirstCard" class="button-card--save" ng-click="hideFirstCard = true">valider</span>
+            <span ng-show="hideFirstCard" class="button-card--save" ng-click="hideFirstCard = false">modifier</span>
+          </div>
+        </div>
+      </div>
 
-		<div class="list list-select">
-			<h4>Composition des recharges</h4>
-			<div class="row">
-				<div class="col">
-					<label class="item-input item-select">
-						<div class="input-label">
-							<div class="red-pin"></div>
-							<div ng-show="order.data.split.red > 0" class="red-pin"></div>
-							<div ng-show="order.data.split.red > 1" class="red-pin"></div>
-						</div>
-						<select ng-model="order.data.split.red">
-							<option value="0">Pas du tout</option>
-							<option value="1">Un peu</option>
-							<option value="2">Beaucoup</option>
-						</select>
-					</label>
-				</div>
-				<div class="col">
-					<label class="item-input item-select">
-						<div class="input-label">
-							<div class="white-pin"></div>
-							<div ng-show="order.data.split.white > 0" class="white-pin"></div>
-							<div ng-show="order.data.split.white > 1" class="white-pin"></div>
-						</div>
-						<select ng-model="order.data.split.white">
-							<option value="0">Pas du tout</option>
-							<option value="1">Un peu</option>
-							<option value="2">Beaucoup</option>
-						</select>
-					</label>
-				</div>
-				<div class="col">
-					<label class="item-input item-select">
-						<div class="input-label">
-							<div class="rose-pin"></div>
-							<div ng-show="order.data.split.rose > 0" class="rose-pin"></div>
-							<div ng-show="order.data.split.rose > 1" class="rose-pin"></div>
-						</div>
-						<select ng-model="order.data.split.rose">
-							<option value="0">Pas du tout</option>
-							<option value="1">Un peu</option>
-							<option value="2">Beaucoup</option>
-						</select>
-					</label>
-				</div>
-			</div>
-		</div>
+      <div ng-hide="addSecond" class="centered"><button class="button button-outline-primary centered" ng-click="addRefill()">Ajouter une recharge</button></div>
 
-		<div class="list first-refill">
-			<div class="item price-selector">
-				<h4 class="centered">Recharge 1</h4>
-				<div class="button-bar">
-				  <a  ng-class="{highlighted: price.levelA == '29.90' }" ng-click="price.levelA = 29.90 " class="button">29€90</a>
-				  <a  ng-class="{highlighted: price.levelA == '39.90' }" ng-click="price.levelA = 39.90 " class="button">39€90</a>
-				  <a  ng-class="{highlighted: price.levelA == '49.90' }" ng-click="price.levelA = 49.90 " class="button">49€90</a>
-				</div>
-			</div>
-			<div ng-show="order.data.quantity == '2'" class="item price-selector">
-				<h4 class="centered">Recharge 2</h4>
-				<div class="button-bar">
-				  <a  ng-class="{highlighted: price.levelB == '29.90' }" ng-click="price.levelB = 29.90 " class="button">29€90</a>
-				  <a  ng-class="{highlighted: price.levelB == '39.90' }" ng-click="price.levelB = 39.90 " class="button">39€90</a>
-				  <a  ng-class="{highlighted: price.levelB == '49.90' }" ng-click="price.levelB = 49.90 " class="button">49€90</a>
-				</div>
-			</div>
-		 </div>
+      <div ng-if="addSecond" class="card">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Seconde recharge
+          </div>
+          <select ng-model="order.data.refills[1]['price_level']" ng-options="value as key for (key, value) in prices">
+          </select>
+        </label>
+        <div ng-if="!hideSecondCard" class="item">
+          <div class="row row-center">
+            <div class="col col-20 centered"><img class="order-france-logo" src="assets/utils/france.svg" alt="cepage"></div>
+            <div class="col item-text-wrap">
+              <p ng-if="order.data.refills[1]['price_level'] === 29.90 ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[1]['price_level'] === 39.90 ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+              <p ng-if="order.data.refills[1]['price_level'] === 49.90 ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
+            </div>
+          </div>
+        </div>
+        <label ng-if="!hideSecondCard" class="item item-input item-select">
+          <div class="input-label">
+           Nombre de rouges
+          </div>
+          <select ng-model="order.data.refills[1]['split']['red']" ng-options="option for option in options"></select>
+        </label>
+        <label ng-if="!hideSecondCard" class="item item-input item-select">
+          <div class="input-label">
+            Nombre de blancs
+          </div>
+          <select ng-model="order.data.refills[1]['split']['white']" ng-options="option for option in options | filterWhite:order.data.refills[1]['split']['red']"></select>
+        </label>
+        <label ng-if="!hideSecondCard" class="item item-input item-select">
+          <div class="input-label">
+            Nombre de rosés
+          </div>
+          <select ng-model="order.data.refills[1]['split']['rose']" ng-options="option for option in options | filterRose:order.data.refills[1]['split']['red']:order.data.refills[1]['split']['white']"></select>
+        </label>
+        <div class="item">
+          <div class="button-card">
+            <span ng-hide="hideSecondCard" class="button-card--delete" ng-click="removeRefill()">supprimer</span>
+            <span ng-hide="hideSecondCard" class="button-card--save" ng-click="hideSecondCard = true">valider</span>
+            <span ng-show="hideSecondCard" class="button-card--save" ng-click="hideSecondCard = false">modifier</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<div class="list card" ng-show="order.data.quantity == '1'">
-			<div class="item item-text-wrap refill-description">
-				<p ng-show="price.levelA == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>
-				<p ng-show="price.levelA == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-				<p ng-show="price.levelA == '49.90' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
-			</div>
-		</div>
+<!--     <div class="bottle-number-selector">
+      <h4 class="centered">Nombre de bouteilles</h4>
+      <p class="segmented-control">
+          <span class="segmented">
+              <label><input type="radio" name="list" ng-model="order.data.data.quantity" value="1"><span class="label">3 bouteilles</span></label>
+              <label><input type="radio" name="list" ng-model="order.data.data.quantity" value="2"><span class="label">6 bouteilles</span></label>
+          </span>
+      </p>
+    </div>
 
-		<div class="list card" ng-show="order.data.quantity == '2'">
-			<div class="item item-text-wrap refill-description">
-				<p ng-show="price.levelB == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix mini.</p>
-				<p ng-show="price.levelB == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-				<p ng-show="price.levelB == '49.90' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
-			</div>
-		</div>
+    <div class="list list-select">
+      <h4>Composition des recharges</h4>
+      <div class="row">
+        <div class="col">
+          <label class="item-input item-select">
+            <div class="input-label">
+              <div class="red-pin"></div>
+              <div ng-show="order.data.data.split.red > 0" class="red-pin"></div>
+              <div ng-show="order.data.data.split.red > 1" class="red-pin"></div>
+            </div>
+            <select ng-model="order.data.data.split.red">
+              <option value="0">Pas du tout</option>
+              <option value="1">Un peu</option>
+              <option value="2">Beaucoup</option>
+            </select>
+          </label>
+        </div>
+        <div class="col">
+          <label class="item-input item-select">
+            <div class="input-label">
+              <div class="white-pin"></div>
+              <div ng-show="order.data.data.split.white > 0" class="white-pin"></div>
+              <div ng-show="order.data.data.split.white > 1" class="white-pin"></div>
+            </div>
+            <select ng-model="order.data.data.split.white">
+              <option value="0">Pas du tout</option>
+              <option value="1">Un peu</option>
+              <option value="2">Beaucoup</option>
+            </select>
+          </label>
+        </div>
+        <div class="col">
+          <label class="item-input item-select">
+            <div class="input-label">
+              <div class="rose-pin"></div>
+              <div ng-show="order.data.data.split.rose > 0" class="rose-pin"></div>
+              <div ng-show="order.data.data.split.rose > 1" class="rose-pin"></div>
+            </div>
+            <select ng-model="order.data.data.split.rose">
+              <option value="0">Pas du tout</option>
+              <option value="1">Un peu</option>
+              <option value="2">Beaucoup</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </div>
 
-	</ion-content>
-	<div class="bar bar-footer bar-positive" ng-click="createRefillOrder()">
-			<div class="title">Mode de Livraison ></div>
-	</div>
+    <div class="list first-refill">
+      <div class="item price-selector">
+        <h4 class="centered">Recharge 1</h4>
+        <div class="button-bar">
+          <a  ng-class="{highlighted: price.levelA == '29.90' }" ng-click="price.levelA = 29.90 " class="button">29€90</a>
+          <a  ng-class="{highlighted: price.levelA == '39.90' }" ng-click="price.levelA = 39.90 " class="button">39€90</a>
+          <a  ng-class="{highlighted: price.levelA == '49.90' }" ng-click="price.levelA = 49.90 " class="button">49€90</a>
+        </div>
+      </div>
+      <div ng-show="order.data.data.quantity == '2'" class="item price-selector">
+        <h4 class="centered">Recharge 2</h4>
+        <div class="button-bar">
+          <a  ng-class="{highlighted: price.levelB == '29.90' }" ng-click="price.levelB = 29.90 " class="button">29€90</a>
+          <a  ng-class="{highlighted: price.levelB == '39.90' }" ng-click="price.levelB = 39.90 " class="button">39€90</a>
+          <a  ng-class="{highlighted: price.levelB == '49.90' }" ng-click="price.levelB = 49.90 " class="button">49€90</a>
+        </div>
+      </div>
+     </div>
+
+    <div class="list card" ng-show="order.data.data.quantity == '1'">
+      <div class="item item-text-wrap refill-description">
+        <p ng-show="price.levelA == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+        <p ng-show="price.levelA == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+        <p ng-show="price.levelA == '49.90' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
+      </div>
+    </div>
+
+    <div class="list card" ng-show="order.data.data.quantity == '2'">
+      <div class="item item-text-wrap refill-description">
+        <p ng-show="price.levelB == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+        <p ng-show="price.levelB == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+        <p ng-show="price.levelB == '49.90' ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
+      </div>
+    </div> -->
+
+  </ion-content>
+  <div class="bar bar-footer bar-positive" ng-click="createRefillOrder()">
+      <div class="title">Mode de Livraison ></div>
+  </div>
 </ion-view>

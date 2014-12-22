@@ -513,6 +513,9 @@
   padding: 7px 0;
   width: 60%;
 }
+#order-view .order-france-logo {
+  width: 100%;
+}
 #section-vinibar {
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.65) 100%), url('img/vinibar.png') no-repeat center;
   /* FF3.6+ */
@@ -623,6 +626,10 @@
   p,
   .item p {
     font-size: 16px;
+  }
+  .view-container {
+    padding-left: 100px;
+    padding-right: 100px;
   }
 }
 /*!
@@ -2912,13 +2919,18 @@ p.segmented-control {
   background-color: #cb0001;
   color: #fff;
 }
-.card-action-buttons {
+.button-card {
   text-align: right;
   cursor: pointer;
   font-family: 'robotobold';
 }
-.card-action-buttons span {
+.button-card--save {
   color: #cb0001;
+  margin-left: 15px;
+  text-transform: uppercase;
+}
+.button-card--delete {
+  color: #ebebeb;
   text-transform: uppercase;
 }
 .bar-footer-button {
