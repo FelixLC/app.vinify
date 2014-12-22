@@ -27,14 +27,15 @@
           </div>
       </div>
     </div>
+
     <div class="occasion">A boire {{bottle.wine.occasion}}</div>
     <div class="rating-card">
       <div class="card">
         <form class="item rating-form">
-          <h4>Note <span class="item-note">glissez jusqu'à votre note</span></h4>
-          <p class="literal-rating">"{{literalRating.value}}"</p>
-
-          <div class="icon-rating centered">
+          <h4>Note : {{rating.data.rating}}/5<span class="item-note item-note-primary">"{{literalRating.value}}"</span></h4>
+            <md-slider class="md-slider-card" md-discrete ng-model="rating.data.rating" step="0.5" min="1" max="5" aria-label="rating">
+            </md-slider>
+<!--           <div class="icon-rating centered">
               <ul ng-show="rating.data.rating == '1' " class="rating">
                 <li><i class="icon ion-ios7-star"></i></li>
                 <li><i class="icon ion-ios7-star-outline"></i></li>
@@ -97,17 +98,23 @@
                 <li><i class="icon ion-ios7-star"></i></li>
                 <li><i class="icon ion-ios7-star"></i></li>
                 <li><i class="icon ion-ios7-star"></i></li>
-              </ul>
-            </div>
+              </ul> -->
+<!--             </div>
             <div class="range-container">
                   <input ng-model="rating.data.rating" type="range" name="volume" min="1" max="5" value="4" step="0.5">
-            </div>
+            </div> -->
 
 
           <h4 class="header-margin-top">Commentaire :</h4>
           <textarea ng-name="commentaire" rows="4" placeholder="J'écris ici mon commentaire ..." ng-model="rating.data.comment"></textarea>
+          <div class="item item-get-more item-checkbox">
+             <label class="checkbox">
+               <input type="checkbox" ng-model="rating.data.get_more">
+             </label>
+             Revoir mon vin dans mon Vinibar
+          </div>
 
-          <div class="card-action-buttons"><span>valider</span></div>
+          <div class="card-action-buttons"><span ng-click="rateWine()">valider</span></div>
         </form>
       </div>
     </div>
@@ -180,6 +187,6 @@
         </div>
       </div>
     </div>
-
+    <div class="centered"><a class="button button-outline-primary centered" href ui-sref="sidemenu.wine_know_more({uuid: id})">En savoir plus</a></div>
   </ion-content>
 </ion-view>

@@ -1,5 +1,5 @@
 angular.module('Update', [])
-  .factory('Update', function($http) {
+  .factory('Update', function ($http) {
     var apiEndPoint =  'http://127.0.0.1:8000/api';
     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
     var that = this;

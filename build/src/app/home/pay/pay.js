@@ -1,5 +1,5 @@
 angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading'])
-	.config(function($stateProvider, $urlRouterProvider) {
+	.config(function ($stateProvider, $urlRouterProvider) {
 		$stateProvider
 			.state('sidemenu.pay', {
 					url: "/pay",
@@ -11,14 +11,14 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 					}
 			});
 	})
-	.directive('syncFocusWith', function($timeout, $rootScope) {
+	.directive('syncFocusWith', function ($timeout, $rootScope) {
 			return {
 					restrict: 'A',
 					scope: {
 							focusValue: "=syncFocusWith"
 					},
-					link: function($scope, $element, attrs) {
-							$scope.$watch("focusValue", function(currentValue, previousValue) {
+					link: function ($scope, $element, attrs) {
+							$scope.$watch("focusValue", function (currentValue, previousValue) {
 									if (currentValue === true && !previousValue) {
 											$element[0].focus();
 									} else if (currentValue === false && previousValue) {
@@ -34,52 +34,52 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 		var apiEndPoint =  'http://127.0.0.1:8000/api';
 
 		Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
-		$scope.submit = function(status, response) {
+		$scope.submit = function (status, response) {
 
 				if (response.error) {
 					if (ionic.Platform.isWebView()) {
-						$cordovaToast.show('Merci de vérifier vos informations', 'short', 'top').then(function(success) {
+						$cordovaToast.show('Merci de vérifier vos informations', 'short', 'top').then(function (success) {
 						}, function (error) {
 						// error
 						});
 						//if (response.error.code == 'incorrect_number') {
-						//	$cordovaToast.show('The card number is incorrect.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card number is incorrect.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
 						//}
 						//if (response.error.code == 'invalid_number') {
-						//	$cordovaToast.show('The card number is not a valid credit card number.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card number is not a valid credit card number.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
 						//}
 						//if (response.error.code == 'invalid_expiry_month') {
-						//	$cordovaToast.show('The card\'s expiration month is invalid.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card\'s expiration month is invalid.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
 						//}
 						//if (response.error.code == 'invalid_expiry_year') {
-						//	$cordovaToast.show('The card\'s expiration year is invalid.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card\'s expiration year is invalid.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
 						//}
 						//if (response.error.code == 'invalid_cvc') {
-						//	$cordovaToast.show('The card\'s security code is invalid.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card\'s security code is invalid.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
 						//}
 						//if (response.error.code == 'expired_card') {
-						//	$cordovaToast.show('The card has expired.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card has expired.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
 						//}
 						//if (response.error.code == 'incorrect_cvc') {
-						//	$cordovaToast.show('The card\'s security code is invalid.', 'short', 'top').then(function(success) {
+						//	$cordovaToast.show('The card\'s security code is invalid.', 'short', 'top').then(function (success) {
 						//	}, function (error) {
 						//	// error
 						//	});
@@ -98,7 +98,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 						method: "POST",
 						data: data
 					})
-					.success(function(data, status, headers, config) {
+					.success(function (data, status, headers, config) {
 						Loading.hide();
 						$scope.openYipeeModal();
 						if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
@@ -113,7 +113,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 						}
 						$state.go('sidemenu.home');
 					})
-					.error(function(data, status, headers, config) {
+					.error(function (data, status, headers, config) {
 						Loading.hide();
 						$scope.openOopsModal();
 					});
@@ -128,7 +128,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 			"height": appropriatedHeight + 'px'
 		};
 
-		$scope.calcPrice = function() {
+		$scope.calcPrice = function () {
 				var price = 0;
 				for (var i = SerializedOrder.refills.length - 1; i >= 0; i--) {
 					price += SerializedOrder.refills[i].price_level;
@@ -137,7 +137,7 @@ angular.module( 'app.pay', ['Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 				return price;
 		};
 
-		$scope.displayPrice = function(price) {
+		$scope.displayPrice = function (price) {
 			return price;
 			//var string = price.toString();
 			//var len = string.length - 2;

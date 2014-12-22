@@ -22,25 +22,25 @@ angular.module( 'app', [
 	'templates-common'
 ])
 
-	.run(['security', '$window', '$rootScope', '$document', 'User', function(security, $window, $rootScope, $document, User) {
+	.run(['security', '$window', '$rootScope', '$document', 'User', function (security, $window, $rootScope, $document, User) {
 		//	Get the current user state the application starts
 		//	(in case they are still logged in from a previous session)
-		security.requestCurrentUser().then(function(result){
+		security.requestCurrentUser().then(function (result) {
 			console.log(result);
 			console.log(window.device);
 		});
-		var onNetworkOff = function() {
+		var onNetworkOff = function () {
 			$rootScope.$broadcast('offline');
 		};
-		var onNetworkOn = function() {
+		var onNetworkOn = function () {
 			$rootScope.$broadcast('online');
 		};
-		var onResume = function() {
+		var onResume = function () {
 			$rootScope.$broadcast('resume');
 		};
 		//	Triggers on network state change.
-		var onDeviceReady = function(){
-			security.requestCurrentUser().then(function(result){
+		var onDeviceReady = function () {
+			security.requestCurrentUser().then(function (result) {
 				console.log(result);
 			});
 			document.addEventListener("offline", onNetworkOff, false);
@@ -54,27 +54,27 @@ angular.module( 'app', [
 		document.addEventListener("deviceready", onDeviceReady, false);
 }])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/home");
 })
 
-.config(['$httpProvider', function($httpProvider) {
+.config(['$httpProvider', function ($httpProvider) {
 				delete $httpProvider.defaults.headers.common['X-Requested-With'];
 				$httpProvider.defaults.xsrfCookieName = 'csrftoken';
 				$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 		}
 ])
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals) {
+.controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals) {
 
 	//	Catches online event and fires Offline Queue
-	$rootScope.$on('online',function(event){
+	$rootScope.$on('online',function (event) {
 		// $cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
-		OfflineQueue.sendRatings().then(function(response){
+		OfflineQueue.sendRatings().then(function (response) {
 			console.log(response);
-			Bottles.updateList().then(function(response){
+			Bottles.updateList().then(function (response) {
 				// $cordovaToast.show('Terminé ...', 'short', 'top');
-			},function(response){
+			},function (response) {
 				//error
 			});
 		});
@@ -83,25 +83,25 @@ angular.module( 'app', [
 		Referrals.updateList();
 	});
 
-	$rootScope.$on('resume',function(event){
+	$rootScope.$on('resume',function (event) {
 		// $cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
 		if(ionic.Platform.isWebView() && $cordovaNetwork.isOnline()) { // if we are in cordova && online
 			// we check if there is an update
-			security.requestCurrentUser().then(function(result){
+			security.requestCurrentUser().then(function (result) {
 				console.log(result);
 				Update.checkUpdate(result.uuid, ionic.Platform.device())
-					.success(function(response){
+					.success(function (response) {
 						Update.isOutdated = (response.up_to_date === 1) ? false : true;
 					})
-					.error(function(response){
+					.error(function (response) {
 						Update.isOutdated = false;
 					});
 			});
-			OfflineQueue.sendRatings().then(function(response){
+			OfflineQueue.sendRatings().then(function (response) {
 				console.log(response);
-				Bottles.updateList().then(function(response){
+				Bottles.updateList().then(function (response) {
 					// $cordovaToast.show('Terminé ...', 'short', 'top');
-				},function(response){
+				},function (response) {
 					//error
 				});
 			});
@@ -115,7 +115,7 @@ angular.module( 'app', [
 		'width': $window.innerWidth
 	};
 
-	$ionicPlatform.ready(function(){
+	$ionicPlatform.ready(function () {
 		if(ionic.Platform.isWebView()) { // if we are in cordova
 			$cordovaSplashscreen.hide();
 			// we check if there is an update
@@ -128,12 +128,12 @@ angular.module( 'app', [
 		console.log( ionic.Platform.isWebView());
 	});
 
-	$scope.toggleLeft = function() {
+	$scope.toggleLeft = function () {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
 
 	//	Trigger the loading indicator
-	$scope.show = function() {
+	$scope.show = function () {
 
 		//	Show the loading overlay and text
 		$scope.loading = $ionicLoading.show({
@@ -157,7 +157,7 @@ angular.module( 'app', [
 	};
 
 	//	Hide the loading indicator
-	$scope.hide = function(){
+	$scope.hide = function () {
 		$ionicLoading.hide();
 	};
 
@@ -171,15 +171,15 @@ angular.module( 'app', [
 	$ionicModal.fromTemplateUrl('tpl/yipee.tpl.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
-	}).then(function(modal) {
+	}).then(function (modal) {
 		$scope.yipee = modal;
 	});
 
 	//	Open & close the modal
-	$scope.openYipeeModal = function() {
+	$scope.openYipeeModal = function () {
 		$scope.yipee.show();
 	};
-	$scope.closeYipeeModal = function() {
+	$scope.closeYipeeModal = function () {
 		$scope.yipee.hide();
 	};
 
@@ -187,15 +187,15 @@ angular.module( 'app', [
 	$ionicModal.fromTemplateUrl('tpl/oops.tpl.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
-	}).then(function(modal) {
+	}).then(function (modal) {
 		$scope.oops = modal;
 	});
 
 	//	Open & close the modal
-	$scope.openOopsModal = function() {
+	$scope.openOopsModal = function () {
 		$scope.oops.show();
 	};
-	$scope.closeOopsModal = function() {
+	$scope.closeOopsModal = function () {
 		$scope.oops.hide();
 	};
 
@@ -203,13 +203,13 @@ angular.module( 'app', [
 	$ionicModal.fromTemplateUrl('tpl/update.tpl.html', {
 		scope: $scope,
 		animation: 'fade-in'
-	}).then(function(modal) {
+	}).then(function (modal) {
 		$scope.update = modal;
 	});
 
 	//	Open & close the modal
-	$scope.openUpdateModal = function() {
-		$ionicPlatform.ready(function(){
+	$scope.openUpdateModal = function () {
+		$ionicPlatform.ready(function () {
 			if(ionic.Platform.isWebView()) {
 				$scope.link = (ionic.Platform.isIOS()) ? 'https://itunes.apple.com/us/app/vinify/id912757586?mt=8' : 'https://play.google.com/store/apps/details?id=com.vinify.viniapp.android';
 			}
@@ -217,7 +217,7 @@ angular.module( 'app', [
 		$scope.update.show();
 	};
 
-	$scope.closeUpdateModal = function() {
+	$scope.closeUpdateModal = function () {
 		$scope.update.hide();
 	};
 

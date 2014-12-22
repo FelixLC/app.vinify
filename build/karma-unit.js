@@ -14,6 +14,8 @@ module.exports = function ( karma ) {
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-cookies/angular-cookies.min.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',
+      'bower_components/hammerjs/hammer.min.js',
+      'bower_components/angular-material/angular-material.min.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
       'bower_components/ngCordova/dist/ng-cordova.js',
       'bower_components/ionic-rating/ionic-rating.min.js',

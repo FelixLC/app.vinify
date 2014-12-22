@@ -1,4 +1,4 @@
-angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
+angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
@@ -636,7 +636,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
 
 angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/ratedwine/ratedwine.tpl.html",
-    "<ion-view title=\"Déguster\">\n" +
+    "<ion-view title=\"Déguster\" id=\"rated-wine-view\">\n" +
     "  <ion-content has-bouncing=\"false\">\n" +
     "  <div class=\"wine-header\">\n" +
     "    <div class=\"row row-center\">\n" +
@@ -679,77 +679,80 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "            </div>\n" +
     "          </div>\n" +
     "\n" +
-    "        <h4>Note</h4>\n" +
+    "        <div class=\"card\">\n" +
+    "          <div class=\"item\">\n" +
+    "              <h2>Note</h2>\n" +
     "\n" +
-    "       <ul class=\"rating\">\n" +
-    "        <ul ng-show=\"bottle.rating == '1' \" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '2'\" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '3'\" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '4'\" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "        </ul>\n" +
-    "        <ul ng-show=\"bottle.rating == '5'\" class=\"rating\">\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "          <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "        </ul>\n" +
-    "       </ul>\n" +
+    "             <ul class=\"rating\">\n" +
+    "              <ul ng-show=\"bottle.rating == '1' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '2'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '3'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '4'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"bottle.rating == '5'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              </ul>\n" +
+    "             </ul>\n" +
     "\n" +
-    "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <p>{{bottle.comment}}</p>\n" +
-    "\n" +
+    "              <h2  ng-if=\"bottle.comment\" class=\"header-margin-top\">Commentaire :</h2>\n" +
+    "              <p ng-if=\"bottle.comment\">{{bottle.comment}}</p>\n" +
+    "            </div>\n" +
+    "      </div>\n" +
     "<!--         <div class=\"centered\">\n" +
     "          <button class=\"button share share-facebook\"><img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\">  <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> Partager ce vin</button>\n" +
     "        </div> -->\n" +
@@ -1103,129 +1106,200 @@ angular.module("home/wine.rating/wine.rating.group.tpl.html", []).run(["$templat
 
 angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/wine.rating/wine.rating.tpl.html",
-    "	<ion-modal-view>\n" +
-    "	<ion-header-bar class=\"bar-positive\">\n" +
-    "			<button class=\"button\" ng-click=\"closeModal()\">Annuler</button>\n" +
-    "		<h1 class=\"title\">Noter mon Vin</h1>\n" +
-    "	</ion-header-bar>\n" +
-    "	<ion-content  has-bouncing=\"false\">\n" +
-    "	<div class=\"wine-header\">\n" +
-    "	<div class=\"row row-center\">\n" +
-    "		<div class=\"col centered\">\n" +
-    "			<h3>{{bottle.wine.display_name}}</h3>\n" +
-    "			<h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "			<!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
-    "		</div>\n" +
-    "	</div>\n" +
-    "	<div class=\"row row-header-bottom row-center\">\n" +
-    "		<div class=\"col col-75\">\n" +
-    "			<div class=\"row row-center align-left\">\n" +
-    "			<div class=\"col col-20\">\n" +
-    "					<img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
-    "			</div>\n" +
-    "			<div class=\"col\">\n" +
-    "					<p>{{bottle.wine.variety}}</p>\n" +
-    "					<!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
-    "			</div>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "		<div class=\"col align-right\">\n" +
-    "			<div class=\"row\">\n" +
-    "			<div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
-    "	</div>\n" +
-    "	</div>\n" +
+    "  <ion-modal-view id=\"update-rating-view\">\n" +
+    "  <ion-header-bar class=\"bar-positive\">\n" +
+    "      <button class=\"button\" ng-click=\"closeModal()\">Annuler</button>\n" +
+    "    <h1 class=\"title\">Noter mon Vin</h1>\n" +
+    "  </ion-header-bar>\n" +
+    "  <ion-content  has-bouncing=\"false\">\n" +
+    "  <div class=\"wine-header\">\n" +
+    "  <div class=\"row row-center\">\n" +
+    "    <div class=\"col centered\">\n" +
+    "      <h3>{{bottle.wine.display_name}}</h3>\n" +
+    "      <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
+    "      <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  <div class=\"row row-header-bottom row-center\">\n" +
+    "    <div class=\"col col-75\">\n" +
+    "      <div class=\"row row-center align-left\">\n" +
+    "      <div class=\"col col-20\">\n" +
+    "          <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
+    "      </div>\n" +
+    "      <div class=\"col\">\n" +
+    "          <p>{{bottle.wine.variety}}</p>\n" +
+    "          <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "      </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"col align-right\">\n" +
+    "      <div class=\"row\">\n" +
+    "      <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "  </div>\n" +
     "\n" +
-    "	<div class=\"wine-content padding\">\n" +
-    "		<form class=\"rating-form\">\n" +
-    "		<h4>Note <span class=\"item-note\">glissez jusqu'à votre note</span></h4>\n" +
-    "		<p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
+    "  <div class=\"wine-content padding\">\n" +
+    "      <div class=\"rating-card\">\n" +
+    "        <div class=\"card\">\n" +
+    "          <form class=\"item rating-form\">\n" +
+    "            <h4>Note : {{rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
+    "            <md-slider class=\"md-slider-card\" md-discrete ng-model=\"rating.data.rating\" step=\"0.5\" min=\"1\" max=\"5\" aria-label=\"rating\"></md-slider>\n" +
     "\n" +
-    "		<div class=\"icon-rating centered\">\n" +
-    "				<ul ng-show=\"rating.data.rating == '1' \" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '1.5' \" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '2'\" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '2.5' \" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '3'\" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '3.5' \" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '4'\" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '4.5' \" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "				</ul>\n" +
-    "				<ul ng-show=\"rating.data.rating == '5'\" class=\"rating\">\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "					<li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "				</ul>\n" +
-    "			</div>\n" +
-    "			<div class=\"range-container\">\n" +
-    "		    		<input ng-model=\"rating.data.rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
-    "			</div>\n" +
+    "            <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
+    "            <textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
+    "            <div class=\"item item-get-more item-checkbox\">\n" +
+    "               <label class=\"checkbox\">\n" +
+    "                 <input type=\"checkbox\" ng-model=\"rating.data.get_more\">\n" +
+    "               </label>\n" +
+    "               Revoir mon vin dans mon Vinibar\n" +
+    "            </div>\n" +
     "\n" +
+    "            <div class=\"card-action-buttons\"><span ng-click=\"rateWine()\">valider</span></div>\n" +
+    "          </form>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "  </div>\n" +
+    "  </ion-content>\n" +
+    "  <!-- <div class=\"bar bar-footer bar-footer-button\"> -->\n" +
+    "  <!-- </div> -->\n" +
+    "  </ion-modal-view>");
+}]);
+
+angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/wine/wine-more.tpl.html",
+    "<ion-view title=\"Déguster\" id=\"wine-more-view\">\n" +
+    "  <ion-content has-bouncing=\"false\">\n" +
+    "    <div class=\"wine-header\">\n" +
+    "      <div class=\"row row-center\">\n" +
+    "          <div class=\"col centered\">\n" +
+    "            <h3>{{bottle.wine.display_name}}</h3>\n" +
+    "            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
+    "            <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "          </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"row row-header-bottom row-center\">\n" +
+    "          <div class=\"col col-75\">\n" +
+    "            <div class=\"row row-center align-left\">\n" +
+    "              <div class=\"col col-20\">\n" +
+    "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
+    "              </div>\n" +
+    "              <div class=\"col\">\n" +
+    "                    <p>{{bottle.wine.variety}}</p>\n" +
+    "                    <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "              </div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"col align-right\">\n" +
+    "            <div class=\"row\">\n" +
+    "              <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"occasion\">A boire {{bottle.wine.occasion}}</div>\n" +
+    "    <div class=\"wine-content\">\n" +
+    "      <div class=\"card\">\n" +
+    "        <div class=\"item item-text-wrap\">\n" +
+    "          <h3 class=\"centered\">Pour briller en société</h3 class=\"centered\">\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Robe</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.dress}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Nez</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.nose}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Bouche</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.mouth}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Domaine</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.domain_know_more}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
     "\n" +
-    "		<h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "		<textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
+    "      <div class=\"card\">\n" +
+    "        <div class=\"item item-text-wrap\">\n" +
+    "          <h3 class=\"centered\">Accords Mets/Vin</h3 class=\"centered\">\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Cuisine</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.cuisine}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Viandes <br> Poissons </p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.meat_fish}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Garniture</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.sides}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Cuisson</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.cooking}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Fromages</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.cheeses}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
     "\n" +
-    "		<div class=\"checkbox-nude\">\n" +
-    "			<ion-checkbox  ng-model=\"rating.data.get_more\"><p class=\"p-highlight\">Revoir ce vin dans mon vinibar</p></ion-checkbox>\n" +
-    "		</div>\n" +
-    "\n" +
-    "		</form>\n" +
-    "	</div>\n" +
-    "	<button class=\"button bar-footer-button\" ng-click=\"rateWine()\"><h4>Noter</h4></button>\n" +
-    "	</ion-content>\n" +
-    "	<!-- <div class=\"bar bar-footer bar-footer-button\"> -->\n" +
-    "	<!-- </div> -->\n" +
-    "	</ion-modal-view>");
+    "      <div class=\"card\">\n" +
+    "        <div class=\"item item-text-wrap\">\n" +
+    "          <h3 class=\"centered\">Astuces du caviste</h3 class=\"centered\">\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Info</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{bottle.wine.info}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </ion-content>\n" +
+    "</ion-view>");
 }]);
 
 angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
@@ -1259,14 +1333,15 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "          </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
+    "\n" +
     "    <div class=\"occasion\">A boire {{bottle.wine.occasion}}</div>\n" +
     "    <div class=\"rating-card\">\n" +
     "      <div class=\"card\">\n" +
     "        <form class=\"item rating-form\">\n" +
-    "          <h4>Note <span class=\"item-note\">glissez jusqu'à votre note</span></h4>\n" +
-    "          <p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
-    "\n" +
-    "          <div class=\"icon-rating centered\">\n" +
+    "          <h4>Note : {{rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
+    "            <md-slider class=\"md-slider-card\" md-discrete ng-model=\"rating.data.rating\" step=\"0.5\" min=\"1\" max=\"5\" aria-label=\"rating\">\n" +
+    "            </md-slider>\n" +
+    "<!--           <div class=\"icon-rating centered\">\n" +
     "              <ul ng-show=\"rating.data.rating == '1' \" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
@@ -1329,17 +1404,23 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              </ul>\n" +
-    "            </div>\n" +
+    "              </ul> -->\n" +
+    "<!--             </div>\n" +
     "            <div class=\"range-container\">\n" +
     "                  <input ng-model=\"rating.data.rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
-    "            </div>\n" +
+    "            </div> -->\n" +
     "\n" +
     "\n" +
     "          <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
     "          <textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
+    "          <div class=\"item item-get-more item-checkbox\">\n" +
+    "             <label class=\"checkbox\">\n" +
+    "               <input type=\"checkbox\" ng-model=\"rating.data.get_more\">\n" +
+    "             </label>\n" +
+    "             Revoir mon vin dans mon Vinibar\n" +
+    "          </div>\n" +
     "\n" +
-    "          <div class=\"card-action-buttons\"><span>valider</span></div>\n" +
+    "          <div class=\"card-action-buttons\"><span ng-click=\"rateWine()\">valider</span></div>\n" +
     "        </form>\n" +
     "      </div>\n" +
     "    </div>\n" +
@@ -1412,7 +1493,7 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "\n" +
+    "    <div class=\"centered\"><a class=\"button button-outline-primary centered\" href ui-sref=\"sidemenu.wine_know_more({uuid: id})\">En savoir plus</a></div>\n" +
     "  </ion-content>\n" +
     "</ion-view>");
 }]);
@@ -1451,83 +1532,89 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "    <div class=\"occasion\">A boire {{bottle.wine.occasion}}</div>\n" +
     "    <div class=\"card\">\n" +
     "      <form class=\"item rating-form\">\n" +
-    "        <h4>Note <span class=\"item-note\">glissez jusqu'à votre note</span></h4>\n" +
-    "        <p class=\"literal-rating\">\"{{literalRating.value}}\"</p>\n" +
+    "          <h4>Note : {{rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
+    "            <md-slider class=\"md-slider-card\" md-discrete ng-model=\"rating.data.rating\" step=\"0.5\" min=\"1\" max=\"5\" aria-label=\"rating\">\n" +
+    "            </md-slider>\n" +
+    "<!--           <div class=\"icon-rating centered\">\n" +
+    "              <ul ng-show=\"rating.data.rating == '1' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '1.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '2'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '2.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '3'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '3.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '4'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '4.5' \" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "              </ul>\n" +
+    "              <ul ng-show=\"rating.data.rating == '5'\" class=\"rating\">\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "              </ul> -->\n" +
+    "<!--             </div>\n" +
+    "            <div class=\"range-container\">\n" +
+    "                  <input ng-model=\"rating.data.rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
+    "            </div> -->\n" +
     "\n" +
-    "        <div class=\"icon-rating centered\">\n" +
-    "            <ul ng-show=\"rating.data.rating == '1' \" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '1.5' \" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '2'\" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '2.5' \" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '3'\" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '3.5' \" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '4'\" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '4.5' \" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "            </ul>\n" +
-    "            <ul ng-show=\"rating.data.rating == '5'\" class=\"rating\">\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "            </ul>\n" +
+    "\n" +
+    "          <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
+    "          <textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
+    "          <div class=\"item item-get-more item-checkbox\">\n" +
+    "             <label class=\"checkbox\">\n" +
+    "               <input type=\"checkbox\" ng-model=\"rating.data.get_more\">\n" +
+    "             </label>\n" +
+    "             Revoir mon vin dans mon Vinibar\n" +
     "          </div>\n" +
-    "          <div class=\"range-container\">\n" +
-    "                <input ng-model=\"rating.data.rating\" type=\"range\" name=\"volume\" min=\"1\" max=\"5\" value=\"4\" step=\"0.5\">\n" +
-    "          </div>\n" +
     "\n" +
-    "\n" +
-    "        <h4 class=\"header-margin-top\">Commentaire :</h4>\n" +
-    "        <textarea ng-name=\"commentaire\" rows=\"4\" placeholder=\"J'écris ici mon commentaire ...\" ng-model=\"rating.data.comment\"></textarea>\n" +
-    "\n" +
-    "        <div class=\"card-action-buttons\"><span>valider</span></div>\n" +
+    "          <div class=\"card-action-buttons\"><span ng-click=\"rateWine()\">valider</span></div>\n" +
     "      </form>\n" +
     "    </div>\n" +
     "    <div class=\"wine-content\">\n" +

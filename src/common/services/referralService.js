@@ -1,5 +1,5 @@
 angular.module('Referrals', ['Offline'])
-.factory('Referrals', function($http, $q, OfflineReferralsData) {
+.factory('Referrals', function ($http, $q, OfflineReferralsData) {
     var apiEndPoint =  'http://127.0.0.1:8000/api';
     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
     // instantiate our initial object
@@ -23,13 +23,13 @@ angular.module('Referrals', ['Offline'])
                                               })
                                         .success(
                                             // Success Handler
-                                            function(data, status, headers, config) {
+                                            function (data, status, headers, config) {
                                                 Referrals.data =  data;
                                                 OfflineReferralsData.setReferrals(data);
                                             })
                                         .error(
                                             // Error Handler
-                                            function(data){}
+                                            function (data) {}
                                         );
         }
 
@@ -46,13 +46,13 @@ angular.module('Referrals', ['Offline'])
                                               })
                                         .success(
                                             // Success Handler
-                                            function(data, status, headers, config) {
+                                            function (data, status, headers, config) {
                                                 Referrals.data =  data;
                                                 OfflineReferralsData.setReferrals(data);
                                             })
                                         .error(
                                             // Error Handler
-                                            function(data){}
+                                            function (data) {}
                                         );
 
         return promise;
@@ -66,18 +66,18 @@ angular.module('Referrals', ['Offline'])
     return Referrals;
 })
 
-.factory('Referral', function($http, OfflineReferralsData, Referrals) {
+.factory('Referral', function ($http, OfflineReferralsData, Referrals) {
     var apiEndPoint =  'http://127.0.0.1:8000/api';
     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
-    var Referral = function (){
+    var Referral = function () {
         this.first_name = null;
         this.email = null;
     };
 
 
     // TODO REFACTOR
-    Referral.prototype.sendReferral = function() {
+    Referral.prototype.sendReferral = function () {
         var self = this;
         var request = $http({
                             url:  apiEndPoint + '/orders/referralemail/',
@@ -89,13 +89,13 @@ angular.module('Referrals', ['Offline'])
                         });
         return request.success(
                                         // Success Handler
-                                        function(data, status, headers, config) {
+                                        function (data, status, headers, config) {
                                             Referrals.data =  data;
                                             OfflineReferralsData.setReferrals(data);
                                         })
                                     .error(
                                         // Error Handler
-                                        function(data){}
+                                        function (data) {}
                                     );
     };
 

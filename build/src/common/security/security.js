@@ -7,7 +7,7 @@ angular.module('security.service', [
   'ngCookies',
   'Update'
 ])
-.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', function($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update) {
+.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', function ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update) {
  var apiEndPoint =  'http://127.0.0.1:8000/api';
  var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
   // Redirect to the given url (defaults to '/')
@@ -17,7 +17,7 @@ angular.module('security.service', [
   }
 
   // // Register a handler for when an item is added to the retry queue
-  // queue.onItemAddedCallbacks.push(function(retryItem) {
+  // queue.onItemAddedCallbacks.push(function (retryItem) {
   //   if ( queue.hasMore() ) {
   //     service.showLogin();
   //   }
@@ -27,17 +27,17 @@ angular.module('security.service', [
   var service = {
 
     // // Get the first reason for needing a login
-    // getLoginReason: function() {
+    // getLoginReason: function () {
     //   return queue.retryReason();
     // },
 
     // Show the modal login dialog
-    showLogin: function() {
+    showLogin: function () {
      redirect('/login');
     },
 
     // Attempt to authenticate a user by the given email and password
-    login: function(email, password) {
+    login: function (email, password) {
       Loading.show();
       service.currentUser = null;
       User.removeUser();
@@ -50,7 +50,7 @@ angular.module('security.service', [
                                      'Content-Type': 'application/json; charset=UTF-8'
                             }
                     });
-      return request.success(function(data, status, headers, config) {
+      return request.success(function (data, status, headers, config) {
                                       Loading.hide();
                                       // SET USER FOR THIS SERVICE (USEFUL FOR ISLOGGEDIN)
                                       service.currentUser = data;
@@ -61,13 +61,13 @@ angular.module('security.service', [
                                       console.log($window.sessionStorage.token);
                                       return service.isAuthenticated();
                                     })
-                                    .error(function(){
+                                    .error(function () {
                                       Loading.hide();
                                     });
     },
 
     // Logout the current user and redirect
-    logout: function(redirectTo) {
+    logout: function (redirectTo) {
         service.currentUser = null;
         // Erase all traces.
         User.removeUser();
@@ -80,7 +80,7 @@ angular.module('security.service', [
     },
 
     // Ask the backend to see if a user is already authenticated - this may be from a previous session.
-    requestCurrentUser: function() {
+    requestCurrentUser: function () {
       if ( service.isAuthenticated() ) {
         // let's go home
         console.log('Method isAuth');
@@ -94,7 +94,7 @@ angular.module('security.service', [
         // We don't need to try isloggedin. Without token we're naked.
         // return $http.get(apiEndPoint + '/users/isloggedin/').then(
         //   //Success: set currentUser
-        //   function(response) {
+        //   function (response) {
         //     service.currentUser = response.data;
         //     User.setUser(response.data);
         //     OfflineUser.setUser(data);
@@ -103,7 +103,7 @@ angular.module('security.service', [
         //     return service.currentUser;
         //   },
           //Error: Reroute User to login
-          // function(){
+          // function () {
             $location.path('/login');
             console.log('Redirect');
             delete $window.sessionStorage.token;
@@ -121,12 +121,12 @@ angular.module('security.service', [
     currentUserData: null,
 
     // Is the current user authenticated?
-    isAuthenticated: function(){
+    isAuthenticated: function () {
       return !!service.currentUser;
     },
 
     // Is the current user an adminstrator?
-    isStaff: function() {
+    isStaff: function () {
       return !!(service.currentUser && service.currentUser.is_staff);
     }
   };

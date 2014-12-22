@@ -1,5 +1,5 @@
   angular.module( 'app.home', ['User', 'Update', 'ngCordova'])
-      .config(function($stateProvider, $urlRouterProvider) {
+      .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.home', {
               url: "/home",
@@ -14,12 +14,12 @@
 
       .controller( 'homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User ) {
 
-        $scope.stateGo = function(to) {
+        $scope.stateGo = function (to) {
           $state.go('sidemenu.' + to);
         };
         $scope.update = Update.isOutdated;
         // $scope.update = Update.isOutdated;
-        $scope.appStore = function() {
+        $scope.appStore = function () {
           if(ionic.Platform.isIOS()) {
             window.open('https://itunes.apple.com/us/app/vinify/id912757586?mt=8', '_system', 'location=yes');
           } else {

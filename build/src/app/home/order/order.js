@@ -1,5 +1,5 @@
   angular.module( 'app.order', ['Order'])
-      .config(function($stateProvider, $urlRouterProvider) {
+      .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.order', {
               url: "/order",
@@ -34,11 +34,11 @@
 
         $scope.order = new Order();
 
-        $scope.addRefill = function() {
+        $scope.addRefill = function () {
           $scope.order.addRefill();
         };
 
-        $scope.createRefillOrder = function() {
+        $scope.createRefillOrder = function () {
           $scope.order.data.refills[0].price_level = $scope.price.levelA;
           $scope.order.data.quantity = parseInt($scope.order.data.quantity, 10);
           if($scope.order.data.quantity == 2) {$scope.order.addRefill($scope.price.levelB);}

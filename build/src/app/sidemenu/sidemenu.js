@@ -1,5 +1,5 @@
   angular.module( 'app.sidemenu', ['security'])
-    .config(function($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('sidemenu', {
           // url: "/event",

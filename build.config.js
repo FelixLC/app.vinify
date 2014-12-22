@@ -67,7 +67,8 @@ module.exports = {
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-cookies/angular-cookies.min.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',
-      'bower_components/angular-payments/lib/angular-payments.min.js',
+      'bower_components/hammerjs/hammer.min.js',
+      'bower_components/angular-material/angular-material.min.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',
 
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
@@ -76,6 +77,7 @@ module.exports = {
     ],
     css: [
       'bower_components/ionic/release/css/ionic.min.css',
+      // 'bower_components/angular-material/angular-material.min.css',
       'bower_components/ionic/release/fonts/*.*'
     ],
     assets: [

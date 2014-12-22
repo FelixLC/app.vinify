@@ -6,7 +6,8 @@
     'Offline',
     'Loading',
     'ngCordova',
-    'mockBackend'
+    'mockBackend',
+    'material.components.slider'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
       $stateProvider
@@ -15,19 +16,30 @@
             views: {
               menuContent: {
                 controller: 'wineCtrl',
-                templateUrl: "home/wine/wine.tpl.html"
+                templateUrl: "home/wine/wine.desktop.tpl.html"
+                // templateUrl: "home/wine/wine.tpl.html"
+              }
+            }
+        })
+        .state('sidemenu.wine_know_more', {
+            url: '/wine-more/{uuid:[^/]*}',
+            views: {
+              menuContent: {
+                controller: 'wineCtrl',
+                templateUrl: "home/wine/wine-more.tpl.html"
+                // templateUrl: "home/wine/wine.tpl.html"
               }
             }
         });
     })
     .controller('wineCtrl', function wineCtrl (mockWine, $scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState) {
       $scope.id = $stateParams.uuid;
-      // Bottles.getList().then(function(response){
+      // Bottles.getList().then(function (response) {
       //    $scope.bottle = getById(response.data.results, $scope.id);
       // });
       $scope.bottle = mockWine;
       $scope.rating = new Rating($scope.bottle.uuid, 4);
-
+      $scope.ratingSlide = 1;
       $scope.rateStars = {
         value: 4
       };
@@ -38,7 +50,7 @@
         outline: new Array(1)
       };
 
-      $scope.$watch('rating.data.rating', function(newVal, oldVal) {
+      $scope.$watch('rating.data.rating', function (newVal, oldVal) {
         if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
         if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
         if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
@@ -61,7 +73,7 @@
         }
       };
 
-      $scope.$watch('rateStars.value', function(newValue, oldValue, scope) {
+      $scope.$watch('rateStars.value', function (newValue, oldValue, scope) {
         console.log(newValue);
         // Toggle half star if we have a non integer rating
         $scope.showHalf = (Math.floor(newValue)!=newValue) ? true : false;
@@ -76,14 +88,14 @@
           $ionicModal.fromTemplateUrl('home/wine.rating/wine.rating.tpl.html', {
             scope: $scope,
             animation: 'slide-in-up'
-          }).then(function(modal) {
+          }).then(function (modal) {
             $scope.modal = modal;
           });
 
           // Open & close the modal
-          $scope.openModal = function() {
+          $scope.openModal = function () {
             $scope.rating = new Rating($scope.bottle.uuid, 4);
-            $scope.$watch('rating.data.rating', function(newVal, oldVal) {
+            $scope.$watch('rating.data.rating', function (newVal, oldVal) {
               if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
               if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
               if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
@@ -92,16 +104,16 @@
             });
             $scope.modal.show();
           };
-          $scope.closeModal = function() {
+          $scope.closeModal = function () {
             $scope.modal.hide();
           };
 
-          $scope.rateWine = function() {
+          $scope.rateWine = function () {
             if(ionic.Platform.isWebView()) { //if we use cordova
               if ($cordovaNetwork.isOffline()) {//if we are offline
                 // Store Rating and Fake it
                   OfflineQueue.addRating($scope.rating);
-                  Bottles.fakeRating($scope.rating).then(function(response){
+                  Bottles.fakeRating($scope.rating).then(function (response) {
                                   $scope.closeModal();
                                   SegmentedControlState.value = 'rated';
                                   $state.go('sidemenu.vinibar');
@@ -110,15 +122,15 @@
 
               } else {//if we are online
                     Loading.show();
-                    $scope.rating.rateWine().then(function(data, status, headers, config) {
+                    $scope.rating.rateWine().then(function (data, status, headers, config) {
                                                                             Loading.hide();
                                                                             $scope.closeModal();
                                                                             SegmentedControlState.value = 'rated';
                                                                             $state.go('sidemenu.vinibar');
                                                                             $cordovaToast.show('Bien reçu !', 'short', 'top');
-                                                                      }, function(data, status, headers, config) {
+                                                                      }, function (data, status, headers, config) {
                                                                           Loading.hide();
-                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function(success) {
+                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function (success) {
                                                                           }, function (error) {
                                                                           // error
                                                                           });
@@ -128,15 +140,15 @@
               }
             } else { // if we are on the web app
                     Loading.show();
-                    $scope.rating.rateWine().then(function(data, status, headers, config) {
+                    $scope.rating.rateWine().then(function (data, status, headers, config) {
                                                                             Loading.hide();
                                                                             $scope.closeModal();
                                                                             SegmentedControlState.value = 'rated';
                                                                             $state.go('sidemenu.vinibar');
                                                                             $cordovaToast.show('Bien reçu !', 'short', 'top');
-                                                                      }, function(data, status, headers, config) {
+                                                                      }, function (data, status, headers, config) {
                                                                           Loading.hide();
-                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function(success) {
+                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function (success) {
                                                                           }, function (error) {
                                                                           // error
                                                                           });
@@ -147,15 +159,15 @@
           };
 
           //Cleanup the modal when we're done with it!
-          $scope.$on('$destroy', function() {
+          $scope.$on('$destroy', function () {
             $scope.modal.remove();
           });
           // Execute action on hide modal
-          $scope.$on('modal.hidden', function() {
+          $scope.$on('modal.hidden', function () {
             // Execute action
           });
           // Execute action on remove modal
-          $scope.$on('modal.removed', function() {
+          $scope.$on('modal.removed', function () {
             // Execute action
           });
 
@@ -163,19 +175,19 @@
           $ionicModal.fromTemplateUrl('home/wine.rating/wine.rating.group.tpl.html', {
             scope: $scope,
             animation: 'slide-in-up'
-          }).then(function(modal) {
+          }).then(function (modal) {
             $scope.group = modal;
           });
 
           // Open & close the modal
-          $scope.openGroupModal = function() {
+          $scope.openGroupModal = function () {
             $scope.invite = {value: []};
-            $scope.updateInviteValue = function(num){
+            $scope.updateInviteValue = function (num) {
               $scope.invite = {value: new Array(num)};
               $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4, num);
             };
             $scope.rating = new Rating($scope.bottle.uuid, 4);
-            $scope.$watch('rating.data.rating', function(newVal, oldVal) {
+            $scope.$watch('rating.data.rating', function (newVal, oldVal) {
               if (newVal < 2)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}
               if (newVal > 1.5 && newVal < 3)  { $scope.literalRating.value = "Non, pas trop mon style";}
               if (newVal > 2.5 && newVal < 4)  { $scope.literalRating.value = "Sympa, à l'occasion";}
@@ -184,25 +196,25 @@
             });
             $scope.group.show();
           };
-          $scope.closeGroupModal = function() {
+          $scope.closeGroupModal = function () {
             $scope.group.hide();
           };
 
-          $scope.rateWines = function() {
+          $scope.rateWines = function () {
             if(ionic.Platform.isWebView()) { //if we use cordova
               if ($cordovaNetwork.isOffline()) {
                 // Store Rating and Fake it
                   OfflineQueue.addRating($scope.rating);
                   OfflineQueue.addGroupRating($scope.groupRating);
-                  Bottles.fakeRating($scope.rating).then(function(response){
+                  Bottles.fakeRating($scope.rating).then(function (response) {
                                   $scope.closeGroupModal();
                                   $state.go('sidemenu.vinibar');
                   });
               } else {
                 Loading.show();
                   // Rate Wine then rate group wines
-                  $scope.groupRating.rateWines().then(function(){
-                    $scope.rating.rateWine().then(function(response){
+                  $scope.groupRating.rateWines().then(function () {
+                    $scope.rating.rateWine().then(function (response) {
                           $scope.closeGroupModal();
                           Loading.hide();
                           $state.go('sidemenu.vinibar');
@@ -212,8 +224,8 @@
             } else { // if we are on the web app
                 Loading.show();
                   // Rate Wine then rate group wines
-                  $scope.groupRating.rateWines().then(function(){
-                    $scope.rating.rateWine().then(function(response){
+                  $scope.groupRating.rateWines().then(function () {
+                    $scope.rating.rateWine().then(function (response) {
                           $scope.closeGroupModal();
                           Loading.hide();
                           $state.go('sidemenu.vinibar');
@@ -223,15 +235,15 @@
           };
 
           //Cleanup the modal when we're done with it!
-          $scope.$on('$destroy', function() {
+          $scope.$on('$destroy', function () {
             $scope.group.remove();
           });
           // Execute action on hide group
-          $scope.$on('group.hidden', function() {
+          $scope.$on('group.hidden', function () {
             // Execute action
           });
           // Execute action on remove group
-          $scope.$on('group.removed', function() {
+          $scope.$on('group.removed', function () {
             // Execute action
           });
       });

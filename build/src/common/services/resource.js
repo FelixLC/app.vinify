@@ -1,6 +1,6 @@
 // angular.module('RestResource', ['ngResource'])
 
-// .factory('RestResource', function($resource) {
+// .factory('RestResource', function ($resource) {
 
 //     // instantiate our initial object
 //     var endPoint = '/restapi/'

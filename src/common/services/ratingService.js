@@ -1,10 +1,10 @@
 angular.module('Rating', ['ngResource', 'User'])
 
-.factory('Rating', function($http, Bottles) {
+.factory('Rating', function ($http, Bottles) {
      var apiEndPoint =  'http://127.0.0.1:8000/api';
      var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
-    var Rating = function (uuid, urating, ucomment){
+    var Rating = function (uuid, urating, ucomment) {
         this.data = {
             bottle_uuid:  uuid,
             // set to previous rating or null if unrated
@@ -22,7 +22,7 @@ angular.module('Rating', ['ngResource', 'User'])
 
 
 // TODO REFACTOR
-    Rating.prototype.updateWine = function() {
+    Rating.prototype.updateWine = function () {
         theUrl = '/wines/updaterating/';
         var data = this.data;
         var request = $http({
@@ -33,12 +33,12 @@ angular.module('Rating', ['ngResource', 'User'])
                           'Content-Type': 'application/json; charset=UTF-8'
                         }
                       });
-          return request.success(function(data, status, headers, config) {
+          return request.success(function (data, status, headers, config) {
                                                             Bottles.setList(data);
                                                         });
     };
 
-    Rating.prototype.rateWine = function() {
+    Rating.prototype.rateWine = function () {
         // Rate and update BotlesList
         theUrl = '/wines/rate/';
         var data = this.data;
@@ -50,7 +50,7 @@ angular.module('Rating', ['ngResource', 'User'])
                           'Content-Type': 'application/json; charset=UTF-8'
                         }
                       });
-          return request.success(function(data, status, headers, config) {
+          return request.success(function (data, status, headers, config) {
                                                             Bottles.setList(data);
                                                         });
     };
@@ -58,11 +58,11 @@ angular.module('Rating', ['ngResource', 'User'])
     return Rating;
 })
 
-.factory('GroupRating', function($http, Bottles, Rating) {
+.factory('GroupRating', function ($http, Bottles, Rating) {
      var apiEndPoint =  'http://127.0.0.1:8000/api';
      var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
-    var GroupRating = function (uuid, urating, num){
+    var GroupRating = function (uuid, urating, num) {
         // TODO PUSH RATING WHEN THEY COME
         this.data = {
             wine_uuid: uuid,
@@ -73,17 +73,17 @@ angular.module('Rating', ['ngResource', 'User'])
          }
     };
 
-    var GuestRating = function (urating){
+    var GuestRating = function (urating) {
             this.email =  "";
             this.rating =  (typeof urating === "undefined") ? null : urating;
             this.comment = "";
     };
 
-    GroupRating.prototype.addRating = function(guestRating) {
+    GroupRating.prototype.addRating = function (guestRating) {
         this.data.ratings.push(guestRating);
     };
 
-    GroupRating.prototype.rateWines = function() {
+    GroupRating.prototype.rateWines = function () {
 
         var data = this.data;
         var request = $http({
@@ -95,7 +95,7 @@ angular.module('Rating', ['ngResource', 'User'])
                             }
                           });
 
-          return request.success(function(data, status, headers, config) {
+          return request.success(function (data, status, headers, config) {
                                                             Bottles.setList(data);
                                                         });
     };

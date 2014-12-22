@@ -1,4 +1,4 @@
-<ion-view title="Déguster">
+<ion-view title="Déguster" id="rated-wine-view">
   <ion-content has-bouncing="false">
   <div class="wine-header">
     <div class="row row-center">
@@ -41,77 +41,80 @@
             </div>
           </div>
 
-        <h4>Note</h4>
+        <div class="card">
+          <div class="item">
+              <h2>Note</h2>
 
-       <ul class="rating">
-        <ul ng-show="bottle.rating == '1' " class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '1.5' " class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-half"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '2'" class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '2.5' " class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-half"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '3'" class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '3.5' " class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-half"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '4'" class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-outline"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '4.5' " class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star-half"></i></li>
-        </ul>
-        <ul ng-show="bottle.rating == '5'" class="rating">
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-          <li><i class="icon ion-ios7-star"></i></li>
-        </ul>
-       </ul>
+             <ul class="rating">
+              <ul ng-show="bottle.rating == '1' " class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '1.5' " class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-half"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '2'" class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '2.5' " class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-half"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '3'" class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '3.5' " class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-half"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '4'" class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-outline"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '4.5' " class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star-half"></i></li>
+              </ul>
+              <ul ng-show="bottle.rating == '5'" class="rating">
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+                <li><i class="icon ion-ios7-star"></i></li>
+              </ul>
+             </ul>
 
-        <h4 class="header-margin-top">Commentaire :</h4>
-        <p>{{bottle.comment}}</p>
-
+              <h2  ng-if="bottle.comment" class="header-margin-top">Commentaire :</h2>
+              <p ng-if="bottle.comment">{{bottle.comment}}</p>
+            </div>
+      </div>
 <!--         <div class="centered">
           <button class="button share share-facebook"><img src="assets/utils/facebook.svg" alt="facebook-logo">  <img src="assets/utils/twitter.svg" alt="facebook-logo"> <img src="assets/utils/mail.svg" alt="mail-logo"> Partager ce vin</button>
         </div> -->
