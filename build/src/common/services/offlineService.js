@@ -4,6 +4,7 @@ angular.module('Offline', [ 'LocalStorageModule' ])
   var _ratingQueue = [];
   var _updateRatingQueue = [];
   var _groupRatingQueue = [];
+
   var _rateAndDelete = function (i) {
     _ratingQueue[i].rateWine()
       .success(function (response) {
