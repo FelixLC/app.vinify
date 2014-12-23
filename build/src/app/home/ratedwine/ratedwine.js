@@ -6,7 +6,8 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
             views: {
               menuContent: {
                 controller: 'ratedwineCtrl',
-                templateUrl: "home/ratedwine/ratedwine.tpl.html"
+                // templateUrl: "home/ratedwine/ratedwine.tpl.html"
+                templateUrl: "home/ratedwine/ratedwine-desktop.tpl.html"
               }
             },
             resolve: {

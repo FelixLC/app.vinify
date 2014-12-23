@@ -5,20 +5,20 @@ angular.module('security.service', [
   'Loading',
   'Offline',
   'ngCookies',
-  'Update'
+  'Update',
+  'settings'
 ])
-.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', function ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update) {
- var apiEndPoint =  'http://127.0.0.1:8000/api';
- var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
+.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', 'settings',
+  function ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings) {
   // Redirect to the given url (defaults to '/')
-  function redirect(url) {
+  function redirect (url) {
     url = url || '/';
     $location.path(url);
   }
 
   // // Register a handler for when an item is added to the retry queue
   // queue.onItemAddedCallbacks.push(function (retryItem) {
-  //   if ( queue.hasMore() ) {
+  //   if (queue.hasMore()) {
   //     service.showLogin();
   //   }
   // });
@@ -33,7 +33,7 @@ angular.module('security.service', [
 
     // Show the modal login dialog
     showLogin: function () {
-     redirect('/login');
+      redirect('/login');
     },
 
     // Attempt to authenticate a user by the given email and password
@@ -43,9 +43,9 @@ angular.module('security.service', [
       User.removeUser();
       delete $window.sessionStorage.token;
       var request = $http({
-                            url: apiEndPoint + '/users/login/',
+                            url: settings.apiEndPoint + '/users/login/',
                             method: "POST",
-                            data: {'username': email,  'password': password},
+                            data: { username: email,  password: password },
                             headers: {
                                      'Content-Type': 'application/json; charset=UTF-8'
                             }
@@ -68,31 +68,31 @@ angular.module('security.service', [
 
     // Logout the current user and redirect
     logout: function (redirectTo) {
-        service.currentUser = null;
-        // Erase all traces.
-        User.removeUser();
-        Addresses.removeAddresses();
-        Referrals.removeReferrals();
-        Bottles.removeBottles();
-        console.log('removing traces');
-        delete $window.sessionStorage.token;
-        redirect(redirectTo);
+      service.currentUser = null;
+      // Erase all traces.
+      User.removeUser();
+      Addresses.removeAddresses();
+      Referrals.removeReferrals();
+      Bottles.removeBottles();
+      console.log('removing traces');
+      delete $window.sessionStorage.token;
+      redirect(redirectTo);
     },
 
     // Ask the backend to see if a user is already authenticated - this may be from a previous session.
     requestCurrentUser: function () {
-      if ( service.isAuthenticated() ) {
+      if (service.isAuthenticated()) {
         // let's go home
         console.log('Method isAuth');
         return $q.when(service.currentUser);
-      } else if ( User.getUser() ) {
-            console.log('Logging With Local');
-            service.currentUser = User.getUser();
-            $window.sessionStorage.token = User.getUser().token;
-            return $q.when(User.getUser());
+      } else if (User.getUser()) {
+        console.log('Logging With Local');
+        service.currentUser = User.getUser();
+        $window.sessionStorage.token = User.getUser().token;
+        return $q.when(User.getUser());
       } else {
         // We don't need to try isloggedin. Without token we're naked.
-        // return $http.get(apiEndPoint + '/users/isloggedin/').then(
+        // return $http.get(settings.apiEndPoint + '/users/isloggedin/').then(
         //   //Success: set currentUser
         //   function (response) {
         //     service.currentUser = response.data;
@@ -102,16 +102,16 @@ angular.module('security.service', [
         //     console.log($window.sessionStorage.token);
         //     return service.currentUser;
         //   },
-          //Error: Reroute User to login
+          // Error: Reroute User to login
           // function () {
-            $location.path('/login');
-            console.log('Redirect');
-            delete $window.sessionStorage.token;
-            return $q.reject('Not logged in');
-            // var deferred = $q.defer;
-            // deferred.reject('error');
-            // return deferred.promise;
-          // }
+        $location.path('/login');
+        console.log('Redirect');
+        delete $window.sessionStorage.token;
+        return $q.reject('Not logged in');
+          // var deferred = $q.defer;
+          // deferred.reject('error');
+          // return deferred.promise;
+        // }
         // );
       }
     },
