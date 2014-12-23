@@ -12,7 +12,7 @@
         <div ng-if="!hideFirstCard" class="item">
           <div class="row row-center">
             <div class="col col-20 centered"><img class="order-france-logo" src="assets/utils/france.svg" alt="cepage"></div>
-            <div class="col item-text-wrap">
+            <div class="col item-text-wrap centered">
               <p ng-if="order.data.refills[0]['price_level'] === 29.90 ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
               <p ng-if="order.data.refills[0]['price_level'] === 39.90 ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
               <p ng-if="order.data.refills[0]['price_level'] === 49.90 ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>
@@ -39,6 +39,9 @@
         </label>
         <div class="item">
           <div class="button-card">
+            <div ng-repeat="n in arrayFromNum(order.data.refills[0]['split']['white']) track by $index" class="white-pin"></div>
+            <div ng-repeat="n in arrayFromNum(order.data.refills[0]['split']['red']) track by $index" class="red-pin"></div>
+            <div ng-repeat="n in arrayFromNum(order.data.refills[0]['split']['rose']) track by $index" class="rose-pin"></div>
             <span ng-hide="hideFirstCard" class="button-card--save" ng-click="hideFirstCard = true">valider</span>
             <span ng-show="hideFirstCard" class="button-card--save" ng-click="hideFirstCard = false">modifier</span>
           </div>
@@ -58,7 +61,7 @@
         <div ng-if="!hideSecondCard" class="item">
           <div class="row row-center">
             <div class="col col-20 centered"><img class="order-france-logo" src="assets/utils/france.svg" alt="cepage"></div>
-            <div class="col item-text-wrap">
+            <div class="col item-text-wrap centered">
               <p ng-if="order.data.refills[1]['price_level'] === 29.90 ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
               <p ng-if="order.data.refills[1]['price_level'] === 39.90 ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
               <p ng-if="order.data.refills[1]['price_level'] === 49.90 ">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>

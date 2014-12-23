@@ -4,7 +4,7 @@
           .state('sidemenu.order', {
               url: "/order",
               views: {
-                'menuContent' :{
+                menuContent :{
                   controller: 'orderCtrl',
                   templateUrl: "home/order/order.tpl.html"
                 }
@@ -35,6 +35,10 @@
           "29€90": 29.90,
           "39€90": 39.90,
           "49€80": 49.90
+        };
+
+        $scope.arrayFromNum = function (num) {
+          return new Array (num);
         };
 
         $scope.options = [

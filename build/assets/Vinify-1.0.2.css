@@ -185,6 +185,11 @@
 .item-input-inset.input-coupon h2 {
   margin-right: 5px;
 }
+@media screen and (min-width: 992px) {
+  #delivery-mode-view .view-container {
+    margin-top: 50px;
+  }
+}
 .wine-header {
   padding: 100px 20px 0 20px;
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 63.5%, rgba(0, 0, 0, 0.65) 100%), url('img/winery.jpg') no-repeat center;
@@ -2726,6 +2731,10 @@ body h1 {
   background-color: #fff;
   border-color: #fff;
   color: #cb0001;
+}
+.toggle.toggle-assertive input:checked + .track {
+  border-color: #cb0001;
+  background-color: #cb0001;
 }
 p.segmented-control {
   text-align: center;

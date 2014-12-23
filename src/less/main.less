@@ -5,6 +5,7 @@
 @import '../app/sidemenu/sidemenu.less';
 @import 'variables.less';
 @import '../app/home/deliverymode/deliverymode.less';
+@import '../app/home/deliverymode/deliverymode-desktop.less';
 @import '../app/home/wine/wine.less';
 @import '../app/home/wine/wine-desktop.less';
 @import '../app/home/ratedwine/ratedwine.less';
@@ -186,7 +187,10 @@ body {
 		border-color: #fff;
 		color: @primary;
 }
-
+.toggle.toggle-assertive input:checked + .track {
+  border-color: @primary;
+  background-color: @primary;
+}
 p.segmented-control {
 		text-align: center;
 }

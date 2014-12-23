@@ -16,6 +16,10 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova' ])
   $scope.order = orderInstance;
   $scope.user = User.getUser();
   $scope.form = { show: false };
+  $scope.credits = {
+    has: true,
+    value: 50
+  };
   var apiEndPoint =  'http://127.0.0.1:8000/api';
   Addresses.getList().then(function (response) {
       $scope.addresses = response.data;

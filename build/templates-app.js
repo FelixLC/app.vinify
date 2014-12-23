@@ -102,8 +102,8 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "            <input type=\"text\" placeholder=\"Coupon de Reduction\" ng-model=\"order.data.coupon\" ng-blur=\"onBlur()\">\n" +
     "          </label>\n" +
     "        </div>\n" +
-    "        <div class=\"item item-toggle\">\n" +
-    "           Utiliser mes crédits\n" +
+    "        <div ng-if=\"credits.has\" class=\"item item-toggle\">\n" +
+    "           Utiliser mes crédits ({{::credits.value}} €)\n" +
     "           <label class=\"toggle toggle-assertive\">\n" +
     "             <input type=\"checkbox\">\n" +
     "             <div class=\"track\">\n" +
@@ -196,7 +196,7 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        <div ng-if=\"!hideFirstCard\" class=\"item\">\n" +
     "          <div class=\"row row-center\">\n" +
     "            <div class=\"col col-20 centered\"><img class=\"order-france-logo\" src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
-    "            <div class=\"col item-text-wrap\">\n" +
+    "            <div class=\"col item-text-wrap centered\">\n" +
     "              <p ng-if=\"order.data.refills[0]['price_level'] === 29.90 \">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>\n" +
     "              <p ng-if=\"order.data.refills[0]['price_level'] === 39.90 \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
     "              <p ng-if=\"order.data.refills[0]['price_level'] === 49.90 \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
@@ -223,6 +223,9 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        </label>\n" +
     "        <div class=\"item\">\n" +
     "          <div class=\"button-card\">\n" +
+    "            <div ng-repeat=\"n in arrayFromNum(order.data.refills[0]['split']['white']) track by $index\" class=\"white-pin\"></div>\n" +
+    "            <div ng-repeat=\"n in arrayFromNum(order.data.refills[0]['split']['red']) track by $index\" class=\"red-pin\"></div>\n" +
+    "            <div ng-repeat=\"n in arrayFromNum(order.data.refills[0]['split']['rose']) track by $index\" class=\"rose-pin\"></div>\n" +
     "            <span ng-hide=\"hideFirstCard\" class=\"button-card--save\" ng-click=\"hideFirstCard = true\">valider</span>\n" +
     "            <span ng-show=\"hideFirstCard\" class=\"button-card--save\" ng-click=\"hideFirstCard = false\">modifier</span>\n" +
     "          </div>\n" +
@@ -242,7 +245,7 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        <div ng-if=\"!hideSecondCard\" class=\"item\">\n" +
     "          <div class=\"row row-center\">\n" +
     "            <div class=\"col col-20 centered\"><img class=\"order-france-logo\" src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
-    "            <div class=\"col item-text-wrap\">\n" +
+    "            <div class=\"col item-text-wrap centered\">\n" +
     "              <p ng-if=\"order.data.refills[1]['price_level'] === 29.90 \">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>\n" +
     "              <p ng-if=\"order.data.refills[1]['price_level'] === 39.90 \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
     "              <p ng-if=\"order.data.refills[1]['price_level'] === 49.90 \">A moi les grandes appellations ! Des vins fins, élégants et racés.</p>\n" +
