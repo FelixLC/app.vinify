@@ -1,4 +1,4 @@
-angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova' ])
+angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'Toaster' ])
 .config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('sidemenu.deliverymode', {
@@ -20,7 +20,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova' ])
 })
 
 .controller('deliverymodeCtrl', function deliverymodeCtrl ($scope, $http, $state, orderInstance, SerializedOrder, $window,
-    User, Addresses, Address, addressList, $ionicModal, $ionicLoading, Loading, $cordovaToast, $cordovaNetwork ) {
+    User, Addresses, Address, addressList, $ionicModal, $ionicLoading, Loading, $cordovaToast, $cordovaNetwork, toasters) {
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
@@ -56,23 +56,14 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova' ])
           $state.go('sidemenu.pay');
         }, function (data) {
           Loading.hide();
-          if (ionic.Platform.isWebView()) {
-            $cordovaToast.show('Oops, un erreur est survenue. Merci de réessayer ...', 'short', 'top').then(function (success) {
-            }, function (error) {
-              // error
-            });
-          }
+          toasters.pop('Oops, un erreur est survenue. Merci de réessayer ...', 'top', 'info');
         });
       } else {
-        if (ionic.Platform.isWebView()) {
-          $cordovaToast.show('Merci de choisir un mode de livraison ...', 'short', 'top').then(function (success) {
-          }, function (error) {
-            // error
-          });
-        }
+        toasters.pop('Merci de choisir un mode de livraison ...', 'top', 'info');
       }
     }
   };
+
   $scope.displayPrice = function (price) {
     return price;
   };
@@ -86,41 +77,18 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova' ])
 
   $scope.testCoupon = function () {
     Loading.show();
-    var request = $http({
-                        url: apiEndPoint + '/orders/testcoupon/',
-                        method: 'POST',
-                        data: { coupon: $scope.order.data.coupon },
-                        headers: {
-                          'Content-Type': 'application/json; charset=UTF-8'
-                        }
-                      })
-
-                      .success(function (data, status, headers, config) {
+    $scope.order.testCoupon($scope.order.data.coupon,
+                      function (data) {
                         Loading.hide();
-                        if (ionic.Platform.isWebView()) {
-                          $cordovaToast.show('Coupon Validé!', 'short', 'top').then(function (success) {
-                          }, function (error) {
-                            // error
-                          });
-                        }
-                      })
-                      .error(function (data, status, headers, config) {
+                        toasters.pop('Coupon Validé!', 'top', 'success');
+                      },
+                      function (error) {
                           Loading.hide();
                           // IF THE COUPON IS NOT VALID WE TELL THE USER DEPENDING ON THE ERROR
                           if (data === 'This code is not valid') {
-                            if (ionic.Platform.isWebView()) {
-                              $cordovaToast.show('Oops, votre code d\'accès semble erroné !', 'short', 'top').then(function (success) {
-                              }, function (error) {
-                                // error
-                              });
-                            }
+                            toasters.pop('Oops, votre code d\'accès semble erroné !', 'top', 'info');
                           } else if (data === 'This coupon has been redeemed') {
-                            if (ionic.Platform.isWebView()) {
-                              $cordovaToast.show('Ce coupon n\'est plus valable', 'short', 'top').then(function (success) {
-                              }, function (error) {
-                                // error
-                              });
-                            }
+                            toasters.pop('Ce coupon n\'est plus valable', 'top', 'info');
                           }
                         });
   };
@@ -164,7 +132,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova' ])
   // CHECK FORM AND ADD ADRESS
   $scope.addAddress = function (form) {
     if (!form.$valid) {
-      $ionicLoading.show({ template: 'Merci de vérifier votre formulaire, un ou plusieurs champs requis sont manquants.', noBackdrop: true, duration: 3000 });
+      toasters.pop('Merci de vérifier votre formulaire, un ou plusieurs champs requis sont manquants.', 'top', 'info');
     } else {
       Loading.show();
       $scope.addressSuppl.createAddress()

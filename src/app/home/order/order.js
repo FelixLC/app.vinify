@@ -4,13 +4,13 @@
           .state('sidemenu.order', {
               url: "/order",
               views: {
-                menuContent :{
+                menuContent: {
                   controller: 'orderCtrl',
                   templateUrl: "home/order/order.tpl.html"
                 }
               }
           });
-     })
+      })
       .filter('filterWhite', function () {
         return function (items, splitRed) {
           if (splitRed === 0 || splitRed === "0") {
@@ -29,7 +29,7 @@
           }
         };
       })
-      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window ) {
+      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window) {
 
         $scope.prices = {
           "29€90": 29.90,

@@ -1,17 +1,18 @@
-angular.module('Order', [])
+angular.module('Order', [ 'settings', 'Update' ])
 
-.factory('Order', function ($http, Bottles, SerializedOrder) {
-  var apiEndPoint =  'http://127.0.0.1:8000/api';
-  var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
+.factory('Order', function ($http, Bottles, SerializedOrder, settings, Update) {
 
   var Order = function (id) {
     this.data = {
+      version: Update.version,
+      use_credits: 0,
       quantity: 1,
       refills: [ new Refill(1, 49.90) ] ,
       coupon: "",
       delivery_mode: null,
       delivery_cost: null
     };
+
     this.serializedOrder = {};
   };
 
@@ -36,20 +37,24 @@ angular.module('Order', [])
     --this.data.quantity;
   };
 
-  // TODO REFACTOR
+  Order.prototype.testCoupon = function (coupon, success, failure) {
+    return $http.post(apiEndPoint + '/orders/testcoupon/', { coupon: coupon })
+      .success(function (data, status, headers, config) {
+        if (success && angular.isFunction(success)) {
+          success(data);
+        }
+      })
+      .error(function (data, status, headers, config) {
+        if (failure && angular.isFunction(failure)) {
+          failure(data);
+        }
+      });
+  };
+
   Order.prototype.createRefillOrder = function () {
     var data = this.data;
     var self = this;
-    var request = $http({
-      url:  apiEndPoint + '/orders/refillorder/',
-      method: 'POST',
-      data: data,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    });
-
-    return request
+    return $http.post(settings.apiEndPoint + '/orders/refillorder/', data)
       .success(function (data, status, headers, config) {
         // TODO gracefully manage errors/successes
         angular.extend(SerializedOrder, data);
