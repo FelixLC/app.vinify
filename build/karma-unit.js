@@ -9,16 +9,17 @@ module.exports = function ( karma ) {
      * This is the list of file patterns to load into the browser during testing.
      */
     files: [
-      'bower_components/angular-resource/angular-resource.min.js',
+      'bower_components/ionic/release/js/ionic.bundle.js',
+      'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-cookies/angular-cookies.min.js',
-      'bower_components/angular-payments/lib/angular-payments.min.js',
-      'bower_components/hammerjs/hammer.min.js',
-      'bower_components/angular-material/angular-material.min.js',
+      'bower_components/angular-cookies/angular-cookies.js',
+      'bower_components/angular-payments/lib/angular-payments.js',
+      'bower_components/hammerjs/hammer.js',
+      'bower_components/angular-material/angular-material.js',
       'bower_components/angular-toaster/angular-toaster.js',
-      'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
+      'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/ngCordova/dist/ng-cordova.js',
-      'bower_components/ionic-rating/ionic-rating.min.js',
+      'bower_components/ionic-rating/ionic-rating.js',
       'build/templates-app.js',
       'build/templates-common.js',
       

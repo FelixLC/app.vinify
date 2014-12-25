@@ -40,27 +40,27 @@
 			<p>Cliquez ici pour continuer l'aventure</p>
 		</a>
 		<ion-list ng-if="segmentedControl.value === 'rated'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item" href="#/ratedwine/{{bottle.uuid}}">
-					<h3>{{bottle.wine.display_name}}</h3>
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item" href="#/ratedwine/{{::bottle.uuid}}">
+					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
-							{{bottle.wine.region}}
+							{{::bottle.wine.region}}
 							<span class="item-note">
 								<i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
 								<i ng-hide="isInteger(bottle.rating)" class="icon ion-ios7-star-half full-star"></i>
 							</span>
 							<br>
-							{{bottle.wine.appellation}}
+							{{::bottle.wine.appellation}}
 					</p>
 			</a>
 		</ion-list>
 		<ion-list ng-if="segmentedControl.value === 'toDrink'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item" href="#/wine/{{bottle.uuid}}">
-					<h3>{{bottle.wine.display_name}}</h3>
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item" href="#/wine/{{::bottle.uuid}}">
+					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
-							{{bottle.wine.region}}
-							<span class="item-note">{{bottle.wine.vintage}}</span>
+							{{::bottle.wine.region}}
+							<span class="item-note">{{::bottle.wine.vintage}}</span>
 							<br>
-							{{bottle.wine.appellation}}
+							{{::bottle.wine.appellation}}
 						</p>
 			</a>
 		</ion-list>

@@ -21,7 +21,7 @@
 				<div class="col col-20"><img src="assets/utils/france.svg" alt="cepage"></div>
 				<div class="col align-left">
 						<h4>Région la mieux notée</h4>
-						<p class="subtitle">{{user.profile.top_region}}</p>
+						<p class="subtitle">{{::user.profile.top_region}}</p>
 				</div>
 			</div>
 				<!-- </div> -->
@@ -30,7 +30,7 @@
 						<div class="col col-20"><img src="assets/utils/chart.png" alt="cepage"></div>
 						<div class="col align-left">
 								<h4>Consommation</h4>
-								<p class="subtitle">Rouge : {{user.profile.red_consumption*100 |number:0}} %, Blanc : {{user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{user.profile.rose_consumption*100 |number:0}} %</p>
+								<p class="subtitle">Rouge : {{::user.profile.red_consumption*100 |number:0}} %, Blanc : {{::user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{::user.profile.rose_consumption*100 |number:0}} %</p>
 						</div>
 			</div>
 			<div class="row centered">
@@ -39,20 +39,20 @@
 <!-- 			<div class="row">
 				<div class="col">
 					<h4>Note Moyenne</h4>
-					<h3>{{user.profile.average_rating}}</h3>
+					<h3>{{::user.profile.average_rating}}</h3>
 				</div>
 			</div> -->
 <!-- 			<div class="row row-center">
 				<div class="col centered">
 					<h4>ViniPoints</h4>
-					<span class="subtitle">{{user.profile.vinipoints}}</span>
+					<span class="subtitle">{{::user.profile.vinipoints}}</span>
 				</div>
 			</div> -->
 		</div>
 		<div class="item">
 			<h3 class="centered">Parrainez des amis et gagnez 10€ !</h3>
 			<div class="row">
-				<div class="col centered"><p>Mon Code : <br> {{user.referral_code}}</p></div>
+				<div class="col centered"><p>Mon Code : <br> {{::user.referral_code}}</p></div>
 				<div class="col"><button id="godfathing" class="button button-outline-primary" ng-click="openReferralModal()"><p>Je parraine !</p></button></div>
 			</div>
 			<div class="row row-center centered row-social-profile">
@@ -76,7 +76,7 @@
 			</div>
 			<div ng-repeat="referral in referrals" class="row">
 				<div class="col centered">
-						<p>{{referral.referred.first_name}}</p>
+						<p>{{::referral.referred.first_name}}</p>
 				</div>
 				<div class="col centered">
 						<p><img ng-show="referral.created_at" src="assets/utils/tick.svg" alt="tick"></p>

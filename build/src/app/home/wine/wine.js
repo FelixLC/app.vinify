@@ -6,7 +6,6 @@
     'Offline',
     'Loading',
     'ngCordova',
-    'mockBackend',
     'material.components.slider'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -20,6 +19,18 @@
                 // templateUrl: "home/wine/wine.tpl.html"
               }
             }
+            // resolve: {
+            //   bottle: function (Bottles, $stateParams) {
+            //     Bottles.getList().then(function (response) {
+            //       console.log(response.data.results);
+            //       for (var d = 0, len = response.data.results.length; d < len; d += 1) {
+            //         if (response.data.results[d].uuid === $stateParams.uuid) {
+            //           return response.data.results[d];
+            //         }
+            //       }
+            //     });
+            //   }
+            // }
         })
         .state('sidemenu.wine_know_more', {
             url: '/wine-more/{uuid:[^/]*}',
@@ -30,15 +41,34 @@
                 // templateUrl: "home/wine/wine.tpl.html"
               }
             }
+            // resolve: {
+            //   bottle: function (Bottles, $stateParams) {
+            //     Bottles.getList().then(function (response) {
+            //       for (var d = 0, len = response.data.results.length; d < len; d += 1) {
+            //         console.log(response.data.results);
+            //         if (response.data.results[d].uuid === $stateParams.uuid) {
+            //           return response.data.results[d];
+            //         }
+            //       }
+            //     });
+            //   }
+            // }
         });
     })
-    .controller('wineCtrl', function wineCtrl (mockWine, $scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState) {
+    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState) {
       $scope.id = $stateParams.uuid;
-      // Bottles.getList().then(function (response) {
-      //    $scope.bottle = getById(response.data.results, $scope.id);
-      // });
-      $scope.bottle = mockWine;
-      $scope.rating = new Rating($scope.bottle.uuid, 4);
+      var getById = function (arr, id) {
+        for (var d = 0, len = arr.length; d < len; d += 1) {
+          if (arr[d].uuid === id) {
+            return arr[d];
+          }
+        }
+      };
+      Bottles.getList().then(function (response) {
+        $scope.bottle = getById(response.data.results, $scope.id);
+        $scope.rating = new Rating($scope.bottle.uuid, 4);
+        console.log($scope.bottle);
+      });
       $scope.ratingSlide = 1;
       $scope.rateStars = {
         value: 4
@@ -65,21 +95,13 @@
       $scope.literalRating = {};
           // We can retrieve a collection from the server
 
-      var getById = function (arr, id) {
-        for (var d = 0, len = arr.length; d < len; d += 1) {
-          if (arr[d].uuid === id) {
-            return arr[d];
-          }
-        }
-      };
-
       $scope.$watch('rateStars.value', function (newValue, oldValue, scope) {
         console.log(newValue);
         // Toggle half star if we have a non integer rating
         $scope.showHalf = (Math.floor(newValue)!=newValue) ? true : false;
         $scope.star = {
           full: new Array(Math.floor(newValue)),
-          outline: (Math.floor(newValue)!=newValue) ?  new Array(4-Math.floor(newValue)) : new Array(5-Math.floor(newValue))
+          outline: (Math.floor(newValue)!=newValue) ?  new Array(4 - Math.floor(newValue)) : new Array(5 - Math.floor(newValue))
         };
       });
 

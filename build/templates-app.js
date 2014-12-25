@@ -1,4 +1,4 @@
-angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
+angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
@@ -102,7 +102,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "            <input type=\"text\" placeholder=\"Coupon de Reduction\" ng-model=\"order.data.coupon\" ng-blur=\"onBlur()\">\n" +
     "          </label>\n" +
     "        </div>\n" +
-    "        <div ng-if=\"credits.has\" class=\"item item-toggle\">\n" +
+    "<!--         <div ng-if=\"credits.has\" class=\"item item-toggle\">\n" +
     "           Utiliser mes crédits ({{::credits.value}} €)\n" +
     "           <label class=\"toggle toggle-assertive\">\n" +
     "             <input type=\"checkbox\">\n" +
@@ -110,7 +110,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "               <div class=\"handle\"></div>\n" +
     "             </div>\n" +
     "           </label>\n" +
-    "        </div>\n" +
+    "        </div> -->\n" +
     "        <div class=\"item centered item-delivery-address\">\n" +
     "          <div class=\"row row-center\">\n" +
     "            <div class=\"col\">\n" +
@@ -380,6 +380,127 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "</ion-view>");
 }]);
 
+angular.module("home/pay/pay.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/pay/pay.desktop.tpl.html",
+    "<ion-view title=\"Commander\" id=\"pay-view\">\n" +
+    " <ion-content has-bouncing=\"false\">\n" +
+    "   <div ng-style=\"calcHeight\" class=\"pay-header\">\n" +
+    "       <h3 class=\"centered\">Récapitulatif de ma commande</h3>\n" +
+    "   </div>\n" +
+    "   <div class=\"view-container\">\n" +
+    "     <div class=\"card card-container\">\n" +
+    "       <div class=\"item item-text-wrap item-bill\">\n" +
+    "         <div class=\"row\">\n" +
+    "           <div class=\"col\">\n" +
+    "             <h3 ng-if=\"serializedOrder.quantity == 1\">{{::serializedOrder.quantity}} recharge</h3>\n" +
+    "             <h3 ng-if=\"serializedOrder.quantity == 2\">{{::serializedOrder.quantity}} recharges</h3>\n" +
+    "           </div>\n" +
+    "           <div class=\"col\">\n" +
+    "             <p class=\"subtitle\">{{::calcPrice()}} €</p>\n" +
+    "           </div>\n" +
+    "         </div>\n" +
+    "         <div class=\"row row-center\">\n" +
+    "           <div class=\"col\">\n" +
+    "             <h3>Livraison </h3>\n" +
+    "             <p>{{::serializedOrder.delivery_mode}} </p>\n" +
+    "           </div>\n" +
+    "           <div class=\"col\">\n" +
+    "              <p>{{::displayPrice(serializedOrder.delivery_cost)}} €</p>\n" +
+    "           </div>\n" +
+    "       </div>\n" +
+    "         <div class=\"row row-center\" ng-if=\"serializedOrder.coupon\">\n" +
+    "           <div class=\"col\">\n" +
+    "             <h3>Réduction :</h3>\n" +
+    "           </div>\n" +
+    "           <div class=\"col\">\n" +
+    "              <h3>{{::serializedOrder.coupon.value}} €</h3>\n" +
+    "           </div>\n" +
+    "       </div>\n" +
+    "         <div class=\"row row-center\">\n" +
+    "           <div class=\"col\">\n" +
+    "             <h3>Total : </h3>\n" +
+    "           </div>\n" +
+    "           <div class=\"col\">\n" +
+    "              <h3>{{::displayPrice(serializedOrder.final_price)}} €</h3>\n" +
+    "           </div>\n" +
+    "       </div>\n" +
+    "       </div>\n" +
+    "     </div>\n" +
+    "     <div class=\"card card-container\">\n" +
+    "         <form name=\"stripe-form\" id=\"stripe-form\" stripe-form=\"submit\">\n" +
+    "          <!-- <img class=\"pull-right\" src=\"assets/utils/poweredbystripe.svg\" alt=\"stripe_verification\"> -->\n" +
+    "           <div class=\"row item\">\n" +
+    "             <div class=\"col\">\n" +
+    "                <label class=\"item-input\">\n" +
+    "                 <i class=\"icon ion-card\"></i> <input type=\"text\" name=\"number\" id=\"number\" ng-model=\"number\" placeholder=\"N° de Carte\" payments-validate=\"card\" payments-type-model=\"type\" payments-format=\"card\"  required/>\n" +
+    "\n" +
+    "               </label>\n" +
+    "             </div>\n" +
+    "             <div class=\"col col-25\">\n" +
+    "               <label class=\"item item-input\">\n" +
+    "                 <i class=\"icon ion-locked\"></i> <input type=\"text\" name=\"cvc\" id=\"cvc\" ng-model=\"cvc\" placeholder=\"CVC\" payments-validate=\"cvc\" payments-format=\"cvc\" required/>\n" +
+    "               </label>\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "           <div class=\"row item\">\n" +
+    "             <div class=\"col\">\n" +
+    "               <label class=\"item item-input item-select\">\n" +
+    "                 <div class=\"input-label\">\n" +
+    "                   Mois\n" +
+    "                 </div>\n" +
+    "                 <select name=\"expMonth\" ng-model=\"expMonth\" placeholder=\"MM\"required>\n" +
+    "                   <option value=\"01\">Janv.</option>\n" +
+    "                   <option value=\"02\">Févr.</option>\n" +
+    "                   <option value=\"03\">Mars</option>\n" +
+    "                   <option value=\"04\">Avril</option>\n" +
+    "                   <option value=\"05\">Mai</option>\n" +
+    "                   <option value=\"06\">Juin</option>\n" +
+    "                   <option value=\"07\">Juill.</option>\n" +
+    "                   <option value=\"08\">Août</option>\n" +
+    "                   <option value=\"09\">Sept.</option>\n" +
+    "                   <option value=\"10\">Oct.</option>\n" +
+    "                   <option value=\"11\">Nov.</option>\n" +
+    "                   <option value=\"12\">Déc.</option>\n" +
+    "                 </select>\n" +
+    "               </label>\n" +
+    "    <!--             <label class=\"item item-input\">\n" +
+    "                 <i class=\"icon ion-ios7-calendar-outline\"></i> <input type=\"text\" name=\"expiry\" id=\"expiry\" ng-model=\"expiry\" placeholder=\"MM\" payments-validate=\"expiry\" payments-format=\"expiry\" required/>\n" +
+    "               </label> -->\n" +
+    "             </div>\n" +
+    "             <div class=\"col\">\n" +
+    "               <label class=\"item item-input item-select\">\n" +
+    "                 <div class=\"input-label\">\n" +
+    "                   Année\n" +
+    "                 </div>\n" +
+    "                 <select name=\"expYear\" ng-model=\"expYear\" required>\n" +
+    "                   <option>2014</option>\n" +
+    "                   <option>2015</option>\n" +
+    "                   <option>2016</option>\n" +
+    "                   <option>2017</option>\n" +
+    "                   <option>2018</option>\n" +
+    "                   <option>2019</option>\n" +
+    "                   <option>2020</option>\n" +
+    "                 </select>\n" +
+    "               </label>\n" +
+    "    <!--             <label class=\"item item-input\">\n" +
+    "                 <i class=\"icon ion-locked\"></i> <input type=\"text\" name=\"cvc\" id=\"cvc\" ng-model=\"cvc\" placeholder=\"CVC\" payments-validate=\"cvc\" payments-format=\"cvc\" required/>\n" +
+    "               </label> -->\n" +
+    "             </div>\n" +
+    "           </div>\n" +
+    "           <div class=\"row row-submit centered\">\n" +
+    "              <div><input type=\"hidden\" name=\"name\" ng-model=\"user.last_name\"/></div>\n" +
+    "             <button class=\"button button-order\" value=\"submit\">Payer ma commande</button>\n" +
+    "           </div>\n" +
+    "         </form>\n" +
+    "      </div>\n" +
+    "      <div class=\"centered\">\n" +
+    "        <img src=\"assets/utils/credit_cards.png\" alt=\"\">\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </ion-content>\n" +
+    "</ion-view>");
+}]);
+
 angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/pay/pay.tpl.html",
     "<ion-view title=\"Commander\">\n" +
@@ -391,8 +512,8 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "     <div class=\"item item-text-wrap item-bill\">\n" +
     "       <div class=\"row\">\n" +
     "         <div class=\"col\">\n" +
-    "           <h3 ng-show=\"serializedOrder.quantity == 1\">{{serializedOrder.quantity}} recharge</h3>\n" +
-    "           <h3 ng-show=\"serializedOrder.quantity == 2\">{{serializedOrder.quantity}} recharges</h3>\n" +
+    "           <h3 ng-if=\"serializedOrder.quantity == 1\">{{serializedOrder.quantity}} recharge</h3>\n" +
+    "           <h3 ng-if=\"serializedOrder.quantity == 2\">{{serializedOrder.quantity}} recharges</h3>\n" +
     "         </div>\n" +
     "         <div class=\"col\">\n" +
     "           <p class=\"subtitle\">{{calcPrice()}} €</p>\n" +
@@ -407,7 +528,7 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "            <p>{{displayPrice(serializedOrder.delivery_cost)}} €</p>\n" +
     "         </div>\n" +
     "     </div>\n" +
-    "       <div class=\"row row-center\" ng-show=\"serializedOrder.coupon\">\n" +
+    "       <div class=\"row row-center\" ng-if=\"serializedOrder.coupon\">\n" +
     "         <div class=\"col\">\n" +
     "           <h3>Réduction :</h3>\n" +
     "         </div>\n" +
@@ -521,7 +642,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "				<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
     "				<div class=\"col align-left\">\n" +
     "						<h4>Région la mieux notée</h4>\n" +
-    "						<p class=\"subtitle\">{{user.profile.top_region}}</p>\n" +
+    "						<p class=\"subtitle\">{{::user.profile.top_region}}</p>\n" +
     "				</div>\n" +
     "			</div>\n" +
     "				<!-- </div> -->\n" +
@@ -530,7 +651,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
     "						<div class=\"col align-left\">\n" +
     "								<h4>Consommation</h4>\n" +
-    "								<p class=\"subtitle\">Rouge : {{user.profile.red_consumption*100 |number:0}} %, Blanc : {{user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{user.profile.rose_consumption*100 |number:0}} %</p>\n" +
+    "								<p class=\"subtitle\">Rouge : {{::user.profile.red_consumption*100 |number:0}} %, Blanc : {{::user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{::user.profile.rose_consumption*100 |number:0}} %</p>\n" +
     "						</div>\n" +
     "			</div>\n" +
     "			<div class=\"row centered\">\n" +
@@ -539,20 +660,20 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "<!-- 			<div class=\"row\">\n" +
     "				<div class=\"col\">\n" +
     "					<h4>Note Moyenne</h4>\n" +
-    "					<h3>{{user.profile.average_rating}}</h3>\n" +
+    "					<h3>{{::user.profile.average_rating}}</h3>\n" +
     "				</div>\n" +
     "			</div> -->\n" +
     "<!-- 			<div class=\"row row-center\">\n" +
     "				<div class=\"col centered\">\n" +
     "					<h4>ViniPoints</h4>\n" +
-    "					<span class=\"subtitle\">{{user.profile.vinipoints}}</span>\n" +
+    "					<span class=\"subtitle\">{{::user.profile.vinipoints}}</span>\n" +
     "				</div>\n" +
     "			</div> -->\n" +
     "		</div>\n" +
     "		<div class=\"item\">\n" +
     "			<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
     "			<div class=\"row\">\n" +
-    "				<div class=\"col centered\"><p>Mon Code : <br> {{user.referral_code}}</p></div>\n" +
+    "				<div class=\"col centered\"><p>Mon Code : <br> {{::user.referral_code}}</p></div>\n" +
     "				<div class=\"col\"><button id=\"godfathing\" class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
     "			</div>\n" +
     "			<div class=\"row row-center centered row-social-profile\">\n" +
@@ -576,7 +697,7 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "			</div>\n" +
     "			<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
     "				<div class=\"col centered\">\n" +
-    "						<p>{{referral.referred.first_name}}</p>\n" +
+    "						<p>{{::referral.referred.first_name}}</p>\n" +
     "				</div>\n" +
     "				<div class=\"col centered\">\n" +
     "						<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
@@ -746,9 +867,9 @@ angular.module("home/ratedwine/ratedwine-desktop.tpl.html", []).run(["$templateC
     "  <div class=\"wine-header\">\n" +
     "    <div class=\"row row-center\">\n" +
     "        <div class=\"col centered\">\n" +
-    "          <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "          <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "          <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "          <h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "          <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>\n" +
+    "          <!-- <h4>{{::bottle.wine.appellation}}</h4> -->\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"row row-header-bottom row-center\">\n" +
@@ -758,14 +879,14 @@ angular.module("home/ratedwine/ratedwine-desktop.tpl.html", []).run(["$templateC
     "                  <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "                  <p>{{bottle.wine.variety}}</p>\n" +
-    "                  <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "                  <p>{{::bottle.wine.variety}}</p>\n" +
+    "                  <!-- <h4>{{::bottle.wine.variety}}</h4> -->\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "        <div class=\"col align-right\">\n" +
     "          <div class=\"row\">\n" +
-    "            <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "            <div class=\"col\"><p>{{::bottle.wine.vintage}}</p></div>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -774,11 +895,11 @@ angular.module("home/ratedwine/ratedwine-desktop.tpl.html", []).run(["$templateC
     "\n" +
     "          <div class=\"row row-order\">\n" +
     "            <div class=\"col centered\">\n" +
-    "              <h4>Prix Vinify : {{bottle.wine.public_price}}&nbsp;€</h4>\n" +
+    "              <h4>Prix Vinify : {{::bottle.wine.public_price}}&nbsp;€</h4>\n" +
     "            </div>\n" +
     "            <div class=\"col centered\">\n" +
     "            <!-- TODO BUY WINE -->\n" +
-    "            <a class=\"button button-outline-primary\" ng-click=\"buy()\">\n" +
+    "            <a ng-href=\"mailto:commande@vinify.co?subject=Commande%20%7C%20{{::bottle.wine.display_name}}&amp;body=Bonjour%2C%0AJe%20souhaiterais%20effectuer%20une%20commande%20X%20bouteilles%20de%20{{::bottle.wine.display_name}}.%0A%0AMerci%20de%20me%20confirmer%20le%20prix.\" class=\"button button-outline-primary\">\n" +
     "                Commander\n" +
     "              </a>\n" +
     "            </div>\n" +
@@ -789,63 +910,63 @@ angular.module("home/ratedwine/ratedwine-desktop.tpl.html", []).run(["$templateC
     "              <h2>Note</h2>\n" +
     "\n" +
     "             <ul class=\"rating\">\n" +
-    "              <ul ng-show=\"bottle.rating == '1' \" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '1' \" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '2'\" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '2'\" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '3'\" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '3'\" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '4'\" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '4'\" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
     "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '5'\" class=\"rating\">\n" +
+    "              <ul ng-if=\"bottle.rating == '5'\" class=\"rating\">\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
     "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
@@ -856,104 +977,86 @@ angular.module("home/ratedwine/ratedwine-desktop.tpl.html", []).run(["$templateC
     "\n" +
     "              <h2  ng-if=\"bottle.comment\" class=\"header-margin-top\">Commentaire :</h2>\n" +
     "              <p ng-if=\"bottle.comment\">{{bottle.comment}}</p>\n" +
+    "              <div class=\"button-card\"><span class=\"button-card--save\" ng-click=\"openModal()\">modifier</span></div>\n" +
     "            </div>\n" +
     "      </div>\n" +
     "<!--         <div class=\"centered\">\n" +
     "          <button class=\"button share share-facebook\"><img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\">  <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> Partager ce vin</button>\n" +
     "        </div> -->\n" +
     "\n" +
-    "        <div class=\"row centered row-social\">\n" +
+    "<!--         <div class=\"row centered row-social\">\n" +
     "          <div class=\"social-container\">\n" +
     "            <div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
     "            <div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
     "            <div ng-click=\"share.mail()\" id=\"mail\"><p><i class=\"icon ion-paper-airplane\"></i></p></div>\n" +
     "          </div>\n" +
     "        </div>\n" +
-    "        <p class=\"centered\">Partager ce vin pour gagner des ViniPoints !</p>\n" +
+    "        <p class=\"centered\">Partager ce vin pour gagner des ViniPoints !</p> -->\n" +
     "\n" +
-    "      <div class=\"wine-content\">\n" +
-    "        <div class=\"row row-top wine-description tasting-food padding\">\n" +
-    "          <div class=\"col centered\">\n" +
-    "            <img src=\"assets/utils/logo_glass.svg\" alt=\"\">\n" +
-    "            <div class=\"card desc-card\">\n" +
-    "              <div class=\"item item-text-wrap\">\n" +
-    "                <h2 class=\"centered\">Description</h2>\n" +
-    "                <p>{{bottle.wine.tasting}}</p>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "          <div class=\"col centered\">\n" +
-    "            <img src=\"assets/utils/logo_forks.svg\" alt=\"\">\n" +
-    "            <div class=\"card desc-card\">\n" +
-    "              <div class=\"item item-text-wrap\">\n" +
-    "                <h2 class=\"centered\">Accords Mets/Vins</h2>\n" +
-    "                <p>{{bottle.wine.food}}</p>\n" +
-    "              </div>\n" +
+    "      <div class=\"row row-top wine-description tasting-food padding\">\n" +
+    "        <div class=\"col centered\">\n" +
+    "          <img src=\"assets/utils/logo_glass.png\" alt=\"\">\n" +
+    "          <div class=\"card desc-card\">\n" +
+    "            <div class=\"item item-text-wrap\">\n" +
+    "              <h2 class=\"centered\">Description</h2>\n" +
+    "              <p>{{::bottle.wine.tasting}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
-    "\n" +
-    "        <div class=\"row row-top wine-description testimonial-service padding\">\n" +
-    "          <div class=\"col centered\">\n" +
-    "            <div class=\"testimonial-rating\">4,5</div>\n" +
-    "            <div class=\"card desc-card\">\n" +
-    "              <div class=\"item item-text-wrap\">\n" +
-    "                <h2>Un commentaire client</h2>\n" +
-    "                <p>{{bottle.wine.testimonial}}</p>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "          <div class=\"col centered\">\n" +
-    "            <img src=\"assets/utils/logo_glass.svg\" alt=\"\">\n" +
-    "            <div class=\"card desc-card\">\n" +
-    "              <div class=\"item item-text-wrap\">\n" +
-    "                <h2>Conseils de service</h2>\n" +
-    "                <p class=\"advice advice-temp \">\n" +
-    "                <img src=\"assets/utils/termometer.svg\" alt=\"\">\n" +
-    "                  Temp. de dégustation : <br>\n" +
-    "                  <span class=\"temp\">{{bottle.wine.temperature_min}}°C - {{bottle.wine.temperature_max}}°C </span>\n" +
-    "                </p>\n" +
-    "                <p class=\"advice advice-stock \">\n" +
-    "                  <img src=\"assets/utils/attention.svg\" alt=\"\">\n" +
-    "                  voir les conseils de stockage\n" +
-    "                </p>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"row row-top\">\n" +
-    "          <div class=\"col\">\n" +
-    "            <div class=\"card desc-card\">\n" +
-    "              <div class=\"item item-text-wrap\">\n" +
-    "                <h2 class=\"centered\">Domaine</h2>\n" +
-    "                <p>{{bottle.wine.domain}}</p>\n" +
-    "              </div>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "          <div class=\"col\">\n" +
-    "            <div class=\"card desc-card\">\n" +
-    "              <div class=\"item item-text-wrap\">\n" +
-    "                <h2 class=\"centered\">À savoir</h2>\n" +
-    "                <p>{{bottle.wine.education}}</p>\n" +
-    "              </div>\n" +
+    "        <div class=\"col centered\">\n" +
+    "          <img src=\"assets/utils/logo_forks.png\" alt=\"\">\n" +
+    "          <div class=\"card desc-card\">\n" +
+    "            <div class=\"item item-text-wrap\">\n" +
+    "              <h2 class=\"centered\">Accords Mets/Vins</h2>\n" +
+    "              <p>{{::bottle.wine.food}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </div>\n" +
-    "      <div class=\"centered\"><a class=\"button button-outline-primary centered\" href ui-sref=\"sidemenu.wine_know_more({uuid: id})\">En savoir plus</a></div>\n" +
     "\n" +
-    "        <div class=\"row row-buttons\">\n" +
-    "              <div class=\"col\">\n" +
-    "                <a class=\"button button-outline-primary\" ng-click=\"openModal()\">\n" +
-    "                  Modifier\n" +
-    "                </a>\n" +
-    "              </div>\n" +
-    "<!--               <div class=\"col\">\n" +
-    "                <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
-    "                  Noter à plusieurs\n" +
-    "                </a>\n" +
-    "              </div> -->\n" +
+    "      <div class=\"row row-top wine-description testimonial-service padding\">\n" +
+    "        <div ng-if=\"bottle.wine.testimonial\" class=\"col centered\">\n" +
+    "          <img src=\"assets/utils/logo_star.png\" alt=\"\">\n" +
+    "          <div class=\"card desc-card\">\n" +
+    "            <div class=\"item item-text-wrap\">\n" +
+    "              <h2>Un commentaire client</h2>\n" +
+    "              <p>{{::bottle.wine.testimonial}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
     "        </div>\n" +
+    "        <div class=\"col centered\">\n" +
+    "          <img src=\"assets/utils/logo_thermometer.png\" alt=\"\">\n" +
+    "          <div class=\"card desc-card\">\n" +
+    "            <div class=\"item item-text-wrap\">\n" +
+    "              <h2>Conseils de service</h2>\n" +
+    "              <p class=\"advice advice-temp \">\n" +
+    "              <img src=\"assets/utils/termometer.svg\" alt=\"\">\n" +
+    "                Temp. de dégustation : <br>\n" +
+    "                <span class=\"temp\">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>\n" +
+    "              </p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"row row-top\">\n" +
+    "        <div class=\"col\">\n" +
+    "          <div class=\"card desc-card\">\n" +
+    "            <div class=\"item item-text-wrap\">\n" +
+    "              <h2 class=\"centered\">Domaine</h2>\n" +
+    "              <p>{{::bottle.wine.domain}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"col\">\n" +
+    "          <div class=\"card desc-card\">\n" +
+    "            <div class=\"item item-text-wrap\">\n" +
+    "              <h2 class=\"centered\">À savoir</h2>\n" +
+    "              <p>{{::bottle.wine.education}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    <div class=\"centered\"><a class=\"button button-outline-primary centered\" href ui-sref=\"sidemenu.wine_know_more({uuid: id})\">En savoir plus</a></div>\n" +
     "</div>\n" +
     "\n" +
     "  </ion-content>\n" +
@@ -1078,6 +1181,7 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "              <h2  ng-if=\"bottle.comment\" class=\"header-margin-top\">Commentaire :</h2>\n" +
     "              <p ng-if=\"bottle.comment\">{{bottle.comment}}</p>\n" +
     "            </div>\n" +
+    "            <div class=\"button-card\"><span class=\"button-card--save\" ng-click=\"openModal()\">modifier</span></div>\n" +
     "      </div>\n" +
     "<!--         <div class=\"centered\">\n" +
     "          <button class=\"button share share-facebook\"><img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\">  <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> Partager ce vin</button>\n" +
@@ -1185,27 +1289,27 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "			<p>Cliquez ici pour continuer l'aventure</p>\n" +
     "		</a>\n" +
     "		<ion-list ng-if=\"segmentedControl.value === 'rated'\">\n" +
-    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{bottle.uuid}}\">\n" +
-    "					<h3>{{bottle.wine.display_name}}</h3>\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{::bottle.uuid}}\">\n" +
+    "					<h3>{{::bottle.wine.display_name}}</h3>\n" +
     "					<p class=\"vinitext\">\n" +
-    "							{{bottle.wine.region}}\n" +
+    "							{{::bottle.wine.region}}\n" +
     "							<span class=\"item-note\">\n" +
     "								<i ng-repeat=\"i in getNumber(bottle.rating) track by $index\" class=\"icon ion-ios7-star full-star\"></i>\n" +
     "								<i ng-hide=\"isInteger(bottle.rating)\" class=\"icon ion-ios7-star-half full-star\"></i>\n" +
     "							</span>\n" +
     "							<br>\n" +
-    "							{{bottle.wine.appellation}}\n" +
+    "							{{::bottle.wine.appellation}}\n" +
     "					</p>\n" +
     "			</a>\n" +
     "		</ion-list>\n" +
     "		<ion-list ng-if=\"segmentedControl.value === 'toDrink'\">\n" +
-    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{bottle.uuid}}\">\n" +
-    "					<h3>{{bottle.wine.display_name}}</h3>\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{::bottle.uuid}}\">\n" +
+    "					<h3>{{::bottle.wine.display_name}}</h3>\n" +
     "					<p class=\"vinitext\">\n" +
-    "							{{bottle.wine.region}}\n" +
-    "							<span class=\"item-note\">{{bottle.wine.vintage}}</span>\n" +
+    "							{{::bottle.wine.region}}\n" +
+    "							<span class=\"item-note\">{{::bottle.wine.vintage}}</span>\n" +
     "							<br>\n" +
-    "							{{bottle.wine.appellation}}\n" +
+    "							{{::bottle.wine.appellation}}\n" +
     "						</p>\n" +
     "			</a>\n" +
     "		</ion-list>\n" +
@@ -1500,9 +1604,9 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "    <div class=\"wine-header\">\n" +
     "      <div class=\"row row-center\">\n" +
     "          <div class=\"col centered\">\n" +
-    "            <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "            <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "            <h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "            <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>\n" +
+    "            <!-- <h4>{{::bottle.wine.appellation}}</h4> -->\n" +
     "          </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-header-bottom row-center\">\n" +
@@ -1512,19 +1616,19 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
     "              </div>\n" +
     "              <div class=\"col\">\n" +
-    "                    <p>{{bottle.wine.variety}}</p>\n" +
-    "                    <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "                    <p>{{::bottle.wine.variety}}</p>\n" +
+    "                    <!-- <h4>{{::bottle.wine.variety}}</h4> -->\n" +
     "              </div>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"col align-right\">\n" +
     "            <div class=\"row\">\n" +
-    "              <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "              <div class=\"col\"><p>{{::bottle.wine.vintage}}</p></div>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"occasion\">A boire {{bottle.wine.occasion}}</div>\n" +
+    "    <div class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
     "    <div class=\"wine-content\">\n" +
     "      <div class=\"card\">\n" +
     "        <div class=\"item item-text-wrap\">\n" +
@@ -1534,7 +1638,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Robe</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.dress}}</p>\n" +
+    "              <p>{{::bottle.wine.dress}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1542,7 +1646,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Nez</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.nose}}</p>\n" +
+    "              <p>{{::bottle.wine.nose}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1550,7 +1654,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Bouche</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.mouth}}</p>\n" +
+    "              <p>{{::bottle.wine.mouth}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1558,7 +1662,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Domaine</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.domain_know_more}}</p>\n" +
+    "              <p>{{::bottle.wine.domain_know_more}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
@@ -1572,7 +1676,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Cuisine</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.cuisine}}</p>\n" +
+    "              <p>{{::bottle.wine.cuisine}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1580,7 +1684,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Viandes <br> Poissons </p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.meat_fish}}</p>\n" +
+    "              <p>{{::bottle.wine.meat_fish}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1588,7 +1692,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Garniture</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.sides}}</p>\n" +
+    "              <p>{{::bottle.wine.sides}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1596,7 +1700,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Cuisson</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.cooking}}</p>\n" +
+    "              <p>{{::bottle.wine.cooking}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"row row-top\">\n" +
@@ -1604,7 +1708,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Fromages</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.cheeses}}</p>\n" +
+    "              <p>{{::bottle.wine.cheeses}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
@@ -1618,7 +1722,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
     "              <p class=\"subtitle\">Info</p>\n" +
     "            </div>\n" +
     "            <div class=\"col\">\n" +
-    "              <p>{{bottle.wine.info}}</p>\n" +
+    "              <p>{{::bottle.wine.info}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
@@ -1635,9 +1739,9 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "    <div class=\"wine-header\">\n" +
     "      <div class=\"row row-center\">\n" +
     "          <div class=\"col centered\">\n" +
-    "            <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "            <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "            <h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "            <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>\n" +
+    "            <!-- <h4>{{::bottle.wine.appellation}}</h4> -->\n" +
     "          </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-header-bottom row-center\">\n" +
@@ -1647,24 +1751,24 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
     "              </div>\n" +
     "              <div class=\"col\">\n" +
-    "                    <p>{{bottle.wine.variety}}</p>\n" +
-    "                    <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "                    <p>{{::bottle.wine.variety}}</p>\n" +
+    "                    <!-- <h4>{{::bottle.wine.variety}}</h4> -->\n" +
     "              </div>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"col align-right\">\n" +
     "            <div class=\"row\">\n" +
-    "              <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "              <div class=\"col\"><p>{{::bottle.wine.vintage}}</p></div>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "\n" +
-    "    <div class=\"occasion\">A boire {{bottle.wine.occasion}}</div>\n" +
+    "    <div class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
     "    <div class=\"rating-card\">\n" +
     "      <div class=\"card\">\n" +
     "        <form class=\"item rating-form\">\n" +
-    "          <h4>Note : {{rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
+    "          <h4>Note : {{::rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
     "            <md-slider class=\"md-slider-card\" md-discrete ng-model=\"rating.data.rating\" step=\"0.5\" min=\"1\" max=\"5\" aria-label=\"rating\">\n" +
     "            </md-slider>\n" +
     "<!--           <div class=\"icon-rating centered\">\n" +
@@ -1753,48 +1857,44 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "    <div class=\"wine-content\">\n" +
     "      <div class=\"row row-top wine-description tasting-food padding\">\n" +
     "        <div class=\"col centered\">\n" +
-    "          <img src=\"assets/utils/logo_glass.svg\" alt=\"\">\n" +
+    "          <img src=\"assets/utils/logo_glass.png\" alt=\"\">\n" +
     "          <div class=\"card desc-card\">\n" +
     "            <div class=\"item item-text-wrap\">\n" +
     "              <h2 class=\"centered\">Description</h2>\n" +
-    "              <p>{{bottle.wine.tasting}}</p>\n" +
+    "              <p>{{::bottle.wine.tasting}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "        <div class=\"col centered\">\n" +
-    "          <img src=\"assets/utils/logo_forks.svg\" alt=\"\">\n" +
+    "          <img src=\"assets/utils/logo_forks.png\" alt=\"\">\n" +
     "          <div class=\"card desc-card\">\n" +
     "            <div class=\"item item-text-wrap\">\n" +
     "              <h2 class=\"centered\">Accords Mets/Vins</h2>\n" +
-    "              <p>{{bottle.wine.food}}</p>\n" +
+    "              <p>{{::bottle.wine.food}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "\n" +
     "      <div class=\"row row-top wine-description testimonial-service padding\">\n" +
-    "        <div class=\"col centered\">\n" +
-    "          <div class=\"testimonial-rating\">4,5</div>\n" +
+    "        <div ng-if=\"bottle.wine.testimonial\" class=\"col centered\">\n" +
+    "          <img src=\"assets/utils/logo_star.png\" alt=\"\">\n" +
     "          <div class=\"card desc-card\">\n" +
     "            <div class=\"item item-text-wrap\">\n" +
     "              <h2>Un commentaire client</h2>\n" +
-    "              <p>{{bottle.wine.testimonial}}</p>\n" +
+    "              <p>{{::bottle.wine.testimonial}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "        <div class=\"col centered\">\n" +
-    "          <img src=\"assets/utils/logo_glass.svg\" alt=\"\">\n" +
+    "          <img src=\"assets/utils/logo_thermometer.png\" alt=\"\">\n" +
     "          <div class=\"card desc-card\">\n" +
     "            <div class=\"item item-text-wrap\">\n" +
     "              <h2>Conseils de service</h2>\n" +
     "              <p class=\"advice advice-temp \">\n" +
     "              <img src=\"assets/utils/termometer.svg\" alt=\"\">\n" +
     "                Temp. de dégustation : <br>\n" +
-    "                <span class=\"temp\">{{bottle.wine.temperature_min}}°C - {{bottle.wine.temperature_max}}°C </span>\n" +
-    "              </p>\n" +
-    "              <p class=\"advice advice-stock \">\n" +
-    "                <img src=\"assets/utils/attention.svg\" alt=\"\">\n" +
-    "                voir les conseils de stockage\n" +
+    "                <span class=\"temp\">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>\n" +
     "              </p>\n" +
     "            </div>\n" +
     "          </div>\n" +
@@ -1805,7 +1905,7 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "          <div class=\"card desc-card\">\n" +
     "            <div class=\"item item-text-wrap\">\n" +
     "              <h2 class=\"centered\">Domaine</h2>\n" +
-    "              <p>{{bottle.wine.domain}}</p>\n" +
+    "              <p>{{::bottle.wine.domain}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
@@ -1813,7 +1913,7 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "          <div class=\"card desc-card\">\n" +
     "            <div class=\"item item-text-wrap\">\n" +
     "              <h2 class=\"centered\">À savoir</h2>\n" +
-    "              <p>{{bottle.wine.education}}</p>\n" +
+    "              <p>{{::bottle.wine.education}}</p>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
@@ -1831,9 +1931,9 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "    <div class=\"wine-header\">\n" +
     "      <div class=\"row row-center\">\n" +
     "          <div class=\"col centered\">\n" +
-    "            <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "            <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
+    "            <h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "            <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>\n" +
+    "            <!-- <h4>{{::bottle.wine.appellation}}</h4> -->\n" +
     "          </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-header-bottom row-center\">\n" +
@@ -1843,22 +1943,22 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
     "              </div>\n" +
     "              <div class=\"col\">\n" +
-    "                    <p>{{bottle.wine.variety}}</p>\n" +
-    "                    <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "                    <p>{{::bottle.wine.variety}}</p>\n" +
+    "                    <!-- <h4>{{::bottle.wine.variety}}</h4> -->\n" +
     "              </div>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "          <div class=\"col align-right\">\n" +
     "            <div class=\"row\">\n" +
-    "              <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "              <div class=\"col\"><p>{{::bottle.wine.vintage}}</p></div>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"occasion\">A boire {{bottle.wine.occasion}}</div>\n" +
+    "    <div class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
     "    <div class=\"card\">\n" +
     "      <form class=\"item rating-form\">\n" +
-    "          <h4>Note : {{rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
+    "          <h4>Note : {{::rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +
     "            <md-slider class=\"md-slider-card\" md-discrete ng-model=\"rating.data.rating\" step=\"0.5\" min=\"1\" max=\"5\" aria-label=\"rating\">\n" +
     "            </md-slider>\n" +
     "<!--           <div class=\"icon-rating centered\">\n" +
@@ -1950,7 +2050,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "        </div>\n" +
     "        <div class=\"col\">\n" +
     "          <h4>Description</h4>\n" +
-    "          <p>{{bottle.wine.tasting}}</p>\n" +
+    "          <p>{{::bottle.wine.tasting}}</p>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-center\">\n" +
@@ -1959,7 +2059,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "        </div>\n" +
     "        <div class=\"col\">\n" +
     "          <h4>Accords mets/vin</h4>\n" +
-    "          <p>{{bottle.wine.food}}</p>\n" +
+    "          <p>{{::bottle.wine.food}}</p>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-center\">\n" +
@@ -1968,7 +2068,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "        </div>\n" +
     "        <div class=\"col\">\n" +
     "          <h4>Producteur</h4>\n" +
-    "          <p>{{bottle.wine.domain}}</p>\n" +
+    "          <p>{{::bottle.wine.domain}}</p>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"row row-center\">\n" +
@@ -1977,7 +2077,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "        </div>\n" +
     "        <div class=\"col\">\n" +
     "          <h4>Un commentaire client</h4>\n" +
-    "          <p>{{bottle.wine.testimonial}}</p>\n" +
+    "          <p>{{::bottle.wine.testimonial}}</p>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "\n" +
@@ -1989,7 +2089,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "          <h4>Conseils de service</h4>\n" +
     "          <p class=\"advice advice-temp \">\n" +
     "            Temp. de dégustation : <br>\n" +
-    "            <span class=\"temp\">{{bottle.wine.temperature_min}}°C - {{bottle.wine.temperature_max}}°C </span>\n" +
+    "            <span class=\"temp\">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>\n" +
     "          </p>\n" +
     "          <p class=\"advice advice-stock \">\n" +
     "            voir les conseils de stockage\n" +
@@ -2000,7 +2100,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "      <div class=\"card\">\n" +
     "        <div class=\"item item-text-wrap\">\n" +
     "          <h2 class=\"centered\">À savoir</h2>\n" +
-    "          <p>{{bottle.wine.education}}</p>\n" +
+    "          <p>{{::bottle.wine.education}}</p>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "  </div>\n" +

@@ -1,0 +1,117 @@
+<ion-view title="Commander" id="pay-view">
+ <ion-content has-bouncing="false">
+   <div ng-style="calcHeight" class="pay-header">
+       <h3 class="centered">Récapitulatif de ma commande</h3>
+   </div>
+   <div class="view-container">
+     <div class="card card-container">
+       <div class="item item-text-wrap item-bill">
+         <div class="row">
+           <div class="col">
+             <h3 ng-if="serializedOrder.quantity == 1">{{::serializedOrder.quantity}} recharge</h3>
+             <h3 ng-if="serializedOrder.quantity == 2">{{::serializedOrder.quantity}} recharges</h3>
+           </div>
+           <div class="col">
+             <p class="subtitle">{{::calcPrice()}} €</p>
+           </div>
+         </div>
+         <div class="row row-center">
+           <div class="col">
+             <h3>Livraison </h3>
+             <p>{{::serializedOrder.delivery_mode}} </p>
+           </div>
+           <div class="col">
+              <p>{{::displayPrice(serializedOrder.delivery_cost)}} €</p>
+           </div>
+       </div>
+         <div class="row row-center" ng-if="serializedOrder.coupon">
+           <div class="col">
+             <h3>Réduction :</h3>
+           </div>
+           <div class="col">
+              <h3>{{::serializedOrder.coupon.value}} €</h3>
+           </div>
+       </div>
+         <div class="row row-center">
+           <div class="col">
+             <h3>Total : </h3>
+           </div>
+           <div class="col">
+              <h3>{{::displayPrice(serializedOrder.final_price)}} €</h3>
+           </div>
+       </div>
+       </div>
+     </div>
+     <div class="card card-container">
+         <form name="stripe-form" id="stripe-form" stripe-form="submit">
+          <!-- <img class="pull-right" src="assets/utils/poweredbystripe.svg" alt="stripe_verification"> -->
+           <div class="row item">
+             <div class="col">
+                <label class="item-input">
+                 <i class="icon ion-card"></i> <input type="text" name="number" id="number" ng-model="number" placeholder="N° de Carte" payments-validate="card" payments-type-model="type" payments-format="card"  required/>
+
+               </label>
+             </div>
+             <div class="col col-25">
+               <label class="item item-input">
+                 <i class="icon ion-locked"></i> <input type="text" name="cvc" id="cvc" ng-model="cvc" placeholder="CVC" payments-validate="cvc" payments-format="cvc" required/>
+               </label>
+             </div>
+           </div>
+           <div class="row item">
+             <div class="col">
+               <label class="item item-input item-select">
+                 <div class="input-label">
+                   Mois
+                 </div>
+                 <select name="expMonth" ng-model="expMonth" placeholder="MM"required>
+                   <option value="01">Janv.</option>
+                   <option value="02">Févr.</option>
+                   <option value="03">Mars</option>
+                   <option value="04">Avril</option>
+                   <option value="05">Mai</option>
+                   <option value="06">Juin</option>
+                   <option value="07">Juill.</option>
+                   <option value="08">Août</option>
+                   <option value="09">Sept.</option>
+                   <option value="10">Oct.</option>
+                   <option value="11">Nov.</option>
+                   <option value="12">Déc.</option>
+                 </select>
+               </label>
+    <!--             <label class="item item-input">
+                 <i class="icon ion-ios7-calendar-outline"></i> <input type="text" name="expiry" id="expiry" ng-model="expiry" placeholder="MM" payments-validate="expiry" payments-format="expiry" required/>
+               </label> -->
+             </div>
+             <div class="col">
+               <label class="item item-input item-select">
+                 <div class="input-label">
+                   Année
+                 </div>
+                 <select name="expYear" ng-model="expYear" required>
+                   <option>2014</option>
+                   <option>2015</option>
+                   <option>2016</option>
+                   <option>2017</option>
+                   <option>2018</option>
+                   <option>2019</option>
+                   <option>2020</option>
+                 </select>
+               </label>
+    <!--             <label class="item item-input">
+                 <i class="icon ion-locked"></i> <input type="text" name="cvc" id="cvc" ng-model="cvc" placeholder="CVC" payments-validate="cvc" payments-format="cvc" required/>
+               </label> -->
+             </div>
+           </div>
+           <div class="row row-submit centered">
+              <div><input type="hidden" name="name" ng-model="user.last_name"/></div>
+             <button class="button button-order" value="submit">Payer ma commande</button>
+           </div>
+         </form>
+      </div>
+      <div class="centered">
+        <img src="assets/utils/credit_cards.png" alt="">
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

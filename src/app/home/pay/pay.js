@@ -6,7 +6,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           views: {
             menuContent: {
               controller: 'payCtrl',
-              templateUrl: "home/pay/pay.tpl.html"
+              templateUrl: "home/pay/pay.desktop.tpl.html"
             }
           }
       });
@@ -31,9 +31,9 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
   .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state) {
     $scope.serializedOrder = SerializedOrder;
     console.log(SerializedOrder);
-    var apiEndPoint =  'http://127.0.0.1:8000/api';
+    var apiEndPoint =  'https://api.vinify.co/api';
 
-    Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
+    // Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
     $scope.submit = function (status, response) {
 
       if (response.error) {

@@ -3,9 +3,9 @@
     <div class="wine-header">
       <div class="row row-center">
           <div class="col centered">
-            <h3>{{bottle.wine.display_name}}</h3>
-            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>
-            <!-- <h4>{{bottle.wine.appellation}}</h4> -->
+            <h3>{{::bottle.wine.display_name}}</h3>
+            <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>
+            <!-- <h4>{{::bottle.wine.appellation}}</h4> -->
           </div>
       </div>
       <div class="row row-header-bottom row-center">
@@ -15,24 +15,24 @@
                     <img class="img-grapes" src="assets/utils/grapes.svg" alt="grapes-logo">
               </div>
               <div class="col">
-                    <p>{{bottle.wine.variety}}</p>
-                    <!-- <h4>{{bottle.wine.variety}}</h4> -->
+                    <p>{{::bottle.wine.variety}}</p>
+                    <!-- <h4>{{::bottle.wine.variety}}</h4> -->
               </div>
             </div>
           </div>
           <div class="col align-right">
             <div class="row">
-              <div class="col"><p>{{bottle.wine.vintage}}</p></div>
+              <div class="col"><p>{{::bottle.wine.vintage}}</p></div>
             </div>
           </div>
       </div>
     </div>
 
-    <div class="occasion">A boire {{bottle.wine.occasion}}</div>
+    <div class="occasion">A boire {{::bottle.wine.occasion}}</div>
     <div class="rating-card">
       <div class="card">
         <form class="item rating-form">
-          <h4>Note : {{rating.data.rating}}/5<span class="item-note item-note-primary">"{{literalRating.value}}"</span></h4>
+          <h4>Note : {{::rating.data.rating}}/5<span class="item-note item-note-primary">"{{literalRating.value}}"</span></h4>
             <md-slider class="md-slider-card" md-discrete ng-model="rating.data.rating" step="0.5" min="1" max="5" aria-label="rating">
             </md-slider>
 <!--           <div class="icon-rating centered">
@@ -121,48 +121,44 @@
     <div class="wine-content">
       <div class="row row-top wine-description tasting-food padding">
         <div class="col centered">
-          <img src="assets/utils/logo_glass.svg" alt="">
+          <img src="assets/utils/logo_glass.png" alt="">
           <div class="card desc-card">
             <div class="item item-text-wrap">
               <h2 class="centered">Description</h2>
-              <p>{{bottle.wine.tasting}}</p>
+              <p>{{::bottle.wine.tasting}}</p>
             </div>
           </div>
         </div>
         <div class="col centered">
-          <img src="assets/utils/logo_forks.svg" alt="">
+          <img src="assets/utils/logo_forks.png" alt="">
           <div class="card desc-card">
             <div class="item item-text-wrap">
               <h2 class="centered">Accords Mets/Vins</h2>
-              <p>{{bottle.wine.food}}</p>
+              <p>{{::bottle.wine.food}}</p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="row row-top wine-description testimonial-service padding">
-        <div class="col centered">
-          <div class="testimonial-rating">4,5</div>
+        <div ng-if="bottle.wine.testimonial" class="col centered">
+          <img src="assets/utils/logo_star.png" alt="">
           <div class="card desc-card">
             <div class="item item-text-wrap">
               <h2>Un commentaire client</h2>
-              <p>{{bottle.wine.testimonial}}</p>
+              <p>{{::bottle.wine.testimonial}}</p>
             </div>
           </div>
         </div>
         <div class="col centered">
-          <img src="assets/utils/logo_glass.svg" alt="">
+          <img src="assets/utils/logo_thermometer.png" alt="">
           <div class="card desc-card">
             <div class="item item-text-wrap">
               <h2>Conseils de service</h2>
               <p class="advice advice-temp ">
               <img src="assets/utils/termometer.svg" alt="">
                 Temp. de dégustation : <br>
-                <span class="temp">{{bottle.wine.temperature_min}}°C - {{bottle.wine.temperature_max}}°C </span>
-              </p>
-              <p class="advice advice-stock ">
-                <img src="assets/utils/attention.svg" alt="">
-                voir les conseils de stockage
+                <span class="temp">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>
               </p>
             </div>
           </div>
@@ -173,7 +169,7 @@
           <div class="card desc-card">
             <div class="item item-text-wrap">
               <h2 class="centered">Domaine</h2>
-              <p>{{bottle.wine.domain}}</p>
+              <p>{{::bottle.wine.domain}}</p>
             </div>
           </div>
         </div>
@@ -181,7 +177,7 @@
           <div class="card desc-card">
             <div class="item item-text-wrap">
               <h2 class="centered">À savoir</h2>
-              <p>{{bottle.wine.education}}</p>
+              <p>{{::bottle.wine.education}}</p>
             </div>
           </div>
         </div>

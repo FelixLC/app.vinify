@@ -14,7 +14,7 @@
 
       .controller( 'profileCtrl', function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast, $ionicPlatform, $cordovaSocialSharing, $cordovaNetwork) {
         $scope.user = User.getUser();
-        var apiEndPoint =  'http://127.0.0.1:8000/api';
+        var apiEndPoint =  'https://api.vinify.co/api';
         $scope.form = {show: false};
         console.log(User);
         console.log($scope.user.phone);

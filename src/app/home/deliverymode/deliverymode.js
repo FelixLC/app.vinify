@@ -42,7 +42,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
     value: 50
   };
 
-  var apiEndPoint =  'http://127.0.0.1:8000/api';
+  var apiEndPoint =  'https://api.vinify.co/api';
 
   $scope.createRefillOrder = function () {
     if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
