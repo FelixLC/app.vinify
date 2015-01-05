@@ -42,7 +42,7 @@
        </div>
        </div>
      </div>
-     <div class="card card-container">
+     <div ng-if="serializedOrder.final_price" class="card card-container">
          <form name="stripe-form" id="stripe-form" stripe-form="submit">
           <!-- <img class="pull-right" src="assets/utils/poweredbystripe.svg" alt="stripe_verification"> -->
            <div class="row item">
@@ -109,9 +109,12 @@
            </div>
          </form>
       </div>
-      <div class="centered">
+      <div ng-if="serializedOrder.final_price" class="centered">
         <img src="assets/utils/credit_cards.png" alt="">
       </div>
+     <div ng-if="!serializedOrder.final_price" class="row row-submit centered">
+       <button class="button button-order" ng-click="payWithCredits()">Valider ma commande</button>
+     </div>
     </div>
   </ion-content>
 </ion-view>

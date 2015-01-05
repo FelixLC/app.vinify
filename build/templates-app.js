@@ -229,6 +229,17 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        </label>\n" +
     "        <div class=\"item\">\n" +
     "          <div class=\"button-card\">\n" +
+    "            <div ng-if=\"hideFirstCard\" class=\"pins\">\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['red'] >=1\" class=\"pin red-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['red'] >=2\" class=\"pin red-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['red'] >=3\" class=\"pin red-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['white'] >=1\" class=\"pin white-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['white'] >=2\" class=\"pin white-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['white'] >=3\" class=\"pin white-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['rose'] >=1\" class=\"pin rose-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['rose'] >=2\" class=\"pin rose-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[0]['split']['rose'] >=3\" class=\"pin rose-pin\"></div>\n" +
+    "            </div>\n" +
     "            <div ng-repeat=\"n in arrayFromNum(order.data.refills[0]['split']['white']) track by $index\" class=\"white-pin\"></div>\n" +
     "            <div ng-repeat=\"n in arrayFromNum(order.data.refills[0]['split']['red']) track by $index\" class=\"red-pin\"></div>\n" +
     "            <div ng-repeat=\"n in arrayFromNum(order.data.refills[0]['split']['rose']) track by $index\" class=\"rose-pin\"></div>\n" +
@@ -283,6 +294,17 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        </label>\n" +
     "        <div class=\"item\">\n" +
     "          <div class=\"button-card\">\n" +
+    "            <div ng-if=\"hideSecondCard\" class=\"pins\">\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['red'] >=1\" class=\"pin red-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['red'] >=2\" class=\"pin red-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['red'] >=3\" class=\"pin red-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['white'] >=1\" class=\"pin white-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['white'] >=2\" class=\"pin white-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['white'] >=3\" class=\"pin white-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['rose'] >=1\" class=\"pin rose-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['rose'] >=2\" class=\"pin rose-pin\"></div>\n" +
+    "              <div ng-if=\"order.data.refills[1]['split']['rose'] >=3\" class=\"pin rose-pin\"></div>\n" +
+    "            </div>\n" +
     "            <span ng-hide=\"hideSecondCard\" class=\"button-card--delete\" ng-click=\"removeRefill()\">supprimer</span>\n" +
     "            <span ng-hide=\"hideSecondCard\" class=\"button-card--save\" ng-click=\"hideSecondCard = true\">valider</span>\n" +
     "            <span ng-show=\"hideSecondCard\" class=\"button-card--save\" ng-click=\"hideSecondCard = false\">modifier</span>\n" +
@@ -437,7 +459,7 @@ angular.module("home/pay/pay.desktop.tpl.html", []).run(["$templateCache", funct
     "       </div>\n" +
     "       </div>\n" +
     "     </div>\n" +
-    "     <div class=\"card card-container\">\n" +
+    "     <div ng-if=\"serializedOrder.final_price\" class=\"card card-container\">\n" +
     "         <form name=\"stripe-form\" id=\"stripe-form\" stripe-form=\"submit\">\n" +
     "          <!-- <img class=\"pull-right\" src=\"assets/utils/poweredbystripe.svg\" alt=\"stripe_verification\"> -->\n" +
     "           <div class=\"row item\">\n" +
@@ -504,9 +526,12 @@ angular.module("home/pay/pay.desktop.tpl.html", []).run(["$templateCache", funct
     "           </div>\n" +
     "         </form>\n" +
     "      </div>\n" +
-    "      <div class=\"centered\">\n" +
+    "      <div ng-if=\"serializedOrder.final_price\" class=\"centered\">\n" +
     "        <img src=\"assets/utils/credit_cards.png\" alt=\"\">\n" +
     "      </div>\n" +
+    "     <div ng-if=\"!serializedOrder.final_price\" class=\"row row-submit centered\">\n" +
+    "       <button class=\"button button-order\" ng-click=\"payWithCredits()\">Valider ma commande</button>\n" +
+    "     </div>\n" +
     "    </div>\n" +
     "  </ion-content>\n" +
     "</ion-view>");
@@ -564,7 +589,7 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "         </div>\n" +
     "     </div>\n" +
     "     </div>\n" +
-    "     <form name=\"stripe-form\" id=\"stripe-form\" stripe-form=\"submit\">\n" +
+    "     <form ng-if=\"serializedOrder.final_price\" name=\"stripe-form\" id=\"stripe-form\" stripe-form=\"submit\">\n" +
     "      <img class=\"pull-right\" src=\"assets/utils/poweredbystripe.svg\" alt=\"stripe_verification\">\n" +
     "       <div class=\"row item\">\n" +
     "         <div class=\"col\">\n" +
@@ -629,7 +654,9 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "         <button class=\"button button-order\" value=\"submit\">Payer ma commande</button>\n" +
     "       </div>\n" +
     "     </form>\n" +
-    "\n" +
+    "     <div ng-if=\"!serializedOrder.final_price\" class=\"row row-submit centered\">\n" +
+    "       <button class=\"button button-order\" ng-click=\"payWithCredits()\">Valider ma commande</button>\n" +
+    "     </div>\n" +
     "   </div>\n" +
     "\n" +
     "  </ion-content>\n" +

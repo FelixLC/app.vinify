@@ -1,4 +1,4 @@
-angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading' ])
+angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading', 'payingService' ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('sidemenu.pay', {
@@ -28,7 +28,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         }
     };
   })
-  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state) {
+  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay) {
     $scope.serializedOrder = SerializedOrder;
     console.log(SerializedOrder);
     var apiEndPoint =  'http://127.0.0.1:8000/api';
@@ -89,27 +89,30 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         }
       } else {
         Loading.show();
-        var data = {
-          token: response.id,
-          order_id: $scope.serializedOrder.uuid
-        };
-        $http({
-          url: apiEndPoint + '/orders/chargerefill/',
-          method: "POST",
-          data: data
-        })
+        Pay.chargeRefill($scope.serializedOrder.uuid, response.id)
+          .success(function (data, status, headers, config) {
+            Loading.hide();
+            $scope.openYipeeModal();
+            if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
+              Pay.pickMrEmail($scope.serializedOrder.uuid);
+            }
+            $state.go('sidemenu.home');
+          })
+          .error(function (data, status, headers, config) {
+            Loading.hide();
+            $scope.openOopsModal();
+          });
+      }
+
+    };
+
+    $scope.payWithCredits = function () {
+      Pay.chargeRefill($scope.serializedOrder.uuid)
         .success(function (data, status, headers, config) {
           Loading.hide();
           $scope.openYipeeModal();
           if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
-            $http({
-              url: apiEndPoint + '/orders/pickmremail/',
-              method: "POST",
-              data: { order_id: $scope.serializedOrder.uuid },
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-              }
-            });
+            Pay.pickMrEmail($scope.serializedOrder.uuid);
           }
           $state.go('sidemenu.home');
         })
@@ -117,10 +120,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           Loading.hide();
           $scope.openOopsModal();
         });
-      }
-
     };
-
     // TODO VERIFY WITH STATUS BAR
     var appropriatedHeight = ($window.innerHeight - 60) / 3;
 

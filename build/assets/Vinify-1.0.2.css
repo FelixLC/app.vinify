@@ -413,23 +413,28 @@
   padding: 7px 0;
   width: 60%;
 }
-.list-select .item-select .input-label > div {
+.pins {
+  text-align: left;
+  position: absolute;
+  left: 16px;
+}
+.pin {
   width: 10px;
   height: 10px;
   border-radius: 5px;
   display: inline-block;
 }
-.list-select .item-select .input-label > div.red-pin {
+.pin.red-pin {
   background-color: #cb0001;
 }
-.list-select .item-select .input-label > div.white-pin {
+.pin.white-pin {
   background-color: #ecc617;
 }
-.list-select .item-select .input-label > div.rose-pin {
+.pin.rose-pin {
   background-color: #cb0001;
   opacity: 0.5;
 }
-.list-select .item-select .input-label > div:nth-child(even) {
+.pin:nth-child(even) {
   margin-left: 2px;
   margin-right: 2px;
 }
