@@ -28,7 +28,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   $scope.user = User.getUser();
   $scope.form = { show: false };
   $scope.addresses = addressList;
-
+  $scope.user = User.getUser();
   $scope.calcHeight = {
     "min-height": appropriatedHeight + 'px'
   };
@@ -38,11 +38,11 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
     Colissimo: [ 8.90, 11.90 ]
   };
   $scope.credits = {
-    has: true,
-    value: 50
+    has: !!$scope.user.credits,
+    value: $scope.user.credits
   };
 
-  var apiEndPoint =  'https://api.vinify.co/api';
+  var apiEndPoint =  'http://127.0.0.1:8000/api';
 
   $scope.createRefillOrder = function () {
     if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
@@ -52,8 +52,17 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
         Loading.show();
         $scope.order.data.delivery_cost = $scope.deliveryPrices[$scope.order.data.delivery_mode][$scope.order.data.quantity - 1];
         $scope.order.createRefillOrder().then(function (data) {
+          console.log(data);
           Loading.hide();
-          $state.go('sidemenu.pay');
+          if (data.amount === 0) {
+            $scope.openYipeeModal();
+            if (data.delivery_mode === 'Point Relais') {
+              $http(apiEndPoint + '/orders/pickmremail/', { order_id: data.uuid });
+            }
+            $state.go('sidemenu.home');
+          } else {
+            $state.go('sidemenu.pay');
+          }
         }, function (data) {
           Loading.hide();
           toasters.pop('Oops, un erreur est survenue. Merci de réessayer ...', 'top', 'info');

@@ -13,10 +13,10 @@
   function settings () {
     var service = {
       desktop: true,
-      apiEndPoint: 'https://api.vinify.co/api',
-      // apiEndPoint: 'https://api.vinify.co/api',
-      // restApiEndPoint: 'https://api.vinify.co/api'
-      restApiEndPoint: 'https://api.vinify.co/restapi'
+      apiEndPoint: 'http://127.0.0.1:8000/api',
+      // apiEndPoint: 'http://127.0.0.1:8000/api',
+      // restApiEndPoint: 'http://127.0.0.1:8000/api'
+      restApiEndPoint: 'http://127.0.0.1:8000/restapi'
     };
     return service;
   }

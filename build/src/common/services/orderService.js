@@ -38,7 +38,7 @@ angular.module('Order', [ 'settings', 'Update' ])
   };
 
   Order.prototype.testCoupon = function (coupon, success, failure) {
-    return $http.post(apiEndPoint + '/orders/testcoupon/', { coupon: coupon })
+    return $http.post(settings.apiEndPoint + '/orders/testcoupon/', { coupon: coupon })
       .success(function (data, status, headers, config) {
         if (success && angular.isFunction(success)) {
           success(data);

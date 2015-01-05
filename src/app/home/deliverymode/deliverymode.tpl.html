@@ -98,15 +98,15 @@
             <input type="text" placeholder="Coupon de Reduction" ng-model="order.data.coupon" ng-blur="onBlur()">
           </label>
         </div>
-<!--         <div ng-if="credits.has" class="item item-toggle">
+        <div ng-if="credits.has" class="item item-toggle">
            Utiliser mes crédits ({{::credits.value}} €)
            <label class="toggle toggle-assertive">
-             <input type="checkbox">
+             <input type="checkbox" ng-model="order.data.use_credits">
              <div class="track">
                <div class="handle"></div>
              </div>
            </label>
-        </div> -->
+        </div>
         <div class="item centered item-delivery-address">
           <div class="row row-center">
             <div class="col">

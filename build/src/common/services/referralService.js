@@ -1,7 +1,7 @@
 angular.module('Referrals', ['Offline'])
 .factory('Referrals', function ($http, $q, OfflineReferralsData) {
-    var apiEndPoint =  'https://api.vinify.co/api';
-    var restApiEndPoint =  'https://api.vinify.co/restapi';
+    var apiEndPoint =  'http://127.0.0.1:8000/api';
+    var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
     // instantiate our initial object
     var Referrals = {};
 
@@ -67,8 +67,8 @@ angular.module('Referrals', ['Offline'])
 })
 
 .factory('Referral', function ($http, OfflineReferralsData, Referrals) {
-    var apiEndPoint =  'https://api.vinify.co/api';
-    var restApiEndPoint =  'https://api.vinify.co/restapi';
+    var apiEndPoint =  'http://127.0.0.1:8000/api';
+    var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
     var Referral = function () {
         this.first_name = null;

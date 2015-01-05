@@ -23,19 +23,25 @@
           <div class="input-label">
            Nombre de rouges
           </div>
-          <select ng-model="order.data.refills[0]['split']['red']" ng-options="option for option in options"></select>
+          <select ng-model="order.data.refills[0]['split']['red']"
+                          ng-options="option for option in options"
+                          ng-change="changeRed(order.data.refills[0]['split'])"></select>
         </label>
         <label ng-if="!hideFirstCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de blancs
           </div>
-          <select ng-model="order.data.refills[0]['split']['white']" ng-options="option for option in options | filterWhite:order.data.refills[0]['split']['red']"></select>
+          <select ng-model="order.data.refills[0]['split']['white']"
+                          ng-options="option for option in options | filterWhite:order.data.refills[0]['split']['red']"
+                          ng-change="changeWhite(order.data.refills[0]['split'])"></select>
         </label>
         <label ng-if="!hideFirstCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de rosés
           </div>
-          <select ng-model="order.data.refills[0]['split']['rose']" ng-options="option for option in options | filterRose:order.data.refills[0]['split']['red']:order.data.refills[0]['split']['white']"></select>
+          <select ng-model="order.data.refills[0]['split']['rose']"
+                          ng-options="option for option in options | filterRose:order.data.refills[0]['split']['red']:order.data.refills[0]['split']['white']">
+          </select>
         </label>
         <div class="item">
           <div class="button-card">
@@ -72,13 +78,18 @@
           <div class="input-label">
            Nombre de rouges
           </div>
-          <select ng-model="order.data.refills[1]['split']['red']" ng-options="option for option in options"></select>
+          <select ng-model="order.data.refills[1]['split']['red']"
+                          ng-options="option for option in options"
+                          ng-change="changeRed(order.data.refills[1]['split'])"></select>
         </label>
         <label ng-if="!hideSecondCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de blancs
           </div>
-          <select ng-model="order.data.refills[1]['split']['white']" ng-options="option for option in options | filterWhite:order.data.refills[1]['split']['red']"></select>
+          <select ng-model="order.data.refills[1]['split']['white']"
+                          ng-options="option for option in options | filterWhite:order.data.refills[1]['split']['red']"
+                          ng-change="changeWhite(order.data.refills[1]['split'])">
+          </select>
         </label>
         <label ng-if="!hideSecondCard" class="item item-input item-select">
           <div class="input-label">

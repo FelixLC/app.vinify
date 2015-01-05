@@ -1,8 +1,8 @@
 angular.module('Rating', ['ngResource', 'User'])
 
 .factory('Rating', function ($http, Bottles) {
-     var apiEndPoint =  'https://api.vinify.co/api';
-     var restApiEndPoint =  'https://api.vinify.co/restapi';
+     var apiEndPoint =  'http://127.0.0.1:8000/api';
+     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
     var Rating = function (uuid, urating, ucomment) {
         this.data = {
@@ -59,8 +59,8 @@ angular.module('Rating', ['ngResource', 'User'])
 })
 
 .factory('GroupRating', function ($http, Bottles, Rating) {
-     var apiEndPoint =  'https://api.vinify.co/api';
-     var restApiEndPoint =  'https://api.vinify.co/restapi';
+     var apiEndPoint =  'http://127.0.0.1:8000/api';
+     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
 
     var GroupRating = function (uuid, urating, num) {
         // TODO PUSH RATING WHEN THEY COME

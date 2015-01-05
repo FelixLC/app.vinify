@@ -34,7 +34,27 @@
         $scope.prices = {
           "29€90": 29.90,
           "39€90": 39.90,
-          "49€80": 49.90
+          "49€90": 49.90
+        };
+
+        $scope.changeRed = function (split) {
+          if (split.red === 3) {
+            split.white = 0;
+            split.rose = 0;
+          } else if (split.red + split.white >= 3) {
+            split.white = 3 - split.red;
+            split.rose = 0;
+          } else {
+            split.rose = 3 - split.red - split.white;
+          }
+        };
+
+        $scope.changeWhite = function (split) {
+          if (split.red + split.white + split.rose >= 3) {
+            split.rose = 0;
+          } else {
+            split.rose = 3 - split.red - split.white;
+          }
         };
 
         $scope.arrayFromNum = function (num) {

@@ -102,15 +102,15 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "            <input type=\"text\" placeholder=\"Coupon de Reduction\" ng-model=\"order.data.coupon\" ng-blur=\"onBlur()\">\n" +
     "          </label>\n" +
     "        </div>\n" +
-    "<!--         <div ng-if=\"credits.has\" class=\"item item-toggle\">\n" +
+    "        <div ng-if=\"credits.has\" class=\"item item-toggle\">\n" +
     "           Utiliser mes crédits ({{::credits.value}} €)\n" +
     "           <label class=\"toggle toggle-assertive\">\n" +
-    "             <input type=\"checkbox\">\n" +
+    "             <input type=\"checkbox\" ng-model=\"order.data.use_credits\">\n" +
     "             <div class=\"track\">\n" +
     "               <div class=\"handle\"></div>\n" +
     "             </div>\n" +
     "           </label>\n" +
-    "        </div> -->\n" +
+    "        </div>\n" +
     "        <div class=\"item centered item-delivery-address\">\n" +
     "          <div class=\"row row-center\">\n" +
     "            <div class=\"col\">\n" +
@@ -207,19 +207,25 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "          <div class=\"input-label\">\n" +
     "           Nombre de rouges\n" +
     "          </div>\n" +
-    "          <select ng-model=\"order.data.refills[0]['split']['red']\" ng-options=\"option for option in options\"></select>\n" +
+    "          <select ng-model=\"order.data.refills[0]['split']['red']\"\n" +
+    "                          ng-options=\"option for option in options\"\n" +
+    "                          ng-change=\"changeRed(order.data.refills[0]['split'])\"></select>\n" +
     "        </label>\n" +
     "        <label ng-if=\"!hideFirstCard\" class=\"item item-input item-select\">\n" +
     "          <div class=\"input-label\">\n" +
     "            Nombre de blancs\n" +
     "          </div>\n" +
-    "          <select ng-model=\"order.data.refills[0]['split']['white']\" ng-options=\"option for option in options | filterWhite:order.data.refills[0]['split']['red']\"></select>\n" +
+    "          <select ng-model=\"order.data.refills[0]['split']['white']\"\n" +
+    "                          ng-options=\"option for option in options | filterWhite:order.data.refills[0]['split']['red']\"\n" +
+    "                          ng-change=\"changeWhite(order.data.refills[0]['split'])\"></select>\n" +
     "        </label>\n" +
     "        <label ng-if=\"!hideFirstCard\" class=\"item item-input item-select\">\n" +
     "          <div class=\"input-label\">\n" +
     "            Nombre de rosés\n" +
     "          </div>\n" +
-    "          <select ng-model=\"order.data.refills[0]['split']['rose']\" ng-options=\"option for option in options | filterRose:order.data.refills[0]['split']['red']:order.data.refills[0]['split']['white']\"></select>\n" +
+    "          <select ng-model=\"order.data.refills[0]['split']['rose']\"\n" +
+    "                          ng-options=\"option for option in options | filterRose:order.data.refills[0]['split']['red']:order.data.refills[0]['split']['white']\">\n" +
+    "          </select>\n" +
     "        </label>\n" +
     "        <div class=\"item\">\n" +
     "          <div class=\"button-card\">\n" +
@@ -256,13 +262,18 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "          <div class=\"input-label\">\n" +
     "           Nombre de rouges\n" +
     "          </div>\n" +
-    "          <select ng-model=\"order.data.refills[1]['split']['red']\" ng-options=\"option for option in options\"></select>\n" +
+    "          <select ng-model=\"order.data.refills[1]['split']['red']\"\n" +
+    "                          ng-options=\"option for option in options\"\n" +
+    "                          ng-change=\"changeRed(order.data.refills[1]['split'])\"></select>\n" +
     "        </label>\n" +
     "        <label ng-if=\"!hideSecondCard\" class=\"item item-input item-select\">\n" +
     "          <div class=\"input-label\">\n" +
     "            Nombre de blancs\n" +
     "          </div>\n" +
-    "          <select ng-model=\"order.data.refills[1]['split']['white']\" ng-options=\"option for option in options | filterWhite:order.data.refills[1]['split']['red']\"></select>\n" +
+    "          <select ng-model=\"order.data.refills[1]['split']['white']\"\n" +
+    "                          ng-options=\"option for option in options | filterWhite:order.data.refills[1]['split']['red']\"\n" +
+    "                          ng-change=\"changeWhite(order.data.refills[1]['split'])\">\n" +
+    "          </select>\n" +
     "        </label>\n" +
     "        <label ng-if=\"!hideSecondCard\" class=\"item item-input item-select\">\n" +
     "          <div class=\"input-label\">\n" +
@@ -534,6 +545,14 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "         </div>\n" +
     "         <div class=\"col\">\n" +
     "            <h3>{{serializedOrder.coupon.value}} €</h3>\n" +
+    "         </div>\n" +
+    "     </div>\n" +
+    "     <div class=\"row row-center\" ng-if=\"serializedOrder.credits\">\n" +
+    "         <div class=\"col\">\n" +
+    "           <h3>Credits :</h3>\n" +
+    "         </div>\n" +
+    "         <div class=\"col\">\n" +
+    "            <h3>{{serializedOrder.credits}} €</h3>\n" +
     "         </div>\n" +
     "     </div>\n" +
     "       <div class=\"row row-center\">\n" +

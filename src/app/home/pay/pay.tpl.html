@@ -31,6 +31,14 @@
             <h3>{{serializedOrder.coupon.value}} €</h3>
          </div>
      </div>
+     <div class="row row-center" ng-if="serializedOrder.credits">
+         <div class="col">
+           <h3>Credits :</h3>
+         </div>
+         <div class="col">
+            <h3>{{serializedOrder.credits}} €</h3>
+         </div>
+     </div>
        <div class="row row-center">
          <div class="col">
            <h3>Total : </h3>
