@@ -1,4 +1,4 @@
-angular.module('app.vinibar', ['ngResource', 'User', 'ngCordova'])
+angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster' ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('sidemenu.vinibar', {
@@ -16,7 +16,7 @@ angular.module('app.vinibar', ['ngResource', 'User', 'ngCordova'])
           }
       });
  })
-.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState) {
+.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState, toasters) {
   var init = function () {
     $scope.bottleList = bottles.data;
     $scope.user = User.getUser();
@@ -73,7 +73,7 @@ angular.module('app.vinibar', ['ngResource', 'User', 'ngCordova'])
       },
       function (response) {
         $scope.$broadcast('scroll.refreshComplete');
-        $cordovaToast.show('Problème de connexion ...', 'short', 'top');
+        toasters.pop('Problème de connexion ...', 'top', 'info');
       });
   };
 

@@ -13,6 +13,7 @@
   function settings () {
     var service = {
       desktop: true,
+      test: true,
       apiEndPoint: 'http://127.0.0.1:8000/api',
       // apiEndPoint: 'http://127.0.0.1:8000/api',
       // restApiEndPoint: 'http://127.0.0.1:8000/api'

@@ -27,7 +27,7 @@
           </div>
       </div>
     </div>
-    <div class="occasion">A boire {{::bottle.wine.occasion}}</div>
+    <div ng-if="bottle.wine.occasion" class="occasion">A boire {{::bottle.wine.occasion}}</div>
     <div class="card">
       <form class="item rating-form">
           <h4>Note : {{::rating.data.rating}}/5<span class="item-note item-note-primary">"{{literalRating.value}}"</span></h4>

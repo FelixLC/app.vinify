@@ -18,13 +18,15 @@
     function chargeRefill (orderUuid, stripeToken) {
       return $http.post(settings.apiEndPoint + '/orders/chargerefill/', {
           token: stripeToken || "",
-          order_id: orderUuid
+          order_id: orderUuid,
+          test: settings.test
       });
     }
 
     function pickMrEmail (orderUuid) {
       return $http.post(settings.apiEndPoint + '/orders/chargerefill/', {
-          order_id: orderUuid
+          order_id: orderUuid,
+          test: settings.test
       });
     }
   }

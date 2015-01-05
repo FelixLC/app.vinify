@@ -441,7 +441,15 @@ angular.module("home/pay/pay.desktop.tpl.html", []).run(["$templateCache", funct
     "              <p>{{::displayPrice(serializedOrder.delivery_cost)}} €</p>\n" +
     "           </div>\n" +
     "       </div>\n" +
-    "         <div class=\"row row-center\" ng-if=\"serializedOrder.coupon\">\n" +
+    "       <div class=\"row row-center\" ng-if=\"serializedOrder.credits\">\n" +
+    "           <div class=\"col\">\n" +
+    "             <h3>Crédits :</h3>\n" +
+    "           </div>\n" +
+    "           <div class=\"col\">\n" +
+    "              <h3>{{::serializedOrder.credits}} €</h3>\n" +
+    "           </div>\n" +
+    "       </div>\n" +
+    "       <div class=\"row row-center\" ng-if=\"serializedOrder.coupon\">\n" +
     "           <div class=\"col\">\n" +
     "             <h3>Réduction :</h3>\n" +
     "           </div>\n" +
@@ -454,7 +462,7 @@ angular.module("home/pay/pay.desktop.tpl.html", []).run(["$templateCache", funct
     "             <h3>Total : </h3>\n" +
     "           </div>\n" +
     "           <div class=\"col\">\n" +
-    "              <h3>{{::displayPrice(serializedOrder.final_price)}} €</h3>\n" +
+    "              <h3>{{::displayPrice(serializedOrder.final_price) | number:2}} €</h3>\n" +
     "           </div>\n" +
     "       </div>\n" +
     "       </div>\n" +
@@ -1810,7 +1818,7 @@ angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", fun
     "      </div>\n" +
     "    </div>\n" +
     "\n" +
-    "    <div class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
+    "    <div ng-if=\"bottle.wine.occasion\" class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
     "    <div class=\"rating-card\">\n" +
     "      <div class=\"card\">\n" +
     "        <form class=\"item rating-form\">\n" +
@@ -2001,7 +2009,7 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "          </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
+    "    <div ng-if=\"bottle.wine.occasion\" class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
     "    <div class=\"card\">\n" +
     "      <form class=\"item rating-form\">\n" +
     "          <h4>Note : {{::rating.data.rating}}/5<span class=\"item-note item-note-primary\">\"{{literalRating.value}}\"</span></h4>\n" +

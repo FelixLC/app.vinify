@@ -1,4 +1,4 @@
-angular.module('Offline', [ 'LocalStorageModule' ])
+angular.module('Offline', [ 'LocalStorageModule', 'settings' ])
 .factory('OfflineQueue', function (localStorageService, $q) {
   // instantiate our initial object
   var _ratingQueue = [];
@@ -103,7 +103,7 @@ angular.module('Offline', [ 'LocalStorageModule' ])
   };
 })
 
-.factory('OfflineUser', function (localStorageService) {
+.factory('OfflineUser', function (localStorageService, settings) {
   // instantiate our initial object
   var _user = null;
 
@@ -114,10 +114,12 @@ angular.module('Offline', [ 'LocalStorageModule' ])
       return _user;
     },
     setUser: function (user) {
-      _user = user;
-      localStorageService.set('user', user);
-      console.log('added user to local storage');
-      return _user;
+      if (!settings.desktop) {
+        _user = user;
+        localStorageService.set('user', user);
+        console.log('added user to local storage');
+        return _user;
+      }
     },
     removeUser: function (user) {
       localStorageService.clearAll();
@@ -127,7 +129,7 @@ angular.module('Offline', [ 'LocalStorageModule' ])
   };
 })
 
-.factory('OfflineWineData', function (localStorageService) {
+.factory('OfflineWineData', function (localStorageService, settings) {
 
   return {
     getWines: function () {
@@ -135,26 +137,30 @@ angular.module('Offline', [ 'LocalStorageModule' ])
       return localStorageService.get('wines');
     },
     setWines: function (wines) {
-      localStorageService.set('wines', wines);
-      console.log('added wines to local storage');
-      console.log(localStorageService.get('wines'));
-      return localStorageService.get('wines');
+      if (!settings.desktop) {
+        localStorageService.set('wines', wines);
+        console.log('added wines to local storage');
+        console.log(localStorageService.get('wines'));
+        return localStorageService.get('wines');
+      }
     }
   };
 
 })
 
-.factory('OfflineReferralsData', function (localStorageService) {
+.factory('OfflineReferralsData', function (localStorageService, settings) {
 
   return {
     getReferrals: function () {
       return localStorageService.get('referrals');
     },
     setReferrals: function (referrals) {
-      localStorageService.set('referrals', referrals);
-      console.log('added referrals to local storage');
-      console.log(localStorageService.get('referrals'));
-      return localStorageService.get('referrals');
+      if (!settings.desktop) {
+        localStorageService.set('referrals', referrals);
+        console.log('added referrals to local storage');
+        console.log(localStorageService.get('referrals'));
+        return localStorageService.get('referrals');
+      }
     }
   };
 });

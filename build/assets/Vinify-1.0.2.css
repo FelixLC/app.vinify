@@ -157,6 +157,9 @@
   left: 0;
   right: 0;
 }
+.button-order:hover {
+  color: #fff;
+}
 .side-list .item {
   border-color: #FFF;
 }

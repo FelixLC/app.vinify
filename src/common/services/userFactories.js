@@ -29,11 +29,10 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
         return $http.get(settings.apiEndPoint + '/users/isloggedin/')
             .success(function (data, status, headers, config) {
               User.setUser(data);
-              return User.getUser();
             })
             .error(function (response) {
               // TODO manage errors
-              alert(data);
+              // alert(data);
               location.path('/login');
             });
       },

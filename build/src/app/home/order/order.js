@@ -1,4 +1,4 @@
-  angular.module('app.order', [ 'Order' ])
+  angular.module('app.order', [ 'Order', 'User' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.order', {
@@ -29,7 +29,7 @@
           }
         };
       })
-      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window) {
+      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User) {
 
         $scope.prices = {
           "29€90": 29.90,
@@ -90,13 +90,19 @@
         };
 
         $scope.createRefillOrder = function () {
-          angular.forEach($scope.order.data.refills, function (value, index) {
-            value.split.rose = (value.split.rose) ? value.split.rose : 0;
-            value.split.white = (value.split.white) ? value.split.white : 0;
-            value.split.red = (value.split.red) ? value.split.red : 0;
-          });
-          orderInstance.setOrderInstance($scope.order);
-          $state.go('sidemenu.deliverymode');
+          if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
+            $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+          } else {
+            angular.forEach($scope.order.data.refills, function (value, index) {
+              value.split.rose = (value.split.rose) ? value.split.rose : 0;
+              value.split.white = (value.split.white) ? value.split.white : 0;
+              value.split.red = (value.split.red) ? value.split.red : 0;
+            });
+            orderInstance.setOrderInstance($scope.order);
+            User.updateUser().then(function () {
+              $state.go('sidemenu.deliverymode');
+            });
+          }
         };
 
       });

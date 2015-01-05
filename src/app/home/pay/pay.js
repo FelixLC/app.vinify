@@ -1,4 +1,4 @@
-angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading', 'payingService' ])
+angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading', 'payingService', 'settings', 'Toaster' ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('sidemenu.pay', {
@@ -28,65 +28,15 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         }
     };
   })
-  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay) {
+  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay, settings, toasters) {
     $scope.serializedOrder = SerializedOrder;
     console.log(SerializedOrder);
-    var apiEndPoint =  'http://127.0.0.1:8000/api';
+    Stripe.setPublishableKey((settings.test) ? 'pk_test_sK21onMmCuKNuoY7pbml8z3Q' : 'pk_live_gNv4cCe8tsZpettPUsdQj25F');
 
-    // Stripe.setPublishableKey('pk_live_gNv4cCe8tsZpettPUsdQj25F');
     $scope.submit = function (status, response) {
 
       if (response.error) {
-        if (ionic.Platform.isWebView()) {
-          $cordovaToast.show('Merci de vérifier vos informations', 'short', 'top').then(function (success) {
-          }, function (error) {
-          // error
-          });
-          // if (response.error.code == 'incorrect_number') {
-          //  $cordovaToast.show('The card number is incorrect.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-          // if (response.error.code == 'invalid_number') {
-          //  $cordovaToast.show('The card number is not a valid credit card number.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-          // if (response.error.code == 'invalid_expiry_month') {
-          //  $cordovaToast.show('The card\'s expiration month is invalid.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-          // if (response.error.code == 'invalid_expiry_year') {
-          //  $cordovaToast.show('The card\'s expiration year is invalid.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-          // if (response.error.code == 'invalid_cvc') {
-          //  $cordovaToast.show('The card\'s security code is invalid.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-          // if (response.error.code == 'expired_card') {
-          //  $cordovaToast.show('The card has expired.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-          // if (response.error.code == 'incorrect_cvc') {
-          //  $cordovaToast.show('The card\'s security code is invalid.', 'short', 'top').then(function (success) {
-          //  }, function (error) {
-          //  // error
-          //  });
-          // }
-        } else {
-          console.log(response);
-        }
+        toasters.pop('Merci de vérifier vos informations', 'short', 'info');
       } else {
         Loading.show();
         Pay.chargeRefill($scope.serializedOrder.uuid, response.id)

@@ -6,6 +6,7 @@
     'Offline',
     'Loading',
     'ngCordova',
+    'Toaster',
     'material.components.slider'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -55,7 +56,7 @@
             // }
         });
     })
-    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState) {
+    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState, toasters) {
       $scope.id = $stateParams.uuid;
       var getById = function (arr, id) {
         for (var d = 0, len = arr.length; d < len; d += 1) {
@@ -98,10 +99,10 @@
       $scope.$watch('rateStars.value', function (newValue, oldValue, scope) {
         console.log(newValue);
         // Toggle half star if we have a non integer rating
-        $scope.showHalf = (Math.floor(newValue)!=newValue) ? true : false;
+        $scope.showHalf = (Math.floor(newValue) != newValue) ? true : false;
         $scope.star = {
           full: new Array(Math.floor(newValue)),
-          outline: (Math.floor(newValue)!=newValue) ?  new Array(4 - Math.floor(newValue)) : new Array(5 - Math.floor(newValue))
+          outline: (Math.floor(newValue) != newValue) ?  new Array(4 - Math.floor(newValue)) : new Array(5 - Math.floor(newValue))
         };
       });
 
@@ -149,15 +150,12 @@
                                                                             $scope.closeModal();
                                                                             SegmentedControlState.value = 'rated';
                                                                             $state.go('sidemenu.vinibar');
-                                                                            $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                            toasters.pop('Bien reçu !', 'top', 'success');
                                                                       }, function (data, status, headers, config) {
                                                                           Loading.hide();
-                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function (success) {
-                                                                          }, function (error) {
-                                                                          // error
-                                                                          });
+                                                                          toasters.pop('Oops, Vous n\'êtes pas connecté', 'top', 'info');
                                                                             // TODO gracefully manage errors/successes
-                                                                             console.log(data);
+                                                                          console.log(data);
                                                                         });
               }
             } else { // if we are on the web app
@@ -167,13 +165,10 @@
                                                                             $scope.closeModal();
                                                                             SegmentedControlState.value = 'rated';
                                                                             $state.go('sidemenu.vinibar');
-                                                                            $cordovaToast.show('Bien reçu !', 'short', 'top');
+                                                                            toasters.pop('Bien reçu !', 'top', 'success');
                                                                       }, function (data, status, headers, config) {
                                                                           Loading.hide();
-                                                                          $cordovaToast.show('Oops, Vous n\'êtes pas connecté', 'short', 'top').then(function (success) {
-                                                                          }, function (error) {
-                                                                          // error
-                                                                          });
+                                                                          toasters.pop('Oops, Vous n\'êtes pas connecté', 'top', 'info');
                                                                             // TODO gracefully manage errors/successes
                                                                              console.log(data);
                                                                         });
@@ -203,9 +198,9 @@
 
           // Open & close the modal
           $scope.openGroupModal = function () {
-            $scope.invite = {value: []};
+            $scope.invite = { value: [] };
             $scope.updateInviteValue = function (num) {
-              $scope.invite = {value: new Array(num)};
+              $scope.invite = { value: new Array(num) };
               $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4, num);
             };
             $scope.rating = new Rating($scope.bottle.uuid, 4);
