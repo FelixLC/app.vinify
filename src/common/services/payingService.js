@@ -24,7 +24,7 @@
     }
 
     function pickMrEmail (orderUuid) {
-      return $http.post(settings.apiEndPoint + '/orders/chargerefill/', {
+      return $http.post(settings.apiEndPoint + '/orders/pickmremail/', {
           order_id: orderUuid,
           test: settings.test
       });

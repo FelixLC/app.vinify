@@ -1,0 +1,131 @@
+<ion-view title="Déguster" id="wine-more-view">
+  <ion-content overflow-scroll="true" has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>{{::bottle.wine.display_name}}</h3>
+            <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>
+            <!-- <h4>{{::bottle.wine.appellation}}</h4> -->
+          </div>
+      </div>
+      <div class="row row-header-bottom row-center">
+          <div class="col col-75">
+            <div class="row row-center align-left">
+              <div class="col col-20">
+                    <img class="img-grapes" src="assets/utils/grapes.svg" alt="grapes-logo">
+              </div>
+              <div class="col">
+                    <p>{{::bottle.wine.variety}}</p>
+                    <!-- <h4>{{::bottle.wine.variety}}</h4> -->
+              </div>
+            </div>
+          </div>
+          <div class="col align-right">
+            <div class="row">
+              <div class="col"><p>{{::bottle.wine.vintage}}</p></div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="occasion">A boire {{::bottle.wine.occasion}}</div>
+    <div class="wine-content">
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h3 class="centered">Pour briller en société</h3 class="centered">
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Robe</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.dress}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Nez</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.nose}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Bouche</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.mouth}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Domaine</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.domain_know_more}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h3 class="centered">Accords Mets/Vin</h3 class="centered">
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Cuisine</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.cuisine}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Viandes <br> Poissons </p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.meat_fish}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Garniture</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.sides}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Cuisson</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.cooking}}</p>
+            </div>
+          </div>
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Fromages</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.cheeses}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="item item-text-wrap">
+          <h3 class="centered">Astuces du caviste</h3 class="centered">
+          <div class="row row-top">
+            <div class="col col-25">
+              <p class="subtitle">Info</p>
+            </div>
+            <div class="col">
+              <p>{{::bottle.wine.info}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

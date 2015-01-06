@@ -7,7 +7,12 @@
 
   angular
         .module('settings', [])
-        .factory('settings', settings);
+        .factory('settings', settings)
+        .provider('desk',   function desk () {
+          this.$get = function () {
+            return true;
+          };
+        });
 
     /* @ngInject */
   function settings ($window) {
@@ -15,10 +20,10 @@
       desktop: true,
       test: true,
       width: $window.innerWidth,
-      // apiEndPoint: 'http://127.0.0.1:8000/api',
-      apiEndPoint: '/api',
-      restApiEndPoint: '/api'
-      // restApiEndPoint: 'http://127.0.0.1:8000/restapi'
+      apiEndPoint: 'http://127.0.0.1:8000/api',
+      // apiEndPoint: '/api',
+      // restApiEndPoint: '/restapi'
+      restApiEndPoint: 'http://127.0.0.1:8000/restapi'
     };
     return service;
   }

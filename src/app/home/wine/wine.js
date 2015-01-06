@@ -10,7 +10,7 @@
     'material.components.slider',
     'settings'
     ])
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, deskProvider) {
       $stateProvider
         .state('sidemenu.wine', {
             url: '/wine/{uuid:[^/]*}',
@@ -29,8 +29,10 @@
             views: {
               menuContent: {
                 controller: 'wineCtrl',
-                templateUrl: "home/wine/wine-more.tpl.html"
-                // templateUrl: "home/wine/wine.tpl.html"
+                templateUrl: function () {
+                  return (deskProvider.$get()) ? "home/wine/wine-more.desktop.tpl.html" :
+                                                                              "home/wine/wine-more.tpl.html";
+                }
               }
             }
             // resolve: {

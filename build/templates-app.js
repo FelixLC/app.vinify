@@ -1,4 +1,4 @@
-angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
+angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.desktop.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.desktop.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
@@ -111,14 +111,24 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "             </div>\n" +
     "           </label>\n" +
     "        </div>\n" +
-    "        <div class=\"item centered item-delivery-address\">\n" +
+    "        <div ng-if=\"order.data.delivery_mode\" class=\"item centered item-delivery-address\">\n" +
     "          <div class=\"row row-center\">\n" +
     "            <div class=\"col\">\n" +
     "                <h4>Adresse de Livraison</h4>\n" +
-    "                <p>{{user.delivery_address.street}}\n" +
-    "                <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
+    "                <div ng-if=\"order.data.delivery_mode === 'Colissimo' \">\n" +
+    "                  <p>{{user.delivery_address.street}}\n" +
+    "                  <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
+    "                </div>\n" +
+    "                <div ng-if=\"order.data.delivery_mode === 'Point Relais' \">\n" +
+    "                  <p>Point Relais (vous recevrez\n" +
+    "                  <br>un mail pour le choisir)</p>\n" +
+    "                </div>\n" +
+    "                <div ng-if=\"order.data.delivery_mode === 'Vinify' \">\n" +
+    "                  <p>135 rue Jean Jacques Rousseau\n" +
+    "                  <br>92130 - Issy Les Moulineaux</p>\n" +
+    "                </div>\n" +
     "            </div>\n" +
-    "            <div class=\"col\">\n" +
+    "            <div ng-if=\"order.data.delivery_mode === 'Colissimo' || (order.data.delivery_mode === 'Point Relais' && user.delivery_shop)\" class=\"col\">\n" +
     "                  <button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
     "            </div>\n" +
     "          </div>\n" +
@@ -416,7 +426,7 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
 angular.module("home/pay/pay.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/pay/pay.desktop.tpl.html",
     "<ion-view title=\"Commander\" id=\"pay-view\">\n" +
-    " <ion-content has-bouncing=\"false\">\n" +
+    " <ion-content overflow-scroll=\"true\" has-bouncing=\"false\">\n" +
     "   <div ng-style=\"calcHeight\" class=\"pay-header\">\n" +
     "       <h3 class=\"centered\">Récapitulatif de ma commande</h3>\n" +
     "   </div>\n" +
@@ -919,7 +929,7 @@ angular.module("home/profile/user.tpl.html", []).run(["$templateCache", function
 angular.module("home/ratedwine/ratedwine-desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/ratedwine/ratedwine-desktop.tpl.html",
     "<ion-view title=\"Déguster\" id=\"rated-wine-view\">\n" +
-    "  <ion-content has-bouncing=\"false\">\n" +
+    "  <ion-content overflow-scroll=\"true\" has-bouncing=\"false\">\n" +
     "  <div class=\"wine-header\">\n" +
     "    <div class=\"row row-center\">\n" +
     "        <div class=\"col centered\">\n" +
@@ -1301,6 +1311,74 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
     "</ion-view>");
 }]);
 
+angular.module("home/vinibar/vinibar.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/vinibar/vinibar.desktop.tpl.html",
+    "<ion-view title=\"Vinibar\">\n" +
+    "	<ion-nav-buttons side=\"right\">\n" +
+    "		<button class=\"button\" ng-click=\"search.toggle = !search.toggle\">\n" +
+    "			<i class=\"icon ion-search\"></i>\n" +
+    "		</button>\n" +
+    "	</ion-nav-buttons>\n" +
+    "	<ion-header-bar align-title=\"left\" class=\"bar-positive bar-subheader bar-segmented-control\">\n" +
+    "		<p ng-if=\"!search.toggle\" class=\"segmented-control\">\n" +
+    "				<span class=\"segmented\">\n" +
+    "						<label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"toDrink\" checked><span class=\"label\">A boire</span></label>\n" +
+    "						<label><input type=\"radio\" name=\"list\" ng-model=\"segmentedControl.value\" value=\"rated\"><span class=\"label\">Notés</span></label>\n" +
+    "				</span>\n" +
+    "		</p>\n" +
+    "		<div ng-if=\"search.toggle\" class=\"item-input-inset search-vinibar\">\n" +
+    "			<label class=\"item-input-wrapper\">\n" +
+    "				<i class=\"icon ion-ios7-search placeholder-icon\"></i>\n" +
+    "				<input type=\"search\" ng-model=\"search.value\" placeholder=\"Search\">\n" +
+    "			</label>\n" +
+    "			<button class=\"button-clear\" ng-click=\"search.value = '' \">\n" +
+    "				Annuler\n" +
+    "			</button>\n" +
+    "		</div>\n" +
+    "	</ion-header-bar>\n" +
+    "	<ion-content overflow-scroll=\"true\" class=\"has-subheader\">\n" +
+    "\n" +
+    "		<a ng-if=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
+    "			<h3>Une commande est en route !</h3>\n" +
+    "			<p>Cliquez ici si vous l'avez reçue</p>\n" +
+    "		</a>\n" +
+    "		<a  ng-if=\"user.status == 1\" class=\"item centered\" ng-click=\"questionnaire()\">\n" +
+    "			<h3>Vous n'avez pas encore de vinibar !</h3>\n" +
+    "			<p>Cliquez ici pour démarrer l'aventure</p>\n" +
+    "		</a>\n" +
+    "		<a  ng-if=\"user.status == 2 || user.status == 2.5\" class=\"item centered\" ng-click=\"payOrder()\">\n" +
+    "			<h3>Vous n'avez pas finalisé votre commande !</h3>\n" +
+    "			<p>Cliquez ici pour continuer l'aventure</p>\n" +
+    "		</a>\n" +
+    "		<ion-list ng-if=\"segmentedControl.value === 'rated'\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter\" class=\"item\" href=\"#/ratedwine/{{::bottle.uuid}}\">\n" +
+    "					<h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "					<p class=\"vinitext\">\n" +
+    "							{{::bottle.wine.region}}\n" +
+    "							<span class=\"item-note\">\n" +
+    "								<i ng-repeat=\"i in getNumber(bottle.rating) track by $index\" class=\"icon ion-ios7-star full-star\"></i>\n" +
+    "								<i ng-hide=\"isInteger(bottle.rating)\" class=\"icon ion-ios7-star-half full-star\"></i>\n" +
+    "							</span>\n" +
+    "							<br>\n" +
+    "							{{::bottle.wine.appellation}}\n" +
+    "					</p>\n" +
+    "			</a>\n" +
+    "		</ion-list>\n" +
+    "		<ion-list ng-if=\"segmentedControl.value === 'toDrink'\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{::bottle.uuid}}\">\n" +
+    "					<h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "					<p class=\"vinitext\">\n" +
+    "							{{::bottle.wine.region}}\n" +
+    "							<span class=\"item-note\">{{::bottle.wine.vintage}}</span>\n" +
+    "							<br>\n" +
+    "							{{::bottle.wine.appellation}}\n" +
+    "						</p>\n" +
+    "			</a>\n" +
+    "		</ion-list>\n" +
+    "	</ion-content>\n" +
+    "</ion-view>");
+}]);
+
 angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/vinibar/vinibar.tpl.html",
     "<ion-view title=\"Vinibar\">\n" +
@@ -1326,12 +1404,13 @@ angular.module("home/vinibar/vinibar.tpl.html", []).run(["$templateCache", funct
     "			</button>\n" +
     "		</div>\n" +
     "	</ion-header-bar>\n" +
-    "	<ion-content class=\"has-subheader\">\n" +
+    "	<ion-content overflow-scroll=\"false\" class=\"has-subheader\">\n" +
     "		<ion-refresher\n" +
     "			pulling-text=\"Pull to refresh...\"\n" +
     "			on-refresh=\"update()\">\n" +
     "		</ion-refresher>\n" +
     "		<!-- order notification -->\n" +
+    "\n" +
     "		<a ng-if=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
     "			<h3>Une commande est en route !</h3>\n" +
     "			<p>Cliquez ici si vous l'avez reçue</p>\n" +
@@ -1653,6 +1732,141 @@ angular.module("home/wine.rating/wine.rating.tpl.html", []).run(["$templateCache
     "  </ion-modal-view>");
 }]);
 
+angular.module("home/wine/wine-more.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/wine/wine-more.desktop.tpl.html",
+    "<ion-view title=\"Déguster\" id=\"wine-more-view\">\n" +
+    "  <ion-content overflow-scroll=\"true\" has-bouncing=\"false\">\n" +
+    "    <div class=\"wine-header\">\n" +
+    "      <div class=\"row row-center\">\n" +
+    "          <div class=\"col centered\">\n" +
+    "            <h3>{{::bottle.wine.display_name}}</h3>\n" +
+    "            <h4>{{::bottle.wine.region}} - {{::bottle.wine.appellation}}</h4>\n" +
+    "            <!-- <h4>{{::bottle.wine.appellation}}</h4> -->\n" +
+    "          </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"row row-header-bottom row-center\">\n" +
+    "          <div class=\"col col-75\">\n" +
+    "            <div class=\"row row-center align-left\">\n" +
+    "              <div class=\"col col-20\">\n" +
+    "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
+    "              </div>\n" +
+    "              <div class=\"col\">\n" +
+    "                    <p>{{::bottle.wine.variety}}</p>\n" +
+    "                    <!-- <h4>{{::bottle.wine.variety}}</h4> -->\n" +
+    "              </div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"col align-right\">\n" +
+    "            <div class=\"row\">\n" +
+    "              <div class=\"col\"><p>{{::bottle.wine.vintage}}</p></div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"occasion\">A boire {{::bottle.wine.occasion}}</div>\n" +
+    "    <div class=\"wine-content\">\n" +
+    "      <div class=\"card\">\n" +
+    "        <div class=\"item item-text-wrap\">\n" +
+    "          <h3 class=\"centered\">Pour briller en société</h3 class=\"centered\">\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Robe</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.dress}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Nez</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.nose}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Bouche</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.mouth}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Domaine</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.domain_know_more}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"card\">\n" +
+    "        <div class=\"item item-text-wrap\">\n" +
+    "          <h3 class=\"centered\">Accords Mets/Vin</h3 class=\"centered\">\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Cuisine</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.cuisine}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Viandes <br> Poissons </p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.meat_fish}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Garniture</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.sides}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Cuisson</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.cooking}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Fromages</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.cheeses}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"card\">\n" +
+    "        <div class=\"item item-text-wrap\">\n" +
+    "          <h3 class=\"centered\">Astuces du caviste</h3 class=\"centered\">\n" +
+    "          <div class=\"row row-top\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "              <p class=\"subtitle\">Info</p>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "              <p>{{::bottle.wine.info}}</p>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </ion-content>\n" +
+    "</ion-view>");
+}]);
+
 angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/wine/wine-more.tpl.html",
     "<ion-view title=\"Déguster\" id=\"wine-more-view\">\n" +
@@ -1791,7 +2005,7 @@ angular.module("home/wine/wine-more.tpl.html", []).run(["$templateCache", functi
 angular.module("home/wine/wine.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/wine/wine.desktop.tpl.html",
     "<ion-view title=\"Déguster\" id=\"wine-view\">\n" +
-    "  <ion-content has-bouncing=\"false\">\n" +
+    "  <ion-content overflow-scroll=\"true\" has-bouncing=\"false\">\n" +
     "    <div class=\"wine-header\">\n" +
     "      <div class=\"row row-center\">\n" +
     "          <div class=\"col centered\">\n" +

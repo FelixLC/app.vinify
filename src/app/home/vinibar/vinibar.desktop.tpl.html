@@ -21,12 +21,7 @@
 			</button>
 		</div>
 	</ion-header-bar>
-	<ion-content overflow-scroll="false" class="has-subheader">
-		<ion-refresher
-			pulling-text="Pull to refresh..."
-			on-refresh="update()">
-		</ion-refresher>
-		<!-- order notification -->
+	<ion-content overflow-scroll="true" class="has-subheader">
 
 		<a ng-if="user.awaiting_order" class="item centered" ng-click="orderReceived()">
 			<h3>Une commande est en route !</h3>

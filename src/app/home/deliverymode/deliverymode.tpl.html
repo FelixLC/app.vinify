@@ -107,14 +107,24 @@
              </div>
            </label>
         </div>
-        <div class="item centered item-delivery-address">
+        <div ng-if="order.data.delivery_mode" class="item centered item-delivery-address">
           <div class="row row-center">
             <div class="col">
                 <h4>Adresse de Livraison</h4>
-                <p>{{user.delivery_address.street}}
-                <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>
+                <div ng-if="order.data.delivery_mode === 'Colissimo' ">
+                  <p>{{user.delivery_address.street}}
+                  <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>
+                </div>
+                <div ng-if="order.data.delivery_mode === 'Point Relais' ">
+                  <p>Point Relais (vous recevrez
+                  <br>un mail pour le choisir)</p>
+                </div>
+                <div ng-if="order.data.delivery_mode === 'Vinify' ">
+                  <p>135 rue Jean Jacques Rousseau
+                  <br>92130 - Issy Les Moulineaux</p>
+                </div>
             </div>
-            <div class="col">
+            <div ng-if="order.data.delivery_mode === 'Colissimo' || (order.data.delivery_mode === 'Point Relais' && user.delivery_shop)" class="col">
                   <button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
             </div>
           </div>

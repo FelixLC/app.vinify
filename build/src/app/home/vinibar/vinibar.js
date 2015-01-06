@@ -1,12 +1,15 @@
-angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster' ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 'settings' ])
+  .config(function ($stateProvider, $urlRouterProvider, deskProvider) {
     $stateProvider
       .state('sidemenu.vinibar', {
           url: "/vinibar?q",
           views: {
             menuContent: {
               controller: 'vinibarCtrl',
-              templateUrl: "home/vinibar/vinibar.tpl.html"
+              templateUrl: function () {
+                return (deskProvider.$get()) ? "home/vinibar/vinibar.desktop.tpl.html" :
+                                                                            "home/vinibar/vinibar.tpl.html";
+              }
             }
           },
           resolve: {
@@ -16,7 +19,7 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster' ])
           }
       });
  })
-.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState, toasters) {
+.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState, toasters, settings) {
   var init = function () {
     $scope.bottleList = bottles.data;
     $scope.user = User.getUser();

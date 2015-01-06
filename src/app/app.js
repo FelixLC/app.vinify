@@ -17,6 +17,7 @@ angular.module('app', [
   'app.profile',
   'app.pay',
   'security',
+  'settings',
   'Update',
   'templates-app',
   'templates-common'
@@ -64,7 +65,7 @@ angular.module('app', [
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   } ])
 
-.controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals) {
+.controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals, settings) {
 
   //  Catches online event and fires Offline Queue
   $rootScope.$on('online', function (event) {
@@ -108,6 +109,8 @@ angular.module('app', [
       Referrals.updateList();
     }
   });
+
+  $rootScope.settings = settings;
 
   $scope.windowSize = {
     height: ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
