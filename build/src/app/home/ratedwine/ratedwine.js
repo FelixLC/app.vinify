@@ -1,4 +1,4 @@
-angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', 'ionic' ])
+angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', 'ionic', 'settings' ])
     .config(function ($stateProvider, $urlRouterProvider) {
       $stateProvider
         .state('sidemenu.ratedwine', {
@@ -6,8 +6,10 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
             views: {
               menuContent: {
                 controller: 'ratedwineCtrl',
-                // templateUrl: "home/ratedwine/ratedwine.tpl.html"
-                templateUrl: "home/ratedwine/ratedwine-desktop.tpl.html"
+                templateUrl: function () {
+                  return (window.innerWidth > 767) ? "home/ratedwine/ratedwine-desktop.tpl.html" :
+                                                                          "home/ratedwine/ratedwine.tpl.html";
+                }
               }
             },
             resolve: {

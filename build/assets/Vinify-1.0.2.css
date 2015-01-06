@@ -2944,82 +2944,6 @@ ul.rating li i {
   }
 }
 @media screen and (min-width: 992px) {
-  #wine-view .wine-header h3,
-  #wine-more-view .wine-header h3 {
-    font-size: 24px;
-  }
-  #wine-view .wine-header h4,
-  #wine-more-view .wine-header h4 {
-    font-size: 20px;
-  }
-  #wine-view .wine-header .img-grapes,
-  #wine-more-view .wine-header .img-grapes {
-    height: 40px;
-  }
-  #wine-view .occasion,
-  #wine-more-view .occasion {
-    font-size: 20px;
-  }
-  #wine-view .wine-content,
-  #wine-more-view .wine-content {
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-  #wine-view .desc-card,
-  #wine-more-view .desc-card {
-    min-height: 200px;
-    position: relative;
-  }
-  #wine-view .rating-card,
-  #wine-more-view .rating-card {
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-  #wine-view .testimonial-rating,
-  #wine-more-view .testimonial-rating {
-    margin: 0 auto 25px auto;
-  }
-  #wine-more-view .subtitle {
-    color: #000;
-    text-align: right;
-    padding-right: 20px;
-  }
-}
-@media screen and (min-width: 992px) {
-  #rated-wine-view .wine-header h3 {
-    font-size: 24px;
-  }
-  #rated-wine-view .wine-header h4 {
-    font-size: 20px;
-  }
-  #rated-wine-view .wine-header .img-grapes {
-    height: 40px;
-  }
-  #rated-wine-view .occasion {
-    font-size: 20px;
-  }
-  #rated-wine-view .wine-content {
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-  #rated-wine-view .desc-card {
-    min-height: 200px;
-    position: relative;
-  }
-  #rated-wine-view .rating-card {
-    padding-left: 100px;
-    padding-right: 100px;
-  }
-  #rated-wine-view .testimonial-rating {
-    margin: 0 auto 25px auto;
-  }
-  #wine-more-view .subtitle {
-    color: #000;
-    text-align: right;
-    padding-right: 20px;
-  }
-}
-@media screen and (min-width: 992px) {
   #pay-view .card-container {
     padding-left: 100px;
     padding-right: 100px;
@@ -3041,9 +2965,63 @@ ul.rating li i {
   .item p {
     font-size: 16px;
   }
-  .view-container {
-    padding-left: 100px;
-    padding-right: 100px;
+  .view-container,
+  .wine-content {
+    padding-left: 200px;
+    padding-right: 200px;
+  }
+  #wine-view .wine-header h3,
+  #rated-wine-view .wine-header h3,
+  #wine-more-view .wine-header h3 {
+    font-size: 24px;
+  }
+  #wine-view .wine-header h4,
+  #rated-wine-view .wine-header h4,
+  #wine-more-view .wine-header h4 {
+    font-size: 20px;
+  }
+  #wine-view .wine-header .img-grapes,
+  #rated-wine-view .wine-header .img-grapes,
+  #wine-more-view .wine-header .img-grapes {
+    height: 40px;
+  }
+  #wine-view .occasion,
+  #rated-wine-view .occasion,
+  #wine-more-view .occasion {
+    font-size: 20px;
+  }
+  #wine-view .wine-content,
+  #rated-wine-view .wine-content,
+  #wine-more-view .wine-content {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+  #wine-view .desc-card,
+  #rated-wine-view .desc-card,
+  #wine-more-view .desc-card {
+    min-height: 200px;
+    position: relative;
+  }
+  #wine-view .rating-card,
+  #rated-wine-view .rating-card,
+  #wine-more-view .rating-card {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+  #wine-view .testimonial-rating,
+  #rated-wine-view .testimonial-rating,
+  #wine-more-view .testimonial-rating {
+    margin: 0 auto 25px auto;
+  }
+  #wine-more-view .subtitle {
+    color: #000;
+    text-align: right;
+    padding-right: 20px;
+  }
+  #wine-more-view .subtitle {
+    color: #000;
+    text-align: right;
+    padding-right: 20px;
   }
   /*
    * Toastr

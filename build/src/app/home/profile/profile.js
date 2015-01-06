@@ -1,10 +1,10 @@
-  angular.module( 'app.profile', ['User', 'Referrals', 'Loading', 'ngCordova'])
+  angular.module('app.profile', [ 'User', 'Referrals', 'Loading', 'ngCordova', 'settings' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.profile', {
               url: "/profile",
               views: {
-                'menuContent' :{
+                menuContent: {
                   controller: 'profileCtrl',
                   templateUrl: "home/profile/profile.tpl.html"
                 }
@@ -12,10 +12,11 @@
           });
      })
 
-      .controller( 'profileCtrl', function profileCtrl( $scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast, $ionicPlatform, $cordovaSocialSharing, $cordovaNetwork) {
+      .controller('profileCtrl', function profileCtrl ($scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast, $ionicPlatform, $cordovaSocialSharing, $cordovaNetwork, settings) {
         $scope.user = User.getUser();
+        $scope.desktop = settings.desktop;
         var apiEndPoint =  'http://127.0.0.1:8000/api';
-        $scope.form = {show: false};
+        $scope.form = { show: false };
         console.log(User);
         console.log($scope.user.phone);
 
@@ -36,7 +37,7 @@
               if (ionic.Platform.isWebView()) {
                   var message = "Bonjour " + name + ", \n \n" + "J'aimerais te faire découvrir Vinify. Pour te convaincre de me rejoindre dans cette aventure, je t'offre 10€ de réduction sur ta première commande grâce à mon code parrainage. \n \n" + "Rendez-vous sur www.vinify.co avec le code : " + $scope.user.referral_code + "\n \n" + "Je te propose une aventure unique : avoir toujours du bon vin à portée de main ! Vinify, c'est un bar à vin sur mesure. Livré chez toi, selon tes goûts. \n \n" +"À bientôt, \n" + $scope.user.first_name;
                   var subject = "Re: " + name + ", découvre des vins à tes goûts";
-                  $cordovaSocialSharing.shareViaEmail(message, subject, [email]).then(
+                  $cordovaSocialSharing.shareViaEmail(message, subject, [ email ]).then(
                     function (result) {
                       $http.post(apiEndPoint + '/orders/referredreminder/', {
                         referred: email

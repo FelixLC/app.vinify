@@ -6,7 +6,10 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           views: {
             menuContent: {
               controller: 'payCtrl',
-              templateUrl: "home/pay/pay.desktop.tpl.html"
+              templateUrl: function () {
+                return (window.innerWidth > 767) ? "home/pay/pay.desktop.tpl.html" :
+                                                                        "home/pay/pay.tpl.html";
+              }
             }
           }
       });

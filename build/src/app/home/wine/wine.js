@@ -7,7 +7,8 @@
     'Loading',
     'ngCordova',
     'Toaster',
-    'material.components.slider'
+    'material.components.slider',
+    'settings'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
       $stateProvider
@@ -16,22 +17,12 @@
             views: {
               menuContent: {
                 controller: 'wineCtrl',
-                templateUrl: "home/wine/wine.desktop.tpl.html"
-                // templateUrl: "home/wine/wine.tpl.html"
+                templateUrl: function () {
+                  return (window.innerWidth > 767) ? "home/wine/wine.desktop.tpl.html" :
+                                                                          "home/wine/wine.tpl.html";
+                }
               }
             }
-            // resolve: {
-            //   bottle: function (Bottles, $stateParams) {
-            //     Bottles.getList().then(function (response) {
-            //       console.log(response.data.results);
-            //       for (var d = 0, len = response.data.results.length; d < len; d += 1) {
-            //         if (response.data.results[d].uuid === $stateParams.uuid) {
-            //           return response.data.results[d];
-            //         }
-            //       }
-            //     });
-            //   }
-            // }
         })
         .state('sidemenu.wine_know_more', {
             url: '/wine-more/{uuid:[^/]*}',
@@ -56,7 +47,7 @@
             // }
         });
     })
-    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState, toasters) {
+    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState, toasters, settings) {
       $scope.id = $stateParams.uuid;
       var getById = function (arr, id) {
         for (var d = 0, len = arr.length; d < len; d += 1) {
@@ -106,6 +97,7 @@
         };
       });
 
+      console.log(settings.width);
 
           // RATING MODAL
           $ionicModal.fromTemplateUrl('home/wine.rating/wine.rating.tpl.html', {

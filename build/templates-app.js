@@ -675,123 +675,125 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
   $templateCache.put("home/profile/profile.tpl.html",
     "<ion-view title=\"Profil\">\n" +
     "	<ion-content has-bouncing=\"false\">\n" +
-    "		<div class=\"item item-gray centered\">\n" +
-    "			<h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
-    "			<p>{{user.email}}</p>\n" +
-    "		</div>\n" +
-    "		<div class=\"item centered item-profile\">\n" +
-    "			<!-- <div ng-show=\"user.bottles_rated_count < 10\" class=\"coming-soon\"><p>Notez 10 vins pour voir profil !</p></div> -->\n" +
-    "			<!-- <div class=\"row\"> -->\n" +
-    "<!-- 				<div class=\"col\">\n" +
-    "					<div class=\"row row-center\">\n" +
-    "						<div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
-    "						<div class=\"col\">\n" +
-    "								<h4>Cépage Préféré</h4>\n" +
-    "								<p class=\"subtitle\">{{user.profile.favorite_variety}}</p>\n" +
+    "		<div class=\"view-container\">\n" +
+    "			<div class=\"item item-gray centered\">\n" +
+    "				<h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
+    "				<p>{{user.email}}</p>\n" +
+    "			</div>\n" +
+    "			<div class=\"item centered item-profile\">\n" +
+    "				<!-- <div ng-show=\"user.bottles_rated_count < 10\" class=\"coming-soon\"><p>Notez 10 vins pour voir profil !</p></div> -->\n" +
+    "				<!-- <div class=\"row\"> -->\n" +
+    "	<!-- 				<div class=\"col\">\n" +
+    "						<div class=\"row row-center\">\n" +
+    "							<div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
+    "							<div class=\"col\">\n" +
+    "									<h4>Cépage Préféré</h4>\n" +
+    "									<p class=\"subtitle\">{{user.profile.favorite_variety}}</p>\n" +
+    "							</div>\n" +
     "						</div>\n" +
+    "					</div> -->\n" +
+    "					<!-- <div class=\"col\"> -->\n" +
+    "				<div class=\"row row-center\">\n" +
+    "					<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
+    "					<div class=\"col align-left\">\n" +
+    "							<h4>Région la mieux notée</h4>\n" +
+    "							<p class=\"subtitle\">{{::user.profile.top_region}}</p>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "					<!-- </div> -->\n" +
+    "				<!-- </div> -->\n" +
+    "				<div class=\"row row-center\">\n" +
+    "							<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
+    "							<div class=\"col align-left\">\n" +
+    "									<h4>Consommation</h4>\n" +
+    "									<p class=\"subtitle\">Rouge : {{::user.profile.red_consumption*100 |number:0}} %, Blanc : {{::user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{::user.profile.rose_consumption*100 |number:0}} %</p>\n" +
+    "							</div>\n" +
+    "				</div>\n" +
+    "				<div class=\"row centered\">\n" +
+    "					<div class=\"col item-text-wrap\"><p class=\"p-grey centered\">Vinify vous prépare un profil plein de surprises pour la prochaine version. Des idées, des suggestions ? Ecrivez-nous (suggestions@vinify.co)!</p></div>\n" +
+    "				</div>\n" +
+    "	<!-- 			<div class=\"row\">\n" +
+    "					<div class=\"col\">\n" +
+    "						<h4>Note Moyenne</h4>\n" +
+    "						<h3>{{::user.profile.average_rating}}</h3>\n" +
     "					</div>\n" +
     "				</div> -->\n" +
-    "				<!-- <div class=\"col\"> -->\n" +
-    "			<div class=\"row row-center\">\n" +
-    "				<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
-    "				<div class=\"col align-left\">\n" +
-    "						<h4>Région la mieux notée</h4>\n" +
-    "						<p class=\"subtitle\">{{::user.profile.top_region}}</p>\n" +
+    "	<!-- 			<div class=\"row row-center\">\n" +
+    "					<div class=\"col centered\">\n" +
+    "						<h4>ViniPoints</h4>\n" +
+    "						<span class=\"subtitle\">{{::user.profile.vinipoints}}</span>\n" +
+    "					</div>\n" +
+    "				</div> -->\n" +
+    "			</div>\n" +
+    "			<div class=\"item\">\n" +
+    "				<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
+    "				<div class=\"row\">\n" +
+    "					<div class=\"col centered\"><p>Mon Code : <br> {{::user.referral_code}}</p></div>\n" +
+    "					<div class=\"col\"><button id=\"godfathing\" class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
+    "				</div>\n" +
+    "				<div ng-if=\"!desktop\" class=\"row row-center centered row-social-profile\">\n" +
+    "					<div class=\"col\"><p class=\"p-grey\">Partager <br> mon code :</p></div>\n" +
+    "					<div class=\"col social-container\">\n" +
+    "						<div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
+    "						<div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<h3 class=\"centered\">Mes filleuls</h3>\n" +
+    "				<div class=\"row\">\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<h4>Filleul</h4>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<h4>Mail envoyé</h4>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<h4>Achat</h4>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<p>{{::referral.referred.first_name}}</p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<p>\n" +
+    "								<img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\">\n" +
+    "								<a class=\"link-dotted link-black\" ng-show=\"isWebView && !referral.validated_at\" ng-click=\"sendMail(referral.referred.first_name, referral.referred.email)\">Relancer</a>\n" +
+    "							</p>\n" +
+    "					</div>\n" +
     "				</div>\n" +
     "			</div>\n" +
-    "				<!-- </div> -->\n" +
-    "			<!-- </div> -->\n" +
-    "			<div class=\"row row-center\">\n" +
-    "						<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
-    "						<div class=\"col align-left\">\n" +
-    "								<h4>Consommation</h4>\n" +
-    "								<p class=\"subtitle\">Rouge : {{::user.profile.red_consumption*100 |number:0}} %, Blanc : {{::user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{::user.profile.rose_consumption*100 |number:0}} %</p>\n" +
-    "						</div>\n" +
-    "			</div>\n" +
-    "			<div class=\"row centered\">\n" +
-    "				<div class=\"col item-text-wrap\"><p class=\"p-grey centered\">Vinify vous prépare un profil plein de surprises pour la prochaine version. Des idées, des suggestions ? Ecrivez-nous (suggestions@vinify.co)!</p></div>\n" +
-    "			</div>\n" +
-    "<!-- 			<div class=\"row\">\n" +
-    "				<div class=\"col\">\n" +
-    "					<h4>Note Moyenne</h4>\n" +
-    "					<h3>{{::user.profile.average_rating}}</h3>\n" +
-    "				</div>\n" +
-    "			</div> -->\n" +
-    "<!-- 			<div class=\"row row-center\">\n" +
-    "				<div class=\"col centered\">\n" +
-    "					<h4>ViniPoints</h4>\n" +
-    "					<span class=\"subtitle\">{{::user.profile.vinipoints}}</span>\n" +
-    "				</div>\n" +
-    "			</div> -->\n" +
-    "		</div>\n" +
-    "		<div class=\"item\">\n" +
-    "			<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
-    "			<div class=\"row\">\n" +
-    "				<div class=\"col centered\"><p>Mon Code : <br> {{::user.referral_code}}</p></div>\n" +
-    "				<div class=\"col\"><button id=\"godfathing\" class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
-    "			</div>\n" +
-    "			<div class=\"row row-center centered row-social-profile\">\n" +
-    "				<div class=\"col\"><p class=\"p-grey\">Partager <br> mon code :</p></div>\n" +
-    "				<div class=\"col social-container\">\n" +
-    "					<div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
-    "					<div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "			<h3 class=\"centered\">Mes filleuls</h3>\n" +
-    "			<div class=\"row\">\n" +
-    "				<div class=\"col centered\">\n" +
-    "						<h4>Filleul</h4>\n" +
-    "				</div>\n" +
-    "				<div class=\"col centered\">\n" +
-    "						<h4>Mail envoyé</h4>\n" +
-    "				</div>\n" +
-    "				<div class=\"col centered\">\n" +
-    "						<h4>Achat</h4>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "			<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
-    "				<div class=\"col centered\">\n" +
-    "						<p>{{::referral.referred.first_name}}</p>\n" +
-    "				</div>\n" +
-    "				<div class=\"col centered\">\n" +
-    "						<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
-    "				</div>\n" +
-    "				<div class=\"col centered\">\n" +
-    "						<p>\n" +
-    "							<img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\">\n" +
-    "							<a class=\"link-dotted link-black\" ng-show=\"isWebView && !referral.validated_at\" ng-click=\"sendMail(referral.referred.first_name, referral.referred.email)\">Relancer</a>\n" +
-    "						</p>\n" +
-    "				</div>\n" +
-    "			</div>\n" +
-    "		</div>\n" +
     "\n" +
-    "		<div class=\"item item-gray centered\">\n" +
-    "				<p>{{user.delivery_address.street}}</p>\n" +
-    "				<div class=\"row\">\n" +
+    "			<div class=\"item item-gray centered\">\n" +
+    "					<p>{{user.delivery_address.street}}</p>\n" +
+    "					<div class=\"row\">\n" +
+    "						<div class=\"col\">\n" +
+    "								<p> {{user.delivery_address.zipcode}}</p>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "								<p>{{user.delivery_address.city}}</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "					<div class=\"row\">\n" +
+    "						<div class=\"col\">\n" +
+    "								<p><i class=\"icon ion-ios7-telephone\"></i> {{user.phone}}</p>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "								<p class=\"p-button\" ng-click=\"openUserModal()\"><span class=\"link-dotted\">Modifier</span></p></button>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "			</div>\n" +
+    "	<!--             <div class=\"row\">\n" +
     "					<div class=\"col\">\n" +
-    "							<p> {{user.delivery_address.zipcode}}</p>\n" +
+    "							<button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
     "					</div>\n" +
     "					<div class=\"col\">\n" +
-    "							<p>{{user.delivery_address.city}}</p>\n" +
+    "							<button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
     "					</div>\n" +
-    "				</div>\n" +
-    "				<div class=\"row\">\n" +
-    "					<div class=\"col\">\n" +
-    "							<p><i class=\"icon ion-ios7-telephone\"></i> {{user.phone}}</p>\n" +
-    "					</div>\n" +
-    "					<div class=\"col\">\n" +
-    "							<p class=\"p-button\" ng-click=\"openUserModal()\"><span class=\"link-dotted\">Modifier</span></p></button>\n" +
-    "					</div>\n" +
-    "				</div>\n" +
+    "			</div> -->\n" +
     "		</div>\n" +
-    "<!--             <div class=\"row\">\n" +
-    "				<div class=\"col\">\n" +
-    "						<button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
-    "				</div>\n" +
-    "				<div class=\"col\">\n" +
-    "						<button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
-    "				</div>\n" +
-    "		</div> -->\n" +
     "	</ion-content>\n" +
     "</ion-view>");
 }]);

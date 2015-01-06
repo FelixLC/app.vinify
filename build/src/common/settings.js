@@ -10,15 +10,17 @@
         .factory('settings', settings);
 
     /* @ngInject */
-  function settings () {
+  function settings ($window) {
     var service = {
       desktop: true,
       test: true,
-      apiEndPoint: 'http://127.0.0.1:8000/api',
+      width: $window.innerWidth,
       // apiEndPoint: 'http://127.0.0.1:8000/api',
-      // restApiEndPoint: 'http://127.0.0.1:8000/api'
-      restApiEndPoint: 'http://127.0.0.1:8000/restapi'
+      apiEndPoint: '/api',
+      restApiEndPoint: '/api'
+      // restApiEndPoint: 'http://127.0.0.1:8000/restapi'
     };
     return service;
   }
+
 })();
