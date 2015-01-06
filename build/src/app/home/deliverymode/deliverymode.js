@@ -1,4 +1,4 @@
-angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'Toaster' ])
+angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'Toaster', 'payingService' ])
 .config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('sidemenu.deliverymode', {
@@ -20,7 +20,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
 })
 
 .controller('deliverymodeCtrl', function deliverymodeCtrl ($scope, $http, $state, orderInstance, SerializedOrder, $window,
-    User, Addresses, Address, addressList, $ionicModal, $ionicLoading, Loading, $cordovaToast, $cordovaNetwork, toasters) {
+    User, Addresses, Address, addressList, $ionicModal, $ionicLoading, Loading, $cordovaToast, $cordovaNetwork, toasters, Pay) {
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
@@ -49,22 +49,17 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
     if ($scope.order.data.delivery_mode) {
       Loading.show();
       $scope.order.data.delivery_cost = $scope.deliveryPrices[$scope.order.data.delivery_mode][$scope.order.data.quantity - 1];
-      $scope.order.createRefillOrder().then(function (data) {
-        console.log(data);
-        Loading.hide();
-        if (data.amount === 0) {
-          $scope.openYipeeModal();
-          if (data.delivery_mode === 'Point Relais') {
-            $http(apiEndPoint + '/orders/pickmremail/', { order_id: data.uuid });
-          }
-          $state.go('sidemenu.home');
-        } else {
+      $scope.order.createRefillOrder().then(
+        function (data) {
+          console.log(data);
+          Loading.hide();
+          Pay.shop = ($scope.user.delivery_shop && !$scope.changedMrShop) ? $scope.user.delivery_shop : false;
           $state.go('sidemenu.pay');
-        }
-      }, function (data) {
-        Loading.hide();
-        toasters.pop('Oops, un erreur est survenue. Merci de réessayer ...', 'top', 'info');
-      });
+        },
+        function (data) {
+          Loading.hide();
+          toasters.pop('Oops, un erreur est survenue. Merci de réessayer ...', 'top', 'info');
+        });
     } else {
       toasters.pop('Merci de choisir un mode de livraison ...', 'top', 'info');
     }

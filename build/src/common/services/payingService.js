@@ -9,7 +9,8 @@
   function Pay ($http, settings) {
     var service = {
         chargeRefill: chargeRefill,
-        pickMrEmail: pickMrEmail,
+        pickMondialRelay: pickMondialRelay,
+        shop: false,
         pickMrShop: pickMrShop
     };
     return service;
@@ -24,19 +25,22 @@
       });
     }
 
-    function pickMrEmail (orderUuid) {
-      return $http.post(settings.apiEndPoint + '/orders/pickmremail/', {
-          order_id: orderUuid,
-          test: settings.test
-      });
+    function pickMondialRelay (orderUuid, shop) {
+      if (shop) {
+        return $http.post(settings.apiEndPoint + '/orders/pickmrshop/', {
+          shop_id: shop.concat_ID,
+          shop: shop,
+          order_id: orderUuid
+        });
+      } else {
+        return $http.post(settings.apiEndPoint + '/orders/pickmremail/', {
+            order_id: orderUuid
+        });
+      }
     }
 
     function pickMrShop (shop, orderId) {
-      $http.post(settings.apiEndPoint + '/orders/pickmrshop/', {
-        shop_id: shop.concat_ID,
-        shop: shop,
-        order_id: orderId
-      });
+
     }
   }
 })();
