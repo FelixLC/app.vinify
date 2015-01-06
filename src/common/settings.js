@@ -17,13 +17,13 @@
     /* @ngInject */
   function settings ($window) {
     var service = {
-      desktop: true,
+      desktop: false,
       test: true,
       width: $window.innerWidth,
-      // apiEndPoint: 'http://127.0.0.1:8000/api',
-      apiEndPoint: '/api',
-      restApiEndPoint: '/restapi'
-      // restApiEndPoint: 'http://127.0.0.1:8000/restapi'
+      apiEndPoint: 'http://127.0.0.1:8000/api',
+      // apiEndPoint: '/api',
+      // restApiEndPoint: '/restapi'
+      restApiEndPoint: 'http://127.0.0.1:8000/restapi'
     };
     return service;
   }

@@ -123,9 +123,9 @@
                   <br>un mail pour le choisir)</p>
                 </div>
                 <div ng-if="order.data.delivery_mode === 'Point Relais' &&  user.delivery_shop">
-                  <p ng-if="!changedMrShop">user.delivery_shop.Nom
-                  <br>user.delivery_shop.CP - user.delivery_shop.Ville</p>
-                  <p ng-if="changedMrShop">Point Relais (vous recevrez
+                  <p ng-if="!mrShop.hasChanged">{{user.delivery_shop.company}}
+                  <br>{{user.delivery_shop.zipcode}} - {{user.delivery_shop.city}}</p>
+                  <p ng-if="mrShop.hasChanged">Nouveau Point Relais (vous recevrez
                   <br>un mail pour le choisir)</p>
                 </div>
                 <div ng-if="order.data.delivery_mode === 'Vinify' ">
@@ -137,7 +137,7 @@
                   <button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
             </div>
             <div ng-if="order.data.delivery_mode === 'Point Relais' && user.delivery_shop" class="col">
-                  <button class="button button-outline-primary" ng-click="changedMrShop = !changedMrShop">Modifier</button>
+                  <button class="button button-outline-primary" ng-click="mrShop.hasChanged = !mrShop.hasChanged">Modifier</button>
             </div>
           </div>
         </div>

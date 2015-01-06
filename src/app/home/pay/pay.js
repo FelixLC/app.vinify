@@ -47,7 +47,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             Loading.hide();
             $scope.openYipeeModal();
             if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
-              Pay.pickMondialRelay($scope.serializedOrder.uuid, Pay.shop);
+              Pay.pickMondialRelay($scope.serializedOrder.uuid);
             }
             $state.go('sidemenu.home');
             $ionicHistory.clearCache();

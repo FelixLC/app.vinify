@@ -127,9 +127,9 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "                  <br>un mail pour le choisir)</p>\n" +
     "                </div>\n" +
     "                <div ng-if=\"order.data.delivery_mode === 'Point Relais' &&  user.delivery_shop\">\n" +
-    "                  <p ng-if=\"!changedMrShop\">user.delivery_shop.Nom\n" +
-    "                  <br>user.delivery_shop.CP - user.delivery_shop.Ville</p>\n" +
-    "                  <p ng-if=\"changedMrShop\">Point Relais (vous recevrez\n" +
+    "                  <p ng-if=\"!mrShop.hasChanged\">{{user.delivery_shop.company}}\n" +
+    "                  <br>{{user.delivery_shop.zipcode}} - {{user.delivery_shop.city}}</p>\n" +
+    "                  <p ng-if=\"mrShop.hasChanged\">Nouveau Point Relais (vous recevrez\n" +
     "                  <br>un mail pour le choisir)</p>\n" +
     "                </div>\n" +
     "                <div ng-if=\"order.data.delivery_mode === 'Vinify' \">\n" +
@@ -141,7 +141,7 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "                  <button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
     "            </div>\n" +
     "            <div ng-if=\"order.data.delivery_mode === 'Point Relais' && user.delivery_shop\" class=\"col\">\n" +
-    "                  <button class=\"button button-outline-primary\" ng-click=\"changedMrShop = !changedMrShop\">Modifier</button>\n" +
+    "                  <button class=\"button button-outline-primary\" ng-click=\"mrShop.hasChanged = !mrShop.hasChanged\">Modifier</button>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
