@@ -7,28 +7,25 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
       setUser: function (UserData) {
         _user =  UserData;
         OfflineUser.setUser(UserData);
-        console.log('User updated');
-        console.log(_user);
       },
       getUser: function () {
         // The getter returns either the angular user, or the local data user (and sets the angular user) or false
         if (_user) {
-          console.log('returning _user {}');
-          console.log(_user);
           return _user;
         } else if (OfflineUser.getUser()) {
           _user = OfflineUser.getUser();
-          console.log('returning OfflineUser.getUser()');
           return OfflineUser.getUser();
         } else {
-          console.log('returning false');
           return false;
         }
       },
-      updateUser: function () {
+      updateUser: function (success) {
         return $http.get(settings.apiEndPoint + '/users/isloggedin/')
             .success(function (data, status, headers, config) {
               User.setUser(data);
+              if (success && angular.isFunction(success)) {
+                success();
+              }
             })
             .error(function (response) {
               // TODO manage errors
@@ -56,7 +53,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
           })
           .error(function (response) {
             User.setUser(data);
-            console.log('No waiting orders');
             return User.getUser();
           });
       }
@@ -75,7 +71,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
           return $q.when({ data: _bottles });
         } else if (OfflineWineData.getWines()) {
           _bottles = OfflineWineData.getWines();
-          console.log('returning OfflineWineData.getWines()');
           return $q.when({ data: _bottles });
         } else {
           Loading.show();
@@ -88,7 +83,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
             Loading.hide();
             _bottles = data;
             OfflineWineData.setWines(data);
-            console.log(_bottles);
           })
           .error(function (data) {
             Loading.hide();
@@ -106,15 +100,12 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
             _bottles.results[d].date_rated = dateRated.toISOString();
             _bottles.results[d].comment = rating.data.comment;
             _bottles.results[d].rating = rating.data.rating;
-            console.log('faked rating of' + _bottles.results[d].uuid);
-            console.log(_bottles.results[d]);
           }
         }
         return $q.when({ data: _bottles });
       },
 
       updateList: function () {
-        console.log('try to update');
         // TODO REFACTOR
         // returning fetched bottlesList
         return $http({
@@ -126,7 +117,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
               function (BottlesData) {
                 _bottles = BottlesData;
                 OfflineWineData.setWines(BottlesData);
-                console.log(_bottles);
                 return $q.when({ data: _bottles });
               })
             .error(
@@ -191,7 +181,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
               // Success Handler
               function (addressData) {
                 Addresses.data = addressData;
-                console.log(Addresses);
                 return Addresses.data;
               })
             .error(
@@ -206,7 +195,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
 
     // Updates current adresses when a select change occurres
     Addresses.fireDelivery = function (id) {
-      console.log(id);
       Loading.show();
       var data = {
         uuid: id,
@@ -223,7 +211,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
       })
       .success(function (data, status, headers, config) {
         // TODO gracefully manage errors/successes
-        console.log(data);
         // we changed the user so we need to update it
         User.setUser(data);
         Loading.hide();
@@ -236,7 +223,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
 
     // Updates current adresses when a select change occurres
     Addresses.fireBilling = function (id) {
-      console.log(id);
       Loading.show();
       var data = {
       uuid: id,
@@ -254,7 +240,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
       .success(function (data, status, headers, config) {
         // we changed the user so we need to update it
         // TODO gracefully manage errors/successes
-        console.log(data);
         User.setUser(data);
         Loading.hide();
       })
@@ -265,7 +250,6 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
     };
 
     Addresses.updateList = function () {
-      console.log('try to update');
       // TODO REFACTOR
       // returning fetched AddressesList
       return $http({

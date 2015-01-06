@@ -25,10 +25,11 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
   $scope.order = orderInstance;
-  $scope.user = User.getUser();
   $scope.form = { show: false };
   $scope.addresses = addressList;
   $scope.user = User.getUser();
+  console.log(User.getUser());
+  $scope.changedMrShop = false;
   $scope.calcHeight = {
     "min-height": appropriatedHeight + 'px'
   };
@@ -90,9 +91,9 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
                       function (error) {
                           Loading.hide();
                           // IF THE COUPON IS NOT VALID WE TELL THE USER DEPENDING ON THE ERROR
-                          if (data === 'This code is not valid') {
+                          if (error === 'This code is not valid') {
                             toasters.pop('Oops, votre code d\'accès semble erroné !', 'top', 'info');
-                          } else if (data === 'This coupon has been redeemed') {
+                          } else if (error === 'This coupon has been redeemed') {
                             toasters.pop('Ce coupon n\'est plus valable', 'top', 'info');
                           }
                         });

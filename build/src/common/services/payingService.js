@@ -9,7 +9,8 @@
   function Pay ($http, settings) {
     var service = {
         chargeRefill: chargeRefill,
-        pickMrEmail: pickMrEmail
+        pickMrEmail: pickMrEmail,
+        pickMrShop: pickMrShop
     };
     return service;
 
@@ -27,6 +28,14 @@
       return $http.post(settings.apiEndPoint + '/orders/pickmremail/', {
           order_id: orderUuid,
           test: settings.test
+      });
+    }
+
+    function pickMrShop (shop, orderId) {
+      $http.post(settings.apiEndPoint + '/orders/pickmrshop/', {
+        shop_id: shop.concat_ID,
+        shop: shop,
+        order_id: orderId
       });
     }
   }

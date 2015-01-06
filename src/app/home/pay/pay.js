@@ -31,7 +31,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         }
     };
   })
-  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay, settings, toasters) {
+  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay, settings, toasters, $ionicHistory) {
     $scope.serializedOrder = SerializedOrder;
     console.log(SerializedOrder);
     Stripe.setPublishableKey((settings.test) ? 'pk_test_sK21onMmCuKNuoY7pbml8z3Q' : 'pk_live_gNv4cCe8tsZpettPUsdQj25F');
@@ -50,6 +50,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
               Pay.pickMrEmail($scope.serializedOrder.uuid);
             }
             $state.go('sidemenu.home');
+            $ionicHistory.clearCache();
           })
           .error(function (data, status, headers, config) {
             Loading.hide();
@@ -60,6 +61,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
     };
 
     $scope.payWithCredits = function () {
+      Loading.show();
       Pay.chargeRefill($scope.serializedOrder.uuid)
         .success(function (data, status, headers, config) {
           Loading.hide();
@@ -68,6 +70,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
             Pay.pickMrEmail($scope.serializedOrder.uuid);
           }
           $state.go('sidemenu.home');
+          $ionicHistory.clearCache();
         })
         .error(function (data, status, headers, config) {
           Loading.hide();

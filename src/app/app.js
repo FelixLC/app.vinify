@@ -160,7 +160,7 @@ angular.module('app', [
   //  TODO VERIFY WITH STATUS BAR
   var height = $window.innerHeight;
   $scope.full_height = {
-    height: height + 'px'
+    height: ($window.innerWidth > 767) ? '365px' : height + 'px'
   };
 
   //  YIPEE MODAL

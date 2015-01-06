@@ -97,9 +97,12 @@
           <label class="item-input-wrapper">
             <input type="text" placeholder="Coupon de Reduction" ng-model="order.data.coupon" ng-blur="onBlur()">
           </label>
+          <button class="button button-small">
+            Valider
+          </button>
         </div>
         <div ng-if="credits.has" class="item item-toggle">
-           Utiliser mes crédits ({{::credits.value}} €)
+           Utiliser mes crédits ({{credits.value}} €)
            <label class="toggle toggle-assertive">
              <input type="checkbox" ng-model="order.data.use_credits">
              <div class="track">
@@ -115,8 +118,14 @@
                   <p>{{user.delivery_address.street}}
                   <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>
                 </div>
-                <div ng-if="order.data.delivery_mode === 'Point Relais' ">
+                <div ng-if="order.data.delivery_mode === 'Point Relais' && !user.delivery_shop">
                   <p>Point Relais (vous recevrez
+                  <br>un mail pour le choisir)</p>
+                </div>
+                <div ng-if="order.data.delivery_mode === 'Point Relais' &&  user.delivery_shop">
+                  <p ng-if="!changedMrShop">user.delivery_shop.Nom
+                  <br>user.delivery_shop.CP - user.delivery_shop.Ville</p>
+                  <p ng-if="changedMrShop">Point Relais (vous recevrez
                   <br>un mail pour le choisir)</p>
                 </div>
                 <div ng-if="order.data.delivery_mode === 'Vinify' ">
@@ -124,8 +133,11 @@
                   <br>92130 - Issy Les Moulineaux</p>
                 </div>
             </div>
-            <div ng-if="order.data.delivery_mode === 'Colissimo' || (order.data.delivery_mode === 'Point Relais' && user.delivery_shop)" class="col">
+            <div ng-if="order.data.delivery_mode === 'Colissimo'" class="col">
                   <button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
+            </div>
+            <div ng-if="order.data.delivery_mode === 'Point Relais' && user.delivery_shop" class="col">
+                  <button class="button button-outline-primary" ng-click="changedMrShop = !changedMrShop">Modifier</button>
             </div>
           </div>
         </div>

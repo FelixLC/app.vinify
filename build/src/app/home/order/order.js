@@ -99,7 +99,7 @@
               value.split.red = (value.split.red) ? value.split.red : 0;
             });
             orderInstance.setOrderInstance($scope.order);
-            User.updateUser().then(function () {
+            User.updateUser(function () {
               $state.go('sidemenu.deliverymode');
             });
           }

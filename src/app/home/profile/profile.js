@@ -6,7 +6,10 @@
               views: {
                 menuContent: {
                   controller: 'profileCtrl',
-                  templateUrl: "home/profile/profile.tpl.html"
+                  templateUrl: function () {
+                    return (window.innerWidth > 767) ? "home/profile/profile.desktop.tpl.html" :
+                                                                            "home/profile/profile.tpl.html";
+                  }
                 }
               }
           });

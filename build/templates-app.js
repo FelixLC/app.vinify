@@ -1,4 +1,4 @@
-angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.desktop.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.desktop.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
+angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.desktop.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.desktop.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.desktop.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
@@ -101,9 +101,12 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "          <label class=\"item-input-wrapper\">\n" +
     "            <input type=\"text\" placeholder=\"Coupon de Reduction\" ng-model=\"order.data.coupon\" ng-blur=\"onBlur()\">\n" +
     "          </label>\n" +
+    "          <button class=\"button button-small\">\n" +
+    "            Valider\n" +
+    "          </button>\n" +
     "        </div>\n" +
     "        <div ng-if=\"credits.has\" class=\"item item-toggle\">\n" +
-    "           Utiliser mes crédits ({{::credits.value}} €)\n" +
+    "           Utiliser mes crédits ({{credits.value}} €)\n" +
     "           <label class=\"toggle toggle-assertive\">\n" +
     "             <input type=\"checkbox\" ng-model=\"order.data.use_credits\">\n" +
     "             <div class=\"track\">\n" +
@@ -119,8 +122,14 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "                  <p>{{user.delivery_address.street}}\n" +
     "                  <br>{{user.delivery_address.zipcode}} - {{user.delivery_address.city}}</p>\n" +
     "                </div>\n" +
-    "                <div ng-if=\"order.data.delivery_mode === 'Point Relais' \">\n" +
+    "                <div ng-if=\"order.data.delivery_mode === 'Point Relais' && !user.delivery_shop\">\n" +
     "                  <p>Point Relais (vous recevrez\n" +
+    "                  <br>un mail pour le choisir)</p>\n" +
+    "                </div>\n" +
+    "                <div ng-if=\"order.data.delivery_mode === 'Point Relais' &&  user.delivery_shop\">\n" +
+    "                  <p ng-if=\"!changedMrShop\">user.delivery_shop.Nom\n" +
+    "                  <br>user.delivery_shop.CP - user.delivery_shop.Ville</p>\n" +
+    "                  <p ng-if=\"changedMrShop\">Point Relais (vous recevrez\n" +
     "                  <br>un mail pour le choisir)</p>\n" +
     "                </div>\n" +
     "                <div ng-if=\"order.data.delivery_mode === 'Vinify' \">\n" +
@@ -128,8 +137,11 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
     "                  <br>92130 - Issy Les Moulineaux</p>\n" +
     "                </div>\n" +
     "            </div>\n" +
-    "            <div ng-if=\"order.data.delivery_mode === 'Colissimo' || (order.data.delivery_mode === 'Point Relais' && user.delivery_shop)\" class=\"col\">\n" +
+    "            <div ng-if=\"order.data.delivery_mode === 'Colissimo'\" class=\"col\">\n" +
     "                  <button class=\"button button-outline-primary\" ng-click=\"openModal()\">Modifier</button>\n" +
+    "            </div>\n" +
+    "            <div ng-if=\"order.data.delivery_mode === 'Point Relais' && user.delivery_shop\" class=\"col\">\n" +
+    "                  <button class=\"button button-outline-primary\" ng-click=\"changedMrShop = !changedMrShop\">Modifier</button>\n" +
     "            </div>\n" +
     "          </div>\n" +
     "        </div>\n" +
@@ -146,11 +158,10 @@ angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCac
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
     "      <ion-view hide-back-button=\"true\" title=\"Accueil\">\n" +
+    "        <ion-nav-buttons side=\"left\">\n" +
+    "        <button class=\"button button-icon ion-navicon\" ng-click=\"toggleLeft()\" ng-hide=\"$exposeAside.active\"></button>\n" +
+    "        </ion-nav-buttons>\n" +
     "        <ion-content has-bouncing=\"false\">\n" +
-    "          <ion-nav-buttons side=\"left\">\n" +
-    "            <button class=\"button button-icon button-clear ion-navicon\" ng-click=\"toggleLeft()\">\n" +
-    "            </button>\n" +
-    "          </ion-nav-buttons>\n" +
     "          <div ng-click=\"appStore()\" id=\"update-app\" ng-show=\"update\">\n" +
     "              <p class=\"centered\"><i class=\"icon ion-alert-circled\"></i> Votre version n'est pas à jour. <br>Cliquez ici pour télécharger la nouvelle version</p>\n" +
     "          </div>\n" +
@@ -678,6 +689,133 @@ angular.module("home/pay/pay.tpl.html", []).run(["$templateCache", function($tem
     "   </div>\n" +
     "\n" +
     "  </ion-content>\n" +
+    "</ion-view>");
+}]);
+
+angular.module("home/profile/profile.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/profile/profile.desktop.tpl.html",
+    "<ion-view title=\"Profil\">\n" +
+    "	<ion-content overflow-sroll=\"true\" has-bouncing=\"false\">\n" +
+    "		<div class=\"view-container\">\n" +
+    "			<div class=\"item item-gray centered\">\n" +
+    "				<h3>{{user.first_name}} {{user.last_name}}</h3>\n" +
+    "				<p>{{user.email}}</p>\n" +
+    "			</div>\n" +
+    "			<div class=\"item centered item-profile\">\n" +
+    "				<!-- <div ng-show=\"user.bottles_rated_count < 10\" class=\"coming-soon\"><p>Notez 10 vins pour voir profil !</p></div> -->\n" +
+    "				<!-- <div class=\"row\"> -->\n" +
+    "	<!-- 				<div class=\"col\">\n" +
+    "						<div class=\"row row-center\">\n" +
+    "							<div class=\"col col-20\"><img src=\"assets/utils/grapes-black.svg\" alt=\"cepage\"></div>\n" +
+    "							<div class=\"col\">\n" +
+    "									<h4>Cépage Préféré</h4>\n" +
+    "									<p class=\"subtitle\">{{user.profile.favorite_variety}}</p>\n" +
+    "							</div>\n" +
+    "						</div>\n" +
+    "					</div> -->\n" +
+    "					<!-- <div class=\"col\"> -->\n" +
+    "				<div class=\"row row-center\">\n" +
+    "					<div class=\"col col-20\"><img src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
+    "					<div class=\"col align-left\">\n" +
+    "							<h4>Région la mieux notée</h4>\n" +
+    "							<p class=\"subtitle\">{{::user.profile.top_region}}</p>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "					<!-- </div> -->\n" +
+    "				<!-- </div> -->\n" +
+    "				<div class=\"row row-center\">\n" +
+    "							<div class=\"col col-20\"><img src=\"assets/utils/chart.png\" alt=\"cepage\"></div>\n" +
+    "							<div class=\"col align-left\">\n" +
+    "									<h4>Consommation</h4>\n" +
+    "									<p class=\"subtitle\">Rouge : {{::user.profile.red_consumption*100 |number:0}} %, Blanc : {{::user.profile.white_consumption*100 |number:0}} % <br> Rosé : {{::user.profile.rose_consumption*100 |number:0}} %</p>\n" +
+    "							</div>\n" +
+    "				</div>\n" +
+    "				<div class=\"row centered\">\n" +
+    "					<div class=\"col item-text-wrap\"><p class=\"p-grey centered\">Vinify vous prépare un profil plein de surprises pour la prochaine version. Des idées, des suggestions ? Ecrivez-nous (suggestions@vinify.co)!</p></div>\n" +
+    "				</div>\n" +
+    "	<!-- 			<div class=\"row\">\n" +
+    "					<div class=\"col\">\n" +
+    "						<h4>Note Moyenne</h4>\n" +
+    "						<h3>{{::user.profile.average_rating}}</h3>\n" +
+    "					</div>\n" +
+    "				</div> -->\n" +
+    "	<!-- 			<div class=\"row row-center\">\n" +
+    "					<div class=\"col centered\">\n" +
+    "						<h4>ViniPoints</h4>\n" +
+    "						<span class=\"subtitle\">{{::user.profile.vinipoints}}</span>\n" +
+    "					</div>\n" +
+    "				</div> -->\n" +
+    "			</div>\n" +
+    "			<div class=\"item\">\n" +
+    "				<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
+    "				<div class=\"row\">\n" +
+    "					<div class=\"col centered\"><p>Mon Code : <br> {{::user.referral_code}}</p></div>\n" +
+    "					<div class=\"col\"><button id=\"godfathing\" class=\"button button-outline-primary\" ng-click=\"openReferralModal()\"><p>Je parraine !</p></button></div>\n" +
+    "				</div>\n" +
+    "				<div ng-if=\"!desktop\" class=\"row row-center centered row-social-profile\">\n" +
+    "					<div class=\"col\"><p class=\"p-grey\">Partager <br> mon code :</p></div>\n" +
+    "					<div class=\"col social-container\">\n" +
+    "						<div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
+    "						<div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<h3 class=\"centered\">Mes filleuls</h3>\n" +
+    "				<div class=\"row\">\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<h4>Filleul</h4>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<h4>Mail envoyé</h4>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<h4>Achat</h4>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "				<div ng-repeat=\"referral in referrals\" class=\"row\">\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<p>{{::referral.referred.first_name}}</p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<p><img ng-show=\"referral.created_at\" src=\"assets/utils/tick.svg\" alt=\"tick\"></p>\n" +
+    "					</div>\n" +
+    "					<div class=\"col centered\">\n" +
+    "							<p>\n" +
+    "								<img ng-show=\"referral.validated_at\" src=\"assets/utils/tick.svg\" alt=\"tick\">\n" +
+    "								<a class=\"link-dotted link-black\" ng-show=\"isWebView && !referral.validated_at\" ng-click=\"sendMail(referral.referred.first_name, referral.referred.email)\">Relancer</a>\n" +
+    "							</p>\n" +
+    "					</div>\n" +
+    "				</div>\n" +
+    "			</div>\n" +
+    "\n" +
+    "			<div class=\"item item-gray centered\">\n" +
+    "					<p>{{user.delivery_address.street}}</p>\n" +
+    "					<div class=\"row\">\n" +
+    "						<div class=\"col\">\n" +
+    "								<p> {{user.delivery_address.zipcode}}</p>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "								<p>{{user.delivery_address.city}}</p>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "					<div class=\"row\">\n" +
+    "						<div class=\"col\">\n" +
+    "								<p><i class=\"icon ion-ios7-telephone\"></i> {{user.phone}}</p>\n" +
+    "						</div>\n" +
+    "						<div class=\"col\">\n" +
+    "								<p class=\"p-button\" ng-click=\"openUserModal()\"><span class=\"link-dotted\">Modifier</span></p></button>\n" +
+    "						</div>\n" +
+    "					</div>\n" +
+    "			</div>\n" +
+    "	<!--             <div class=\"row\">\n" +
+    "					<div class=\"col\">\n" +
+    "							<button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
+    "					</div>\n" +
+    "					<div class=\"col\">\n" +
+    "							<button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
+    "					</div>\n" +
+    "			</div> -->\n" +
+    "		</div>\n" +
+    "	</ion-content>\n" +
     "</ion-view>");
 }]);
 
@@ -2403,6 +2541,7 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "              <a href ui-sref=\"sidemenu.order\" class=\"item\" menu-close><i class=\"icon ion-ios7-cart\"></i> Commander</a>\n" +
     "              <a ng-click=\"logOut()\" class=\"item\" menu-close><i class=\"icon ion-log-out\"></i> Se Déconnecter</a>\n" +
     "              <a href=\"mailto:charlotte@vinify.co?subject=Feedback%20%7C%20Vinify%20App&amp;body=Bonjour%20!\" class=\"item\" menu-close><i class=\"icon ion-help-circled\"></i> Feedback</a>\n" +
+    "              <a href=\"https://api.vinify.co/api/users/password/reset/\" class=\"item\" menu-close><i class=\"icon ion-locked\"></i> Mot de passe</a>\n" +
     "            </ul>\n" +
     "          </ion-content>\n" +
     "        </ion-side-menu>\n" +
