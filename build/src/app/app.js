@@ -13,11 +13,13 @@ angular.module('app', [
   'app.vinibar',
   'app.wine',
   'app.ratedwine',
+  'app.orders',
   'app.deliverymode',
   'app.profile',
   'app.pay',
   'security',
   'settings',
+  'Toaster',
   'Update',
   'templates-app',
   'templates-common'
@@ -65,18 +67,13 @@ angular.module('app', [
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   } ])
 
-.controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals, settings) {
+.controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals, settings, toasters) {
 
   //  Catches online event and fires Offline Queue
   $rootScope.$on('online', function (event) {
-    // $cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
     OfflineQueue.sendRatings().then(function (response) {
       console.log(response);
-      Bottles.updateList().then(function (response) {
-        // $cordovaToast.show('Terminé ...', 'short', 'top');
-      }, function (response) {
-        // error
-      });
+      Bottles.updateList();
     });
     User.updateUser();
     console.log('Updating User ...');
@@ -84,11 +81,9 @@ angular.module('app', [
   });
 
   $rootScope.$on('resume', function (event) {
-    // $cordovaToast.show('Vous êtes connecté, synchronisation en cours', 'short', 'top');
     if (ionic.Platform.isWebView() && $cordovaNetwork.isOnline()) { // if we are in cordova && online
       // we check if there is an update
       security.requestCurrentUser().then(function (result) {
-        console.log(result);
         Update.checkUpdate(result.uuid, ionic.Platform.device())
           .success(function (response) {
             Update.isOutdated = (response.up_to_date === 1) ? false : true;
@@ -98,12 +93,7 @@ angular.module('app', [
           });
       });
       OfflineQueue.sendRatings().then(function (response) {
-        console.log(response);
-        Bottles.updateList().then(function (response) {
-          // $cordovaToast.show('Terminé ...', 'short', 'top');
-        }, function (response) {
-          // error
-        });
+        Bottles.updateList();
       });
       User.updateUser();
       Referrals.updateList();
@@ -193,6 +183,33 @@ angular.module('app', [
   };
   $scope.closeOopsModal = function () {
     $scope.oops.hide();
+  };
+
+  //  PASSWORD MODAL
+  $ionicModal.fromTemplateUrl('tpl/password.tpl.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function (modal) {
+    $scope.passwordModal = modal;
+  });
+
+  //  Open & close the modal
+  $scope.openPasswordModal = function () {
+    $scope.password = {};
+    $scope.passwordModal.show();
+  };
+  $scope.closePasswordModal = function () {
+    $scope.passwordModal.hide();
+  };
+  $scope.changePassword = function (currentPassword, newPassword) {
+    User.changePassword(currentPassword, newPassword,
+      function () {
+        $scope.closePasswordModal();
+        toasters.pop('Mot de passe changé', 'top', 'success');
+      },
+      function () {
+        toasters.pop('Oops, vous n\'avez pas le bon mot de passe.', 'top', 'info');
+      });
   };
 
   //  UPDATE MODAL

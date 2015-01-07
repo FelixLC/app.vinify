@@ -1,0 +1,21 @@
+<ion-view title="Mes Commandes">
+  <ion-nav-buttons side="left">
+  <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
+  </ion-nav-buttons>
+  <ion-content overflow-scroll="true">
+    <a ng-if="user.awaiting_order" class="item centered" ng-click="orderReceived()">
+      <h3>Une commande est en route !</h3>
+      <p>Cliquez ici si vous l'avez reçue</p>
+    </a>
+    <div class="list">
+      <div ng-repeat="order in orders | orderBy:date_payed" class="item">
+        <h3>#{{::order.order_id}} - {{::order.delivery_mode}}</h3>
+        <p>
+          {{::order.date_payed | date : 'dd/MM/yy'}} - {{::order.num_bottles}} bouteilles
+          <span class="item-note">{{::statusConverter(order.status)}}</span>
+        </p>
+        <p ng-if="order.tracking_url" ng-click="open(order.tracking_url)"><span  class="link-dotted">suivre la commande</span></p>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

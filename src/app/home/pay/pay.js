@@ -46,8 +46,8 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           .success(function (data, status, headers, config) {
             Loading.hide();
             $scope.openYipeeModal();
-            if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
-              Pay.pickMondialRelay($scope.serializedOrder.uuid);
+            if (data.delivery_mode === 'Point Relais') {
+              Pay.pickMondialRelay(data.uuid);
             }
             $state.go('sidemenu.home');
             $ionicHistory.clearCache();
@@ -66,8 +66,8 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         .success(function (data, status, headers, config) {
           Loading.hide();
           $scope.openYipeeModal();
-          if ($scope.serializedOrder.delivery_mode === 'Point Relais') {
-            Pay.pickMondialRelay($scope.serializedOrder.uuid, Pay.shop);
+          if (data.delivery_mode === 'Point Relais') {
+            Pay.pickMondialRelay(data.uuid, Pay.shop);
           }
           $state.go('sidemenu.home');
           $ionicHistory.clearCache();

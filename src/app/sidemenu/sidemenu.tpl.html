@@ -18,9 +18,10 @@
               <a href ui-sref="sidemenu.vinibar" class="item" menu-close><i class="icon ion-wineglass"></i> Vinibar</a>
               <a href ui-sref="sidemenu.profile" class="item" menu-close><i class="icon ion-person"></i> Profil</a>
               <a href ui-sref="sidemenu.order" class="item" menu-close><i class="icon ion-ios7-cart"></i> Commander</a>
+              <a href ui-sref="sidemenu.orders" class="item" menu-close><i class="icon ion-clock"></i> Mes commandes</a>
               <a ng-click="logOut()" class="item" menu-close><i class="icon ion-log-out"></i> Se Déconnecter</a>
-              <a href="mailto:charlotte@vinify.co?subject=Feedback%20%7C%20Vinify%20App&amp;body=Bonjour%20!" class="item" menu-close><i class="icon ion-help-circled"></i> Feedback</a>
-              <a href="https://api.vinify.co/api/users/password/reset/" class="item" menu-close><i class="icon ion-locked"></i> Mot de passe</a>
+              <a href="mailto:charlotte@vinify.co?subject=Feedback%20%7C%20Vinify%20App&amp;body=Bonjour%20!" class="item" target="_blank" menu-close><i class="icon ion-help-circled"></i> Feedback</a>
+              <a href ng-click="openPasswordModal()" class="item" menu-close><i class="icon ion-locked"></i> Mot de passe</a>
             </ul>
           </ion-content>
         </ion-side-menu>

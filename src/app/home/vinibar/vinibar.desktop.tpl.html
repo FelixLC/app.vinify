@@ -50,7 +50,7 @@
 			</a>
 		</ion-list>
 		<ion-list ng-if="segmentedControl.value === 'toDrink'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item" href="#/wine/{{::bottle.uuid}}">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: {visible: true} | filter: searchFilter" class="item" href="#/wine/{{::bottle.uuid}}">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}

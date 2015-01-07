@@ -2584,6 +2584,7 @@ body h1 {
 }
 .link-dotted {
   border-bottom: 1px dotted #666;
+  cursor: pointer;
 }
 .link-dotted-primary {
   border-bottom-color: #cb0001;

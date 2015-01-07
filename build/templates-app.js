@@ -1,4 +1,4 @@
-angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.desktop.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.desktop.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.desktop.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
+angular.module('templates-app', ['home/deliverymode/deliverymode.tpl.html', 'home/home.tpl.html', 'home/order/order.tpl.html', 'home/orders/orders.desktop.tpl.html', 'home/orders/orders.tpl.html', 'home/pay/pay.desktop.tpl.html', 'home/pay/pay.tpl.html', 'home/profile/profile.desktop.tpl.html', 'home/profile/profile.tpl.html', 'home/profile/referral.tpl.html', 'home/profile/user.tpl.html', 'home/ratedwine/ratedwine-desktop.tpl.html', 'home/ratedwine/ratedwine.tpl.html', 'home/vinibar/vinibar.desktop.tpl.html', 'home/vinibar/vinibar.tpl.html', 'home/wine.rating/wine.rating.group.tpl.html', 'home/wine.rating/wine.rating.tpl.html', 'home/wine/wine-more.desktop.tpl.html', 'home/wine/wine-more.tpl.html', 'home/wine/wine.desktop.tpl.html', 'home/wine/wine.tpl.html', 'sidemenu/sidemenu.tpl.html']);
 
 angular.module("home/deliverymode/deliverymode.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/deliverymode/deliverymode.tpl.html",
@@ -216,7 +216,11 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        </label>\n" +
     "        <div ng-if=\"!hideFirstCard\" class=\"item\">\n" +
     "          <div class=\"row row-center\">\n" +
-    "            <div class=\"col col-20 centered\"><img class=\"order-france-logo\" src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
+    "            <div class=\"col col-20 centered\">\n" +
+    "              <img ng-if=\"order.data.refills[0]['price_level'] === 29.90 \" class=\"order-france-logo\" src=\"assets/utils/logo_france.png\" alt=\"cepage\">\n" +
+    "              <img ng-if=\"order.data.refills[0]['price_level'] === 39.90 \" class=\"order-france-logo\" src=\"assets/utils/logo_grapes.png\" alt=\"cepage\">\n" +
+    "              <img ng-if=\"order.data.refills[0]['price_level'] === 49.90 \" class=\"order-france-logo\" src=\"assets/utils/logo_glass.png\" alt=\"cepage\">\n" +
+    "            </div>\n" +
     "            <div class=\"col item-text-wrap centered\">\n" +
     "              <p ng-if=\"order.data.refills[0]['price_level'] === 29.90 \">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>\n" +
     "              <p ng-if=\"order.data.refills[0]['price_level'] === 39.90 \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
@@ -282,7 +286,11 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "        </label>\n" +
     "        <div ng-if=\"!hideSecondCard\" class=\"item\">\n" +
     "          <div class=\"row row-center\">\n" +
-    "            <div class=\"col col-20 centered\"><img class=\"order-france-logo\" src=\"assets/utils/france.svg\" alt=\"cepage\"></div>\n" +
+    "            <div class=\"col col-20 centered\">\n" +
+    "              <img ng-if=\"order.data.refills[1]['price_level'] === 29.90 \" class=\"order-france-logo\" src=\"assets/utils/logo_france.png\" alt=\"cepage\">\n" +
+    "              <img ng-if=\"order.data.refills[1]['price_level'] === 39.90 \" class=\"order-france-logo\" src=\"assets/utils/logo_grapes.png\" alt=\"cepage\">\n" +
+    "              <img ng-if=\"order.data.refills[1]['price_level'] === 49.90 \" class=\"order-france-logo\" src=\"assets/utils/logo_glass.png\" alt=\"cepage\">\n" +
+    "            </div>\n" +
     "            <div class=\"col item-text-wrap centered\">\n" +
     "              <p ng-if=\"order.data.refills[1]['price_level'] === 29.90 \">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>\n" +
     "              <p ng-if=\"order.data.refills[1]['price_level'] === 39.90 \">J'explore les appellations et les cépages de France et d'ailleurs.</p>\n" +
@@ -431,6 +439,56 @@ angular.module("home/order/order.tpl.html", []).run(["$templateCache", function(
     "  <div class=\"bar bar-footer bar-positive\" ng-click=\"createRefillOrder()\">\n" +
     "      <div class=\"title\">Mode de Livraison ></div>\n" +
     "  </div>\n" +
+    "</ion-view>");
+}]);
+
+angular.module("home/orders/orders.desktop.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/orders/orders.desktop.tpl.html",
+    "<ion-view title=\"Mes Commandes\">\n" +
+    "  <ion-nav-buttons side=\"left\">\n" +
+    "  <button class=\"button button-icon ion-navicon\" ng-click=\"toggleLeft()\" ng-hide=\"$exposeAside.active\"></button>\n" +
+    "  </ion-nav-buttons>\n" +
+    "  <ion-content overflow-scroll=\"true\">\n" +
+    "    <a ng-if=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
+    "      <h3>Une commande est en route !</h3>\n" +
+    "      <p>Cliquez ici si vous l'avez reçue</p>\n" +
+    "    </a>\n" +
+    "    <div class=\"list\">\n" +
+    "      <div ng-repeat=\"order in orders | orderBy:date_payed\" class=\"item\">\n" +
+    "        <h3>#{{::order.order_id}} - {{::order.delivery_mode}}</h3>\n" +
+    "        <p>\n" +
+    "          {{::order.date_payed | date : 'dd/MM/yy'}} - {{::order.num_bottles}} bouteilles\n" +
+    "          <span class=\"item-note\">{{::statusConverter(order.status)}}</span>\n" +
+    "        </p>\n" +
+    "        <p ng-if=\"order.tracking_url\" ng-click=\"open(order.tracking_url)\"><span  class=\"link-dotted\">suivre la commande</span></p>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </ion-content>\n" +
+    "</ion-view>");
+}]);
+
+angular.module("home/orders/orders.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("home/orders/orders.tpl.html",
+    "<ion-view title=\"Mes Commandes\">\n" +
+    "  <ion-nav-buttons side=\"left\">\n" +
+    "  <button class=\"button button-icon ion-navicon\" ng-click=\"toggleLeft()\" ng-hide=\"$exposeAside.active\"></button>\n" +
+    "  </ion-nav-buttons>\n" +
+    "  <ion-content>\n" +
+    "    <a ng-if=\"user.awaiting_order\" class=\"item centered\" ng-click=\"orderReceived()\">\n" +
+    "      <h3>Une commande est en route !</h3>\n" +
+    "      <p>Cliquez ici si vous l'avez reçue</p>\n" +
+    "    </a>\n" +
+    "    <div class=\"list\">\n" +
+    "      <div ng-repeat=\"order in orders | orderBy:date_payed\" class=\"item\">\n" +
+    "        <h3>#{{::order.order_id}} - {{::order.delivery_mode}}</h3>\n" +
+    "        <p>\n" +
+    "          {{::order.date_payed | date : 'dd/MM/yy'}} - {{::order.num_bottles}} bouteilles\n" +
+    "          <span class=\"item-note\">{{::statusConverter(order.status)}}</span>\n" +
+    "        </p>\n" +
+    "        <p ng-if=\"order.tracking_url\" ng-click=\"open(order.tracking_url)\"><span  class=\"link-dotted\">suivre la commande</span></p>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </ion-content>\n" +
     "</ion-view>");
 }]);
 
@@ -746,6 +804,10 @@ angular.module("home/profile/profile.desktop.tpl.html", []).run(["$templateCache
     "					</div>\n" +
     "				</div> -->\n" +
     "			</div>\n" +
+    "			<div ng-if=\"user.credits\" class=\"item item-gray centered\">\n" +
+    "				<h3 class=\"centered\">Crédits</h3>\n" +
+    "				<p>Il vous reste {{::user.credits}} €</p>\n" +
+    "			</div>\n" +
     "			<div class=\"item\">\n" +
     "				<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
     "				<div class=\"row\">\n" +
@@ -872,6 +934,10 @@ angular.module("home/profile/profile.tpl.html", []).run(["$templateCache", funct
     "						<span class=\"subtitle\">{{::user.profile.vinipoints}}</span>\n" +
     "					</div>\n" +
     "				</div> -->\n" +
+    "			</div>\n" +
+    "			<div ng-if=\"user.credits\" class=\"item item-gray centered\">\n" +
+    "				<h3 class=\"centered\">Crédits</h3>\n" +
+    "				<p>Il vous reste {{::user.credits}} €</p>\n" +
     "			</div>\n" +
     "			<div class=\"item\">\n" +
     "				<h3 class=\"centered\">Parrainez des amis et gagnez 10€ !</h3>\n" +
@@ -1271,179 +1337,225 @@ angular.module("home/ratedwine/ratedwine.tpl.html", []).run(["$templateCache", f
   $templateCache.put("home/ratedwine/ratedwine.tpl.html",
     "<ion-view title=\"Déguster\" id=\"rated-wine-view\">\n" +
     "  <ion-content has-bouncing=\"false\">\n" +
-    "  <div class=\"wine-header\">\n" +
-    "    <div class=\"row row-center\">\n" +
-    "        <div class=\"col centered\">\n" +
-    "          <h3>{{bottle.wine.display_name}}</h3>\n" +
-    "          <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
-    "          <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"row row-header-bottom row-center\">\n" +
-    "        <div class=\"col  col-75\">\n" +
-    "          <div class=\"row row-center align-left\">\n" +
-    "            <div class=\"col col-20\">\n" +
-    "                  <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
-    "            </div>\n" +
-    "            <div class=\"col\">\n" +
-    "                  <p>{{bottle.wine.variety}}</p>\n" +
-    "                  <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
-    "            </div>\n" +
+    "    <div class=\"wine-header\">\n" +
+    "      <div class=\"row row-center\">\n" +
+    "          <div class=\"col centered\">\n" +
+    "            <h3>{{bottle.wine.display_name}}</h3>\n" +
+    "            <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>\n" +
+    "            <!-- <h4>{{bottle.wine.appellation}}</h4> -->\n" +
     "          </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"col align-right\">\n" +
-    "          <div class=\"row\">\n" +
-    "            <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "  </div>\n" +
-    "  <div class=\"wine-content padding\">\n" +
-    "\n" +
-    "          <div class=\"row row-order\">\n" +
-    "            <div class=\"col centered\">\n" +
-    "              <h4>Prix Vinify : {{bottle.wine.public_price}}&nbsp;€</h4>\n" +
-    "            </div>\n" +
-    "            <div class=\"col centered\">\n" +
-    "            <!-- TODO BUY WINE -->\n" +
-    "            <a class=\"button button-outline-primary\" ng-click=\"buy()\">\n" +
-    "                Commander\n" +
-    "              </a>\n" +
-    "            </div>\n" +
-    "          </div>\n" +
-    "\n" +
-    "        <div class=\"card\">\n" +
-    "          <div class=\"item\">\n" +
-    "              <h2>Note</h2>\n" +
-    "\n" +
-    "             <ul class=\"rating\">\n" +
-    "              <ul ng-show=\"bottle.rating == '1' \" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '2'\" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '3'\" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '4'\" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
-    "              </ul>\n" +
-    "              <ul ng-show=\"bottle.rating == '5'\" class=\"rating\">\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "                <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
-    "              </ul>\n" +
-    "             </ul>\n" +
-    "\n" +
-    "              <h2  ng-if=\"bottle.comment\" class=\"header-margin-top\">Commentaire :</h2>\n" +
-    "              <p ng-if=\"bottle.comment\">{{bottle.comment}}</p>\n" +
-    "            </div>\n" +
-    "            <div class=\"button-card\"><span class=\"button-card--save\" ng-click=\"openModal()\">modifier</span></div>\n" +
     "      </div>\n" +
-    "<!--         <div class=\"centered\">\n" +
-    "          <button class=\"button share share-facebook\"><img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\">  <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> Partager ce vin</button>\n" +
-    "        </div> -->\n" +
-    "\n" +
-    "        <div class=\"row centered row-social\">\n" +
-    "          <div class=\"social-container\">\n" +
-    "            <div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
-    "            <div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
-    "            <div ng-click=\"share.mail()\" id=\"mail\"><p><i class=\"icon ion-paper-airplane\"></i></p></div>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "        <p class=\"centered\">Partager ce vin pour gagner des ViniPoints !</p>\n" +
-    "\n" +
-    "<!--         <div class=\"row\">\n" +
-    "          <div class=\"col\">\n" +
-    "              <button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
-    "          </div>\n" +
-    "          <div class=\"col\">\n" +
-    "              <button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
-    "          </div>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <div class=\"row\">\n" +
-    "          <div class=\"col col-25\">\n" +
-    "          </div>\n" +
-    "          <div class=\"col\">\n" +
-    "              <button class=\"button share share-mail\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> <p>Partager <br> par mail</p></button>\n" +
-    "          </div>\n" +
-    "          <div class=\"col col-25\">\n" +
-    "          </div>\n" +
-    "        </div> -->\n" +
-    "        <h4>Description</h4>\n" +
-    "\n" +
-    "        <p ng-bind-html=\"bottle.wine.description\" class=\"justified\"><p>\n" +
-    "\n" +
-    "        <h4>Service</h4>\n" +
-    "        <div class=\"row row-center\">\n" +
-    "          <div class=\"col\"><p class=\"service-par\"><i class=\"icon ion-thermometer\"></i> {{bottle.wine.temperature}}</p></div>\n" +
-    "          <div class=\"col\"><p class=\"service-par\"><i class=\"icon ion-beaker\"></i> Carafer le vin <span ng-show=\"bottle.wine.carafage\">1h30</span> <span ng-show=\"!bottle.wine.carafage\">1h30</span> avant dégustation.</p></div>\n" +
-    "        </div>\n" +
-    "\n" +
-    "        <h4>Dégustation</h4>\n" +
-    "        <p ng-bind-html=\"bottle.wine.tasting_info\" class=\"justified\"><p>\n" +
-    "\n" +
-    "        <div class=\"row row-buttons\">\n" +
+    "      <div class=\"row row-header-bottom row-center\">\n" +
+    "          <div class=\"col  col-75\">\n" +
+    "            <div class=\"row row-center align-left\">\n" +
+    "              <div class=\"col col-20\">\n" +
+    "                    <img class=\"img-grapes\" src=\"assets/utils/grapes.svg\" alt=\"grapes-logo\">\n" +
+    "              </div>\n" +
     "              <div class=\"col\">\n" +
-    "                <a class=\"button button-outline-primary\" ng-click=\"openModal()\">\n" +
-    "                  Modifier\n" +
+    "                    <p>{{bottle.wine.variety}}</p>\n" +
+    "                    <!-- <h4>{{bottle.wine.variety}}</h4> -->\n" +
+    "              </div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <div class=\"col align-right\">\n" +
+    "            <div class=\"row\">\n" +
+    "              <div class=\"col\"><p>{{bottle.wine.vintage}}</p></div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"wine-content padding\">\n" +
+    "\n" +
+    "            <div class=\"row row-order\">\n" +
+    "              <div class=\"col centered\">\n" +
+    "                <h4>Prix Vinify : {{::bottle.wine.public_price}}&nbsp;€</h4>\n" +
+    "              </div>\n" +
+    "              <div class=\"col centered\">\n" +
+    "              <!-- TODO BUY WINE -->\n" +
+    "              <a ng-href=\"mailto:commande@vinify.co?subject=Commande%20%7C%20{{::bottle.wine.display_name}}&amp;body=Bonjour%2C%0AJe%20souhaiterais%20effectuer%20une%20commande%20X%20bouteilles%20de%20{{::bottle.wine.display_name}}.%0A%0AMerci%20de%20me%20confirmer%20le%20prix.\" class=\"button button-outline-primary\" target=\"_blank\">\n" +
+    "                  Commander\n" +
     "                </a>\n" +
     "              </div>\n" +
-    "<!--               <div class=\"col\">\n" +
-    "                <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
-    "                  Noter à plusieurs\n" +
-    "                </a>\n" +
-    "              </div> -->\n" +
+    "            </div>\n" +
+    "\n" +
+    "          <div class=\"card\">\n" +
+    "            <div class=\"item\">\n" +
+    "                <h2>Note</h2>\n" +
+    "\n" +
+    "               <ul class=\"rating\">\n" +
+    "                <ul ng-if=\"bottle.rating == '1' \" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '1.5' \" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '2'\" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '2.5' \" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '3'\" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '3.5' \" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '4'\" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-outline\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '4.5' \" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star-half\"></i></li>\n" +
+    "                </ul>\n" +
+    "                <ul ng-if=\"bottle.rating == '5'\" class=\"rating\">\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                  <li><i class=\"icon ion-ios7-star\"></i></li>\n" +
+    "                </ul>\n" +
+    "               </ul>\n" +
+    "\n" +
+    "                <h2  ng-if=\"bottle.comment\" class=\"header-margin-top\">Commentaire :</h2>\n" +
+    "                <p ng-if=\"bottle.comment\">{{bottle.comment}}</p>\n" +
+    "                <div class=\"button-card\"><span class=\"button-card--save\" ng-click=\"openModal()\">modifier</span></div>\n" +
+    "              </div>\n" +
     "        </div>\n" +
-    "</div>\n" +
+    "  <!--         <div class=\"centered\">\n" +
+    "            <button class=\"button share share-facebook\"><img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\">  <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> Partager ce vin</button>\n" +
+    "          </div> -->\n" +
+    "\n" +
+    "          <div class=\"row centered row-social\">\n" +
+    "            <div class=\"social-container\">\n" +
+    "              <div ng-click=\"share.facebook()\" id=\"facebook\"><p><i class=\"icon ion-social-facebook\"></i></p></div>\n" +
+    "              <div ng-click=\"share.twitter()\" id=\"twitter\"><p><i class=\"icon ion-social-twitter\"></i></p></div>\n" +
+    "              <div ng-click=\"share.mail()\" id=\"mail\"><p><i class=\"icon ion-paper-airplane\"></i></p></div>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "          <p class=\"centered\">Partager ce vin pour gagner des ViniPoints !</p>\n" +
+    "\n" +
+    "  <!--         <div class=\"row\">\n" +
+    "            <div class=\"col\">\n" +
+    "                <button class=\"button share share-facebook\"> <img src=\"assets/utils/facebook.svg\" alt=\"facebook-logo\"><p>Partager sur facebook</p></button>\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "                <button class=\"button share share-twitter\"> <img src=\"assets/utils/twitter.svg\" alt=\"facebook-logo\"> <p>Partager sur twitter</p></button>\n" +
+    "            </div>\n" +
+    "          </div>\n" +
+    "\n" +
+    "          <div class=\"row\">\n" +
+    "            <div class=\"col col-25\">\n" +
+    "            </div>\n" +
+    "            <div class=\"col\">\n" +
+    "                <button class=\"button share share-mail\"> <img src=\"assets/utils/mail.svg\" alt=\"mail-logo\"> <p>Partager <br> par mail</p></button>\n" +
+    "            </div>\n" +
+    "            <div class=\"col col-25\">\n" +
+    "            </div>\n" +
+    "          </div> -->\n" +
+    "      <div class=\"wine-content\">\n" +
+    "        <div class=\"row row-center\">\n" +
+    "          <div class=\"col col-20 centered\">\n" +
+    "            <img class=\"logo-wine-desc\" src=\"assets/utils/logo_glass.png\" alt=\"\">\n" +
+    "          </div>\n" +
+    "          <div class=\"col\">\n" +
+    "            <h4>Description</h4>\n" +
+    "            <p>{{::bottle.wine.tasting}}</p>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row row-center\">\n" +
+    "          <div class=\"col col-20 centered\">\n" +
+    "            <img class=\"logo-wine-desc\" src=\"assets/utils/logo_forks.png\" alt=\"\">\n" +
+    "          </div>\n" +
+    "          <div class=\"col\">\n" +
+    "            <h4>Accords mets/vin</h4>\n" +
+    "            <p>{{::bottle.wine.food}}</p>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row row-center\">\n" +
+    "          <div class=\"col col-20 centered\">\n" +
+    "            <img class=\"logo-wine-desc\" src=\"assets/utils/logo_grapes.png\" alt=\"\">\n" +
+    "          </div>\n" +
+    "          <div class=\"col\">\n" +
+    "            <h4>Producteur</h4>\n" +
+    "            <p>{{::bottle.wine.domain}}</p>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"row row-center\">\n" +
+    "          <div class=\"col col-20 centered\">\n" +
+    "            <div class=\"testimonial-rating\">4,5</div>\n" +
+    "          </div>\n" +
+    "          <div class=\"col\">\n" +
+    "            <h4>Un commentaire client</h4>\n" +
+    "            <p>{{::bottle.wine.testimonial}}</p>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"row row-center row-advice\">\n" +
+    "          <div class=\"col col-20 centered\">\n" +
+    "            <img src=\"assets/utils/termometer.svg\" alt=\"\">\n" +
+    "          </div>\n" +
+    "          <div class=\"col\">\n" +
+    "            <h4>Conseils de service</h4>\n" +
+    "            <p class=\"advice advice-temp \">\n" +
+    "              Temp. de dégustation : <br>\n" +
+    "              <span class=\"temp\">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>\n" +
+    "            </p>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "\n" +
+    "        <div class=\"card\">\n" +
+    "          <div class=\"item item-text-wrap\">\n" +
+    "            <h2 class=\"centered\">À savoir</h2>\n" +
+    "            <p>{{::bottle.wine.education}}</p>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "\n" +
+    "      <div class=\"row row-buttons\">\n" +
+    "            <div class=\"col\">\n" +
+    "              <a class=\"button button-outline-primary\" ng-click=\"openModal()\">\n" +
+    "                Modifier\n" +
+    "              </a>\n" +
+    "            </div>\n" +
+    "    <!--               <div class=\"col\">\n" +
+    "              <a class=\"button button-less\" ng-click=\"openGroupModal()\">\n" +
+    "                Noter à plusieurs\n" +
+    "              </a>\n" +
+    "            </div> -->\n" +
+    "      </div>\n" +
+    "    </div>\n" +
     "\n" +
     "  </ion-content>\n" +
     "</ion-view>");
@@ -1503,7 +1615,7 @@ angular.module("home/vinibar/vinibar.desktop.tpl.html", []).run(["$templateCache
     "			</a>\n" +
     "		</ion-list>\n" +
     "		<ion-list ng-if=\"segmentedControl.value === 'toDrink'\">\n" +
-    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter\" class=\"item\" href=\"#/wine/{{::bottle.uuid}}\">\n" +
+    "			<a ng-repeat=\"bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: {visible: true} | filter: searchFilter\" class=\"item\" href=\"#/wine/{{::bottle.uuid}}\">\n" +
     "					<h3>{{::bottle.wine.display_name}}</h3>\n" +
     "					<p class=\"vinitext\">\n" +
     "							{{::bottle.wine.region}}\n" +
@@ -2499,9 +2611,6 @@ angular.module("home/wine/wine.tpl.html", []).run(["$templateCache", function($t
     "            Temp. de dégustation : <br>\n" +
     "            <span class=\"temp\">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>\n" +
     "          </p>\n" +
-    "          <p class=\"advice advice-stock \">\n" +
-    "            voir les conseils de stockage\n" +
-    "          </p>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "\n" +
@@ -2539,9 +2648,10 @@ angular.module("sidemenu/sidemenu.tpl.html", []).run(["$templateCache", function
     "              <a href ui-sref=\"sidemenu.vinibar\" class=\"item\" menu-close><i class=\"icon ion-wineglass\"></i> Vinibar</a>\n" +
     "              <a href ui-sref=\"sidemenu.profile\" class=\"item\" menu-close><i class=\"icon ion-person\"></i> Profil</a>\n" +
     "              <a href ui-sref=\"sidemenu.order\" class=\"item\" menu-close><i class=\"icon ion-ios7-cart\"></i> Commander</a>\n" +
+    "              <a href ui-sref=\"sidemenu.orders\" class=\"item\" menu-close><i class=\"icon ion-clock\"></i> Mes commandes</a>\n" +
     "              <a ng-click=\"logOut()\" class=\"item\" menu-close><i class=\"icon ion-log-out\"></i> Se Déconnecter</a>\n" +
-    "              <a href=\"mailto:charlotte@vinify.co?subject=Feedback%20%7C%20Vinify%20App&amp;body=Bonjour%20!\" class=\"item\" menu-close><i class=\"icon ion-help-circled\"></i> Feedback</a>\n" +
-    "              <a href=\"https://api.vinify.co/api/users/password/reset/\" class=\"item\" menu-close><i class=\"icon ion-locked\"></i> Mot de passe</a>\n" +
+    "              <a href=\"mailto:charlotte@vinify.co?subject=Feedback%20%7C%20Vinify%20App&amp;body=Bonjour%20!\" class=\"item\" target=\"_blank\" menu-close><i class=\"icon ion-help-circled\"></i> Feedback</a>\n" +
+    "              <a href ng-click=\"openPasswordModal()\" class=\"item\" menu-close><i class=\"icon ion-locked\"></i> Mot de passe</a>\n" +
     "            </ul>\n" +
     "          </ion-content>\n" +
     "        </ion-side-menu>\n" +

@@ -19,8 +19,8 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   });
 })
 
-.controller('deliverymodeCtrl', function deliverymodeCtrl ($scope, $http, $state, orderInstance, SerializedOrder, $window,
-    User, Addresses, Address, addressList, $ionicModal, $ionicLoading, Loading, $cordovaToast, $cordovaNetwork, toasters, Pay) {
+.controller('deliverymodeCtrl', function deliverymodeCtrl ($scope, $state, orderInstance, SerializedOrder, $window,
+    User, Addresses, Address, addressList, $ionicModal, Loading, toasters, Pay) {
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;

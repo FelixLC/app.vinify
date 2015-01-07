@@ -1,4 +1,4 @@
-angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.tpl.html', 'tpl/oops.tpl.html', 'tpl/update.tpl.html', 'tpl/yipee.tpl.html']);
+angular.module('templates-common', ['security/loginform.tpl.html', 'tpl/address.tpl.html', 'tpl/oops.tpl.html', 'tpl/password.tpl.html', 'tpl/update.tpl.html', 'tpl/yipee.tpl.html']);
 
 angular.module("security/loginform.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("security/loginform.tpl.html",
@@ -135,6 +135,35 @@ angular.module("tpl/oops.tpl.html", []).run(["$templateCache", function($templat
     "  </ion-modal-view>");
 }]);
 
+angular.module("tpl/password.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("tpl/password.tpl.html",
+    "  <ion-modal-view>\n" +
+    "    <ion-header-bar class=\"bar-positive\">\n" +
+    "          <h1 class=\"title\">Mot de Passe</h1>\n" +
+    "          <button class=\"button\" ng-click=\"closePasswordModal()\">Terminé</button>\n" +
+    "    </ion-header-bar>\n" +
+    "    <ion-content>\n" +
+    "\n" +
+    "    <div class=\"list\">\n" +
+    "      <label class=\"item item-input item-floating-label\">\n" +
+    "        <span class=\"input-label\">Ancien Mot de Passe</span>\n" +
+    "        <input type=\"password\" ng-model=\"password.current\" placeholder=\"Ancien mot de passe\">\n" +
+    "      </label>\n" +
+    "      <label class=\"item item-input item-floating-label\">\n" +
+    "        <span class=\"input-label\">Nouveau mot de passe</span>\n" +
+    "        <input type=\"password\" ng-model=\"password.new\" placeholder=\"Nouveau mot de passe\">\n" +
+    "      </label>\n" +
+    "    </div>\n" +
+    "\n" +
+    "      <div class=\"centered\">\n" +
+    "        <button class=\"button button-outline-primary centered\" ng-click=\"changePassword(password.current, password.new)\">Changer de mot de passe</button>\n" +
+    "      </div>\n" +
+    "\n" +
+    "\n" +
+    "    </ion-content>\n" +
+    "  </ion-modal-view>");
+}]);
+
 angular.module("tpl/update.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("tpl/update.tpl.html",
     "  <ion-modal-view>\n" +
@@ -166,7 +195,7 @@ angular.module("tpl/yipee.tpl.html", []).run(["$templateCache", function($templa
     "    <ion-content>\n" +
     "    <div ng-style=\"full_height\" class=\"row row-center response-modal\">\n" +
     "      <div class=\"col centered\">\n" +
-    "        <img src=\"assets/utils/yipee.svg\" alt=\"Yipee\">\n" +
+    "        <img src=\"assets/utils/yipee.png\" alt=\"Yipee\">\n" +
     "        <h3>Yipee !</h3>\n" +
     "        <h4>Tout s'est bien passé.</h4>\n" +
     "      </div>\n" +

@@ -24,7 +24,7 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
             .success(function (data, status, headers, config) {
               User.setUser(data);
               if (success && angular.isFunction(success)) {
-                success();
+                success(data);
               }
             })
             .error(function (response) {
@@ -44,6 +44,21 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
       removeUser: function () {
         _user = {};
         OfflineUser.removeUser();
+      },
+      changePassword: function (currentPassword, newPassword, success, failure) {
+        $http.put(settings.apiEndPoint + '/users/password/change/', {
+          current_password: currentPassword,
+          new_password: newPassword
+        }).then(
+          function (response) {
+            if (success && angular.isFunction(success)) {
+              success(response.data);
+            }
+          }, function (error) {
+            if (failure && angular.isFunction(failure)) {
+              failure(error);
+            }
+          });
       },
       orderReceived: function () {
         $http.get(settings.apiEndPoint + '/orders/orderreceived/')
@@ -328,4 +343,16 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
     };
 
     return Address;
+  })
+
+  .factory('Orders', function ($http, settings) {
+
+    // instantiate our initial object
+    var service = {};
+
+    service.getList = function () {
+      return $http.get(settings.apiEndPoint + '/users/orders/');
+    };
+
+    return service;
   });

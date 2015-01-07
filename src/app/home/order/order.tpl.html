@@ -11,7 +11,11 @@
         </label>
         <div ng-if="!hideFirstCard" class="item">
           <div class="row row-center">
-            <div class="col col-20 centered"><img class="order-france-logo" src="assets/utils/france.svg" alt="cepage"></div>
+            <div class="col col-20 centered">
+              <img ng-if="order.data.refills[0]['price_level'] === 29.90 " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
+              <img ng-if="order.data.refills[0]['price_level'] === 39.90 " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
+              <img ng-if="order.data.refills[0]['price_level'] === 49.90 " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
+            </div>
             <div class="col item-text-wrap centered">
               <p ng-if="order.data.refills[0]['price_level'] === 29.90 ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
               <p ng-if="order.data.refills[0]['price_level'] === 39.90 ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
@@ -77,7 +81,11 @@
         </label>
         <div ng-if="!hideSecondCard" class="item">
           <div class="row row-center">
-            <div class="col col-20 centered"><img class="order-france-logo" src="assets/utils/france.svg" alt="cepage"></div>
+            <div class="col col-20 centered">
+              <img ng-if="order.data.refills[1]['price_level'] === 29.90 " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
+              <img ng-if="order.data.refills[1]['price_level'] === 39.90 " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
+              <img ng-if="order.data.refills[1]['price_level'] === 49.90 " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
+            </div>
             <div class="col item-text-wrap centered">
               <p ng-if="order.data.refills[1]['price_level'] === 29.90 ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
               <p ng-if="order.data.refills[1]['price_level'] === 39.90 ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
