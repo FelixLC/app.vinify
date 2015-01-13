@@ -25,7 +25,7 @@ angular.module('app', [
   'templates-common'
 ])
 
-  .run([ 'security', '$window', '$rootScope', '$document', 'User', function (security, $window, $rootScope, $document, User) {
+  .run([ 'security', '$window', '$rootScope', '$document', 'User', 'OfflineQueue', function (security, $window, $rootScope, $document, User, OfflineQueue) {
     //  Get the current user state the application starts
     //  (in case they are still logged in from a previous session)
     security.requestCurrentUser().then(function (result) {
@@ -44,6 +44,10 @@ angular.module('app', [
     var onDeviceReady = function () {
       security.requestCurrentUser().then(function (result) {
         console.log(result);
+      });
+      OfflineQueue.sendRatings().then(function (response) {
+        console.log(response);
+        Bottles.updateList();
       });
       document.addEventListener("offline", onNetworkOff, false);
       document.addEventListener("online", onNetworkOn, false);
@@ -68,6 +72,7 @@ angular.module('app', [
   } ])
 
 .controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals, settings, toasters) {
+
 
   //  Catches online event and fires Offline Queue
   $rootScope.$on('online', function (event) {
@@ -94,12 +99,7 @@ angular.module('app', [
             Update.isOutdated = false;
           });
       });
-      OfflineQueue.sendRatings().then(
-        function (response) {
-          Bottles.updateList();
-        }, function (response) {
-          Bottles.updateList();
-        });
+      Bottles.updateList();
     }
   });
 

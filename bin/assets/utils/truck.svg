@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8054) - http://www.bohemiancoding.com/sketch -->
+    <title>TRUCK</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Camion-2" sketch:type="MSLayerGroup" transform="translate(1.000000, 1.000000)">
+            <circle id="Oval-105" stroke="#FC3432" fill="#FC3432" sketch:type="MSShapeGroup" cx="24" cy="24" r="24"></circle>
+            <path d="M32.0615332,31.689462 L21.7671599,31.689462 C21.5846895,30.3969631 20.4784625,29.4085817 19.1365446,29.4085817 C17.7946266,29.4085817 16.6883997,30.3969631 16.5059293,31.689462 L13.4343437,31.689462 L13.4343437,18.0041799 L32.0615332,18.0041799 L32.0615332,31.689462 Z" id="Shape" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+            <path d="M37.7637341,21.8056472 L32.8218267,21.8056472 L32.8218267,31.689462 L33.9926786,31.689462 C34.175149,30.3969631 35.281376,29.4085817 36.6232939,29.4085817 C37.9652118,29.4085817 39.0714388,30.3969631 39.2539092,31.689462 L40.4247611,31.689462 L40.4247611,24.4666742 C40.4247611,22.9955064 39.2349019,21.8056472 37.7637341,21.8056472 L37.7637341,21.8056472 Z M39.6644677,25.6071144 L33.5821201,25.6071144 L33.5821201,22.5659406 L37.2999551,22.5659406 C39.284321,22.5659406 39.6644677,23.6227485 39.6644677,24.9304533 L39.6644677,25.6071144 L39.6644677,25.6071144 Z" id="Shape" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+            <ellipse id="Oval" fill="#FFFFFF" sketch:type="MSShapeGroup" cx="19.1365446" cy="32.0696087" rx="1.90073362" ry="1.90073362"></ellipse>
+            <ellipse id="Oval" fill="#FFFFFF" sketch:type="MSShapeGroup" cx="36.6232939" cy="32.0696087" rx="1.90073362" ry="1.90073362"></ellipse>
+            <rect id="Rectangle-path" fill="#FFFFFF" sketch:type="MSShapeGroup" x="8.49243631" y="20.2850603" width="3.80146724" height="0.760293449"></rect>
+            <rect id="Rectangle-path" fill="#FFFFFF" sketch:type="MSShapeGroup" x="8.49243631" y="24.0865275" width="3.80146724" height="0.760293449"></rect>
+            <rect id="Rectangle-path" fill="#FFFFFF" sketch:type="MSShapeGroup" x="8.49243631" y="27.8879948" width="3.80146724" height="0.760293449"></rect>
+        </g>
+    </g>
+</svg>

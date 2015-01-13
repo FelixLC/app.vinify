@@ -115,110 +115,110 @@
                 <p ng-if="bottle.comment">{{bottle.comment}}</p>
                 <div class="button-card"><span class="button-card--save" ng-click="openModal()">modifier</span></div>
               </div>
-        </div>
-  <!--         <div class="centered">
-            <button class="button share share-facebook"><img src="assets/utils/facebook.svg" alt="facebook-logo">  <img src="assets/utils/twitter.svg" alt="facebook-logo"> <img src="assets/utils/mail.svg" alt="mail-logo"> Partager ce vin</button>
-          </div> -->
-
-          <div class="row centered row-social">
-            <div class="social-container">
-              <div ng-click="share.facebook()" id="facebook"><p><i class="icon ion-social-facebook"></i></p></div>
-              <div ng-click="share.twitter()" id="twitter"><p><i class="icon ion-social-twitter"></i></p></div>
-              <div ng-click="share.mail()" id="mail"><p><i class="icon ion-paper-airplane"></i></p></div>
-            </div>
           </div>
-          <p class="centered">Partager ce vin pour gagner des ViniPoints !</p>
-
-  <!--         <div class="row">
-            <div class="col">
-                <button class="button share share-facebook"> <img src="assets/utils/facebook.svg" alt="facebook-logo"><p>Partager sur facebook</p></button>
-            </div>
-            <div class="col">
-                <button class="button share share-twitter"> <img src="assets/utils/twitter.svg" alt="facebook-logo"> <p>Partager sur twitter</p></button>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col col-25">
-            </div>
-            <div class="col">
-                <button class="button share share-mail"> <img src="assets/utils/mail.svg" alt="mail-logo"> <p>Partager <br> par mail</p></button>
-            </div>
-            <div class="col col-25">
-            </div>
-          </div> -->
-      <div class="wine-content">
-        <div class="row row-center">
-          <div class="col col-20 centered">
-            <img class="logo-wine-desc" src="assets/utils/logo_glass.png" alt="">
-          </div>
-          <div class="col">
-            <h4>Description</h4>
-            <p>{{::bottle.wine.tasting}}</p>
-          </div>
-        </div>
-        <div class="row row-center">
-          <div class="col col-20 centered">
-            <img class="logo-wine-desc" src="assets/utils/logo_forks.png" alt="">
-          </div>
-          <div class="col">
-            <h4>Accords mets/vin</h4>
-            <p>{{::bottle.wine.food}}</p>
-          </div>
-        </div>
-        <div class="row row-center">
-          <div class="col col-20 centered">
-            <img class="logo-wine-desc" src="assets/utils/logo_grapes.png" alt="">
-          </div>
-          <div class="col">
-            <h4>Producteur</h4>
-            <p>{{::bottle.wine.domain}}</p>
-          </div>
-        </div>
-        <div class="row row-center">
-          <div class="col col-20 centered">
-            <div class="testimonial-rating">4,5</div>
-          </div>
-          <div class="col">
-            <h4>Un commentaire client</h4>
-            <p>{{::bottle.wine.testimonial}}</p>
-          </div>
-        </div>
-
-        <div class="row row-center row-advice">
-          <div class="col col-20 centered">
-            <img src="assets/utils/termometer.svg" alt="">
-          </div>
-          <div class="col">
-            <h4>Conseils de service</h4>
-            <p class="advice advice-temp ">
-              Temp. de dégustation : <br>
-              <span class="temp">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>
-            </p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="item item-text-wrap">
-            <h2 class="centered">À savoir</h2>
-            <p>{{::bottle.wine.education}}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="row row-buttons">
-            <div class="col">
-              <a class="button button-outline-primary" ng-click="openModal()">
-                Modifier
-              </a>
-            </div>
-    <!--               <div class="col">
-              <a class="button button-less" ng-click="openGroupModal()">
-                Noter à plusieurs
-              </a>
+    <!--         <div class="centered">
+              <button class="button share share-facebook"><img src="assets/utils/facebook.svg" alt="facebook-logo">  <img src="assets/utils/twitter.svg" alt="facebook-logo"> <img src="assets/utils/mail.svg" alt="mail-logo"> Partager ce vin</button>
             </div> -->
-      </div>
-    </div>
 
+            <div class="row centered row-social">
+              <div class="social-container">
+                <div ng-click="share.facebook()" id="facebook"><p><i class="icon ion-social-facebook"></i></p></div>
+                <div ng-click="share.twitter()" id="twitter"><p><i class="icon ion-social-twitter"></i></p></div>
+                <div ng-click="share.mail()" id="mail"><p><i class="icon ion-paper-airplane"></i></p></div>
+              </div>
+            </div>
+            <p class="centered">Partager ce vin pour gagner des ViniPoints !</p>
+
+    <!--         <div class="row">
+              <div class="col">
+                  <button class="button share share-facebook"> <img src="assets/utils/facebook.svg" alt="facebook-logo"><p>Partager sur facebook</p></button>
+              </div>
+              <div class="col">
+                  <button class="button share share-twitter"> <img src="assets/utils/twitter.svg" alt="facebook-logo"> <p>Partager sur twitter</p></button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col col-25">
+              </div>
+              <div class="col">
+                  <button class="button share share-mail"> <img src="assets/utils/mail.svg" alt="mail-logo"> <p>Partager <br> par mail</p></button>
+              </div>
+              <div class="col col-25">
+              </div>
+            </div> -->
+        <div class="wine-content">
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_glass.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Description</h4>
+              <p>{{::bottle.wine.tasting}}</p>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_forks.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Accords mets/vin</h4>
+              <p>{{::bottle.wine.food}}</p>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_grapes.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Producteur</h4>
+              <p>{{::bottle.wine.domain}}</p>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <div class="testimonial-rating">4,5</div>
+            </div>
+            <div class="col">
+              <h4>Un commentaire client</h4>
+              <p>{{::bottle.wine.testimonial}}</p>
+            </div>
+          </div>
+
+          <div class="row row-center row-advice">
+            <div class="col col-20 centered">
+              <img src="assets/utils/termometer.svg" alt="">
+            </div>
+            <div class="col">
+              <h4>Conseils de service</h4>
+              <p class="advice advice-temp ">
+                Temp. de dégustation : <br>
+                <span class="temp">{{::bottle.wine.temperature_min}}°C - {{::bottle.wine.temperature_max}}°C </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="item item-text-wrap">
+              <h2 class="centered">À savoir</h2>
+              <p>{{::bottle.wine.education}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row row-buttons">
+              <div class="col">
+                <a class="button button-outline-primary" ng-click="openModal()">
+                  Modifier
+                </a>
+              </div>
+      <!--               <div class="col">
+                <a class="button button-less" ng-click="openGroupModal()">
+                  Noter à plusieurs
+                </a>
+              </div> -->
+        </div>
+      </div>
+      <div class="centered"><a class="button button-outline-primary centered" href ui-sref="sidemenu.wine_know_more({uuid: id})">En savoir plus</a></div>
   </ion-content>
 </ion-view>

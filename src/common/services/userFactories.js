@@ -77,7 +77,7 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
 
   .factory('Bottles', function ($q, $http, Loading, OfflineWineData, settings) {
     // instantiate our initial object
-    var _bottles = null;
+    var _bottles = {};
 
     return {
       getList: function () {

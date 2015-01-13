@@ -1,24 +1,33 @@
-angular.module('Offline', [ 'LocalStorageModule', 'settings' ])
-.factory('OfflineQueue', function (localStorageService, $q) {
-  // instantiate our initial object
-  var _ratingQueue = [];
-  var _updateRatingQueue = [];
-  var _groupRatingQueue = [];
+angular.module('Offline', [ 'LocalStorageModule', 'settings', 'Rating' ])
+.factory('OfflineQueue', function (localStorageService, $q, Rating) {
+  // instantiate our initial object with local storage or empty array
+  var _ratingQueue = localStorageService.get('ratings') || [];
+  var _updateRatingQueue = localStorageService.get('updateRatings') || [];
+  var _groupRatingQueue = localStorageService.get('groupRatings') || [];
 
   var _rateAndDelete = function (i) {
-    _ratingQueue[i].rateWine()
+    var rating = new Rating(_ratingQueue[i]['data']['bottle_uuid'],
+                                                    _ratingQueue[i]['data']['rating'],
+                                                    _ratingQueue[i]['data']['comment']);
+    rating.rateWine()
       .success(function (response) {
         _ratingQueue.splice(i, 1);
       });
   };
   var _updateRatingAndDelete = function (i) {
-    _updateRatingQueue[i].updateWine()
+    var rating = new Rating(_updateRatingQueue[i]['data']['bottle_uuid'],
+                                                    _updateRatingQueue[i]['data']['rating'],
+                                                    _updateRatingQueue[i]['data']['comment']);
+    rating.updateWine()
       .success(function (response) {
         _updateRatingQueue.splice(i, 1);
       });
   };
   var _groupRateAndDelete = function (i) {
-    _groupRatingQueue[i].rateWines()
+    var rating = new Rating(_groupRatingQueue[i]['data']['bottle_uuid'],
+                                                    _groupRatingQueue[i]['data']['rating'],
+                                                    _groupRatingQueue[i]['data']['comment']);
+    rating.rateWines()
       .success(function (response) {
         _groupRatingQueue.splice(i, 1);
       });

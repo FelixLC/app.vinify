@@ -23,7 +23,7 @@ angular.module('Rating', [ 'ngResource', 'User', 'settings' ])
       Rating.prototype.updateWine = function () {
         theUrl = '/wines/updaterating/';
         var data = this.data;
-        return $http(settings.apiEndPoint + theUrl, data)
+        return $http.post(settings.apiEndPoint + theUrl, data)
           .success(function (data, status, headers, config) {
             Bottles.setList(data);
           });

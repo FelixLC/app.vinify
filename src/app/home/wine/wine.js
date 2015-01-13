@@ -134,7 +134,7 @@
                                   $scope.closeModal();
                                   SegmentedControlState.value = 'rated';
                                   $state.go('sidemenu.vinibar');
-                                  $cordovaToast.show('Offline Rating ...', 'short', 'top');
+                                  $cordovaToast.show('Note Enregistrée ...', 'short', 'top');
                   });
 
               } else {//if we are online
