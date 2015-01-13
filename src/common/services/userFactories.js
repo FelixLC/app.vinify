@@ -30,7 +30,7 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
             .error(function (response) {
               // TODO manage errors
               // alert(data);
-              location.path('/login');
+              $location.path('/login');
             });
       },
       postUser: function (firstName, LastName, phone, email) {
@@ -89,19 +89,15 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
           return $q.when({ data: _bottles });
         } else {
           Loading.show();
-          // promise = $resource( settings.restApiEndPoint + '/vinibar/' )
-          var promise = $http({
-            url:  settings.restApiEndPoint + '/vinibar/' ,
-            method: 'GET'
-          })
-          .success(function (data, status, headers, config) {
-            Loading.hide();
-            _bottles = data;
-            OfflineWineData.setWines(data);
-          })
-          .error(function (data) {
-            Loading.hide();
-          });
+          var promise = $http.get(settings.restApiEndPoint + '/vinibar/')
+            .success(function (data, status, headers, config) {
+              Loading.hide();
+              _bottles = data;
+              OfflineWineData.setWines(data);
+            })
+            .error(function (data) {
+              Loading.hide();
+            });
           return promise;
         }
       },
@@ -123,21 +119,13 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
       updateList: function () {
         // TODO REFACTOR
         // returning fetched bottlesList
-        return $http({
-              url:  settings.restApiEndPoint + '/vinibar/' ,
-              method: 'GET'
+        return $http.get(settings.restApiEndPoint + '/vinibar/')
+            .success(function (BottlesData) {
+              _bottles = BottlesData;
+              OfflineWineData.setWines(BottlesData);
+              return $q.when({ data: _bottles });
             })
-            .success(
-              // Success Handler
-              function (BottlesData) {
-                _bottles = BottlesData;
-                OfflineWineData.setWines(BottlesData);
-                return $q.when({ data: _bottles });
-              })
-            .error(
-              // Error Handler
-              function (data) {}
-            );
+            .error(function (data) {});
       },
 
       setList: function (list) {
@@ -188,20 +176,12 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
         deferred.resolve(Addresses);
       } else {
 
-        promise = $http({
-              url:  settings.apiEndPoint + '/users/addresses/',
-              method: 'GET'
+        promise = $http.get(settings.apiEndPoint + '/users/addresses/')
+            .success(function (addressData) {
+              Addresses.data = addressData;
+              return Addresses.data;
             })
-            .success(
-              // Success Handler
-              function (addressData) {
-                Addresses.data = addressData;
-                return Addresses.data;
-              })
-            .error(
-              // Error Handler
-              function (data) {}
-            );
+            .error(function (data) {});
       }
 
       return promise;

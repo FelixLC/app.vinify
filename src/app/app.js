@@ -30,7 +30,6 @@ angular.module('app', [
     //  (in case they are still logged in from a previous session)
     security.requestCurrentUser().then(function (result) {
       console.log(result);
-      console.log(window.device);
     });
     var onNetworkOff = function () {
       $rootScope.$broadcast('offline');
@@ -52,6 +51,7 @@ angular.module('app', [
       //  Mock device.platform property if not available
       if (!window.device) {
         window.device = { platform: 'Browser' };
+        console.log(window.device);
       }
     };
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -82,6 +82,8 @@ angular.module('app', [
 
   $rootScope.$on('resume', function (event) {
     if (ionic.Platform.isWebView() && $cordovaNetwork.isOnline()) { // if we are in cordova && online
+      User.updateUser();
+      Referrals.updateList();
       // we check if there is an update
       security.requestCurrentUser().then(function (result) {
         Update.checkUpdate(result.uuid, ionic.Platform.device())
@@ -92,11 +94,12 @@ angular.module('app', [
             Update.isOutdated = false;
           });
       });
-      OfflineQueue.sendRatings().then(function (response) {
-        Bottles.updateList();
-      });
-      User.updateUser();
-      Referrals.updateList();
+      OfflineQueue.sendRatings().then(
+        function (response) {
+          Bottles.updateList();
+        }, function (response) {
+          Bottles.updateList();
+        });
     }
   });
 

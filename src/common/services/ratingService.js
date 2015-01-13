@@ -1,104 +1,77 @@
-angular.module('Rating', ['ngResource', 'User'])
+angular.module('Rating', [ 'ngResource', 'User', 'settings' ])
 
-.factory('Rating', function ($http, Bottles) {
-     var apiEndPoint =  'http://127.0.0.1:8000/api';
-     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
+    .factory('Rating', function ($http, Bottles, settings) {
 
-    var Rating = function (uuid, urating, ucomment) {
+      var Rating = function (uuid, urating, ucomment) {
         this.data = {
             bottle_uuid:  uuid,
             // set to previous rating or null if unrated
-            rating: (typeof urating === "undefined") ? null : urating,
-            comment: (typeof ucomment === "undefined") ? null : ucomment
+            rating: urating || null,
+            comment: ucomment || null
         };
-    };
+      };
 
-    // Rating.protoype.rateWine = function (id) {
+      // Rating.protoype.rateWine = function (id) {
 
-    // };
+      // };
 
-    // Url & request private variables
-    var theUrl;
+      // Url & request private variables
+      var theUrl;
 
 
-// TODO REFACTOR
-    Rating.prototype.updateWine = function () {
+      // TODO REFACTOR
+      Rating.prototype.updateWine = function () {
         theUrl = '/wines/updaterating/';
         var data = this.data;
-        var request = $http({
-                        url:  apiEndPoint + theUrl,
-                        method: 'POST',
-                        data: data,
-                        headers: {
-                          'Content-Type': 'application/json; charset=UTF-8'
-                        }
-                      });
-          return request.success(function (data, status, headers, config) {
-                                                            Bottles.setList(data);
-                                                        });
-    };
+        return $http(settings.apiEndPoint + theUrl, data)
+          .success(function (data, status, headers, config) {
+            Bottles.setList(data);
+          });
+      };
 
-    Rating.prototype.rateWine = function () {
+      Rating.prototype.rateWine = function () {
         // Rate and update BotlesList
         theUrl = '/wines/rate/';
         var data = this.data;
-        var request = $http({
-                        url:  apiEndPoint + theUrl,
-                        method: 'POST',
-                        data: data,
-                        headers: {
-                          'Content-Type': 'application/json; charset=UTF-8'
-                        }
-                      });
-          return request.success(function (data, status, headers, config) {
-                                                            Bottles.setList(data);
-                                                        });
-    };
+        return $http.post(settings.apiEndPoint + theUrl, data)
+          .success(function (data, status, headers, config) {
+            Bottles.setList(data);
+          });
+      };
 
-    return Rating;
-})
+      return Rating;
+    })
 
-.factory('GroupRating', function ($http, Bottles, Rating) {
-     var apiEndPoint =  'http://127.0.0.1:8000/api';
-     var restApiEndPoint =  'http://127.0.0.1:8000/restapi';
+    .factory('GroupRating', function ($http, Bottles, Rating, settings) {
 
-    var GroupRating = function (uuid, urating, num) {
-        // TODO PUSH RATING WHEN THEY COME
+      var GroupRating = function (uuid, urating, num) {
+          // TODO PUSH RATING WHEN THEY COME
         this.data = {
-            wine_uuid: uuid,
-            ratings:[]
+          wine_uuid: uuid,
+          ratings: []
         };
         for (var i = num - 1; i >= 0; i--) {
-            this.data.ratings.push(new GuestRating(urating));
-         }
-    };
+          this.data.ratings.push(new GuestRating(urating));
+        }
+      };
 
-    var GuestRating = function (urating) {
-            this.email =  "";
-            this.rating =  (typeof urating === "undefined") ? null : urating;
-            this.comment = "";
-    };
+      var GuestRating = function (urating) {
+        this.email =  "";
+        this.rating =  urating || null;
+        this.comment = "";
+      };
 
-    GroupRating.prototype.addRating = function (guestRating) {
+      GroupRating.prototype.addRating = function (guestRating) {
         this.data.ratings.push(guestRating);
-    };
+      };
 
-    GroupRating.prototype.rateWines = function () {
-
+      GroupRating.prototype.rateWines = function () {
         var data = this.data;
-        var request = $http({
-                            url: apiEndPoint + '/wines/guestrating/',
-                            method: 'POST',
-                            data: data,
-                            headers: {
-                              'Content-Type': 'application/json; charset=UTF-8'
-                            }
-                          });
+        return $http.post(settings.apiEndPoint + '/wines/guestrating/', data)
+        .success(function (data, status, headers, config) {
+          Bottles.setList(data);
+        });
+      };
 
-          return request.success(function (data, status, headers, config) {
-                                                            Bottles.setList(data);
-                                                        });
-    };
-
-    return GroupRating;
-});
+      return GroupRating;
+    });

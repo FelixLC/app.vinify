@@ -1,5 +1,5 @@
 angular.module('Update', [ 'settings' ])
-  .factory('Update', function ($http) {
+  .factory('Update', function ($http, settings) {
 
     var that = this;
     var _version = 1.4;

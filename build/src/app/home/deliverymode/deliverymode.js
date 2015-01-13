@@ -52,9 +52,10 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
       Loading.show();
       $scope.order.data.delivery_cost = $scope.deliveryPrices[$scope.order.data.delivery_mode][$scope.order.data.quantity - 1];
       console.log($scope.order.data.delivery_mode === 'Point Relais', $scope.user.delivery_shop && !$scope.mrShop.hasChanged);
-      $scope.order.data.delivery_mode = ($scope.order.data.delivery_mode === 'Point Relais' &&
-                                                                              $scope.user.delivery_shop && !$scope.mrShop.hasChanged) ?
+      if ($scope.order.data.delivery_mode === 'Point Relais') {
+        $scope.order.data.delivery_mode = ($scope.user.delivery_shop && !$scope.mrShop.hasChanged) ?
                                                                               $scope.user.delivery_shop.shop_id : 'Point Relais';
+      }
 
       $scope.order.createRefillOrder().then(
         function (data) {

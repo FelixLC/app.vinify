@@ -1,43 +1,40 @@
-// Based loosely around work by Witold Szczerba - https://github.com/witoldsz/angular-http-auth
-angular.module('security.service', [
-  'security.login.form',         // Contains the login form template and controller
-  'User', 'Referrals',
-  'Loading',
-  'Offline',
-  'ngCookies',
-  'Update',
-  'settings'
-])
-.factory('security', [ '$http', '$q', '$location', 'User', 'Bottles', 'Referrals', 'Addresses', '$window', 'Loading', 'OfflineUser', '$cookies', 'Update', 'settings',
-  function ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings) {
-  // Redirect to the given url (defaults to '/')
-  function redirect (url) {
-    url = url || '/';
-    $location.path(url);
-  }
+(function () {
+  'use strict';
 
-  // // Register a handler for when an item is added to the retry queue
-  // queue.onItemAddedCallbacks.push(function (retryItem) {
-  //   if (queue.hasMore()) {
-  //     service.showLogin();
-  //   }
-  // });
+  angular
+    .module('security.service', [
+      'security.login.form',         // Contains the login form template and controller
+      'User', 'Referrals',
+      'Loading',
+      'Offline',
+      'ngCookies',
+      'Update',
+      'settings'
+    ])
+    .factory('security', security);
 
-  // The public API of the service
-  var service = {
+    /* @ngInject */
+  function security ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings) {
+    var service = {
+      login: login, // Attempt to authenticate a user by the given email and password
+      logout: logout, // Logout the current user and redirect
+      requestCurrentUser: requestCurrentUser, // Ask the backend to see if a user is already authenticated
+      currentUser: null, // Information about the current user
+      currentUserData: null,
+      isAuthenticated: isAuthenticated, // Is the current user authenticated?
+      isStaff: isStaff // Is the current user an adminstrator?
+    };
 
-    // // Get the first reason for needing a login
-    // getLoginReason: function () {
-    //   return queue.retryReason();
-    // },
+    return service;
 
-    // Show the modal login dialog
-    showLogin: function () {
-      redirect('/login');
-    },
+    // Redirect to the given url (defaults to '/')
+    function redirect (url) {
+      url = url || '/';
+      $location.path(url);
+    }
 
     // Attempt to authenticate a user by the given email and password
-    login: function (email, password) {
+    function login (email, password) {
       Loading.show();
       service.currentUser = null;
       User.removeUser();
@@ -58,16 +55,15 @@ angular.module('security.service', [
                                       User.setUser(data);
                                       // SET AUTH TOKEN FOR FURTHER REQUESTS
                                       $window.sessionStorage.token = data.token;
-                                      console.log($window.sessionStorage.token);
                                       return service.isAuthenticated();
                                     })
                                     .error(function () {
                                       Loading.hide();
                                     });
-    },
+    }
 
     // Logout the current user and redirect
-    logout: function (redirectTo) {
+    function logout (redirectTo) {
       service.currentUser = null;
       // Erase all traces.
       User.removeUser();
@@ -77,10 +73,10 @@ angular.module('security.service', [
       console.log('removing traces');
       delete $window.sessionStorage.token;
       redirect(redirectTo);
-    },
+    }
 
     // Ask the backend to see if a user is already authenticated - this may be from a previous session.
-    requestCurrentUser: function () {
+    function requestCurrentUser () {
       if (service.isAuthenticated()) {
         // let's go home
         console.log('Method isAuth');
@@ -92,44 +88,21 @@ angular.module('security.service', [
         return $q.when(User.getUser());
       } else {
         // We don't need to try isloggedin. Without token we're naked.
-        // return $http.get(settings.apiEndPoint + '/users/isloggedin/').then(
-        //   //Success: set currentUser
-        //   function (response) {
-        //     service.currentUser = response.data;
-        //     User.setUser(response.data);
-        //     OfflineUser.setUser(data);
-        //     $window.sessionStorage.token = response.data.token;
-        //     console.log($window.sessionStorage.token);
-        //     return service.currentUser;
-        //   },
-          // Error: Reroute User to login
-          // function () {
         $location.path('/login');
         console.log('Redirect');
         delete $window.sessionStorage.token;
         return $q.reject('Not logged in');
-          // var deferred = $q.defer;
-          // deferred.reject('error');
-          // return deferred.promise;
-        // }
-        // );
       }
-    },
-
-    // Information about the current user
-    currentUser: null,
-    currentUserData: null,
+    }
 
     // Is the current user authenticated?
-    isAuthenticated: function () {
+    function isAuthenticated () {
       return !!service.currentUser;
-    },
+    }
 
     // Is the current user an adminstrator?
-    isStaff: function () {
+    function isStaff () {
       return !!(service.currentUser && service.currentUser.is_staff);
     }
-  };
-
-  return service;
-}]);
+  }
+})();
