@@ -1,4 +1,4 @@
-  angular.module('app.order', [ 'Order', 'User' ])
+  angular.module('app.order', [ 'Order', 'User', 'settings' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.order', {
@@ -29,7 +29,11 @@
           }
         };
       })
-      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User) {
+      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts) {
+
+        // prepare for next screen
+        User.updateUser();
+        deliveryCosts.get('FR', function () {});
 
         $scope.prices = {
           "29€90": 29.90,
@@ -99,9 +103,7 @@
               value.split.red = (value.split.red) ? value.split.red : 0;
             });
             orderInstance.setOrderInstance($scope.order);
-            User.updateUser(function () {
-              $state.go('sidemenu.deliverymode');
-            });
+            $state.go('sidemenu.deliverymode');
           }
         };
 

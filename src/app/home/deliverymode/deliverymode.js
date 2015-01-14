@@ -1,4 +1,4 @@
-angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'Toaster', 'payingService' ])
+angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'Toaster', 'payingService', 'settings' ])
 .config(function ($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('sidemenu.deliverymode', {
@@ -20,7 +20,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
 })
 
 .controller('deliverymodeCtrl', function deliverymodeCtrl ($scope, $state, orderInstance, SerializedOrder, $window,
-    User, Addresses, Address, addressList, $ionicModal, Loading, toasters, Pay) {
+    User, Addresses, Address, addressList, $ionicModal, Loading, toasters, Pay, deliveryCosts) {
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
@@ -35,11 +35,21 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   $scope.calcHeight = {
     "min-height": appropriatedHeight + 'px'
   };
-  $scope.deliveryPrices = {
-    'Point Relais': [ 4.90, 8.90 ],
-    Vinify: [ 0, 0 ],
-    Colissimo: [ 8.90, 11.90 ]
-  };
+  deliveryCosts.get('FR',
+    function (costs) {
+      $scope.deliveryPrices = {
+        'Point Relais': [ costs[0]['relay3'], costs[0]['relay6'] ],
+        Vinify: [ costs[0]['pickup3'], costs[0]['pickup6'] ],
+        Colissimo: [ costs[0]['classic3'], costs[0]['classic6'] ]
+      };
+    },
+    function () {
+      $scope.deliveryPrices = {
+        'Point Relais': [ 4.90, 8.90 ],
+        Vinify: [ 0, 0 ],
+        Colissimo: [ 8.90, 11.90 ]
+      };
+    });
   $scope.credits = {
     has: !!$scope.user.credits,
     value: $scope.user.credits
