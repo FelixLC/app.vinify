@@ -16,7 +16,19 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
   })
   .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay, settings, toasters, $ionicHistory) {
     $scope.serializedOrder = SerializedOrder;
+    $scope.user = User.getUser();
+    console.log(User.getUser);
+    console.log($scope.user.is_staff);
     console.log(SerializedOrder);
+
+    $scope.test = settings.test;
+
+    $scope.toggleTest = function () {
+      console.log(settings.test);
+      settings.test = !settings.test;
+      console.log(settings.test);
+    };
+
     Stripe.setPublishableKey((settings.test) ? 'pk_test_sK21onMmCuKNuoY7pbml8z3Q' : 'pk_live_gNv4cCe8tsZpettPUsdQj25F');
 
     $scope.submit = function (status, response) {
@@ -82,6 +94,4 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
       // var len = string.length - 2;
       // return string.substring(0, len) + "." + string.substring(len);
     };
-
-    $scope.user = User.getUser();
   });

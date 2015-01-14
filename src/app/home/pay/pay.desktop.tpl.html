@@ -1,4 +1,8 @@
 <ion-view title="Commander" id="pay-view">
+  <ion-nav-buttons side="right">
+    <button ng-click="toggleTest()" ng-show="userIs.staff && !settings.test" class="button button-icon ion-toggle"></button>
+    <button ng-click="toggleTest()" ng-show="userIs.staff && settings.test" class="button button-icon ion-toggle-filled"></button>
+  </ion-nav-buttons>
  <ion-content overflow-scroll="true" has-bouncing="false">
    <div ng-style="calcHeight" class="pay-header">
        <h3 class="centered">Récapitulatif de ma commande</h3>

@@ -48,6 +48,15 @@
          </div>
      </div>
      </div>
+    <div class="item item-toggle">
+       <i class="icon ion-gear-a"></i> Test
+       <label class="toggle toggle-assertive">
+         <input type="checkbox" ng-model="settings.test" ng-change="toggleTest()">
+         <div class="track">
+           <div class="handle"></div>
+         </div>
+       </label>
+    </div>
      <form ng-if="serializedOrder.final_price" name="stripe-form" id="stripe-form" stripe-form="submit">
       <img class="pull-right" src="assets/utils/poweredbystripe.svg" alt="stripe_verification">
        <div class="row item">

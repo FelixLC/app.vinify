@@ -29,10 +29,14 @@
           }
         };
       })
-      .controller('orderCtrl', function orderCtrl ($scope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts) {
+      .controller('orderCtrl', function orderCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts) {
 
         // prepare for next screen
-        User.updateUser();
+        User.updateUser(function (user) {
+          $rootScope.userIs = {
+            staff: user.is_staff
+          };
+        });
         deliveryCosts.get('FR', function () {});
 
         $scope.prices = {

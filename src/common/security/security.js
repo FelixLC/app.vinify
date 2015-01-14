@@ -14,7 +14,7 @@
     .factory('security', security);
 
     /* @ngInject */
-  function security ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings) {
+  function security ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings, $ionicHistory) {
     var service = {
       login: login, // Attempt to authenticate a user by the given email and password
       logout: logout, // Logout the current user and redirect
@@ -67,10 +67,11 @@
       service.currentUser = null;
       // Erase all traces.
       User.removeUser();
+      $ionicHistory.clearCache();
       Addresses.removeAddresses();
       Referrals.removeReferrals();
       Bottles.removeBottles();
-      console.log('removing traces');
+      console.log('removing all traces');
       delete $window.sessionStorage.token;
       redirect(redirectTo);
     }

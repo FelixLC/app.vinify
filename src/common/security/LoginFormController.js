@@ -55,6 +55,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'
             $scope.authError = 'Combinaison email/mot de passe erronée';
             }
             else {
+              $rootScope.isStaff = loggedIn.data.is_staff;
               //check if there is an update
             Update.checkUpdate(loggedIn.data.uuid, ionic.Platform.device())
               .success(function (response) {
