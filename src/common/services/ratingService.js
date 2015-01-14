@@ -11,10 +11,6 @@ angular.module('Rating', [ 'ngResource', 'User', 'settings' ])
         };
       };
 
-      // Rating.protoype.rateWine = function (id) {
-
-      // };
-
       // Url & request private variables
       var theUrl;
 

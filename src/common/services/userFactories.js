@@ -82,7 +82,7 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
     return {
       getList: function () {
         // TODO REFACTOR
-        if (_bottles) {
+        if (_bottles.count) {
           return $q.when({ data: _bottles });
         } else if (OfflineWineData.getWines()) {
           _bottles = OfflineWineData.getWines();

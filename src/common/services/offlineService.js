@@ -142,7 +142,7 @@ angular.module('Offline', [ 'LocalStorageModule', 'settings', 'Rating' ])
 
   return {
     getWines: function () {
-      // returns null in not set
+      // returns null if not set
       return localStorageService.get('wines');
     },
     setWines: function (wines) {
