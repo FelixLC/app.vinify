@@ -80,6 +80,7 @@ angular.module('app', [
       console.log(response);
       Bottles.updateList();
     });
+    User.updateUser();
     console.log('Updating User ...');
     Referrals.updateList();
   });
