@@ -1,6 +1,6 @@
 <ion-view title="Vinibar" id="vinibar">
 	<ion-nav-buttons side="right">
-		<button class="button" ng-click="search.toggle = !search.toggle">
+		<button class="button" ng-click="searchToggle()">
 			<i class="icon ion-search"></i>
 		</button>
 	</ion-nav-buttons>
@@ -14,9 +14,9 @@
 		<div ng-if="search.toggle" class="item-input-inset search-vinibar">
 			<label class="item-input-wrapper">
 				<i class="icon ion-ios7-search placeholder-icon"></i>
-				<input type="search" ng-model="search.value" placeholder="Search">
+				<input type="search" ng-model="search.value" focus-on="focusMe" placeholder="Search">
 			</label>
-			<button class="button-clear" ng-click="search.value = '' ">
+			<button class="button-clear" ng-click="search.value = ''; search.toggle = !search.toggle ">
 				Annuler
 			</button>
 		</div>

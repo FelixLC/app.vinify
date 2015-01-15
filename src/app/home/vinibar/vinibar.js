@@ -18,8 +18,24 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
             }
           }
       });
- })
-.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState, toasters, settings) {
+  })
+  .directive('focusOn', function () {
+    return function (scope, elem, attr) {
+      scope.$on('focusOn', function (e, name) {
+        if (name === attr.focusOn) {
+          elem[0].focus();
+        }
+      });
+    };
+  })
+  .factory('focus', function ($rootScope, $timeout) {
+    return function (name) {
+      $timeout(function () {
+        $rootScope.$broadcast('focusOn', name);
+      });
+    };
+  })
+.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState, toasters, settings, focus) {
   var init = function () {
     $scope.bottleList = bottles.data;
     $scope.user = User.getUser();
@@ -44,7 +60,10 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
       $scope.user = User.getUser();
     });
   };
-
+  $scope.searchToggle = function () {
+    $scope.search.toggle = !$scope.search.toggle;
+    focus('focusMe');
+  };
   $scope.questionnaire = function () {
     window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');
   };
