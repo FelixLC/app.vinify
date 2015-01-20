@@ -22,7 +22,7 @@
          <div class="row row-center">
            <div class="col">
              <h3>Livraison </h3>
-             <p>{{::serializedOrder.delivery_mode}} </p>
+             <p>{{::displayDeliveryMode(serializedOrder.delivery_mode)}} </p>
            </div>
            <div class="col">
               <p>{{::displayPrice(serializedOrder.delivery_cost)}} €</p>

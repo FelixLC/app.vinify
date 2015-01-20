@@ -1,5 +1,5 @@
 <ion-view title="Mode de Livraison" id="delivery-mode-view">
-  <ion-content class="has-footer" has-bouncing="false">
+  <ion-content has-bouncing="false">
     <div class="content-container">
       <div class="list">
         <label class="item item-radio">
@@ -137,14 +137,17 @@
                   <button class="button button-outline-primary" ng-click="openModal()">Modifier</button>
             </div>
             <div ng-if="order.data.delivery_mode === 'Point Relais' && user.delivery_shop" class="col">
-                  <button class="button button-outline-primary" ng-click="mrShop.hasChanged = !mrShop.hasChanged">Modifier</button>
+                  <button class="button button-outline-primary" ng-click="mrShop.hasChanged = !mrShop.hasChanged">
+                    <span ng-show="mrShop.hasChanged">Point Relais Habituel</span>
+                    <span ng-show="!mrShop.hasChanged">Modifier</span>
+                  </button>
             </div>
           </div>
         </div>
       </div>
+      <div class="centered margin-top">
+        <button class="button button-outline-primary centered" ng-click="createRefillOrder()">Commander</button>
+      </div>
     </div>
   </ion-content>
-  <div class="bar bar-footer bar-positive" ng-click="createRefillOrder()">
-      <div class="title">Commander ></div>
-  </div>
 </ion-view>

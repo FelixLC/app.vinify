@@ -1,4 +1,4 @@
-<ion-view title="Vinibar">
+<ion-view id="vinibar" title="Vinibar">
 	<ion-nav-buttons side="right">
 		<button class="button" ng-click="search.toggle = !search.toggle">
 			<i class="icon ion-search"></i>
@@ -16,9 +16,9 @@
 				<i class="icon ion-ios7-search placeholder-icon"></i>
 				<input type="search"  focus-on="focusMe" ng-model="search.value" placeholder="Search">
 			</label>
-			<button class="button-clear" ng-click="search.value = '' ">
+			<div class="button-clear pointer" ng-click="search.value = '' ">
 				Annuler
-			</button>
+			</div>
 		</div>
 	</ion-header-bar>
 	<ion-content overflow-scroll="true" class="has-subheader">
@@ -36,7 +36,8 @@
 			<p>Cliquez ici pour continuer l'aventure</p>
 		</a>
 		<ion-list ng-if="segmentedControl.value === 'rated'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item" href="#/ratedwine/{{::bottle.uuid}}">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item item-thumbnail-left" href="#/ratedwine/{{::bottle.uuid}}">
+					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" alt="">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}
@@ -50,7 +51,8 @@
 			</a>
 		</ion-list>
 		<ion-list ng-if="segmentedControl.value === 'toDrink'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: {visible: true} | filter: searchFilter" class="item" href="#/wine/{{::bottle.uuid}}">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item item-thumbnail-left" href="#/wine/{{::bottle.uuid}}">
+					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" alt="">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}

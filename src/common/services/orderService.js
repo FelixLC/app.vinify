@@ -7,7 +7,7 @@ angular.module('Order', [ 'settings', 'Update' ])
       version: Update.version,
       use_credits: 0,
       quantity: 1,
-      refills: [ new Refill(1, 49.90) ] ,
+      refills: [ new Refill(1, '49.90') ] ,
       coupon: "",
       delivery_mode: null,
       delivery_cost: null

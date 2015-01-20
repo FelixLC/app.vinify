@@ -19,7 +19,7 @@
   function settings ($window) {
     var service = {
       desktop: false,
-      test: true,
+      test: false,
       width: $window.innerWidth,
       // apiEndPoint: 'http://127.0.0.1:8000/api',
       // apiEndPoint: '/api',
@@ -53,7 +53,9 @@
               success(response.data);
             },
             function (error) {
-              failure();
+              if (!failure || !angular.isFunction(failure)) {
+                failure();
+              }
             });
         }
       }

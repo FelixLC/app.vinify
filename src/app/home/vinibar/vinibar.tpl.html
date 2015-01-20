@@ -10,15 +10,18 @@
 						<label><input type="radio" name="list" ng-model="segmentedControl.value" value="toDrink" checked><span class="label">A boire</span></label>
 						<label><input type="radio" name="list" ng-model="segmentedControl.value" value="rated"><span class="label">Notés</span></label>
 				</span>
+				<button ng-click="update()" class="button button-icon button-refresh">
+					<i ng-hide="spin" class="icon ion-refresh"></i>
+				</button>
 		</p>
 		<div ng-if="search.toggle" class="item-input-inset search-vinibar">
 			<label class="item-input-wrapper">
 				<i class="icon ion-ios7-search placeholder-icon"></i>
 				<input type="search" ng-model="search.value" focus-on="focusMe" placeholder="Search">
 			</label>
-			<button class="button-clear" ng-click="search.value = ''; search.toggle = !search.toggle ">
+			<div class="button-clear pointer" ng-click="search.value = ''; search.toggle = !search.toggle ">
 				Annuler
-			</button>
+			</div>
 		</div>
 	</ion-header-bar>
 	<ion-content overflow-scroll="false" class="has-subheader">
@@ -36,12 +39,13 @@
 			<h3>Vous n'avez pas encore de vinibar !</h3>
 			<p>Cliquez ici pour démarrer l'aventure</p>
 		</a>
-		<a  ng-if="user.status == 2 || user.status == 2.5" class="item centered" ng-click="payOrder()">
-			<h3>Vous n'avez pas finalisé votre commande !</h3>
+		<a ng-if="user.status == 2 || user.status == 2.5" class="item centered" ng-click="payOrder()">
+			<h3>Vous n'avez pas finalisé votre commande!</h3>
 			<p>Cliquez ici pour continuer l'aventure</p>
 		</a>
 		<ion-list ng-if="segmentedControl.value === 'rated'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item" href="#/ratedwine/{{::bottle.uuid}}">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item item-thumbnail-left" href="#/ratedwine/{{::bottle.uuid}}">
+					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" alt="">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}
@@ -55,7 +59,8 @@
 			</a>
 		</ion-list>
 		<ion-list ng-if="segmentedControl.value === 'toDrink'">
-			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item" href="#/wine/{{::bottle.uuid}}">
+			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item item-thumbnail-left" href="#/wine/{{::bottle.uuid}}">
+					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" alt="">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}

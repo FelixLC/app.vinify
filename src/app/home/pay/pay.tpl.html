@@ -1,4 +1,8 @@
 <ion-view title="Commander">
+  <ion-nav-buttons side="right">
+    <button ng-click="toggleTest()" ng-show="userIs.staff && !settings.test" class="button button-icon ion-toggle"></button>
+    <button ng-click="toggleTest()" ng-show="userIs.staff && settings.test" class="button button-icon ion-toggle-filled"></button>
+  </ion-nav-buttons>
  <ion-content has-bouncing="false">
    <div ng-style="calcHeight" class="pay-header">
        <h3 class="centered">Récapitulatif de ma commande</h3>
@@ -7,8 +11,8 @@
      <div class="item item-text-wrap item-bill">
        <div class="row">
          <div class="col">
-           <h3 ng-if="serializedOrder.quantity == 1">{{serializedOrder.quantity}} recharge</h3>
-           <h3 ng-if="serializedOrder.quantity == 2">{{serializedOrder.quantity}} recharges</h3>
+           <h3 ng-if="serializedOrder.quantity == 1">{{::serializedOrder.quantity}} recharge</h3>
+           <h3 ng-if="serializedOrder.quantity == 2">{{::serializedOrder.quantity}} recharges</h3>
          </div>
          <div class="col">
            <p class="subtitle">{{calcPrice()}} €</p>
@@ -16,11 +20,11 @@
        </div>
        <div class="row row-center">
          <div class="col">
-           <h3>Livraison </h3>
-           <p>{{serializedOrder.delivery_mode}} </p>
+           <h3>Livraison :</h3>
+           <p>{{::displayDeliveryMode(serializedOrder.delivery_mode)}} </p>
          </div>
          <div class="col">
-            <p>{{displayPrice(serializedOrder.delivery_cost)}} €</p>
+            <p>{{::displayPrice(serializedOrder.delivery_cost)}} €</p>
          </div>
      </div>
        <div class="row row-center" ng-if="serializedOrder.coupon">
@@ -28,7 +32,7 @@
            <h3>Réduction :</h3>
          </div>
          <div class="col">
-            <h3>{{serializedOrder.coupon.value}} €</h3>
+            <h3>{{::serializedOrder.coupon.value}} €</h3>
          </div>
      </div>
      <div class="row row-center" ng-if="serializedOrder.credits">
@@ -36,7 +40,7 @@
            <h3>Credits :</h3>
          </div>
          <div class="col">
-            <h3>{{serializedOrder.credits}} €</h3>
+            <h3>{{::serializedOrder.credits}} €</h3>
          </div>
      </div>
        <div class="row row-center">
@@ -44,19 +48,10 @@
            <h3>Total : </h3>
          </div>
          <div class="col">
-            <h3>{{displayPrice(serializedOrder.final_price)}} €</h3>
+            <h3>{{::displayPrice(serializedOrder.final_price)}} €</h3>
          </div>
      </div>
      </div>
-    <div class="item item-toggle">
-       <i class="icon ion-gear-a"></i> Test
-       <label class="toggle toggle-assertive">
-         <input type="checkbox" ng-model="settings.test" ng-change="toggleTest()">
-         <div class="track">
-           <div class="handle"></div>
-         </div>
-       </label>
-    </div>
      <form ng-if="serializedOrder.final_price" name="stripe-form" id="stripe-form" stripe-form="submit">
       <img class="pull-right" src="assets/utils/poweredbystripe.svg" alt="stripe_verification">
        <div class="row item">

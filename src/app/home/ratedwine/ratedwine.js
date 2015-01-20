@@ -58,7 +58,7 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
         };
 
         $scope.share.twitter = function () {
-          var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + $scope.bottle.wine.vintage + ". \n" +
+          var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + " " + $scope.bottle.wine.vintage + ". \n" +
           $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco !";
           $cordovaSocialSharing.shareViaTwitter(msg).then(function (result) {
               // Success!
@@ -68,7 +68,7 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
         };
 
         $scope.share.facebook = function () {
-          var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + $scope.bottle.wine.vintage + ". \n" +
+          var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + " " + $scope.bottle.wine.vintage + ". \n" +
           $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco !";
           $cordovaSocialSharing.shareViaFacebook(msg).then(function (result) {
               // Success!
@@ -78,7 +78,7 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
         };
 
         $scope.share.mail = function () {
-          var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + $scope.bottle.wine.vintage + ". \n" +
+          var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + " " + $scope.bottle.wine.vintage + ". \n" +
           $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco !";
           var subject = $scope.bottle.wine.display_name + " | Vinify";
           $cordovaSocialSharing.shareViaEmail(msg, subject).then(

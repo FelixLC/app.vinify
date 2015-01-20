@@ -29,18 +29,17 @@
     </div>
     <div class="wine-content padding">
 
-            <div class="row row-order">
-              <div class="col centered">
-                <h4>Prix Vinify : {{::bottle.wine.public_price}}&nbsp;€</h4>
-              </div>
-              <div class="col centered">
+      <div class="row row-order">
+        <div class="col centered">
+          <h4>Prix Vinify : {{::bottle.wine.public_price}}&nbsp;€</h4>
+        </div>
+        <div class="col centered">
               <!-- TODO BUY WINE -->
               <a ng-href="mailto:commande@vinify.co?subject=Commande%20%7C%20{{::bottle.wine.display_name}}&amp;body=Bonjour%2C%0AJe%20souhaiterais%20effectuer%20une%20commande%20X%20bouteilles%20de%20{{::bottle.wine.display_name}}.%0A%0AMerci%20de%20me%20confirmer%20le%20prix." class="button button-outline-primary" target="_blank">
                   Commander
                 </a>
-              </div>
-            </div>
-
+          </div>
+        </div>
           <div class="card">
             <div class="item">
                 <h2>Note</h2>
@@ -128,7 +127,13 @@
               </div>
             </div>
             <p class="centered">Partager ce vin pour gagner des ViniPoints !</p>
-
+            <div class="row row-buttons">
+                  <div class="col centered">
+                    <a class="p-highlight link-dotted link-dotted-primary" ng-click="openGroupModal()">
+                      Inviter des gens à noter
+                    </a>
+                  </div>
+            </div>
     <!--         <div class="row">
               <div class="col">
                   <button class="button share share-facebook"> <img src="assets/utils/facebook.svg" alt="facebook-logo"><p>Partager sur facebook</p></button>
@@ -175,9 +180,9 @@
               <p>{{::bottle.wine.domain}}</p>
             </div>
           </div>
-          <div class="row row-center">
+          <div ng-if="bottle.wine.testimonial" class="row row-center">
             <div class="col col-20 centered">
-              <div class="testimonial-rating">4,5</div>
+              <img class="logo-wine-desc" src="assets/utils/logo_star.png" alt="">
             </div>
             <div class="col">
               <h4>Un commentaire client</h4>
@@ -204,19 +209,6 @@
               <p>{{::bottle.wine.education}}</p>
             </div>
           </div>
-        </div>
-
-        <div class="row row-buttons">
-              <div class="col">
-                <a class="button button-outline-primary" ng-click="openModal()">
-                  Modifier
-                </a>
-              </div>
-      <!--               <div class="col">
-                <a class="button button-less" ng-click="openGroupModal()">
-                  Noter à plusieurs
-                </a>
-              </div> -->
         </div>
       </div>
       <div class="centered"><a class="button button-outline-primary centered" href ui-sref="sidemenu.wine_know_more({uuid: id})">En savoir plus</a></div>

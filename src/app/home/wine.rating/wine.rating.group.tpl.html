@@ -1,6 +1,6 @@
   <ion-modal-view>
     <ion-header-bar class="bar-positive">
-          <button class="button" ng-click="closeGroupModal()">Close</button>
+          <button class="button" ng-click="closeGroupModal()">Fermer</button>
       <h1 class="title">Noter mon Vin</h1>
     </ion-header-bar>
     <ion-content  has-bouncing="false">
@@ -10,7 +10,6 @@
         <div class="col centered">
           <h3>{{bottle.wine.display_name}}</h3>
           <h4>{{bottle.wine.region}} - {{bottle.wine.appellation}}</h4>
-          <!-- <h4>{{bottle.wine.appellation}}</h4> -->
         </div>
     </div>
     <div class="row row-header-bottom row-center">
@@ -21,7 +20,6 @@
             </div>
             <div class="col">
                   <p>{{bottle.wine.variety}}</p>
-                  <!-- <h4>{{bottle.wine.variety}}</h4> -->
             </div>
           </div>
         </div>
@@ -33,179 +31,49 @@
     </div>
   </div>
 
-    <div class="wine-content padding">
-      <form class="rating-form">
-        <h4>Note</h4>
-        <p class="literal-rating">"{{literalRating.value}}"</p>
-        <div class="icon-rating centered">
-            <ul ng-show="rating.data.rating == '1' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '1.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '2'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '2.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '3'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '3.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '4'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '4.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-            </ul>
-            <ul ng-show="rating.data.rating == '5'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-            </ul>
+  <div class="card">
+    <form class="item rating-form">
+        <h4>Note : {{::rating.data.rating}}/5<span class="item-note item-note-primary">"{{literalRating.value}}"</span></h4>
+          <md-slider class="md-slider-card" md-discrete ng-model="rating.data.rating" step="0.5" min="1" max="5" aria-label="rating">
+          </md-slider>
+
+          <h4 class="header-margin-top">Commentaire :</h4>
+          <textarea ng-name="commentaire" rows="4" placeholder="J'écris ici mon commentaire ..." ng-model="rating.data.comment"></textarea>
+          <div class="item item-get-more item-checkbox">
+             <label class="checkbox">
+               <input type="checkbox" ng-model="rating.data.get_more">
+             </label>
+             Revoir mon vin dans mon Vinibar
           </div>
-          <div class="range-container">
-                <input ng-model="rating.data.rating" type="range" name="volume" min="1" max="5" value="4" step="0.5">
-          </div>
-
-
-        <h4 class="header-margin-top">Commentaire :</h4>
-        <input type="text" ng-name="commentaire" placeholder="J'écris ici mon commentaire ..." ng-model="rating.data.comment">
-
-        <div class="checkbox-nude">
-          <ion-checkbox ng-model="rating.data.get_more"><p>Revoir ce vin dans mon vinibar</p></ion-checkbox>
-      </div>
-
       </form>
     </div>
     <div class="card card-guests">
-      <h4>Nombre d'invités</h4>
-        <div class="button-bar">
-          <a ng-class="{highlighted: invite.value.length == 1}" ng-click="updateInviteValue(1)" class="button">1</a>
-          <a ng-class="{highlighted: invite.value.length == 2}" ng-click="updateInviteValue(2)" class="button">2</a>
-          <a ng-class="{highlighted: invite.value.length == 3}" ng-click="updateInviteValue(3)" class="button">3</a>
-          <a ng-class="{highlighted: invite.value.length == 4}" ng-click="updateInviteValue(4)" class="button">4</a>
-          <a ng-class="{highlighted: invite.value.length == 5}" ng-click="updateInviteValue(5)" class="button">5</a>
-        </div>
+    <div class="item">
+        <h4>Nombre d'invités</h4>
+          <div class="button-bar">
+            <a ng-class="{highlighted: invite.value.length == 1}" ng-click="updateInviteValue(1)" class="button">1</a>
+            <a ng-class="{highlighted: invite.value.length == 2}" ng-click="updateInviteValue(2)" class="button">2</a>
+            <a ng-class="{highlighted: invite.value.length == 3}" ng-click="updateInviteValue(3)" class="button">3</a>
+            <a ng-class="{highlighted: invite.value.length == 4}" ng-click="updateInviteValue(4)" class="button">4</a>
+            <a ng-class="{highlighted: invite.value.length == 5}" ng-click="updateInviteValue(5)" class="button">5</a>
+          </div>
+    </div>
     </div>
 
-    <div ng-repeat="i in invite.value track by $index" class="wine-content item item-body">
-      <form class="rating-form-group">
+    <div ng-repeat="i in invite.value track by $index" class="card">
+      <div class="item">
         <h2>Invité {{$index +1}}</h2>
         <input type="email" ng-model="groupRating.data.ratings[$index].email" placeholder="Email">
-        <h4>Note</h4>
-        <div class="icon-rating centered">
-            <ul ng-show="groupRating.data.ratings[$index].rating == '1' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '1.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '2'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '2.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '3'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '3.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '4'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-outline"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '4.5' " class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star-half"></i></li>
-            </ul>
-            <ul ng-show="groupRating.data.ratings[$index].rating == '5'" class="rating">
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-              <li><i class="icon ion-ios7-star"></i></li>
-            </ul>
-          </div>
-          <div class="range-container">
-                <input ng-model="groupRating.data.ratings[$index].rating" type="range" name="volume" min="1" max="5" value="4" step="0.5">
-          </div>
+      </div>
+      <form class="item rating-form">
+          <h4>Note : {{groupRating.data.ratings[$index].rating}}/5</h4>
+            <md-slider class="md-slider-card" md-discrete ng-model="groupRating.data.ratings[$index].rating" step="0.5" min="1" max="5" aria-label="rating">
+            </md-slider>
 
-        <h4 class="header-margin-top">Commentaire :</h4>
-        <input type="text" ng-name="commentaire" placeholder="J'écris ici mon commentaire ..." ng-model="groupRating.data.ratings[$index].comment">
-      </form>
-    </div>
-
+            <h4 class="header-margin-top">Commentaire :</h4>
+            <textarea ng-name="commentaire" rows="4" placeholder="J'écris ici mon commentaire ..." ng-model="groupRating.data.ratings[$index].comment"></textarea>
+        </form>
+      </div>
 
       <button class="button bar-footer-button" ng-click="rateWines()"><h4>Noter</h4></button>
 

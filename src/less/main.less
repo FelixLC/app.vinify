@@ -108,7 +108,9 @@ body {
 	color: @primary;
 	p {color: @primary;}
 }
-
+.margin-top {
+	margin-top: 20px;
+}
 .pane.full-background-primary {
 	background-color: @primary;
 }
@@ -137,7 +139,14 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 };
-
+.pointer {
+	cursor: pointer;
+}
+.item-note-strong {
+	font-size: 14px;
+	font-family: 'robotobold';
+	color: @primary;
+}
 // SHADE MIXIN BCKG
 .shade (@bckg_url, @break) {
 	background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) @break, rgba(0,0,0,0.65) 100%) , url(@bckg_url) no-repeat center; /* FF3.6+ */
@@ -267,6 +276,9 @@ p.segmented-control {
 	}
 	cursor: pointer;
 }
+.bar .title {
+	top: 3px;
+}
 
 .has-footer {
 	bottom: @footer-bar-height;
@@ -298,6 +310,7 @@ p.segmented-control {
 .button-outline-primary {
 		border-radius: 5px;
 		border: 1px solid @primary;
+		line-height: 52px;
 		color: @primary;
 		p {color: @primary;}
 		background-color: transparent;

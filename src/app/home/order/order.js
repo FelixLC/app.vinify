@@ -29,7 +29,7 @@
           }
         };
       })
-      .controller('orderCtrl', function orderCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts) {
+      .controller('orderCtrl', function orderCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts, $ionicScrollDelegate) {
 
         // prepare for next screen
         User.updateUser(function (user) {
@@ -40,9 +40,9 @@
         deliveryCosts.get('FR', function () {});
 
         $scope.prices = {
-          "29€90": 29.90,
-          "39€90": 39.90,
-          "49€90": 49.90
+          "29.90": 29.90,
+          "39.90": 39.90,
+          "49.90": 49.90
         };
 
         $scope.changeRed = function (split) {
@@ -63,6 +63,14 @@
           } else {
             split.rose = 3 - split.red - split.white;
           }
+        };
+
+        $scope.calcPrice = function (refills) {
+          var price = 0;
+          for (var i = refills.length - 1; i >= 0; i--) {
+            price += $scope.prices[refills[i]['price_level']];
+          }
+          return price;
         };
 
         $scope.arrayFromNum = function (num) {
@@ -87,9 +95,19 @@
         $scope.order = new Order();
 
         $scope.addRefill = function () {
-          $scope.order.addRefill(39.90);
+          $scope.order.addRefill("39.90");
           $scope.addSecond = true;
           console.log('refill added');
+        };
+
+        $scope.validateFirstCard = function () {
+          $scope.hideFirstCard = true;
+          $ionicScrollDelegate.scrollTop();
+        };
+
+        $scope.validateSecondCard = function () {
+          $scope.hideSecondCard = true;
+          $ionicScrollDelegate.scrollTop();
         };
 
         $scope.removeRefill = function () {

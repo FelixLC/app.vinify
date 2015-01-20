@@ -8,25 +8,21 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
           controller: 'deliverymodeCtrl',
           templateUrl: "home/deliverymode/deliverymode.tpl.html"
         }
-      },
-      resolve: {
-        addressList: function (Addresses) {
-          Addresses.getList().then(function (response) {
-            return response.data;
-          });
-        }
       }
   });
 })
 
 .controller('deliverymodeCtrl', function deliverymodeCtrl ($scope, $state, orderInstance, SerializedOrder, $window,
-    User, Addresses, Address, addressList, $ionicModal, Loading, toasters, Pay, deliveryCosts) {
+    User, Addresses, Address, $ionicModal, Loading, toasters, Pay, deliveryCosts) {
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
   $scope.order = orderInstance;
   $scope.form = { show: false };
-  $scope.addresses = addressList;
+  Addresses.getList().then(function (response) {
+    $scope.addresses = response.data;
+  });
+  console.log($scope.addresses);
   $scope.user = User.getUser();
   console.log(User.getUser());
   $scope.mrShop = {
@@ -54,8 +50,6 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
     has: !!$scope.user.credits,
     value: $scope.user.credits
   };
-
-  var apiEndPoint =  'http://127.0.0.1:8000/api';
 
   $scope.createRefillOrder = function () {
     if ($scope.order.data.delivery_mode) {
@@ -89,7 +83,9 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
 
   // BLUR EVENT
   $scope.onBlur = function () {
-    $scope.testCoupon();
+    if ($scope.order.data.coupon) {
+      $scope.testCoupon();
+    }
   };
 
 
@@ -98,7 +94,11 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
     $scope.order.testCoupon($scope.order.data.coupon,
                       function (data) {
                         Loading.hide();
-                        toasters.pop('Coupon Validé!', 'top', 'success');
+                        if (data.value > 1) {
+                          toasters.pop('Coupon Validé! Vous économisez ' + data.value + ' €', 'top', 'success');
+                        } else {
+                          toasters.pop('Coupon Validé!', 'top', 'success');
+                        }
                       },
                       function (error) {
                           Loading.hide();

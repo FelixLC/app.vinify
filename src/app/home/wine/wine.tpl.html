@@ -46,6 +46,13 @@
             <div class="button-card"><span ng-click="rateWine()">valider</span></div>
         </form>
       </div>
+      <div class="row row-buttons">
+            <div class="col centered">
+              <a class="p-highlight link-dotted link-dotted-primary" ng-click="openGroupModal()">
+                Inviter des gens à noter
+              </a>
+            </div>
+      </div>
       <div class="wine-content">
         <div class="row row-center">
           <div class="col col-20 centered">
@@ -74,9 +81,9 @@
             <p>{{::bottle.wine.domain}}</p>
           </div>
         </div>
-        <div class="row row-center">
+        <div ng-if="bottle.wine.testimonial" class="row row-center">
           <div class="col col-20 centered">
-            <div class="testimonial-rating">4,5</div>
+            <img class="logo-wine-desc" src="assets/utils/logo_star.png" alt="">
           </div>
           <div class="col">
             <h4>Un commentaire client</h4>
