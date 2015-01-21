@@ -18,6 +18,7 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
   $scope.order = orderInstance;
+  $scope.order.data.delivery_mode = 'Point Relais';
   $scope.form = { show: false };
   Addresses.getList().then(function (response) {
     $scope.addresses = response.data;

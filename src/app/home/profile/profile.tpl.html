@@ -1,4 +1,7 @@
 <ion-view title="Profil">
+      <ion-nav-buttons side="left">
+        <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
+      </ion-nav-buttons>
 	<ion-content has-bouncing="false">
 		<div class="content-container">
 			<div class="item item-gray centered">
@@ -52,7 +55,7 @@
 			</div>
 			<div ng-if="user.credits" class="item item-gray centered">
 				<h3 class="centered">Crédits</h3>
-				<p>Il vous reste {{::user.credits}} €</p>
+				<p>Il vous reste {{::user.credits | number:1}} €</p>
 			</div>
 			<div class="item">
 				<h3 class="centered">Parrainez des amis et gagnez 10€ !</h3>

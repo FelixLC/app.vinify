@@ -13,6 +13,8 @@ module.exports = function ( karma ) {
       <% }); %>
       'src/**/*.js',
       'src/**/*.coffee',
+      'test/mixpanel.coffee',
+      'test/*.js'
     ],
     exclude: [
       'src/assets/**/*.js'

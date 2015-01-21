@@ -19,7 +19,7 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
             }
         });
     })
-    .controller('ratedwineCtrl', function ratedwineCtrl ($scope, $stateParams, $resource, $state, Bottles, bottles, $ionicModal, Rating, GroupRating,  $cordovaSocialSharing, $ionicPlatform, $cordovaToast, $cordovaNetwork) {
+    .controller('ratedwineCtrl', function ratedwineCtrl ($scope, $stateParams, $resource, $state, Bottles, bottles, $ionicModal, Rating, GroupRating,  $cordovaSocialSharing, $ionicPlatform, $cordovaToast, $cordovaNetwork, $ionicScrollDelegate) {
       var init = function () {
         $scope.id = $stateParams.uuid;
         $scope.rate = 3;
@@ -185,6 +185,12 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
 
       // Open & close the modal
       $scope.openGroupModal = function () {
+        $scope.invite = { value: [] };
+        $scope.updateInviteValue = function (num) {
+          $scope.invite = { value: new Array(num) };
+          $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4, num);
+          $ionicScrollDelegate.resize();
+        };
         $scope.rating = new Rating($scope.bottle.uuid, $scope.bottle.rating, $scope.bottle.comment);
         $scope.$watch('rating.data.rating', function (newVal, oldVal) {
           if (newVal == 1)  { $scope.literalRating.value = "Oops, vraiment pas mon style !";}

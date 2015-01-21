@@ -49,7 +49,7 @@
             // }
         });
     })
-    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState, toasters, settings) {
+    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState, toasters, settings, $ionicScrollDelegate) {
       $scope.id = $stateParams.uuid;
       var getById = function (arr, id) {
         for (var d = 0, len = arr.length; d < len; d += 1) {
@@ -196,6 +196,7 @@
             $scope.updateInviteValue = function (num) {
               $scope.invite = { value: new Array(num) };
               $scope.groupRating = new GroupRating($scope.bottle.wine.uuid, 4, num);
+              $ionicScrollDelegate.resize();
             };
             $scope.rating = new Rating($scope.bottle.uuid, 4);
             $scope.$watch('rating.data.rating', function (newVal, oldVal) {

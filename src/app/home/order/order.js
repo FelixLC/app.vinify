@@ -45,6 +45,11 @@
           "49.90": 49.90
         };
 
+        $scope.states = {
+          hideFirstCard: false,
+          hideSecondCard: false
+        };
+
         $scope.changeRed = function (split) {
           if (split.red === 3) {
             split.white = 0;
@@ -97,21 +102,39 @@
         $scope.addRefill = function () {
           $scope.order.addRefill("39.90");
           $scope.addSecond = true;
-          console.log('refill added');
+          $ionicScrollDelegate.resize();
         };
 
         $scope.validateFirstCard = function () {
-          $scope.hideFirstCard = true;
+          $scope.states.hideFirstCard = true;
           $ionicScrollDelegate.scrollTop();
+          $ionicScrollDelegate.resize();
+        };
+
+        $scope.modifyFirstCard = function () {
+          $scope.states.hideFirstCard = false;
+          $ionicScrollDelegate.scrollTop();
+          $ionicScrollDelegate.resize();
         };
 
         $scope.validateSecondCard = function () {
-          $scope.hideSecondCard = true;
+          $scope.states.hideSecondCard = true;
+          $ionicScrollDelegate.scrollTop();
+          $ionicScrollDelegate.resize();
+        };
+
+        $scope.modifySecondCard = function () {
+          $scope.states.hideSecondCard = false;
+          $ionicScrollDelegate.resize();
+        };
+
+        $scope.scrollTop = function () {
           $ionicScrollDelegate.scrollTop();
         };
 
         $scope.removeRefill = function () {
           $scope.addSecond = false;
+          $ionicScrollDelegate.resize();
           $scope.order.removeRefill();
         };
 

@@ -102,7 +102,7 @@
           </button>
         </div>
         <div ng-if="credits.has" class="item item-toggle">
-           Utiliser mes crédits ({{credits.value}} €)
+           Utiliser mes crédits ({{credits.value | number:1}} €)
            <label class="toggle toggle-assertive">
              <input type="checkbox" ng-model="order.data.use_credits">
              <div class="track">

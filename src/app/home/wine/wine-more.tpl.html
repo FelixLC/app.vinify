@@ -28,7 +28,6 @@
       </div>
     </div>
     <div class="wine-content">
-      <div class="card">
         <div class="item item-text-wrap">
           <h3 class="centered">Pour briller en société</h3 class="centered">
           <div class="row row-top">
@@ -64,12 +63,10 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card">
         <div class="item item-text-wrap">
           <h3 class="centered">Accords Mets/Vin</h3 class="centered">
-          <div class="row row-top">
+          <div ng-if="bottle.wine.cuisine" class="row row-top">
             <div class="col col-25">
               <p class="subtitle">Cuisine</p>
             </div>
@@ -77,7 +74,7 @@
               <p>{{::bottle.wine.cuisine}}</p>
             </div>
           </div>
-          <div class="row row-top">
+          <div ng-if="bottle.wine.meat_fish" class="row row-top">
             <div class="col col-25">
               <p class="subtitle">Viandes <br> Poissons </p>
             </div>
@@ -85,7 +82,7 @@
               <p>{{::bottle.wine.meat_fish}}</p>
             </div>
           </div>
-          <div class="row row-top">
+          <div ng-if="bottle.wine.sides" class="row row-top">
             <div class="col col-25">
               <p class="subtitle">Garniture</p>
             </div>
@@ -93,7 +90,7 @@
               <p>{{::bottle.wine.sides}}</p>
             </div>
           </div>
-          <div class="row row-top">
+          <div ng-if="bottle.wine.cooking" class="row row-top">
             <div class="col col-25">
               <p class="subtitle">Cuisson</p>
             </div>
@@ -101,7 +98,7 @@
               <p>{{::bottle.wine.cooking}}</p>
             </div>
           </div>
-          <div class="row row-top">
+          <div ng-if="bottle.wine.cheeses" class="row row-top">
             <div class="col col-25">
               <p class="subtitle">Fromages</p>
             </div>
@@ -110,10 +107,8 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="item item-text-wrap">
+        <div ng-if="bottle.wine.info" class="item item-text-wrap">
           <h3 class="centered">Astuces du caviste</h3 class="centered">
           <div class="row row-top">
             <div class="col col-25">
@@ -124,7 +119,6 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
   </ion-content>
 </ion-view>

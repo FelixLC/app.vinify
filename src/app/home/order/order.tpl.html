@@ -9,13 +9,13 @@
           <select ng-model="order.data.refills[0]['price_level']" ng-options="value as key for (key, value) in prices">
           </select>
         </label> -->
-        <div ng-if="!hideFirstCard" class="item bottle-number-selector">
-          <h2 class="centered">Je choisis ma gamme de prix (3 bouteilles)</h2>
+        <div ng-if="!states.hideFirstCard" class="item item-text-wrap bottle-number-selector">
+          <h2 class="centered">Je choisis ma gamme de prix <br> (3 bouteilles)</h2>
           <p class="segmented-control">
               <span class="segmented">
-                  <label><input type="radio" name="list" ng-model="order.data.refills[0]['price_level']" value="29.90"><span class="label">29€90</span></label>
-                  <label><input type="radio" name="list" ng-model="order.data.refills[0]['price_level']" value="39.90"><span class="label">39€90</span></label>
-                  <label><input type="radio" name="list" ng-model="order.data.refills[0]['price_level']" value="49.90"><span class="label">49€90</span></label>
+                  <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="29.90"><span class="label">29€90</span></label>
+                  <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="39.90"><span class="label">39€90</span></label>
+                  <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="49.90"><span class="label">49€90</span></label>
               </span>
           </p>
 <!--           <div class="button-bar">
@@ -32,7 +32,7 @@
               <img ng-if="order.data.refills[0]['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
             </div>
             <div class="col item-text-wrap centered">
-              <div ng-show="hideFirstCard" class="pins">
+              <div ng-show="states.hideFirstCard" class="pins">
                 <h3>Recharge
                   <span ng-if="order.data.refills[0]['price_level'] === '29.90'">Découverte</span>
                   <span ng-if="order.data.refills[0]['price_level'] === '39.90'">Exploration</span>
@@ -49,13 +49,13 @@
                 <div ng-if="order.data.refills[0]['split']['rose'] >=2" class="pin rose-pin"></div>
                 <div ng-if="order.data.refills[0]['split']['rose'] >=3" class="pin rose-pin"></div>
               </div>
-              <p ng-if="order.data.refills[0]['price_level'] === '29.90' && !hideFirstCard ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-              <p ng-if="order.data.refills[0]['price_level'] === '39.90' && !hideFirstCard ">J'explore les appellations et les cépages de France.</p>
-              <p ng-if="order.data.refills[0]['price_level'] === '49.90' && !hideFirstCard ">Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '29.90' && !states.hideFirstCard ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '39.90' && !states.hideFirstCard ">J'explore les appellations et les cépages de France.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '49.90' && !states.hideFirstCard ">Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
             </div>
           </div>
         </div>
-        <label ng-if="!hideFirstCard" class="item item-input item-select">
+        <label ng-if="!states.hideFirstCard" class="item item-input item-select">
           <div class="input-label">
            Nombre de rouges
           </div>
@@ -63,7 +63,7 @@
                           ng-options="option for option in options"
                           ng-change="changeRed(order.data.refills[0]['split'])"></select>
         </label>
-        <label ng-if="!hideFirstCard" class="item item-input item-select">
+        <label ng-if="!states.hideFirstCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de blancs
           </div>
@@ -71,7 +71,7 @@
                           ng-options="option for option in options | filterWhite:order.data.refills[0]['split']['red']"
                           ng-change="changeWhite(order.data.refills[0]['split'])"></select>
         </label>
-        <label ng-if="!hideFirstCard" class="item item-input item-select">
+        <label ng-if="!states.hideFirstCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de rosés
           </div>
@@ -81,19 +81,19 @@
         </label>
         <div class="item">
           <div class="button-card">
-            <span ng-hide="hideFirstCard" class="button-card--save" ng-click="validateFirstCard()">valider</span>
-            <span ng-show="hideFirstCard" class="button-card--save" ng-click="hideFirstCard = false">modifier</span>
+            <span ng-hide="states.hideFirstCard" class="button-card--save" ng-click="validateFirstCard()">valider</span>
+            <span ng-show="states.hideFirstCard" class="button-card--save" ng-click="modifyFirstCard()">modifier</span>
           </div>
         </div>
       </div>
       <div ng-if="addSecond" class="card">
-        <div ng-if="!hideSecondCard" class="item bottle-number-selector">
-          <h2 class="centered">Je choisis ma gamme de prix (3 bouteilles)</h2>
+        <div ng-if="!states.hideSecondCard" class="item bottle-number-selector">
+          <h2 class="centered">Je choisis ma gamme de prix <br> (3 bouteilles)</h2>
           <p class="segmented-control">
               <span class="segmented">
-                  <label><input type="radio" name="list" ng-model="order.data.refills[1]['price_level']" value="29.90"><span class="label">29€90</span></label>
-                  <label><input type="radio" name="list" ng-model="order.data.refills[1]['price_level']" value="39.90"><span class="label">39€90</span></label>
-                  <label><input type="radio" name="list" ng-model="order.data.refills[1]['price_level']" value="49.90"><span class="label">49€90</span></label>
+                  <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="29.90"><span class="label">29€90</span></label>
+                  <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="39.90"><span class="label">39€90</span></label>
+                  <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="49.90"><span class="label">49€90</span></label>
               </span>
           </p>
         </div>
@@ -105,7 +105,7 @@
               <img ng-if="order.data.refills[1]['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
             </div>
             <div class="col item-text-wrap centered">
-              <div ng-show="hideSecondCard" class="pins">
+              <div ng-show="states.hideSecondCard" class="pins">
                 <h3>Recharge
                   <span ng-if="order.data.refills[1]['price_level'] === '29.90'">Découverte</span>
                   <span ng-if="order.data.refills[1]['price_level'] === '39.90'">Exploration</span>
@@ -122,13 +122,13 @@
                 <div ng-if="order.data.refills[1]['split']['rose'] >=2" class="pin rose-pin"></div>
                 <div ng-if="order.data.refills[1]['split']['rose'] >=3" class="pin rose-pin"></div>
               </div>
-              <p ng-if="order.data.refills[1]['price_level'] === '29.90' && !hideSecondCard ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-              <p ng-if="order.data.refills[1]['price_level'] === '39.90' && !hideSecondCard ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-              <p ng-if="order.data.refills[1]['price_level'] === '49.90' && !hideSecondCard ">Des vins fins, élégants et racés.</ A moi les grandes appellations !p>
+              <p ng-if="order.data.refills[1]['price_level'] === '29.90' && !states.hideSecondCard ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[1]['price_level'] === '39.90' && !states.hideSecondCard ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
+              <p ng-if="order.data.refills[1]['price_level'] === '49.90' && !states.hideSecondCard ">Des vins fins, élégants et racés.</ A moi les grandes appellations !p>
             </div>
           </div>
         </div>
-        <label ng-if="!hideSecondCard" class="item item-input item-select">
+        <label ng-if="!states.hideSecondCard" class="item item-input item-select">
           <div class="input-label">
            Nombre de rouges
           </div>
@@ -136,7 +136,7 @@
                           ng-options="option for option in options"
                           ng-change="changeRed(order.data.refills[1]['split'])"></select>
         </label>
-        <label ng-if="!hideSecondCard" class="item item-input item-select">
+        <label ng-if="!states.hideSecondCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de blancs
           </div>
@@ -144,7 +144,7 @@
                           ng-options="option for option in options | filterWhite:order.data.refills[1]['split']['red']"
                           ng-change="changeWhite(order.data.refills[1]['split'])"></select>
         </label>
-        <label ng-if="!hideSecondCard" class="item item-input item-select">
+        <label ng-if="!states.hideSecondCard" class="item item-input item-select">
           <div class="input-label">
             Nombre de rosés
           </div>
@@ -154,9 +154,9 @@
         </label>
         <div class="item">
           <div class="button-card">
-            <span ng-hide="hideSecondCard" class="button-card--delete" ng-click="removeRefill()">supprimer</span>
-            <span ng-hide="hideSecondCard" class="button-card--save" ng-click="validateSecondCard()">valider</span>
-            <span ng-show="hideSecondCard" class="button-card--save" ng-click="hideSecondCard = false">modifier</span>
+            <span ng-hide="states.hideSecondCard" class="button-card--delete" ng-click="removeRefill()">supprimer</span>
+            <span ng-hide="states.hideSecondCard" class="button-card--save" ng-click="validateSecondCard()">valider</span>
+            <span ng-show="states.hideSecondCard" class="button-card--save" ng-click="modifySecondCard()">modifier</span>
           </div>
         </div>
       </div>
@@ -167,7 +167,7 @@
           <div class="col centered">{{calcPrice(order.data.refills)}} €</div>
         </div>
       </div>
-      <div class="row-buttons">
+      <div class="row-buttons padding">
         <div ng-hide="addSecond" class="centered">
           <button class="button button-outline-primary centered" ng-click="addRefill()">Ajouter 3 bouteilles</button>
         </div>
