@@ -1,4 +1,4 @@
-  angular.module('app.profile', [ 'User', 'Referrals', 'Loading', 'ngCordova', 'settings' ])
+  angular.module('app.profile', [ 'User', 'Referrals', 'Loading', 'ngCordova', 'settings', 'Analytics' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.profile', {
@@ -15,10 +15,10 @@
           });
      })
 
-      .controller('profileCtrl', function profileCtrl ($scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast, $ionicPlatform, $cordovaSocialSharing, $cordovaNetwork, settings) {
+      .controller('profileCtrl', function profileCtrl ($scope, $http, $location, User, $ionicModal, $ionicLoading, Referrals, Referral, Addresses, Address, Loading, $cordovaToast, $ionicPlatform, $cordovaSocialSharing, $cordovaNetwork, settings, Mixpanel) {
         $scope.user = User.getUser();
         $scope.desktop = settings.desktop;
-        var apiEndPoint =  'http://127.0.0.1:8000/api';
+
         $scope.form = { show: false };
         console.log(User);
         console.log($scope.user.phone);
@@ -42,9 +42,10 @@
                   var subject = "Re: " + name + ", découvre des vins à tes goûts";
                   $cordovaSocialSharing.shareViaEmail(message, subject, [ email ]).then(
                     function (result) {
-                      $http.post(apiEndPoint + '/orders/referredreminder/', {
+                      $http.post(settings.apiEndPoint + '/orders/referredreminder/', {
                         referred: email
                       });
+                      Mixpanel.track('Referred', { platform: (settings.desktop) ? 'desktop' : 'app' });
                       // Success!
                     }, function (err) {
                       // An error occured. Show a message to the user
@@ -179,6 +180,7 @@
                   var message = "Je vous offre 10€ de réduction sur http://www.vinify.co grâce à mon code parrainage : " + $scope.user.referral_code + " !";
                   $cordovaSocialSharing.shareViaTwitter(message).then(function (result) {
                       // Success!
+                      Mixpanel.track('Share Vinify on Twitter', { platform: (settings.desktop) ? 'desktop' : 'app' });
                   }, function (err) {
                       // An error occured. Show a message to the user
                   });
@@ -187,6 +189,7 @@
                   var message = "Je vous offre 10€ de réduction sur http://www.vinify.co grâce à mon code parrainage : " + $scope.user.referral_code+ " !";
                   $cordovaSocialSharing.shareViaFacebook(message).then(function (result) {
                       // Success!
+                      Mixpanel.track('Share Vinify on Facebook', { platform: (settings.desktop) ? 'desktop' : 'app' });
                   }, function (err) {
                       // An error occured. Show a message to the user
                   });

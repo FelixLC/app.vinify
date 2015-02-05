@@ -22,7 +22,10 @@
           </div>
           <div class="col align-right">
             <div class="row">
-              <div class="col"><p>{{::bottle.wine.vintage}}</p></div>
+              <div class="col centered"><p>
+                {{::bottle.wine.vintage}} <br>
+                <span ng-repeat="a in getRange(bottle.wine) track by $index">€</span>
+              </p></div>
             </div>
           </div>
       </div>
@@ -36,11 +39,11 @@
 
             <h4 class="header-margin-top">Commentaire :</h4>
             <textarea ng-name="commentaire" rows="4" placeholder="J'écris ici mon commentaire ..." ng-model="rating.data.comment"></textarea>
-            <div class="item item-get-more item-checkbox">
+            <div class="item item-get-more item-checkbox item-text-wrap">
                <label class="checkbox">
                  <input type="checkbox" ng-model="rating.data.get_more">
                </label>
-               Revoir mon vin dans mon Vinibar
+               J'aimerais revoir ce vin dans mon Vinibar
             </div>
 
             <div class="button-card"><span ng-click="rateWine()">valider</span></div>

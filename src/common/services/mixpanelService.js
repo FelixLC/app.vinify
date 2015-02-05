@@ -11,7 +11,7 @@
         .factory('OfflineMixpanel', OfflineMixpanel);
 
     /* @ngInject */
-  function Mixpanel (settings, OfflineMixpanel, $ionicPlatform, $cordovaNetwork) {
+  function Mixpanel (settings, OfflineMixpanel, $cordovaNetwork) {
 
     // public api
     var service = {
@@ -26,68 +26,99 @@
     return service;
 
     function track (event, properties) {
-      if (settings.test) {
-        console.log('Mixpanel:' + event);
-        if (properties) {
-          console.log(properties);
+      ionic.Platform.ready(function () {
+        if (settings.test) {
+          console.log('Mixpanel:' + event);
+          if (properties) {
+            console.log(properties);
+          }
+
+        // if we are in cordova && offline{
+        } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) {
+          OfflineMixpanel.add({
+            func: 'track',
+            event: event,
+            properties: properties
+          });
+        } else {
+          mixpanel.track(event, properties);
         }
-      } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && offline{
-        OfflineMixpanel.add([ 'track' ], event, properties);
-      } else {
-        mixpanel.track(event, properties);
-      }
+      });
     }
 
     function identify (id) {
-      if (settings.test) {
-        console.log('Mixpanel:Identify:' + id);
-      } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && offline{
-        // do nothing. We'll attach an identify when we send later the events
-      } else {
-        mixpanel.identify(id);
-      }
+      ionic.Platform.ready(function () {
+        if (settings.test) {
+          console.log('Mixpanel:Identify:' + id);
+
+        // if we are in cordova && offline{
+        } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) {
+          // do nothing. We'll attach an identify when we send later the events
+        } else {
+          mixpanel.identify(id);
+        }
+      });
     }
 
     function alias (id) {
-      if (settings.test) {
-        console.log('Mixpanel:Alias:' + id);
-      } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && offline{
-        // do nothing. We'll attach an identify when we send later the events
-      } else {
-        mixpanel.alias(id);
-      }
+      ionic.Platform.ready(function () {
+        if (settings.test) {
+          console.log('Mixpanel:Alias:' + id);
+
+        // if we are in cordova && offline{
+        } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) {
+          // do nothing. We'll attach an identify when we send later the events
+        } else {
+          mixpanel.alias(id);
+        }
+      });
     }
 
-    function set (properties) {
-      if (settings.test) {
-        console.log('Mixpanel:People:Set');
-        console.log(properties);
-      } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && offline{
-        OfflineMixpanel.add([ 'people', 'set' ], properties);
-      } else {
-        mixpanel.people.set(properties);
-      }
+    function set (id, properties) {
+      ionic.Platform.ready(function () {
+        if (settings.test) {
+          console.log('Mixpanel:People:Set');
+          console.log(properties);
+
+        // if we are in cordova && offline{
+        } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) {
+          OfflineMixpanel.add({
+            func: 'set',
+            properties: properties
+          });
+        } else {
+          mixpanel.identify(id);
+          mixpanel.people.set(properties);
+        }
+      });
     }
 
-    function trackCharge (amount) {
-      if (settings.test) {
-        console.log('Mixpanel:People:TrackCharge');
-        console.log(amount);
-      } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && offline{
-        OfflineMixpanel.add([ 'people', 'track_charge' ], amount, {
-          $time: new Date()
-        });
-      } else {
-        mixpanel.people.track_charge(amount, {
-          $time: new Date()
-        });
-      }
+    function trackCharge (id, amount, properties) {
+      ionic.Platform.ready(function () {
+        if (settings.test) {
+          console.log('Mixpanel:People:TrackCharge');
+          console.log(amount);
+
+        // if we are in cordova && offline{
+        } else if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) {
+          OfflineMixpanel.add({
+            func: 'trackCharge',
+            amount: amount,
+            properties: properties
+          });
+        } else {
+          mixpanel.identify(id);
+          mixpanel.people.track_charge(amount, properties);
+        }
+      });
     }
   }
 
     /* @ngInject */
   function OfflineMixpanel (settings, localStorageService) {
-    var _queue = localStorageService.get('events') || []; // getOrCreate events Array
+
+    // getOrCreate events Array
+    var _queue = localStorageService.get('events') || [];
 
     // public api
     var service = {
@@ -95,26 +126,37 @@
         send: send
     };
 
-    function add (func, event, properties) {
-      _queue.push({
-        func: func,
-        event: event,
-        properties: properties
+    function add (mpObj) {
+      ionic.Platform.ready(function () {
+        _queue.push(mpObj);
+        localStorageService.set('events', _queue);
       });
-      localStorageService.set('events', _queue);
     }
 
-    function send () {
-      if (_queue.length) {
-        for (var i = _queue.length - 1; i >= 0; i--) {
-          var mp = _queue[i];
-          if (mp.func.length === 1) {
-            mixpanel[ mp.func[0] ](mp.event, mp.properties);
-          } else {
-            mixpanel[ mp.func[0] ][ mp.func[1] ](mp.event, mp.properties);
+    function send (id) {
+      ionic.Platform.ready(function () {
+        if (_queue.length) {
+          for (var i = _queue.length - 1; i >= 0; i--) {
+            var mp = _queue[i];
+            if (mp.func === 'track') {
+              mixpanel.track(mp.event, mp.properties);
+            } else if (mp.func === 'set') {
+
+              // we identify the user along with the requests
+              mixpanel.identify(id);
+              mixpanel.people.set(mp.properties);
+            } else if (mp.func === 'trackCharge') {
+
+              // we identify the user along with the requests
+              mixpanel.identify(id);
+              mixpanel.people.track_charge(amount, properties);
+            } else {
+              throw new Error(mp.func + 'is not supported');
+            }
           }
+          localStorageService.remove('events');
         }
-      }
+      });
     }
     return service;
   }

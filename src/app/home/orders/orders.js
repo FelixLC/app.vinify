@@ -1,4 +1,4 @@
-angular.module('app.orders', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 'settings' ])
+angular.module('app.orders', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 'settings', 'Analytics' ])
   .config(function ($stateProvider, $urlRouterProvider, deskProvider) {
     $stateProvider
       .state('sidemenu.orders', {
@@ -20,9 +20,9 @@ angular.module('app.orders', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 'se
       });
   })
 
-  .controller('ordersCtrl', function ordersCtrl ($scope, orderList) {
+  .controller('ordersCtrl', function ordersCtrl ($scope, orderList, Mixpanel) {
     $scope.orders = orderList.data;
-
+    Mixpanel.track('Share Vinify on Facebook', { platform: 'desktop' });
     $scope.statusConverter = function (status) {
       var convertedStatus = "";
       if (status === 1) {convertedStatus = "Créée";}

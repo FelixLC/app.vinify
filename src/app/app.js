@@ -21,13 +21,15 @@ angular.module('app', [
   'settings',
   'Toaster',
   'Update',
+  'Analytics',
   'templates-app',
   'templates-common'
 ])
 
-  .run([ 'security', '$window', '$rootScope', '$document', 'User', 'OfflineQueue', function (security, $window, $rootScope, $document, User, OfflineQueue) {
+  .run([ 'security', '$window', '$rootScope', '$document', 'User', 'OfflineQueue', 'OfflineMixpanel', 'Mixpanel', 'settings', function (security, $window, $rootScope, $document, User, OfflineQueue, OfflineMixpanel, Mixpanel, settings) {
     //  Get the current user state the application starts
     //  (in case they are still logged in from a previous session)
+    console.log('run');
     security.requestCurrentUser().then(function (result) {
       console.log(result);
     });
@@ -71,21 +73,45 @@ angular.module('app', [
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   } ])
 
-.controller('AppCtrl', function ($scope, $rootScope, $ionicSideMenuDelegate, $ionicModal, $window, OfflineQueue, $ionicPlatform, $ionicLoading, $cordovaToast, $cordovaNetwork, $cordovaSplashscreen, Bottles, Update, security, User, Referrals, settings, toasters) {
+.controller('AppCtrl', function ($scope,
+                                                              $state,
+                                                              $rootScope,
+                                                              $ionicSideMenuDelegate,
+                                                              $ionicModal,
+                                                              $window,
+                                                              OfflineQueue,
+                                                              $ionicPlatform,
+                                                              $ionicLoading,
+                                                              $cordovaToast,
+                                                              $cordovaNetwork,
+                                                              $cordovaSplashscreen,
+                                                              Bottles,
+                                                              Update,
+                                                              security,
+                                                              User,
+                                                              Referrals,
+                                                              settings,
+                                                              toasters,
+                                                              OfflineMixpanel,
+                                                              Mixpanel) {
 
-
+  Mixpanel.track('Logged In', { platform: (settings.desktop) ? 'desktop' : 'app' });
+  console.log('app');
   //  Catches online event and fires Offline Queue
   $rootScope.$on('online', function (event) {
+    console.log('online');
     OfflineQueue.sendRatings().then(function (response) {
       console.log(response);
       Bottles.updateList();
     });
-    User.updateUser();
+    User.updateUser(function (user) {
+      OfflineMixpanel.send(user.uuid);
+    });
     console.log('Updating User ...');
     Referrals.updateList();
   });
-
   $rootScope.$on('resume', function (event) {
+    console.log('resume');
     if (ionic.Platform.isWebView() && $cordovaNetwork.isOnline()) { // if we are in cordova && online
       User.updateUser();
       Referrals.updateList();
@@ -148,6 +174,10 @@ angular.module('app', [
   //  Hide the loading indicator
   $scope.hide = function () {
     $ionicLoading.hide();
+  };
+
+  $scope.goHome = function () {
+    $state.go('sidemenu.home');
   };
 
   //  TODO VERIFY WITH STATUS BAR

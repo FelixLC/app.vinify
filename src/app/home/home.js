@@ -31,12 +31,20 @@
         var appropriatedHeight =  Math.floor(($scope.windowSize.height  - 44) / 3); //44 because of -1 margin on scroll content
         var thirdHeight = ($scope.windowSize.height  - 44) - 2 * appropriatedHeight;
 
+        // $scope.calcHeight = {
+        //   "min-height": appropriatedHeight + 'px'
+        // };
+
+        // $scope.calcThirdHeight = {
+        //   "min-height": thirdHeight + 'px'
+        // };
+
         $scope.calcHeight = {
-          "min-height": appropriatedHeight + 'px'
+          "min-height": 'calc((100vh - 44px)/3)'
         };
 
         $scope.calcThirdHeight = {
-          "min-height": thirdHeight + 'px'
+          "min-height": 'calc((100vh - 44px)/3)'
         };
 
         console.log($window.innerHeight);

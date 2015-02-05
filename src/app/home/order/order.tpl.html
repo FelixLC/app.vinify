@@ -1,4 +1,7 @@
-<ion-view title="Commander" id="order-view">
+<ion-view title="Commander" hide-back-button="true" id="order-view">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
+  </ion-nav-buttons>
   <ion-content has-bouncing="false">
     <div class="content-container">
       <div class="card">
@@ -49,9 +52,9 @@
                 <div ng-if="order.data.refills[0]['split']['rose'] >=2" class="pin rose-pin"></div>
                 <div ng-if="order.data.refills[0]['split']['rose'] >=3" class="pin rose-pin"></div>
               </div>
-              <p ng-if="order.data.refills[0]['price_level'] === '29.90' && !states.hideFirstCard ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-              <p ng-if="order.data.refills[0]['price_level'] === '39.90' && !states.hideFirstCard ">J'explore les appellations et les cépages de France.</p>
-              <p ng-if="order.data.refills[0]['price_level'] === '49.90' && !states.hideFirstCard ">Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '29.90' && !states.hideFirstCard "><span class="p-highlight">Recharge découverte</span> <br>  Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '39.90' && !states.hideFirstCard "><span class="p-highlight">Recharge exploration</span> <br> J'explore les appellations et les cépages de France.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '49.90' && !states.hideFirstCard "><span class="p-highlight">Recharge dégustation</span> <br> Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
             </div>
           </div>
         </div>

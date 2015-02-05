@@ -9,12 +9,13 @@
       'Offline',
       'ngCookies',
       'Update',
-      'settings'
+      'settings',
+      'Analytics'
     ])
     .factory('security', security);
 
     /* @ngInject */
-  function security ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings, $ionicHistory) {
+  function security ($http, $q, $location, User, Bottles, Referrals, Addresses, $window, Loading, OfflineUser, $cookies, Update, settings, $ionicHistory, Mixpanel) {
     var service = {
       login: login, // Attempt to authenticate a user by the given email and password
       logout: logout, // Logout the current user and redirect
@@ -39,21 +40,26 @@
       service.currentUser = null;
       User.removeUser();
       delete $window.sessionStorage.token;
-      var request = $http({
-                            url: settings.apiEndPoint + '/users/login/',
-                            method: "POST",
-                            data: { username: email,  password: password },
-                            headers: {
-                                     'Content-Type': 'application/json; charset=UTF-8'
-                            }
-                    });
+
+      var request = $http.post(settings.apiEndPoint + '/users/login/', { username: email,  password: password });
       return request.success(function (data, status, headers, config) {
                                       Loading.hide();
-                                      // SET USER FOR THIS SERVICE (USEFUL FOR ISLOGGEDIN)
+
+                                      // Set User For This Service (useful For Isloggedin)
                                       service.currentUser = data;
-                                      // SET USER IN ANGULAR AND LOCAL STORAGE
+
+                                      // we identify then set properties
+                                      Mixpanel.people.set(data.uuid, {
+                                        "First Name": data.first_name,
+                                        "Email ": data.email,
+                                        "Last Name": data.last_name,
+                                        "App Version": Update.version
+                                      });
+
+                                      // Set User In Angular And Local Storage
                                       User.setUser(data);
-                                      // SET AUTH TOKEN FOR FURTHER REQUESTS
+
+                                      // Set Auth Token For Further Requests
                                       $window.sessionStorage.token = data.token;
                                       return service.isAuthenticated();
                                     })
@@ -78,6 +84,7 @@
 
     // Ask the backend to see if a user is already authenticated - this may be from a previous session.
     function requestCurrentUser () {
+
       if (service.isAuthenticated()) {
         // let's go home
         console.log('Method isAuth');

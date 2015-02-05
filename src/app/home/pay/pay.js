@@ -1,4 +1,4 @@
-angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading', 'payingService', 'settings', 'Toaster' ])
+angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayments', 'Loading', 'payingService', 'settings', 'Toaster', 'Analytics' ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('sidemenu.pay', {
@@ -14,7 +14,22 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
           }
       });
   })
-  .controller('payCtrl', function payCtrl ($scope, $http, $location, SerializedOrder, User, $window, $ionicPlatform, $cordovaToast, Loading, $state, Pay, settings, toasters, $ionicHistory) {
+  .controller('payCtrl', function payCtrl ($scope,
+                                                                              $http,
+                                                                              $location,
+                                                                              SerializedOrder,
+                                                                              User,
+                                                                              $window,
+                                                                              $ionicPlatform,
+                                                                              $cordovaToast,
+                                                                              Loading,
+                                                                              $state,
+                                                                              Pay,
+                                                                              settings,
+                                                                              toasters,
+                                                                              $ionicHistory,
+                                                                              Mixpanel) {
+
     $scope.serializedOrder = SerializedOrder;
     $scope.user = User.getUser();
     console.log(User.getUser);
@@ -39,6 +54,25 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
         Loading.show();
         Pay.chargeRefill($scope.serializedOrder.uuid, response.id)
           .success(function (data, status, headers, config) {
+            Mixpanel.people.trackCharge($scope.user.uuid, data.final_price, {
+              credits: data.credits,
+              order_type: data.order_type,
+              coupon: data.coupon,
+              quantity: data.quantity,
+              delivery_mode: data.delivery_mode,
+              delivery_cost: data.delivery_cost
+            });
+            Mixpanel.track('Refill Purchase', {
+              final_price: data.final_price,
+              credits: data.credits,
+              platform: (settings.desktop) ? 'desktop' : 'app',
+              num_bottles: data.num_bottles,
+              order_type: data.order_type,
+              coupon: data.coupon,
+              quantity: data.quantity,
+              delivery_mode: data.delivery_mode,
+              delivery_cost: data.delivery_cost
+            });
             Loading.hide();
             $scope.openYipeeModal();
             if (data.delivery_mode === 'Point Relais') {
@@ -59,6 +93,18 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
       Loading.show();
       Pay.chargeRefill($scope.serializedOrder.uuid)
         .success(function (data, status, headers, config) {
+          Mixpanel.people.trackCharge($scope.user.uuid, data.final_price);
+          Mixpanel.track('Refill Purchase', {
+            final_price: data.final_price,
+            credits: data.credits,
+            platform: (settings.desktop) ? 'desktop' : 'app',
+            num_bottles: data.num_bottles,
+            order_type: data.order_type,
+            coupon: data.coupon,
+            quantity: data.quantity,
+            delivery_mode: data.delivery_mode,
+            delivery_cost: data.delivery_cost
+          });
           Loading.hide();
           $scope.openYipeeModal();
           if (data.delivery_mode === 'Point Relais') {

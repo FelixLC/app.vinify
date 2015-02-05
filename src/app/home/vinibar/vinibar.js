@@ -28,6 +28,17 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
       });
     };
   })
+  .directive('errSrc', function () {
+    return {
+      link: function (scope, element, attrs) {
+        element.bind('error', function () {
+          if (attrs.src != attrs.errSrc) {
+            attrs.$set('src', attrs.errSrc);
+          }
+        });
+      }
+    };
+  })
   .factory('focus', function ($rootScope, $timeout) {
     return function (name) {
       $timeout(function () {
@@ -35,7 +46,14 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
       });
     };
   })
-.controller('vinibarCtrl', function vinibarCtrl ($scope, $rootScope, $http, $location, $resource, User, Bottles, bottles, $stateParams, $cordovaToast, SegmentedControlState, toasters, settings, focus) {
+.controller('vinibarCtrl', function vinibarCtrl ($scope,
+                                                                                          User,
+                                                                                          Bottles,
+                                                                                          bottles,
+                                                                                          SegmentedControlState,
+                                                                                          toasters,
+                                                                                          settings) {
+
   var init = function () {
     $scope.spin = false;
     $scope.bottleList = bottles.data;
@@ -63,6 +81,7 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
   };
   $scope.searchToggle = function () {
     $scope.search.toggle = !$scope.search.toggle;
+    $scope.search.value = '';
     focus('focusMe');
   };
   $scope.questionnaire = function () {
@@ -84,7 +103,7 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
 
     // TODO manage accents
   $scope.searchFilter = function (bottle) {
-    var removeAccentsAndSpaces = function (string) {
+    var removeAccents = function (string) {
       var strAccents = string.split('');
       var strAccentsOut = new Array (strAccents.length);
       var strAccentsLen = strAccents.length;
@@ -97,15 +116,15 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
           strAccentsOut[y] = strAccents[y];
         }
       }
-      strAccentsOut = strAccentsOut.join('');
-      return strAccentsOut.split(" ").join("_");
+      return strAccentsOut.join('');
     };
-    var wine = removeAccentsAndSpaces(bottle.wine.display_name);
-    var appellation = removeAccentsAndSpaces(bottle.wine.appellation);
-    var region = removeAccentsAndSpaces(bottle.wine.region);
-    var search = removeAccentsAndSpaces($scope.search.value);
+    var wine = removeAccents(bottle.wine.display_name);
+    var appellation = removeAccents(bottle.wine.appellation);
+    var region = removeAccents(bottle.wine.region);
+    var search = removeAccents($scope.search.value);
     return !!((wine.toLowerCase().indexOf(search.toLowerCase() || '') !== -1 || appellation.toLowerCase().indexOf(search.toLowerCase() || '') !== -1 || region.toLowerCase().indexOf($scope.search.value.toLowerCase() || '') !== -1));
   };
+
   $scope.update = function () {
     $scope.spin = true;
     Bottles.updateList().then(
@@ -120,6 +139,18 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
         $scope.$broadcast('scroll.refreshComplete');
         toasters.pop('Problème de connexion ...', 'top', 'info');
       });
+  };
+
+  $scope.getRange = function (bottle) {
+    if (bottle.public_price < 12) {
+      return new Array(1);
+    } else if (bottle.public_price < 15) {
+      return new Array(2);
+    } else if (bottle.public_price < 18) {
+      return new Array(3);
+    } else {
+      return new Array(4);
+    }
   };
 
   $scope.get = function () {

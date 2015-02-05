@@ -1,9 +1,12 @@
-<ion-view title="Vinibar" id="vinibar">
+<ion-view title="Vinibar" hide-back-button="true" id="vinibar">
 	<ion-nav-buttons side="right">
 		<button class="button" ng-click="searchToggle()">
 			<i class="icon ion-search"></i>
 		</button>
 	</ion-nav-buttons>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
+      </ion-nav-buttons>
 	<ion-header-bar align-title="left" class="bar-positive bar-subheader bar-segmented-control">
 		<p ng-if="!search.toggle" class="segmented-control">
 				<span class="segmented">
@@ -45,7 +48,7 @@
 		</a>
 		<ion-list ng-if="segmentedControl.value === 'rated'">
 			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter" class="item item-thumbnail-left" href="#/ratedwine/{{::bottle.uuid}}">
-					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" alt="">
+					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}
@@ -55,18 +58,24 @@
 							</span>
 							<br>
 							{{::bottle.wine.appellation}}
+							<span class="item-note">
+								<span ng-repeat="a in getRange(bottle.wine) track by $index">€</span>
+							</span>
 					</p>
 			</a>
 		</ion-list>
 		<ion-list ng-if="segmentedControl.value === 'toDrink'">
 			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter" class="item item-thumbnail-left" href="#/wine/{{::bottle.uuid}}">
-					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" alt="">
+					<img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
 					<h3>{{::bottle.wine.display_name}}</h3>
 					<p class="vinitext">
 							{{::bottle.wine.region}}
 							<span class="item-note">{{::bottle.wine.vintage}}</span>
 							<br>
 							{{::bottle.wine.appellation}}
+							<span class="item-note">
+								<span ng-repeat="a in getRange(bottle.wine) track by $index">€</span>
+							</span>
 						</p>
 			</a>
 		</ion-list>

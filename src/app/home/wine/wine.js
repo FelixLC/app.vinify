@@ -4,11 +4,13 @@
     'Rating',
     'ionic.rating',
     'Offline',
+    'Analytics',
     'Loading',
     'ngCordova',
     'Toaster',
     'material.components.slider',
-    'settings'
+    'settings',
+    'Analytics'
     ])
     .config(function ($stateProvider, $urlRouterProvider, deskProvider) {
       $stateProvider
@@ -49,7 +51,24 @@
             // }
         });
     })
-    .controller('wineCtrl', function wineCtrl ($scope, $stateParams, $state, Bottles, $ionicModal, Rating, GroupRating, OfflineQueue, $ionicLoading, $cordovaToast, $ionicPlatform, $cordovaNetwork, Loading, SegmentedControlState, toasters, settings, $ionicScrollDelegate) {
+    .controller('wineCtrl', function wineCtrl ($scope,
+                                                                                      $stateParams,
+                                                                                      $state,
+                                                                                      Bottles,
+                                                                                      $ionicModal,
+                                                                                      Rating,
+                                                                                      GroupRating,
+                                                                                      OfflineQueue,
+                                                                                      $ionicLoading,
+                                                                                      $cordovaToast,
+                                                                                      $ionicPlatform,
+                                                                                      $cordovaNetwork,
+                                                                                      Loading,
+                                                                                      SegmentedControlState,
+                                                                                      toasters,
+                                                                                      settings,
+                                                                                      $ionicScrollDelegate,
+                                                                                      Mixpanel) {
       $scope.id = $stateParams.uuid;
       var getById = function (arr, id) {
         for (var d = 0, len = arr.length; d < len; d += 1) {
@@ -67,7 +86,17 @@
       $scope.rateStars = {
         value: 4
       };
-
+      $scope.getRange = function (bottle) {
+        if (bottle.public_price < 12) {
+          return new Array(1);
+        } else if (bottle.public_price < 15) {
+          return new Array(2);
+        } else if (bottle.public_price < 18) {
+          return new Array(3);
+        } else {
+          return new Array(4);
+        }
+      };
       $scope.showHalf = false;
       $scope.star = {
         full: new Array(4),
@@ -134,6 +163,9 @@
                                   $scope.closeModal();
                                   SegmentedControlState.value = 'rated';
                                   $state.go('sidemenu.vinibar');
+                                  Mixpanel.track('Rated Bottle', {
+                                    platform: (settings.desktop) ? 'desktop' : 'app'
+                                  });
                                   $cordovaToast.show('Note Enregistrée ...', 'short', 'top');
                   });
 
@@ -144,6 +176,9 @@
                                                                             $scope.closeModal();
                                                                             SegmentedControlState.value = 'rated';
                                                                             $state.go('sidemenu.vinibar');
+                                                                            Mixpanel.track('Rated Bottle', {
+                                                                              platform: (settings.desktop) ? 'desktop' : 'app'
+                                                                            });
                                                                             toasters.pop('Bien reçu !', 'top', 'success');
                                                                       }, function (data, status, headers, config) {
                                                                           Loading.hide();
@@ -160,6 +195,9 @@
                                                                             SegmentedControlState.value = 'rated';
                                                                             $state.go('sidemenu.vinibar');
                                                                             toasters.pop('Bien reçu !', 'top', 'success');
+                                                                            Mixpanel.track('Rated Bottle', {
+                                                                              platform: (settings.desktop) ? 'desktop' : 'app'
+                                                                            });
                                                                       }, function (data, status, headers, config) {
                                                                           Loading.hide();
                                                                           toasters.pop('Oops, Vous n\'êtes pas connecté', 'top', 'info');
@@ -219,6 +257,7 @@
                   OfflineQueue.addRating($scope.rating);
                   OfflineQueue.addGroupRating($scope.groupRating);
                   Bottles.fakeRating($scope.rating).then(function (response) {
+                  Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
                                   $scope.closeGroupModal();
                                   $state.go('sidemenu.vinibar');
                   });
@@ -227,6 +266,7 @@
                   // Rate Wine then rate group wines
                   $scope.groupRating.rateWines().then(function () {
                     $scope.rating.rateWine().then(function (response) {
+                    Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
                           $scope.closeGroupModal();
                           Loading.hide();
                           $state.go('sidemenu.vinibar');
@@ -238,6 +278,7 @@
                   // Rate Wine then rate group wines
                   $scope.groupRating.rateWines().then(function () {
                     $scope.rating.rateWine().then(function (response) {
+                    Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
                           $scope.closeGroupModal();
                           Loading.hide();
                           $state.go('sidemenu.vinibar');
