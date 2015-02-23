@@ -19,6 +19,7 @@
                   <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="29.90"><span class="label">29€90</span></label>
                   <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="39.90"><span class="label">39€90</span></label>
                   <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="49.90"><span class="label">49€90</span></label>
+                  <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="59.90"><span class="label">59€90</span></label>
               </span>
           </p>
 <!--           <div class="button-bar">
@@ -33,6 +34,7 @@
               <img ng-if="order.data.refills[0]['price_level'] === '29.90' " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
               <img ng-if="order.data.refills[0]['price_level'] === '39.90' " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
               <img ng-if="order.data.refills[0]['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
+              <img ng-if="order.data.refills[0]['price_level'] === '59.90' " class="order-france-logo" src="assets/utils/logo_mini.png" alt="cepage">
             </div>
             <div class="col item-text-wrap centered">
               <div ng-show="states.hideFirstCard" class="pins">
@@ -40,6 +42,7 @@
                   <span ng-if="order.data.refills[0]['price_level'] === '29.90'">Découverte</span>
                   <span ng-if="order.data.refills[0]['price_level'] === '39.90'">Exploration</span>
                   <span ng-if="order.data.refills[0]['price_level'] === '49.90'">Dégustation</span>
+                  <span ng-if="order.data.refills[0]['price_level'] === '59.90'">Exception</span>
                 </h3>
                 <p>3 bouteilles <span class="item-note item-note-strong">{{order.data.refills[0]['price_level']}} €</span></p>
                 <div ng-if="order.data.refills[0]['split']['red'] >=1" class="pin red-pin"></div>
@@ -52,9 +55,10 @@
                 <div ng-if="order.data.refills[0]['split']['rose'] >=2" class="pin rose-pin"></div>
                 <div ng-if="order.data.refills[0]['split']['rose'] >=3" class="pin rose-pin"></div>
               </div>
-              <p ng-if="order.data.refills[0]['price_level'] === '29.90' && !states.hideFirstCard "><span class="p-highlight">Recharge découverte</span> <br>  Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-              <p ng-if="order.data.refills[0]['price_level'] === '39.90' && !states.hideFirstCard "><span class="p-highlight">Recharge exploration</span> <br> J'explore les appellations et les cépages de France.</p>
-              <p ng-if="order.data.refills[0]['price_level'] === '49.90' && !states.hideFirstCard "><span class="p-highlight">Recharge dégustation</span> <br> Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '29.90' && !states.hideFirstCard "><span class="p-highlight">Recharge Découverte</span> <br>  Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '39.90' && !states.hideFirstCard "><span class="p-highlight">Recharge Exploration</span> <br> J'explore les appellations et les cépages de France.</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '49.90' && !states.hideFirstCard "><span class="p-highlight">Recharge Dégustation</span> <br> Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
+              <p ng-if="order.data.refills[0]['price_level'] === '59.90' && !states.hideFirstCard "><span class="p-highlight">Recharge Exception</span> <br> Je déguste des vins exceptionnels pour atteindre le nirvana oenologique !</p>
             </div>
           </div>
         </div>
@@ -97,6 +101,8 @@
                   <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="29.90"><span class="label">29€90</span></label>
                   <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="39.90"><span class="label">39€90</span></label>
                   <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="49.90"><span class="label">49€90</span></label>
+                  <label><input type="radio" name="list_2" ng-model="order.data.refills[1]['price_level']" value="59.90"><span class="label">59€90</span></label>
+
               </span>
           </p>
         </div>
@@ -106,6 +112,8 @@
               <img ng-if="order.data.refills[1]['price_level'] === '29.90' " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
               <img ng-if="order.data.refills[1]['price_level'] === '39.90' " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
               <img ng-if="order.data.refills[1]['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
+              <img ng-if="order.data.refills[1]['price_level'] === '59.90' " class="order-france-logo" src="assets/utils/logo_mini.png" alt="cepage">
+
             </div>
             <div class="col item-text-wrap centered">
               <div ng-show="states.hideSecondCard" class="pins">
@@ -113,6 +121,8 @@
                   <span ng-if="order.data.refills[1]['price_level'] === '29.90'">Découverte</span>
                   <span ng-if="order.data.refills[1]['price_level'] === '39.90'">Exploration</span>
                   <span ng-if="order.data.refills[1]['price_level'] === '49.90'">Dégustation</span>
+                  <span ng-if="order.data.refills[1]['price_level'] === '59.90'">Exception</span>
+
                 </h3>
                 <p>3 bouteilles <span class="item-note item-note-strong">{{order.data.refills[1]['price_level']}} €</span></p>
                 <div ng-if="order.data.refills[1]['split']['red'] >=1" class="pin red-pin"></div>
@@ -125,9 +135,11 @@
                 <div ng-if="order.data.refills[1]['split']['rose'] >=2" class="pin rose-pin"></div>
                 <div ng-if="order.data.refills[1]['split']['rose'] >=3" class="pin rose-pin"></div>
               </div>
-              <p ng-if="order.data.refills[1]['price_level'] === '29.90' && !states.hideSecondCard ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-              <p ng-if="order.data.refills[1]['price_level'] === '39.90' && !states.hideSecondCard ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-              <p ng-if="order.data.refills[1]['price_level'] === '49.90' && !states.hideSecondCard ">Des vins fins, élégants et racés.</ A moi les grandes appellations !p>
+              <p ng-if="order.data.refills[1]['price_level'] === '29.90' && !states.hideSecondCard "><span class="p-highlight">Recharge Découverte</span> <br>  Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
+              <p ng-if="order.data.refills[1]['price_level'] === '39.90' && !states.hideSecondCard "><span class="p-highlight">Recharge Exploration</span> <br> J'explore les appellations et les cépages de France.</p>
+              <p ng-if="order.data.refills[1]['price_level'] === '49.90' && !states.hideSecondCard "><span class="p-highlight">Recharge Dégustation</span> <br> Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
+              <p ng-if="order.data.refills[1]['price_level'] === '59.90' && !states.hideSecondCard "><span class="p-highlight">Recharge Exception</span> <br> Je déguste des vins exceptionnels pour atteindre le nirvana oenologique !</p>
+
             </div>
           </div>
         </div>

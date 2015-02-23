@@ -59,7 +59,8 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
 
         $scope.share.twitter = function () {
           var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + " " + $scope.bottle.wine.vintage + ". \n" +
-          $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco !";
+          $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco ! " + "https://www.vinify.co/" +
+          $scope.bottle.wine.slug + ".html";
           $cordovaSocialSharing.shareViaTwitter(msg).then(function (result) {
               // Success!
           }, function (err) {
@@ -69,7 +70,8 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
 
         $scope.share.facebook = function () {
           var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + " " + $scope.bottle.wine.vintage + ". \n" +
-          $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco !";
+          $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco ! " + "https://www.vinify.co/" +
+          $scope.bottle.wine.slug + ".html";
           $cordovaSocialSharing.shareViaFacebook(msg).then(function (result) {
               // Success!
           }, function (err) {
@@ -79,7 +81,8 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
 
         $scope.share.mail = function () {
           var msg = "Je viens de déguster le " + $scope.bottle.wine.display_name + " " + $scope.bottle.wine.vintage + ". \n" +
-          $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco !";
+          $scope.bottle.comment + "\n" + $scope.bottle.rating + "/5. Super découverte grâce à @vinifyco ! " + "https://www.vinify.co/" +
+          $scope.bottle.wine.slug + ".html";
           var subject = $scope.bottle.wine.display_name + " | Vinify";
           $cordovaSocialSharing.shareViaEmail(msg, subject).then(
             function (result) {
@@ -206,27 +209,36 @@ angular.module('app.ratedwine', [ 'ngResource', 'User', 'Rating', 'ngCordova', '
         $scope.group.hide();
       };
 
-      $scope.rateWines = function () {
-        if ($cordovaNetwork.isOffline()) {
-          // Store Rating and Fake it
-          OfflineQueue.addRating($scope.rating);
-          OfflineQueue.addGroupRating($scope.groupRating);
-          Bottles.fakeRating($scope.rating).then(function (response) {
-            $scope.closeGroupModal();
-            $state.go('sidemenu.vinibar');
-          });
-        } else {
-          Loading.show();
-            // Rate Wine then rate group wines
-          $scope.groupRating.rateWines().then(function () {
-            $scope.rating.rateWine().then(function (response) {
-              $scope.closeGroupModal();
-              Loading.hide();
-              $state.go('sidemenu.vinibar');
-            });
-          });
-        }
-      };
+          $scope.rateWines = function () {
+            if(ionic.Platform.isWebView()) { //if we use cordova
+              if ($cordovaNetwork.isOffline()) {
+                // Store Rating and Fake it
+                  OfflineQueue.addGroupRating($scope.groupRating);
+                  Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
+                  $scope.closeGroupModal();
+                  Loading.hide();
+                  $state.go('sidemenu.vinibar');
+              } else {
+                Loading.show();
+                  // Rate Wine then rate group wines
+                  $scope.groupRating.rateWines().then(function () {
+                      Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
+                      $scope.closeGroupModal();
+                      Loading.hide();
+                      $state.go('sidemenu.vinibar');
+                  });
+              }
+            } else { // if we are on the web app
+                Loading.show();
+                  // Rate Wine then rate group wines
+                  $scope.groupRating.rateWines().then(function () {
+                      Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
+                      $scope.closeGroupModal();
+                      Loading.hide();
+                      $state.go('sidemenu.vinibar');
+                  });
+              }
+          };
 
       // Cleanup the modal when we're done with it!
       $scope.$on('$destroy', function () {

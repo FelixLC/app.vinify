@@ -1,4 +1,4 @@
-  angular.module('app.order', [ 'Order', 'User', 'settings' ])
+  angular.module('app.order', [ 'Order', 'User', 'settings', 'Toaster' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.order', {
@@ -29,7 +29,7 @@
           }
         };
       })
-      .controller('orderCtrl', function orderCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts, $ionicScrollDelegate) {
+      .controller('orderCtrl', function orderCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts, $ionicScrollDelegate, toasters) {
 
         // prepare for next screen
         User.updateUser(function (user) {
@@ -42,7 +42,8 @@
         $scope.prices = {
           "29.90": 29.90,
           "39.90": 39.90,
-          "49.90": 49.90
+          "49.90": 49.90,
+          "59.90": 59.90
         };
 
         $scope.states = {
@@ -106,9 +107,15 @@
         };
 
         $scope.validateFirstCard = function () {
-          $scope.states.hideFirstCard = true;
-          $ionicScrollDelegate.scrollTop();
-          $ionicScrollDelegate.resize();
+          if ($scope.order.data.refills[0]['split']['white'] +
+                $scope.order.data.refills[0]['split']['red'] +
+                $scope.order.data.refills[0]['split']['rose'] === 3) {
+            $scope.states.hideFirstCard = true;
+            $ionicScrollDelegate.scrollTop();
+            $ionicScrollDelegate.resize();
+          } else {
+            toasters.pop('La somme des vins ne fait pas trois', 'top', 'info');
+          }
         };
 
         $scope.modifyFirstCard = function () {
@@ -118,9 +125,15 @@
         };
 
         $scope.validateSecondCard = function () {
-          $scope.states.hideSecondCard = true;
-          $ionicScrollDelegate.scrollTop();
-          $ionicScrollDelegate.resize();
+          if ($scope.order.data.refills[1]['split']['white'] +
+                $scope.order.data.refills[1]['split']['red'] +
+                $scope.order.data.refills[1]['split']['rose'] === 3) {
+            $scope.states.hideSecondCard = true;
+            $ionicScrollDelegate.scrollTop();
+            $ionicScrollDelegate.resize();
+          } else {
+            toasters.pop('La somme des vins ne fait pas trois', 'top', 'info');
+          }
         };
 
         $scope.modifySecondCard = function () {

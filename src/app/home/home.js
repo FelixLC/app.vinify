@@ -1,4 +1,4 @@
-  angular.module( 'app.home', ['User', 'Update', 'ngCordova'])
+  angular.module('app.home', ['User', 'Update', 'ngCordova' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.home', {
@@ -12,7 +12,7 @@
           });
      })
 
-      .controller('homeCtrl', function homeCtrl( $scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User ) {
+      .controller('homeCtrl', function homeCtrl ($scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User) {
 
         $scope.stateGo = function (to) {
           $state.go('sidemenu.' + to);
@@ -28,24 +28,24 @@
         };
         // console.log($rootScope.isOnline);
         // TODO VERIFY WITH STATUS BAR
-        var appropriatedHeight =  Math.floor(($scope.windowSize.height  - 44) / 3); //44 because of -1 margin on scroll content
+        var appropriatedHeight =  Math.floor(($scope.windowSize.height  - 44) / 3); // 44 because of -1 margin on scroll content
         var thirdHeight = ($scope.windowSize.height  - 44) - 2 * appropriatedHeight;
 
-        // $scope.calcHeight = {
-        //   "min-height": appropriatedHeight + 'px'
-        // };
-
-        // $scope.calcThirdHeight = {
-        //   "min-height": thirdHeight + 'px'
-        // };
-
         $scope.calcHeight = {
-          "min-height": 'calc((100vh - 44px)/3)'
+          "min-height": appropriatedHeight + 'px'
         };
 
         $scope.calcThirdHeight = {
-          "min-height": 'calc((100vh - 44px)/3)'
+          "min-height": thirdHeight + 'px'
         };
+
+        // $scope.calcHeight = {
+        //   "min-height":  ionic.Platform.isIOS() ? 'calc((100vh - 64px)/3)' : 'calc((100vh - 44px)/3)'
+        // };
+
+        // $scope.calcThirdHeight = {
+        //   "min-height": 'calc((100vh - 44px)/3)'
+        // };
 
         console.log($window.innerHeight);
       });

@@ -63,10 +63,7 @@ angular.module('Rating', [ 'ngResource', 'User', 'settings' ])
 
       GroupRating.prototype.rateWines = function () {
         var data = this.data;
-        return $http.post(settings.apiEndPoint + '/wines/guestrating/', data)
-        .success(function (data, status, headers, config) {
-          Bottles.setList(data);
-        });
+        return $http.post(settings.apiEndPoint + '/wines/guestrating/', data);
       };
 
       return GroupRating;

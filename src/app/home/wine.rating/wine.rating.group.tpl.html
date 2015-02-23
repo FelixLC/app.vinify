@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div class="card">
+<!--   <div class="card">
     <form class="item rating-form">
         <h4>Ma Note : {{::rating.data.rating}}/5<span class="item-note item-note-primary">"{{literalRating.value}}"</span></h4>
           <md-slider class="md-slider-card" md-discrete ng-model="rating.data.rating" step="0.5" min="1" max="5" aria-label="rating">
@@ -46,18 +46,23 @@
              Revoir mon vin dans mon Vinibar
           </div>
       </form>
+    </div> -->
+    <div class="card">
+      <div class="item item-text-wrap">
+        <p>Noter n'affectera pas votre note ou votre moyenne. Nous ajoutons juste la bouteille et la note dans le vinibar de vos invités.</p>
+      </div>
     </div>
     <div class="card card-guests">
-    <div class="item">
-        <h4>Nombre d'invités</h4>
-          <div class="button-bar">
-            <a ng-class="{highlighted: invite.value.length == 1}" ng-click="updateInviteValue(1)" class="button">1</a>
-            <a ng-class="{highlighted: invite.value.length == 2}" ng-click="updateInviteValue(2)" class="button">2</a>
-            <a ng-class="{highlighted: invite.value.length == 3}" ng-click="updateInviteValue(3)" class="button">3</a>
-            <a ng-class="{highlighted: invite.value.length == 4}" ng-click="updateInviteValue(4)" class="button">4</a>
-            <a ng-class="{highlighted: invite.value.length == 5}" ng-click="updateInviteValue(5)" class="button">5</a>
-          </div>
-    </div>
+      <div class="item">
+          <h4>Nombre d'invités</h4>
+            <div class="button-bar">
+              <a ng-class="{highlighted: invite.value.length == 1}" ng-click="updateInviteValue(1)" class="button">1</a>
+              <a ng-class="{highlighted: invite.value.length == 2}" ng-click="updateInviteValue(2)" class="button">2</a>
+              <a ng-class="{highlighted: invite.value.length == 3}" ng-click="updateInviteValue(3)" class="button">3</a>
+              <a ng-class="{highlighted: invite.value.length == 4}" ng-click="updateInviteValue(4)" class="button">4</a>
+              <a ng-class="{highlighted: invite.value.length == 5}" ng-click="updateInviteValue(5)" class="button">5</a>
+            </div>
+      </div>
     </div>
 
     <div ng-repeat="i in invite.value track by $index" class="card">

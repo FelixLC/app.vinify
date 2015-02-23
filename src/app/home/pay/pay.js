@@ -32,6 +32,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
 
     $scope.serializedOrder = SerializedOrder;
     $scope.user = User.getUser();
+    $scope.name = $scope.user.email;
     console.log(User.getUser);
     console.log($scope.user.is_staff);
     console.log(SerializedOrder);

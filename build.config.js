@@ -69,7 +69,7 @@ module.exports = {
       'bower_components/angular-payments/lib/angular-payments.min.js',
       'bower_components/hammerjs/hammer.min.js',
       'bower_components/angular-material/angular-material.min.js',
-      'bower_components/angular-toaster/angular-toaster.js',
+      'bower_components/angular-toaster/toaster.js',
       'bower_components/angular-payments/lib/angular-payments.min.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
       'bower_components/ngCordova/dist/ng-cordova.js',

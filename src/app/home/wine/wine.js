@@ -254,35 +254,29 @@
             if(ionic.Platform.isWebView()) { //if we use cordova
               if ($cordovaNetwork.isOffline()) {
                 // Store Rating and Fake it
-                  OfflineQueue.addRating($scope.rating);
                   OfflineQueue.addGroupRating($scope.groupRating);
-                  Bottles.fakeRating($scope.rating).then(function (response) {
                   Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
-                                  $scope.closeGroupModal();
-                                  $state.go('sidemenu.vinibar');
-                  });
+                  $scope.closeGroupModal();
+                  Loading.hide();
+                  $state.go('sidemenu.vinibar');
               } else {
                 Loading.show();
                   // Rate Wine then rate group wines
                   $scope.groupRating.rateWines().then(function () {
-                    $scope.rating.rateWine().then(function (response) {
-                    Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
-                          $scope.closeGroupModal();
-                          Loading.hide();
-                          $state.go('sidemenu.vinibar');
-                    });
+                      Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
+                      $scope.closeGroupModal();
+                      Loading.hide();
+                      $state.go('sidemenu.vinibar');
                   });
               }
             } else { // if we are on the web app
                 Loading.show();
                   // Rate Wine then rate group wines
                   $scope.groupRating.rateWines().then(function () {
-                    $scope.rating.rateWine().then(function (response) {
-                    Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
-                          $scope.closeGroupModal();
-                          Loading.hide();
-                          $state.go('sidemenu.vinibar');
-                    });
+                      Mixpanel.track('Invited friends to rate', { platform: (settings.desktop) ? 'desktop' : 'app' });
+                      $scope.closeGroupModal();
+                      Loading.hide();
+                      $state.go('sidemenu.vinibar');
                   });
               }
           };
