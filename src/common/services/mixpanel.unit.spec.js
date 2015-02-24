@@ -1,6 +1,6 @@
 /*
-* This module test our mixpanel module.
-* WARNING: This module is not production-ready and only share to give a hint.
+* This module tests our mixpanel module.
+* WARNING: This module is not production-ready and only shared to give a hint.
 */
 
 /*

@@ -2,7 +2,7 @@ angular.module('Update', [ 'settings' ])
   .factory('Update', function ($http, settings) {
 
     var that = this;
-    var _version = 1.46;
+    var _version = 1.5;
 
     return {
       version: _version, // This is the version name to be manually updated at each build

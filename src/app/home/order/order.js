@@ -99,6 +99,7 @@
         };
 
         $scope.order = new Order();
+        $scope.order.addRefill("39.90");
 
         $scope.addRefill = function () {
           $scope.order.addRefill("39.90");

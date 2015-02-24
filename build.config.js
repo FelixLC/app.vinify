@@ -74,7 +74,8 @@ module.exports = {
       'bower_components/angular-local-storage/dist/angular-local-storage.min.js',
       'bower_components/ngCordova/dist/ng-cordova.js',
       'bower_components/ionic-rating/ionic-rating.min.js',
-      'vendor/mixpanel.min.js'
+      'vendor/mixpanel.min.js',
+      'node_modules/lodash-compat/index.js'
     ],
     css: [
       'bower_components/ionic/release/css/ionic.min.css',
