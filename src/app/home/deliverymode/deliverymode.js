@@ -35,16 +35,16 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   deliveryCosts.get('FR',
     function (costs) {
       $scope.deliveryPrices = {
-        'Point Relais': [ costs[0]['relay3'], costs[0]['relay6'] ],
-        Vinify: [ costs[0]['pickup3'], costs[0]['pickup6'] ],
-        Colissimo: [ costs[0]['classic3'], costs[0]['classic6'] ]
+        'Point Relais': [ costs[0]['relay3'], costs[0]['relay6'], costs[0]['relay12'] ],
+        Vinify: [ costs[0]['pickup3'], costs[0]['pickup6'], costs[0]['pickup12'] ],
+        Colissimo: [ costs[0]['classic3'], costs[0]['classic6'], costs[0]['classic12'] ]
       };
     },
     function () {
       $scope.deliveryPrices = {
-        'Point Relais': [ 4.90, 8.90 ],
+        'Point Relais': [ 4.90, 8.90, 15.45 ],
         Vinify: [ 0, 0 ],
-        Colissimo: [ 8.90, 11.90 ]
+        Colissimo: [ 8.90, 11.90, 19.00 ]
       };
     });
   $scope.credits = {

@@ -19,7 +19,7 @@
   function settings ($window) {
     var service = {
       desktop: false,
-      test: false,
+      test: true,
       width: $window.innerWidth,
       // apiEndPoint: 'http://127.0.0.1:8000/api',
       // apiEndPoint: '/api',

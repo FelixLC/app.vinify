@@ -47,6 +47,7 @@
         };
 
         $scope.states = {
+          current: 1,
           hideFirstCard: false,
           hideSecondCard: false
         };
@@ -101,44 +102,41 @@
         $scope.order = new Order();
         $scope.order.addRefill("39.90");
 
+        $scope.addBottle = function (color, index) {
+          if ($scope.order.data.refills[index]['split'][color] < 3) {
+            $scope.order.data.refills[index]['split'][color]++;
+          }
+        };
+
+        $scope.removeBottle = function (color, index) {
+          if ($scope.order.data.refills[index]['split'][color] > 0) {
+            $scope.order.data.refills[index]['split'][color]--;
+          }
+        };
+
         $scope.addRefill = function () {
-          $scope.order.addRefill("39.90");
-          $scope.addSecond = true;
-          $ionicScrollDelegate.resize();
+          if ($scope.order.data.refills.length != 3) {
+            $scope.order.addRefill("39.90");
+            $scope.states.current = $scope.order.data.refills.length;
+            $ionicScrollDelegate.resize();
+          } else {
+            toasters.pop('Vous pouvez commander par 3, 6 ou 12 seulement. Contactez-nous pour des commandes plus importantes', 'top', 'info');
+          }
         };
 
-        $scope.validateFirstCard = function () {
-          if ($scope.order.data.refills[0]['split']['white'] +
-                $scope.order.data.refills[0]['split']['red'] +
-                $scope.order.data.refills[0]['split']['rose'] === 3) {
-            $scope.states.hideFirstCard = true;
-            $ionicScrollDelegate.scrollTop();
+        $scope.validateCard = function (i) {
+          if ($scope.order.data.refills[i]['split']['white'] +
+                $scope.order.data.refills[i]['split']['red'] +
+                $scope.order.data.refills[i]['split']['rose'] === 3) {
+            $scope.states.current = 0;
             $ionicScrollDelegate.resize();
           } else {
             toasters.pop('La somme des vins ne fait pas trois', 'top', 'info');
           }
         };
 
-        $scope.modifyFirstCard = function () {
-          $scope.states.hideFirstCard = false;
-          $ionicScrollDelegate.scrollTop();
-          $ionicScrollDelegate.resize();
-        };
-
-        $scope.validateSecondCard = function () {
-          if ($scope.order.data.refills[1]['split']['white'] +
-                $scope.order.data.refills[1]['split']['red'] +
-                $scope.order.data.refills[1]['split']['rose'] === 3) {
-            $scope.states.hideSecondCard = true;
-            $ionicScrollDelegate.scrollTop();
-            $ionicScrollDelegate.resize();
-          } else {
-            toasters.pop('La somme des vins ne fait pas trois', 'top', 'info');
-          }
-        };
-
-        $scope.modifySecondCard = function () {
-          $scope.states.hideSecondCard = false;
+        $scope.modifyCard = function (i) {
+          $scope.states.current = i + 1;
           $ionicScrollDelegate.resize();
         };
 
@@ -146,23 +144,27 @@
           $ionicScrollDelegate.scrollTop();
         };
 
-        $scope.removeRefill = function () {
-          $scope.addSecond = false;
+        $scope.removeRefill = function (i) {
+          $scope.order.removeRefill(i);
+          $scope.states.current = 0;
           $ionicScrollDelegate.resize();
-          $scope.order.removeRefill();
         };
 
-        $scope.createRefillOrder = function () {
-          if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
-            $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+        $scope.createRefillOrder = function (order) {
+          if (order.isValid()) {
+            if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
+              $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+            } else {
+              angular.forEach($scope.order.data.refills, function (value, index) {
+                value.split.rose = (value.split.rose) ? value.split.rose : 0;
+                value.split.white = (value.split.white) ? value.split.white : 0;
+                value.split.red = (value.split.red) ? value.split.red : 0;
+              });
+              orderInstance.setOrderInstance($scope.order);
+              $state.go('sidemenu.deliverymode');
+            }
           } else {
-            angular.forEach($scope.order.data.refills, function (value, index) {
-              value.split.rose = (value.split.rose) ? value.split.rose : 0;
-              value.split.white = (value.split.white) ? value.split.white : 0;
-              value.split.red = (value.split.red) ? value.split.red : 0;
-            });
-            orderInstance.setOrderInstance($scope.order);
-            $state.go('sidemenu.deliverymode');
+            toasters.pop('Vous pouvez commander par 3, 6 ou 12 seulement.', 'top', 'info');
           }
         };
 

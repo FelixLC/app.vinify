@@ -1,106 +1,145 @@
 .order-header {
-	@bckg_url: 'img/refill.png';
-	@break: 100%;
-	.shade(@bckg_url, @break);
+  @bckg_url: 'img/refill.png';
+  @break: 100%;
+  .shade(@bckg_url, @break);
 }
 
 .bottle-number-selector {
-	// margin-top: 20px;
+  // margin-top: 20px;
 
-	.segmented input:checked + .label {
-		border-color: @primary;
-		background-color: @primary;
-		color: #fff;
-	}
+  .segmented input:checked + .label {
+    border-color: @primary;
+    background-color: @primary;
+    color: #fff;
+  }
 
-	.segmented .label {
-		border-color:  @primary;
-		background-color: #fff;
-		color: @primary;
-		max-width: 140px;
-	}
+  .segmented .label {
+    border-color:  @primary;
+    background-color: #fff;
+    color: @primary;
+    max-width: 140px;
+  }
 
 }
 .second-refill {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 .first-refill {
-	margin-bottom: 0;
-	// .item {
-	// 	background-color: @grey; }
+  margin-bottom: 0;
+  // .item {
+  //  background-color: @grey; }
 }
 
 .refill-description {
-	p {
-		font-size: 16px;
-	}
+  p {
+    font-size: 16px;
+  }
 }
 
 .list-select {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 .list-select h4 {
-	text-align: center;
-	margin: 10px 0 0 0;
+  text-align: center;
+  margin: 10px 0 0 0;
 }
 .list-select h4 span {
-	font-size: 14px;
-	font-family: 'robotolight';
+  font-size: 14px;
+  font-family: 'robotolight';
 }
 .list-select .item-select select {
-	width: 40%;
-	padding-left: 0;
-	color: #FFF;
+  width: 40%;
+  padding-left: 0;
+  color: #FFF;
 }
 .list-select .item-select .input-label {
-	padding: 7px 0;
-	width: 60%;
+  padding: 7px 0;
+  width: 60%;
 }
 .pins {
-	text-align: left;
-	// position: absolute;
-	// left:16px;
+  text-align: left;
+  // position: absolute;
+  // left:16px;
 }
 .pin {
-	width: 10px;
-	height: 10px;
-	border-radius: 5px;
-	display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  display: inline-block;
 }
 .pin.red-pin {
-	background-color: @primary;
+  background-color: @primary;
 }
 .pin.white-pin {
-	background-color: @white-wine;
+  background-color: @white-wine;
 }
 .pin.rose-pin {
-	background-color: @primary;
-	opacity: 0.5;
+  background-color: @primary;
+  opacity: 0.5;
 }
 .pin:nth-child(even) {
-	margin-left: 2px;
-	margin-right: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 .list-select .item-select .input-label {
-	padding: 7px 0;
-	width: 60%;
+  padding: 7px 0;
+  width: 60%;
 }
 
 #order-view .order-france-logo {
-	max-height: 64px;
-	max-width: 100%;
+  max-height: 64px;
+  max-width: 100%;
 }
 
 #order-view .segmented .label {
-	width: 65px;
+  width: 65px;
 }
 
 #order-view .row-buttons {
-	text-align: center;
+  text-align: center;
 }
 #order-view .row-buttons > div {
-	display: inline;
+  display: inline;
 }
 #order-view .row-buttons button {
-	margin-top: 10px;
+  margin-top: 10px;
+}
+
+#order-view .item-plus-minus > div {
+  display: inline-block;
+}
+#order-view .item-plus-minus .plus-minus {
+  float: right;
+}
+#order-view .item-plus-minus .plus-minus > span {
+  padding: 5px 10px;
+}
+
+#order-view .item-plus-minus .plus,
+#order-view .item-plus-minus .minus {
+  cursor: pointer;
+  color: @primary;
+}
+
+#order-view .selected-price {
+  border-bottom: 3px solid @primary;
+  color: @primary;
+  font-family: 'robotobold';
+  -webkit-transition:0.5s;
+  transition:0.5s;
+}
+#order-view .price-selector {
+  margin-bottom: -16px;
+  padding-bottom: 0;
+}
+#order-view .close-item {
+  color: @primary;
+  position: absolute;
+  cursor: pointer;
+  top: -10px;
+  right: -7px;
+}
+#order-view .card,
+#order-view .item {
+  overflow: visible;
 }
