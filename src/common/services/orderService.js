@@ -55,30 +55,43 @@
       this.data.quantity--;
     };
 
-    var Picking = function (id, quantity) {
-      this.quantity = quantity || 1;
-      this.uuid = id;
-    };
-
-    // add one refill and increment _refillNumber
-    Instance.prototype.addPicking = function (id, num) {
-      // if we find a data.picking with this wine, increment quantity
-      if (_.find(this.data.picking, 'uuid', id)) {
-        _.find(this.data.picking, 'uuid', id).quantity = num ||
-                                                                  _.find(this.data.picking, 'uuid', id).quantity + 1;
-      } else {
-        this.data.picking.push(new Picking(id, num));
+    var Picking = function (wine, properties) {
+      this.quantity = 1;
+      this.uuid = wine.uuid;
+      this.product_code = wine.product_code;
+      this.display_name = wine.display_name;
+      this.public_price = wine.public_price;
+      this.region = wine.region;
+      this.uuid = wine.uuid;
+      this.appellation = wine.appellation;
+      if (properties && properties.match) {
+        this.match = properties.match;
+      }
+      if (properties && properties.rating) {
+        this.rating = properties.rating;
       }
     };
 
-    Instance.prototype.removePicking = function (id) {
+    // add one refill and increment _refillNumber
+    Instance.prototype.addPicking = function (wine, properties) {
+
+      // if we find a data.picking with this wine, increment quantity
+      if (_.find(this.data.picking, 'uuid', wine.uuid)) {
+        _.find(this.data.picking, 'uuid', wine.uuid).quantity =
+                                                                  _.find(this.data.picking, 'uuid', wine.uuid).quantity + 1;
+      } else {
+        this.data.picking.push(new Picking(wine, properties));
+      }
+    };
+
+    Instance.prototype.removePicking = function (wine) {
       // if we find a data.picking with this wine, decrement quantity
-      if (_.find(this.data.picking, 'uuid', id) && _.find(this.data.picking, 'uuid', id).quantity > 1) {
-        _.find(this.data.picking, 'uuid', id).quantity--;
+      if (_.find(this.data.picking, 'uuid', wine.uuid) && _.find(this.data.picking, 'uuid', wine.uuid).quantity > 1) {
+        _.find(this.data.picking, 'uuid', wine.uuid).quantity--;
 
       // if we find a data.picking with this wine, with 1 bottle, delete wine
-      } else if (_.find(this.data.picking, 'uuid', id) && _.find(this.data.picking, 'uuid', id).quantity === 1) {
-        this.data.picking = _.reject(this.data.picking, 'uuid', id);
+      } else if (_.find(this.data.picking, 'uuid', wine.uuid) && _.find(this.data.picking, 'uuid', wine.uuid).quantity === 1) {
+        this.data.picking = _.reject(this.data.picking, 'uuid', wine.uuid);
       }
     };
 
@@ -118,6 +131,26 @@
 
     Instance.prototype.hasRefills = function () {
       return this.data.refills.length;
+    };
+
+    Instance.prototype.getTotalPrice = function () {
+      var total = 0;
+      for (var i = this.data.picking.length - 1; i >= 0; i--) {
+        total += this.data.picking[i]['public_price'] * this.data.picking[i]['quantity'];
+      }
+      for (var j = this.data.refills.length - 1; j >= 0; j--) {
+        total += this.data.refills[j]['price_level'];
+      }
+      return total;
+    };
+
+    Instance.prototype.getBottleNumber = function () {
+      var total = 0;
+      for (var i = this.data.picking.length - 1; i >= 0; i--) {
+        total += this.data.picking[i]['quantity'];
+      }
+      total += this.data.refills.length;
+      return total;
     };
 
     Instance.prototype.createRefillOrder = function () {

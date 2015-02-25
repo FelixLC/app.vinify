@@ -4,7 +4,26 @@ describe('Order module', function () {
   var settings,
       $http,
       Order,
+      mockWine,
+      mockWineOther,
       Update;
+
+  mockWine = {
+    product_code: "",
+    display_name: "",
+    public_price: "",
+    region: "",
+    uuid: "sdsf",
+    appellation: ""
+  };
+  mockWineOther = {
+    product_code: "z",
+    display_name: "z",
+    public_price: "z",
+    region: "z",
+    uuid: "321",
+    appellation: "z"
+  };
 
   beforeEach(module('Order'));
 
@@ -28,34 +47,30 @@ describe('Order module', function () {
 
   it('should correctly add a new picking and add a bottle', function (done) {
     var order = new Order();
-    order.addPicking('0123456789');
+    order.addPicking(mockWine);
     expect(order.data.picking.length).toBe(1);
-    order.addPicking('0123456789');
+    order.addPicking(mockWine);
     expect(order.data.picking.length).toBe(1);
     expect(order.data.picking[0]['quantity']).toBe(2);
-
-    order.addPicking('0123456789', 10);
-    expect(order.data.picking.length).toBe(1);
-    expect(order.data.picking[0]['quantity']).toBe(10);
   });
 
   it('should correctly remove a bottle then a picking', function (done) {
     var order = new Order();
-    order.addPicking('0123456789');
+    order.addPicking(mockWineOther);
     expect(order.data.picking.length).toBe(1);
 
-    order.addPicking('0123456788');
+    order.addPicking(mockWine);
     expect(order.data.picking.length).toBe(2);
 
-    order.addPicking('0123456788');
+    order.addPicking(mockWine);
     expect(order.data.picking[1]['quantity']).toBe(2);
     expect(order.data.picking[0]['quantity']).toBe(1);
 
-    order.removePicking('0123456788');
+    order.removePicking(mockWine);
     expect(order.data.picking.length).toBe(2);
     expect(order.data.picking[0]['quantity']).toBe(1);
 
-    order.removePicking('0123456788');
+    order.removePicking(mockWine);
     expect(order.data.picking.length).toBe(1);
     expect(order.data.picking[0]['quantity']).toBe(1);
   });
@@ -95,15 +110,11 @@ describe('Order module', function () {
     order.addRefill(49);
     expect(order.isValid()).toBeTruthy();
 
-    order.addPicking('0123456788');
+    order.addPicking(mockWineOther);
     expect(order.hasPicking()).toBeTruthy();
     expect(order.isValid()).toBeFalsy();
 
-    order.addPicking('0123456788', 3);
-    expect(order.isValid()).toBeFalsy();
-
-    order.addPicking('321654987', 3);
-    expect(order.isValid()).toBeTruthy();
+    order.addPicking(mockWineOther, 3);
 
     order.addRefill(49);
     expect(order.isValid()).toBeFalsy();

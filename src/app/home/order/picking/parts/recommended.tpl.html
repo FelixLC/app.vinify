@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="item item-text-wrap">
+    <p>Un commande peut comporter 3, 6 ou 12 bouteilles. Pour toute commande supérieure, merci d’envoyer un mail à commande@vinify.co.</p>
+  </div>
+</div>
+<h3 class="padding">Filtres</h3>
+<a href class="item">Couleur</a>
+<a href class="item">Région</a>
+<a href class="item">Gamme de Prix</a>
+<h3 class="padding">Mes Vins</h3>
+<div class="list">
+  <a ng-repeat="bottle in ::recommandationList | filter: {date_rated: '!null'}  | filter: searchFilter " class="item item-thumbnail-left">
+      <img ng-src="assets/wines/{{::bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
+      <h3>{{::bottle.wine.display_name}}</h3>
+    <span class="attributes">
+      <img src="assets/utils/heart.svg" alt=""> <span class="match">{{::bottle.match * 100 | number:1}} %</span>
+      <img src="assets/utils/coin.svg" alt=""> <span class="price">{{::bottle.wine.public_price | number:1}} €</span>
+    </span>
+      <p class="vinitext">
+          {{::bottle.wine.region}}
+          <span class="plus-minus item-note">
+            <span class="minus" ng-click="removeBottle(bottle.wine)"><i class="icon ion-chevron-down"></i></span>
+            <span class="number">{{picking[bottle.wine.uuid]}}</span>
+            <span class="plus" ng-click="addBottle(bottle.wine, { match: bottle.match })"><i class="icon ion-chevron-up"></i></span>
+          </span>
+          <br>
+          {{::bottle.wine.appellation}}
+      </p>
+  </a>
+</div>

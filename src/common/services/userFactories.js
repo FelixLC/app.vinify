@@ -78,6 +78,7 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
   .factory('Bottles', function ($q, $http, Loading, OfflineWineData, settings) {
     // instantiate our initial object
     var _bottles = {};
+    var _recommendations = {};
 
     return {
       getList: function () {
@@ -94,6 +95,24 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
               Loading.hide();
               _bottles = data;
               OfflineWineData.setWines(data);
+            })
+            .error(function (data) {
+              Loading.hide();
+            });
+          return promise;
+        }
+      },
+
+      getRecommendations: function () {
+        // TODO REFACTOR
+        if (_recommendations.count) {
+          return $q.when({ data: _recommendations });
+        } else {
+          Loading.show();
+          var promise = $http.get(settings.apiEndPoint + '/orders/picking/recommendations/')
+            .success(function (data, status, headers, config) {
+              Loading.hide();
+              _recommendations = data;
             })
             .error(function (data) {
               Loading.hide();

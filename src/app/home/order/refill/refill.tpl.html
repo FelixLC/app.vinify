@@ -1,4 +1,4 @@
-<ion-view title="Commander" id="order-view">
+<ion-view title="Commander" id="refill-view">
   <ion-content has-bouncing="false">
     <div class="content-container">
       <div class="card" ng-repeat="refill in order.data.refills">
@@ -126,6 +126,7 @@
       <div class="row-buttons padding">
         <div class="centered">
           <button class="button button-outline-primary centered" ng-click="addRefill()">Ajouter 3 bouteilles</button>
+          <button class="button button-outline-primary centered" ng-click="goPicking(order)" ng-if="!order.hasPicking()">Ajouter des vins à la carte</button>
         </div>
         <div class="centered margin-top">
           <button class="button button-outline-primary centered" ng-click="createRefillOrder(order)">Choisir la livraison</button>
