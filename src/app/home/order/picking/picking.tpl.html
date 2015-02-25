@@ -1,0 +1,31 @@
+<ion-view title="A la carte" id="picking-view">
+  <ion-header-bar class="bar-positive bar-subheader">
+    <div class="row tab-selector">
+      <div class="col centered" ui-sref="sidemenu.picking.my_wines"
+                ng-class="{ 'selected-tab': state.is('my_wines') }">
+        Mes Vins
+      </div>
+      <div class="col centered" ui-sref="sidemenu.picking.recommended"
+                ng-class="{ 'selected-tab': state.is('recommended') }">
+        Recommendations
+      </div>
+      <div class="col centered" ui-sref="sidemenu.picking.cart"
+                ng-class="{ 'selected-tab': state.is('cart') }">
+        Panier
+      </div>
+    </div>
+  </ion-header-bar>
+  <ion-content has-bouncing="false">
+    <div class="content-container">
+      <div class="card">
+        <div class="item item-text-wrap">
+          <p>Un commande peut comporter 3, 6 ou 12 bouteilles. Pour toute commande supérieure, merci d’envoyer un mail à commande@vinify.co.</p>
+        </div>
+      </div>
+      <h3 class="padding">Filtres</h3>
+      <a href class="item">Couleur</a>
+      <a href class="item">Région</a>
+      <a href class="item">Gamme de Prix</a>
+    </div>
+  </ion-content>
+</ion-view>

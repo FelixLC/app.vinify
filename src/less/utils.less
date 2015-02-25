@@ -1,0 +1,123 @@
+.centered {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.item-gray {
+  background-color: @grey;
+}
+
+.p-button{
+  color: @primary;
+  cursor: pointer;
+}
+
+.p-white {
+  color: #FFF;
+}
+.p-grey {
+  color: #666;
+}
+
+.p-highlight {
+  color: @primary;
+  font-family: 'robotobold';
+}
+.link-dotted {
+  border-bottom: 1px dotted #666;
+  cursor: pointer;
+}
+.link-dotted-primary {
+  border-bottom-color: @primary;
+}
+.subtitle {
+  color: @primary;
+  p {color: @primary;}
+}
+.margin-top {
+  margin-top: 20px;
+}
+.pane.full-background-primary {
+  background-color: @primary;
+}
+
+.selected-tab {
+  border-bottom: 3px solid @primary;
+  color: @primary;
+  font-family: 'robotobold';
+  -webkit-transition:0.5s;
+  transition:0.5s;
+}
+
+.pointer {
+  cursor: pointer;
+}
+.item-note-strong {
+  font-size: 14px;
+  font-family: 'robotobold';
+  color: @primary;
+}
+
+// padding fix. goes on content
+.padding-margin-fix {
+  padding-top: 0;
+  margin-top: 0;
+}
+// SHADE MIXIN BCKG
+.shade (@bckg_url, @break) {
+  background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) @break, rgba(0,0,0,0.65) 100%) , url(@bckg_url) no-repeat center; /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(@break,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))) , url(@bckg_url) no-repeat center; /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) @break,rgba(0,0,0,0.65) 100%) , url(@bckg_url) no-repeat center; /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) @break,rgba(0,0,0,0.65) 100%) , url(@bckg_url) no-repeat center; /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0) @break,rgba(0,0,0,0.65) 100%) , url(@bckg_url) no-repeat center; /* IE10+ */
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) @break,rgba(0,0,0,0.65) 100%) , url(@bckg_url) no-repeat center; /* W3C */
+  -webkit-background-size: cover; /* pour Chrome et Safari */
+  -moz-background-size: cover; /* pour Firefox */
+  -o-background-size: cover; /* pour Opera */
+  background-size: cover; /* version standardisée */
+}
+
+// Segmented Control
+.segmented {
+    display: inline-block;
+}
+.segmented .label {
+    background-color: @primary;
+    border: 1px #fff;
+    border-style: solid none solid solid;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    padding: 8px;
+    text-align: center;
+    width: 80px;
+}
+.segmented :first-child .label {
+    border-radius: 5px 0 0 5px;
+}
+.segmented :last-child .label {
+    border-radius: 0 5px 5px 0;
+    border-right-style: solid;
+}
+.segmented input {
+    display: none;
+}
+.segmented input:checked + .label {
+    background-color: #fff;
+    border-color: #fff;
+    color: @primary;
+}
+.toggle.toggle-assertive input:checked + .track {
+  border-color: @primary;
+  background-color: @primary;
+}
+p.segmented-control {
+    text-align: center;
+}

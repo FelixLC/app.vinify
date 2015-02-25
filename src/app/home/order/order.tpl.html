@@ -1,138 +1,21 @@
-<ion-view title="Commander" hide-back-button="true" id="order-view">
+<ion-view title="Recharger" hide-back-button="true" id="order-view">
   <ion-nav-buttons side="left">
     <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
   </ion-nav-buttons>
-  <ion-content has-bouncing="false">
-    <div class="content-container">
-      <div class="card" ng-repeat="refill in order.data.refills">
-
-        <div ng-if='states.current === $index + 1' class="item item-text-wrap bottle-number-selector">
-          <p class="centered">Je choisis ma gamme de prix (3&nbsp;bouteilles)</p>
-<!--           <p class="segmented-control">
-              <span class="segmented">
-                  <label><input type="radio" name="{{list_$index}}" ng-model="refill['price_level']" value="29.90"><span class="label">29€90</span></label>
-                  <label><input type="radio" name="{{list_$index}}" ng-model="refill['price_level']" value="39.90"><span class="label">39€90</span></label>
-                  <label><input type="radio" name="{{list_$index}}" ng-model="refill['price_level']" value="49.90"><span class="label">49€90</span></label>
-                  <label><input type="radio" name="{{list_$index}}" ng-model="refill['price_level']" value="59.90"><span class="label">59€90</span></label>
-              </span>
-          </p> -->
-          <div class="row price-selector">
-            <div class="col centered" ng-click="refill['price_level'] = '29.90'" ng-class="{ 'selected-price': refill['price_level'] === '29.90'}">
-              29€90
-            </div>
-            <div class="col centered" ng-click="refill['price_level'] = '39.90'" ng-class="{ 'selected-price': refill['price_level'] === '39.90'}">
-              39€90
-            </div>
-            <div class="col centered" ng-click="refill['price_level'] = '49.90'" ng-class="{ 'selected-price': refill['price_level'] === '49.90'}">
-              49€90
-            </div>
-            <div class="col centered" ng-click="refill['price_level'] = '59.90'" ng-class="{ 'selected-price': refill['price_level'] === '59.90'}">
-              59€90
-            </div>
-          </div>
-        </div>
-        <div class="item" ng-if='states.current === $index + 1'>
-          <div class="row row-center">
-            <div class="col col-20 centered">
-              <img ng-if="refill['price_level'] === '29.90' " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
-              <img ng-if="refill['price_level'] === '39.90' " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
-              <img ng-if="refill['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
-              <img ng-if="refill['price_level'] === '59.90' " class="order-france-logo" src="assets/utils/logo_mini.png" alt="cepage">
-            </div>
-            <div class="col item-text-wrap centered">
-              <p ng-if="refill['price_level'] === '29.90'"><span class="p-highlight">Recharge Découverte</span> <br>  Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-              <p ng-if="refill['price_level'] === '39.90'"><span class="p-highlight">Recharge Exploration</span> <br> J'explore les appellations et les cépages de France.</p>
-              <p ng-if="refill['price_level'] === '49.90'"><span class="p-highlight">Recharge Dégustation</span> <br> Je déguste des vins fins, élégants et racés. A moi les grandes appellations !</p>
-              <p ng-if="refill['price_level'] === '59.90'"><span class="p-highlight">Recharge Exception</span> <br> Je déguste des vins exceptionnels pour atteindre le nirvana oenologique !</p>
-            </div>
-          </div>
-        </div>
-        <div class="item item-plus-minus" ng-if="states.current === $index + 1">
-          <div>
-            Nombre de rouges
-          </div>
-          <div class="plus-minus">
-            <span class="minus" ng-click="removeBottle('red', $index)"><i class="icon ion-chevron-down"></i></span>
-            <span class="number">{{refill['split']['red']}}</span>
-            <span class="plus" ng-click="addBottle('red', $index)"><i class="icon ion-chevron-up"></i></span>
-          </div>
-        </div>
-        <div class="item item-plus-minus" ng-if="states.current === $index + 1">
-          <div>
-            Nombre de blancs
-          </div>
-          <div class="plus-minus">
-            <span class="minus" ng-click="removeBottle('white', $index)"><i class="icon ion-chevron-down"></i></span>
-            <span class="number">{{refill['split']['white']}}</span>
-            <span class="plus" ng-click="addBottle('white', $index)"><i class="icon ion-chevron-up"></i></span>
-          </div>
-        </div>
-        <div class="item item-plus-minus" ng-if="states.current === $index + 1">
-          <div>
-            Nombre de rosés
-          </div>
-          <div class="plus-minus">
-            <span class="minus" ng-click="removeBottle('rose', $index)"><i class="icon ion-chevron-down"></i></span>
-            <span class="number">{{refill['split']['rose']}}</span>
-            <span class="plus" ng-click="addBottle('rose', $index)"><i class="icon ion-chevron-up"></i></span>
-          </div>
-        </div>
-        <div class="item" ng-if="states.current === $index + 1">
-          <div class="button-card">
-            <span class="button-card--save" ng-click="validateCard($index)">valider</span>
-          </div>
-        </div>
-        <div class="item" ng-if="states.current != $index + 1">
-          <div class="close-item" ng-click="removeRefill($index + 1)"><i class="icon ion-close-circled"></i></div>
-          <div class="row row-center">
-            <div class="col col-20 centered">
-              <img ng-if="refill['price_level'] === '29.90' " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
-              <img ng-if="refill['price_level'] === '39.90' " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
-              <img ng-if="refill['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
-              <img ng-if="refill['price_level'] === '59.90' " class="order-france-logo" src="assets/utils/logo_mini.png" alt="cepage">
-            </div>
-            <div class="col col-80 item-text-wrap centered pins">
-              <div  class="pins">
-                <h3>Recharge
-                  <span ng-if="refill['price_level'] === '29.90'">Découverte</span>
-                  <span ng-if="refill['price_level'] === '39.90'">Exploration</span>
-                  <span ng-if="refill['price_level'] === '49.90'">Dégustation</span>
-                  <span ng-if="refill['price_level'] === '59.90'">Exception</span>
-                </h3>
-                <p>3 bouteilles <span class="item-note item-note-strong">{{refill['price_level']}} €</span></p>
-                <div ng-if="refill['split']['red'] >=1" class="pin red-pin"></div>
-                <div ng-if="refill['split']['red'] >=2" class="pin red-pin"></div>
-                <div ng-if="refill['split']['red'] >=3" class="pin red-pin"></div>
-                <div ng-if="refill['split']['white'] >=1" class="pin white-pin"></div>
-                <div ng-if="refill['split']['white'] >=2" class="pin white-pin"></div>
-                <div ng-if="refill['split']['white'] >=3" class="pin white-pin"></div>
-                <div ng-if="refill['split']['rose'] >=1" class="pin rose-pin"></div>
-                <div ng-if="refill['split']['rose'] >=2" class="pin rose-pin"></div>
-                <div ng-if="refill['split']['rose'] >=3" class="pin rose-pin"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item" ng-if="states.current != $index + 1">
-          <div class="button-card">
-            <span class="button-card--save" ng-click="modifyCard($index)">modifier</span>
-          </div>
-        </div>
+  <ion-content class="padding-margin-fix" has-bouncing="false">
+    <div ui-sref="sidemenu.refill" class="order-refill centered" ng-style="calcHalfHeight">
+      <div class="section">
+        <span class="title">Recharge Caviste</span> <br>
+        Vinify choisit pour moi <br>
+        des vins que je vais aimer
       </div>
-      <div class="card">
-        <div class="item item-gray row">
-          <div class="col centered">Total</div>
-          <div class="col centered">{{3*order.data.refills.length}} bouteilles</div>
-          <div class="col centered">{{calcPrice(order.data.refills) | number:1}} €</div>
-        </div>
+    </div>
+    <div class="order-picking centered"  ng-style="calcHalfHeight">
+      <div ui-sref="sidemenu.picking" class="section">
+        <span class="title">Recharge à la carte</span> <br>
+        Je choisis moi-même mes vins parmi mes vins<br>
+        et les recommandations Vinify
       </div>
-      <div class="row-buttons padding">
-        <div class="centered">
-          <button class="button button-outline-primary centered" ng-click="addRefill()">Ajouter 3 bouteilles</button>
-        </div>
-        <div class="centered margin-top">
-          <button class="button button-outline-primary centered" ng-click="createRefillOrder(order)">Choisir la livraison</button>
-        </div>
-      </div>
+    </div>
   </ion-content>
 </ion-view>
