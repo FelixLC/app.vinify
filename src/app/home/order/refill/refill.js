@@ -43,6 +43,7 @@
           },
           function (newOrder) {
             $scope.order = newOrder;
+            $scope.order.addRefill("39.90");
             console.log('new');
           });
         // prepare for next screen
@@ -112,9 +113,6 @@
         $scope.refill = {
           num: 1
         };
-
-        $scope.order = new Order();
-        $scope.order.addRefill("39.90");
 
         $scope.addBottle = function (color, index) {
           if ($scope.order.data.refills[index]['split'][color] < 3) {
