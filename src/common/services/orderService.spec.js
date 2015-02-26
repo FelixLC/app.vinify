@@ -11,7 +11,7 @@ describe('Order module', function () {
   mockWine = {
     product_code: "",
     display_name: "",
-    public_price: "",
+    public_price: "12",
     region: "",
     uuid: "sdsf",
     appellation: ""
@@ -19,7 +19,7 @@ describe('Order module', function () {
   mockWineOther = {
     product_code: "z",
     display_name: "z",
-    public_price: "z",
+    public_price: "24",
     region: "z",
     uuid: "321",
     appellation: "z"
@@ -118,6 +118,22 @@ describe('Order module', function () {
 
     order.addRefill(49);
     expect(order.isValid()).toBeFalsy();
+  });
+
+  it('should correctly calculate bottle number and total price', function (done) {
+    var order = new Order();
+    var total = 39.90 + 49.90 + 12 + 24;
+    order.addRefill("39.90");
+    order.addRefill("49.90");
+
+    order.addPicking(mockWineOther);
+    order.addPicking(mockWine);
+
+    var roundDown = function (numberOrString) {
+      return Math.floor(parseFloat(numberOrString) * 100) / 100;
+    };
+    expect(order.getBottleNumber()).toBe(8);
+    expect(roundDown(order.getTotalPrice())).toBe(total);
   });
 
 });

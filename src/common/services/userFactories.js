@@ -105,7 +105,7 @@ angular.module('User', [ 'ngResource', 'Loading', 'Offline', 'settings' ])
 
       getRecommendations: function () {
         // TODO REFACTOR
-        if (_recommendations.count) {
+        if (!_.isEmpty(_recommendations)) {
           return $q.when({ data: _recommendations });
         } else {
           Loading.show();

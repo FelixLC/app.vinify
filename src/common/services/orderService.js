@@ -10,6 +10,10 @@
   /* @ngInject */
   function Order ($http, SerializedOrder, settings, Update, _) {
 
+    var roundDown = function (numberOrString) {
+      return Math.floor(parseFloat(numberOrString) * 100) / 100;
+    };
+
     var Instance = function (id) {
       this.data = {
         version: Update.version,
@@ -136,10 +140,10 @@
     Instance.prototype.getTotalPrice = function () {
       var total = 0;
       for (var i = this.data.picking.length - 1; i >= 0; i--) {
-        total += this.data.picking[i]['public_price'] * this.data.picking[i]['quantity'];
+        total += roundDown(this.data.picking[i]['public_price']) * this.data.picking[i]['quantity'];
       }
       for (var j = this.data.refills.length - 1; j >= 0; j--) {
-        total += this.data.refills[j]['price_level'];
+        total += roundDown(this.data.refills[j]['price_level']);
       }
       return total;
     };
@@ -149,7 +153,7 @@
       for (var i = this.data.picking.length - 1; i >= 0; i--) {
         total += this.data.picking[i]['quantity'];
       }
-      total += this.data.refills.length;
+      total += this.data.refills.length * 3;
       return total;
     };
 
@@ -170,12 +174,24 @@
     return Instance;
   }
 
-  function orderInstance (Order) {
-    var Instance = new Order();
+  function orderInstance (Order, $q) {
+    var _order = null;
+    var Instance = {};
 
     Instance.setOrderInstance = function (orderData) {
-      angular.extend(orderInstance, orderData);
+      _order = orderData;
     };
+
+    Instance.getOrderInstance = function (orderData) {
+      return $q(function (resolve, reject) {
+        if (_order) {
+          resolve(_order);
+        } else {
+          reject(new Order());
+        }
+      });
+    };
+
     return Instance;
   }
 

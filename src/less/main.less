@@ -362,13 +362,17 @@ body {
 #wine-view .item-get-more {
   border-bottom: none;
 }
-#update-rating-view  .checkbox input:before, .checkbox .checkbox-icon:before,
+.checkbox input:before, .checkbox .checkbox-icon:before,
 #wine-view  .checkbox input:before, .checkbox .checkbox-icon:before {
     border-color: @primary;
 }
-#update-rating-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before,
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before,
 #wine-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
     background: @primary;
+}
+.checkbox input:checked+.checkbox-icon:before, .checkbox input:checked:before {
+	background: @primary;
+	border-color: @primary;
 }
 #update-rating-view .item-note-primary,
 #wine-view .item-note-primary {

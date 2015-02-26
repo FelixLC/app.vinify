@@ -17,15 +17,22 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
-  $scope.order = orderInstance;
-  $scope.order.data.delivery_mode = 'Point Relais';
+  orderInstance.getOrderInstance().then(
+    function (order) {
+      $scope.order = order;
+      $scope.order.data.delivery_mode = 'Point Relais';
+    },
+    function (newOrder) {
+      toasters.pop('Oops, une erreur est survenue.', 'top', 'info');
+      $state.go('sidemenu.order');
+    });
   $scope.form = { show: false };
   Addresses.getList().then(function (response) {
     $scope.addresses = response.data;
   });
-  console.log($scope.addresses);
+
   $scope.user = User.getUser();
-  console.log(User.getUser());
+
   $scope.mrShop = {
     hasChanged: false
   };
@@ -50,6 +57,16 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   $scope.credits = {
     has: !!$scope.user.credits,
     value: $scope.user.credits
+  };
+
+  $scope.getDeliveryPrice = function (order, deliveryMode) {
+    if (parseInt(order.getBottleNumber(), 10) === 3) {
+      return $scope.deliveryPrices[deliveryMode][0];
+    } else if (parseInt(order.getBottleNumber(), 10) === 6) {
+      return $scope.deliveryPrices[deliveryMode][1];
+    } else if (parseInt(order.getBottleNumber(), 10) === 12) {
+      return $scope.deliveryPrices[deliveryMode][2];
+    }
   };
 
   $scope.createRefillOrder = function () {

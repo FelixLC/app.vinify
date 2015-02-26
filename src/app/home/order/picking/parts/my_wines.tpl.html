@@ -4,12 +4,18 @@
   </div>
 </div>
 <h3 class="padding">Filtres</h3>
-<a href class="item">Couleur</a>
-<a href class="item">Région</a>
-<a href class="item">Gamme de Prix</a>
+<a href ui-sref="sidemenu.filter_color" class="item">
+  Couleur
+  <span class="item-note"><i class="icon ion-chevron-right"></i></span>
+</a>
+<a href ui-sref="sidemenu.filter_region" class="item">
+  Région
+  <span class="item-note"><i class="icon ion-chevron-right"></i></span>
+</a>
+<!-- <a href class="item">Gamme de Prix</a> -->
 <h3 class="padding">Mes Vins</h3>
 <div class="list">
-  <a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter " class="item item-thumbnail-left">
+  <a ng-repeat="bottle in bottleList.results | regionFilter | colorFilter | filter: searchFilter " class="item item-thumbnail-left">
       <img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
       <h3>{{::bottle.wine.display_name}}</h3>
       <i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
@@ -26,7 +32,7 @@
           </span>
           <br>
           {{::bottle.wine.appellation}}
-          <span class="item-note">en savoir plus</span>
+          <span ng-click="openWineModal(bottle.wine)" class="item-note">en savoir plus</span>
       </p>
   </a>
 </div>

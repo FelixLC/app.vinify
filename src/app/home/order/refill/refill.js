@@ -8,6 +8,11 @@
                   controller: 'refillCtrl',
                   templateUrl: "home/order/refill/refill.tpl.html"
                 }
+              },
+              resolve: {
+                // order: function (orderInstance, Order) {
+                //   return orderInstance.getOrderInstance();
+                // }
               }
           });
       })
@@ -31,6 +36,15 @@
       })
       .controller('refillCtrl', function refillCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts, $ionicScrollDelegate, toasters) {
 
+        orderInstance.getOrderInstance().then(
+          function (order) {
+            $scope.order = order;
+            console.log(order);
+          },
+          function (newOrder) {
+            $scope.order = newOrder;
+            console.log('new');
+          });
         // prepare for next screen
         User.updateUser(function (user) {
           $rootScope.userIs = {
@@ -151,6 +165,7 @@
         };
 
         $scope.goPicking = function (order) {
+
           if (order.isValid()) {
             if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
               $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
@@ -160,7 +175,8 @@
                 value.split.white = (value.split.white) ? value.split.white : 0;
                 value.split.red = (value.split.red) ? value.split.red : 0;
               });
-              orderInstance.setOrderInstance($scope.order);
+              orderInstance.setOrderInstance(order);
+              console.log(orderInstance.getOrderInstance());
               $state.go('sidemenu.picking.my_wines');
             }
           } else {
@@ -169,6 +185,7 @@
         };
 
         $scope.createRefillOrder = function (order) {
+
           if (order.isValid()) {
             if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
               $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');

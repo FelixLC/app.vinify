@@ -1,4 +1,10 @@
-  angular.module('app.order.picking', [ 'Order', 'User', 'settings', 'Toaster', 'lodash' ])
+  angular.module('app.order.picking', [ 'Order',
+          'User',
+          'settings',
+          'Toaster',
+          'lodash',
+          'app.filters'
+      ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.picking', {
@@ -13,13 +19,9 @@
                 bottles: function (Bottles) {
                   return Bottles.getList();
                 },
-                order: function (orderInstance, Order) {
-                  if (orderInstance.data.refills.length) {
-                    return orderInstance;
-                  } else {
-                    return new Order();
-                  }
-                },
+                // order: function (orderInstance, Order) {
+                //   return orderInstance.getOrderInstance();
+                // },
                 recommandations: function (Bottles) {
                   return Bottles.getRecommendations();
                 }
@@ -50,30 +52,62 @@
               }
           });
       })
-      .filter('filterWhite', function () {
-        return function (items, splitRed) {
-          if (splitRed === 0 || splitRed === "0") {
-            return items;
-          } else {
-            return items.slice(0, 4 - splitRed);
-          }
+      .filter('regionFilter', function (Filters) {
+        return function (items) {
+          var filtered = [];
+          Filters.getRegions(function (regions) {
+            for (var i = 0; i < items.length; i++) {
+              var item = items[i];
+              if (regions[item.wine.region]) {
+                filtered.push(item);
+              }
+            }
+          });
+          return filtered;
         };
       })
-      .filter('filterRose', function () {
-        return function (items, splitRed, splitWhite) {
-          if (splitRed === 0 && splitWhite === 0) {
-            return items;
-          } else {
-            return items.slice(0, 4 - splitRed - splitWhite);
-          }
+      .filter('colorFilter', function (Filters) {
+        return function (items) {
+          var filtered = [];
+          Filters.getColors(function (colors) {
+            for (var i = 0; i < items.length; i++) {
+              var item = items[i];
+              if (colors[item.wine.color]) {
+                filtered.push(item);
+              }
+            }
+          });
+          return filtered;
         };
       })
-      .controller('pickingCtrl', function pickingCtrl ($scope, $rootScope, Order, User, deliveryCosts, toasters, bottles, order, $state, recommandations, _) {
+      .controller('pickingCtrl',
+        function pickingCtrl ($scope,
+                                                  $rootScope,
+                                                  $ionicModal,
+                                                  Order,
+                                                  User,
+                                                  deliveryCosts,
+                                                  toasters,
+                                                  bottles,
+                                                  $state,
+                                                  recommandations,
+                                                  _,
+                                                  orderInstance,
+                                                  $ionicScrollDelegate) {
+
 
         var init = function () {
           $scope.bottleList = bottles.data;
           $scope.recommandationList = recommandations.data;
-          $scope.order = order;
+          orderInstance.getOrderInstance().then(
+            function (order) {
+              $scope.order = order;
+              console.log(order);
+            },
+            function (newOrder) {
+              $scope.order = newOrder;
+              console.log('new');
+            });
 
           $scope.picking = {};
           _($scope.recommandationList).pluck('wine')
@@ -96,9 +130,32 @@
             };
           });
 
+          //  YIPEE MODAL
+          $ionicModal.fromTemplateUrl('tpl/wine.tpl.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+          }).then(function (modal) {
+            $scope.wineModal = modal;
+          });
+
+          //  Open & close the modal
+          $scope.openWineModal = function (wine) {
+            $scope.wine = wine;
+            $scope.wineModal.show();
+            $ionicScrollDelegate.scrollTop();
+          };
+          $scope.closeWineModal = function () {
+            $scope.wineModal.hide();
+          };
+
         };
 
         init();
+
+        $scope.removeRefill = function (i) {
+          $scope.order.removeRefill(i);
+          $ionicScrollDelegate.resize();
+        };
 
         $scope.getNumber = function (num) {
           var _num = Math.floor(num);
@@ -119,6 +176,20 @@
             $scope.picking[wine.uuid]--;
           }
           $scope.order.removePicking(wine);
+        };
+
+        $scope.createRefillOrder = function (order) {
+
+          if (order.isValid()) {
+            if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
+              $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+            } else {
+              orderInstance.setOrderInstance($scope.order);
+              $state.go('sidemenu.deliverymode');
+            }
+          } else {
+            toasters.pop('Vous pouvez commander par 3, 6 ou 12 seulement.', 'top', 'info');
+          }
         };
 
         $scope.state = {
