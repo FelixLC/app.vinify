@@ -4,7 +4,8 @@
     'settings',
     'Toaster',
     'app.order.refill',
-    'app.order.picking'
+    'app.order.picking',
+    'app.order.cart'
     ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider

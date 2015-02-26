@@ -1,87 +1,31 @@
-  angular.module('app.order.picking', [ 'Order',
+  angular.module('app.order.cart', [ 'Order',
           'User',
           'settings',
           'Toaster',
-          'lodash',
-          'app.filters'
+          'lodash'
       ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
-          .state('sidemenu.picking', {
-              url: "/a-la-carte",
+          .state('sidemenu.cart', {
+              url: "/panier",
               views: {
                 menuContent: {
-                  controller: 'pickingCtrl',
-                  templateUrl: "home/order/picking/picking.tpl.html"
+                  controller: 'cartCtrl',
+                  templateUrl: "home/order/cart/cart.tpl.html"
                 }
               },
               resolve: {
                 bottles: function (Bottles) {
                   return Bottles.getList();
                 },
-                // order: function (orderInstance, Order) {
-                //   return orderInstance.getOrderInstance();
-                // },
                 recommandations: function (Bottles) {
                   return Bottles.getRecommendations();
                 }
               }
-          })
-          .state('sidemenu.picking.recommended', {
-              url: "/recommandations",
-              views: {
-                pickingTab: {
-                  templateUrl: "home/order/picking/parts/recommended.tpl.html"
-                }
-              }
-          })
-          .state('sidemenu.picking.my_wines', {
-              url: "/mes-vins",
-              views: {
-                pickingTab: {
-                  templateUrl: "home/order/picking/parts/my_wines.tpl.html"
-                }
-              }
-          })
-          .state('sidemenu.picking.cart', {
-              url: "/panier",
-              views: {
-                pickingTab: {
-                  templateUrl: "home/order/picking/parts/cart.tpl.html"
-                }
-              }
           });
       })
-      .filter('regionFilter', function (Filters) {
-        return function (items) {
-          var filtered = [];
-          Filters.getRegions(function (regions) {
-            for (var i = 0; i < items.length; i++) {
-              var item = items[i];
-              if (regions[item.wine.region]) {
-                filtered.push(item);
-              }
-            }
-          });
-          return filtered;
-        };
-      })
-      .filter('colorFilter', function (Filters) {
-        return function (items) {
-          var filtered = [];
-          Filters.getColors(function (colors) {
-            for (var i = 0; i < items.length; i++) {
-              var item = items[i];
-              if (colors[item.wine.color]) {
-                filtered.push(item);
-              }
-            }
-          });
-          return filtered;
-        };
-      })
-      .controller('pickingCtrl',
-        function pickingCtrl ($scope,
+      .controller('cartCtrl',
+        function cartCtrl ($scope,
                                                   $rootScope,
                                                   $ionicModal,
                                                   Order,
@@ -95,6 +39,28 @@
                                                   orderInstance,
                                                   $ionicScrollDelegate) {
 
+        // search by id for wine.quantity in an array of wine
+        var idToQuantity = function (id, array) {
+          return _.result(_.find(array, function (obj) {
+                          return obj.uuid === id;
+                        }), 'quantity') || 0;
+        };
+
+        // build scope picking list
+        var buildPicking = function (recommandationList, bottleList, orderPicking) {
+          $scope.picking = {};
+          _(recommandationList).pluck('wine')
+                                                        .pluck('uuid')
+                                                        .forEach(function (id) {
+                                                          $scope.picking[id] = idToQuantity(id, orderPicking);
+                                                        }).value();
+
+          _(bottleList).pluck('wine')
+                                    .pluck('uuid')
+                                    .forEach(function (id) {
+                                      $scope.picking[id] = idToQuantity(id, orderPicking);
+                                    }).value();
+        };
 
         var init = function () {
           $scope.bottleList = bottles.data;
@@ -102,24 +68,13 @@
           orderInstance.getOrderInstance().then(
             function (order) {
               $scope.order = order;
-              console.log(order);
+              buildPicking($scope.recommandationList, $scope.bottleList, $scope.order.data.picking);
             },
             function (newOrder) {
               $scope.order = newOrder;
               console.log('new');
             });
 
-          $scope.picking = {};
-          _($scope.recommandationList).pluck('wine')
-                                                                      .pluck('uuid')
-                                                                      .forEach(function (id) {
-                                                                        $scope.picking[id] = 0;
-                                                                      }).value();
-          _($scope.bottleList).pluck('wine')
-                                                  .pluck('uuid')
-                                                  .forEach(function (id) {
-                                                    $scope.picking[id] = 0;
-                                                  }).value();
           $scope.user = User.getUser();
           deliveryCosts.get('FR', function () {});
 
@@ -180,20 +135,6 @@
             $scope.picking[wine.uuid]--;
           }
           $scope.order.removePicking(wine);
-        };
-
-        $scope.goToCart = function (order) {
-
-          if (order.isValid()) {
-            if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
-              $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
-            } else {
-              orderInstance.setOrderInstance(order);
-              $state.go('sidemenu.cart');
-            }
-          } else {
-            toasters.pop('Vous pouvez commander par 3, 6 ou 12 seulement.', 'top', 'info');
-          }
         };
 
         $scope.createRefillOrder = function (order) {

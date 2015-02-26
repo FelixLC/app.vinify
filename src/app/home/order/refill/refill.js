@@ -39,12 +39,13 @@
         orderInstance.getOrderInstance().then(
           function (order) {
             $scope.order = order;
-            console.log(order);
+            if($scope.order.data.refills.length === 0) {
+              $scope.order.addRefill("39.90");
+            }
           },
           function (newOrder) {
             $scope.order = newOrder;
             $scope.order.addRefill("39.90");
-            console.log('new');
           });
         // prepare for next screen
         User.updateUser(function (user) {
@@ -127,7 +128,7 @@
         };
 
         $scope.addRefill = function () {
-          if ($scope.order.data.refills.length != 3) {
+          if ($scope.order.data.refills.length < 4) {
             $scope.order.addRefill("39.90");
             $scope.states.current = $scope.order.data.refills.length;
             $ionicScrollDelegate.resize();
@@ -140,7 +141,7 @@
           if ($scope.order.data.refills[i]['split']['white'] +
                 $scope.order.data.refills[i]['split']['red'] +
                 $scope.order.data.refills[i]['split']['rose'] === 3) {
-            $scope.states.current = 0;
+            $scope.states.current = -1;
             $ionicScrollDelegate.resize();
           } else {
             toasters.pop('La somme des vins ne fait pas trois', 'top', 'info');
@@ -158,11 +159,31 @@
 
         $scope.removeRefill = function (i) {
           $scope.order.removeRefill(i);
-          $scope.states.current = 0;
           $ionicScrollDelegate.resize();
         };
 
         $scope.goPicking = function (order) {
+
+          if (order.getBottleNumber() < 12) {
+            if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
+              $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+            } else {
+              angular.forEach($scope.order.data.refills, function (value, index) {
+                value.split.rose = (value.split.rose) ? value.split.rose : 0;
+                value.split.white = (value.split.white) ? value.split.white : 0;
+                value.split.red = (value.split.red) ? value.split.red : 0;
+              });
+              orderInstance.setOrderInstance(order);
+              $state.go('sidemenu.picking.my_wines');
+            }
+          } else if (order.data.refills.length === 0) {
+            $state.go('sidemenu.picking.my_wines');
+          } else {
+            toasters.pop('Vous pouvez commander par 3, 6 ou 12 seulement.', 'top', 'info');
+          }
+        };
+
+        $scope.goToCart = function (order) {
 
           if (order.isValid()) {
             if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
@@ -174,8 +195,7 @@
                 value.split.red = (value.split.red) ? value.split.red : 0;
               });
               orderInstance.setOrderInstance(order);
-              console.log(orderInstance.getOrderInstance());
-              $state.go('sidemenu.picking.my_wines');
+              $state.go('sidemenu.cart');
             }
           } else {
             toasters.pop('Vous pouvez commander par 3, 6 ou 12 seulement.', 'top', 'info');

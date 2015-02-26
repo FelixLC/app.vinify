@@ -59,6 +59,10 @@ describe('Controller: app.vinibar', function () {
       return [200, users, {}];
     });
     // TODO: removes
+    $httpBackend.whenGET('home/order/picking/parts/my_wines.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
     $httpBackend.whenGET('home/order/refill/refill.tpl.html').respond(function(method,url,data) {
       return [200, users, {}];
     });
@@ -66,6 +70,15 @@ describe('Controller: app.vinibar', function () {
     $httpBackend.whenGET('sidemenu/sidemenu.tpl.html').respond(function(method,url,data) {
       return [200, users, {}];
     });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/colors.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/regions.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+
 
 
     vinibarCtrl = $controller('vinibarCtrl', {

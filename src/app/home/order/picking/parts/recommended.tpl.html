@@ -15,7 +15,7 @@
 <!-- <a href class="item">Gamme de Prix</a> -->
 <h3 class="padding">Mes Vins</h3>
 <div class="list">
-  <a ng-repeat="bottle in ::recommandationList  | regionFilter  | colorFilter | filter: searchFilter " class="item item-thumbnail-left">
+  <div ng-repeat="bottle in ::recommandationList  | regionFilter  | colorFilter | filter: searchFilter " class="item item-thumbnail-left">
       <img ng-src="assets/wines/{{::bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
       <h3>{{::bottle.wine.display_name}}</h3>
     <span class="attributes">
@@ -33,5 +33,5 @@
           {{::bottle.wine.appellation}}
           <span ng-click="openWineModal(bottle.wine)" class="item-note">en savoir plus</span>
       </p>
-  </a>
+  </div>
 </div>
