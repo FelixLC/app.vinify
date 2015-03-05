@@ -184,7 +184,16 @@
 
         $scope.goToCart = function (order) {
 
+          console.log($scope.picking);
+
           if (order.isValid()) {
+            if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
+              $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
+            } else {
+              orderInstance.setOrderInstance(order);
+              $state.go('sidemenu.cart');
+            }
+          } else if (order.getBottleNumber() === 9) {
             if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online
               $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
             } else {
