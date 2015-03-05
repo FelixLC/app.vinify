@@ -1,0 +1,12 @@
+<ion-view title="Regions" id="region-view">
+  <ion-content has-bouncing="false">
+    <div class="list">
+      <li class="item item-checkbox" ng-repeat="(key, value) in regions">
+         <label class="checkbox">
+           <input type="checkbox" ng-model="value" ng-change="setRegions(key, value)">
+         </label>
+         {{key}}
+      </li>
+    </div>
+  </ion-content>
+</ion-view>
