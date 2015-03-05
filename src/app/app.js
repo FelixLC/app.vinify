@@ -17,6 +17,7 @@ angular.module('app', [
   'app.deliverymode',
   'app.profile',
   'app.pay',
+  'app.svi',
   'security',
   'settings',
   'Toaster',
