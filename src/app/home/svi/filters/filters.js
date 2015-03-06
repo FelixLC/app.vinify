@@ -1,4 +1,4 @@
-  angular.module('sidemenu.filters', [
+  angular.module('app.filters', [
     'settings',
     'User',
     'Toaster',
@@ -61,7 +61,7 @@
             }
             return regions;
           } else {
-            WinemakerFactory.get().then(function (winemakers) {
+            WinemakerFactory.query().then(function (winemakers) {
               console.log(winemakers);
               _(winemakers)
                                     .pluck('region')

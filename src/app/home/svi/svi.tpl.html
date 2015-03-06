@@ -13,11 +13,11 @@
       <p class="centered">Cliquez sur un producteur pour voir ses vins</p>
     </div>
     <div class="list">
-      <div class="item item-thumbnail-left" ng-repeat="winemaker in winemakers">
-        <img src="assets/svi/logo_vi_red.png" alt="">
-        <h3>{{::winemaker.winemaker_name}}</h3>
-        <p class="vinitext">{{::winemaker.region}}</p>
-        <p class="vinitext">{{::winemaker.appellation}}</p>
+      <div class="item item-thumbnail-left" ng-repeat="winemaker in winemakers | regionFilter">
+        <img ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" src="assets/svi/logo_vi_red.png" alt="">
+        <h3 ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" >{{::winemaker.winemaker_name}}</h3>
+        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{::winemaker.region}}</p>
+        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{::winemaker.appellation}}</p>
         <div class="pins">
           <div ng-if="hasColor(winemaker)['red']" class="pin red-pin"></div>
           <div ng-if="hasColor(winemaker)['white']" class="pin white-pin"></div>

@@ -1,0 +1,70 @@
+<ion-view title="Fiche Producteur" id="winemaker-view">
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>{{::winemaker.winemaker_name}}</h3>
+            <h4>{{::winemaker.region}} - {{::winemaker.appellation}}</h4>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="row">
+        <div class="col">
+          <h4>Description</h4>
+          <p>{{::winemaker.description}}</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="item">
+          <div class="row">
+            <div class="col">
+              <h4>Légende</h4>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col centered">
+              <img class="picto" src="assets/svi/heart.svg" alt="">
+              <p>J'aime</p>
+            </div>
+            <div class="col centered">
+              <img class="picto" src="assets/svi/heart_outline.svg" alt="">
+                <p>Non gouté</p>
+            </div>
+            <div class="col centered">
+              <img class="picto" src="assets/svi/heart_broken.svg" alt="">
+              <p>Je n'aime pas</p>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col centered">
+              <img class="picto" src="assets/svi/comment_outline.svg" alt="">
+              <p>Ajouter un commentaire</p>
+            </div>
+            <div class="col centered">
+              <img class="picto" src="assets/svi/comment.svg" alt="">
+              <p>Voir le commentaire</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="item item-thumbnail-left" ng-repeat="wine in winemaker.wines">
+          <img src="assets/wines/mystery-bottle.png" alt="">
+          <h3>{{::wine.display_name}}
+        <span class="item-note">
+          <img class="picto" src="assets/svi/heart.svg" alt="">
+        </span>
+          </h3>
+          <p>{{::wine.region}} - {{::wine.vintage}}</p>
+          <p>{{::wine.appellation}}
+            <span class="item-note">
+              <img class="picto" src="assets/svi/comment.svg" alt="">
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
