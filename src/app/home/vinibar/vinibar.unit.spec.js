@@ -42,8 +42,7 @@ describe('Controller: app.vinibar', function () {
     };
     bottles = { data: {}};
 
-    // TODO: removes
-    $httpBackend.whenGET('security/loginform.tpl.html').respond(function(method,url,data) {
+    $httpBackend.whenGET(/(\w+\/)(\w+\/)*\w+\.tpl\.html/).respond(function(method,url,data) {
       return [200, users, {}];
     });
 

@@ -1,7 +1,8 @@
-  angular.module('app.filters', [
+  angular.module('sidemenu.filters', [
     'settings',
     'User',
     'Toaster',
+    'WinemakerFactory',
     'lodash'
     ])
       .config(function ($stateProvider, $urlRouterProvider) {
@@ -27,14 +28,6 @@
                   controller: 'filterCtrl',
                   templateUrl: "home/svi/filters/regions.tpl.html"
                 }
-              },
-              resolve: {
-                bottles: function (Bottles) {
-                  return Bottles.getList();
-                },
-                recommandations: function (Bottles) {
-                  return Bottles.getRecommendations();
-                }
               }
           });
       })
@@ -50,7 +43,8 @@
           Filters.setColors(key, value);
         };
       })
-      .factory('Filters', function (Bottles, _) {
+
+      .factory('Filters', function (WinemakerFactory, _) {
         var filter = {};
 
         var regions = {};
@@ -67,22 +61,21 @@
             }
             return regions;
           } else {
-            Bottles.getList().then(function (wineList) {
-              Bottles.getRecommendations().then(function (recommendationList) {
-                _(wineList.data.results.concat(recommendationList.data))
-                                      .pluck('wine')
-                                      .pluck('region')
-                                      .uniq()
-                                      .compact()
-                                      .forEach(function (region) {
-                                        regions[region] = true;
-                                      })
-                                      .value();
-                if (success) {
-                  success(regions);
-                }
-                return regions;
-              });
+            WinemakerFactory.get().then(function (winemakers) {
+              console.log(winemakers);
+              _(winemakers)
+                                    .pluck('region')
+                                    .uniq()
+                                    .compact()
+                                    .forEach(function (region) {
+                                      regions[region] = true;
+                                    })
+                                    .value();
+              if (success) {
+                success(regions);
+              }
+              return regions;
+
             });
           }
         };

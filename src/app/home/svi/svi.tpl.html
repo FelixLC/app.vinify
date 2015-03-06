@@ -2,40 +2,28 @@
   <ion-content overflow-scroll="false">
     <div class="padding">
       <h3>Filtres</h3>
-      <a href class="item"></a>
     </div>
-    <ion-list ng-if="segmentedControl.value === 'rated'">
-      <a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter " class="item item-thumbnail-left" href="#/ratedwine/{{::bottle.uuid}}">
-          <img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
-          <h3>{{::bottle.wine.display_name}}</h3>
-          <p class="vinitext">
-              {{::bottle.wine.region}}
-              <span class="item-note">
-                <i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
-                <i ng-hide="isInteger(bottle.rating)" class="icon ion-ios7-star-half full-star"></i>
-              </span>
-              <br>
-              {{::bottle.wine.appellation}}
-              <span class="item-note">
-                <span ng-repeat="a in getRange(bottle.wine) track by $index">€</span>
-              </span>
-          </p>
-      </a>
-    </ion-list>
-    <ion-list ng-if="segmentedControl.value === 'toDrink'">
-      <a ng-repeat="bottle in bottleList.results | filter: {date_rated: 'null'}  | filter: searchFilter " class="item item-thumbnail-left" href="#/wine/{{::bottle.uuid}}">
-          <img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
-          <h3>{{::bottle.wine.display_name}}</h3>
-          <p class="vinitext">
-              {{::bottle.wine.region}}
-              <span class="item-note">{{::bottle.wine.vintage}}</span>
-              <br>
-              {{::bottle.wine.appellation}}
-              <span class="item-note">
-                <span ng-repeat="a in getRange(bottle.wine) track by $index">€</span>
-              </span>
-            </p>
-      </a>
-    </ion-list>
+    <div class="list">
+      <a href ui-sref="sidemenu.filter_color" class="item">Couleur</a>
+      <a href ui-sref="sidemenu.filter_region" class="item">Région</a>
+      <!-- <a href ui-sref="sidemenu.filter_color" class="item"></a> -->
+    </div>
+    <div class="padding">
+      <h3>Mon parcours</h3>
+      <p class="centered">Cliquez sur un producteur pour voir ses vins</p>
+    </div>
+    <div class="list">
+      <div class="item item-thumbnail-left" ng-repeat="winemaker in winemakers">
+        <img src="assets/svi/logo_vi_red.png" alt="">
+        <h3>{{::winemaker.winemaker_name}}</h3>
+        <p class="vinitext">{{::winemaker.region}}</p>
+        <p class="vinitext">{{::winemaker.appellation}}</p>
+        <div class="pins">
+          <div ng-if="hasColor(winemaker)['red']" class="pin red-pin"></div>
+          <div ng-if="hasColor(winemaker)['white']" class="pin white-pin"></div>
+          <div ng-if="hasColor(winemaker)['rose']" class="pin rose-pin"></div>
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
