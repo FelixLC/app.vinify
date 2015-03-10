@@ -9,14 +9,14 @@
       </div>
     </div>
     <div class="content-container">
-      <div class="row">
+      <div ng-if="::winemaker.description" class="row">
         <div class="col">
           <h4>Description</h4>
           <p>{{::winemaker.description}}</p>
         </div>
       </div>
       <div class="card">
-        <div class="item">
+        <div class="item item-text-wrap">
           <div class="row">
             <div class="col">
               <h4>Légende</h4>
@@ -26,10 +26,6 @@
             <div class="col centered">
               <img class="picto" src="assets/svi/heart.svg" alt="">
               <p>J'aime</p>
-            </div>
-            <div class="col centered">
-              <img class="picto" src="assets/svi/heart_outline.svg" alt="">
-                <p>Non gouté</p>
             </div>
             <div class="col centered">
               <img class="picto" src="assets/svi/heart_broken.svg" alt="">
@@ -51,8 +47,8 @@
 
       <div class="list">
         <div class="item item-thumbnail-left" ng-repeat="wine in winemaker.wines">
-          <img src="assets/wines/mystery-bottle.png" alt="">
-          <h3>{{::wine.display_name}}
+          <img ng-click="openWineModal(wine)" src="assets/wines/mystery-bottle.png" alt="">
+          <h3 ng-click="openWineModal(wine)" >{{::wine.display_name}}
         <span class="item-note">
           <img class="picto" src="assets/svi/heart.svg" alt="">
         </span>
@@ -60,7 +56,7 @@
           <p>{{::wine.region}} - {{::wine.vintage}}</p>
           <p>{{::wine.appellation}}
             <span class="item-note">
-              <img class="picto" src="assets/svi/comment.svg" alt="">
+              <img ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment.svg" alt="">
             </span>
           </p>
         </div>

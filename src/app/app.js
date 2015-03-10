@@ -18,6 +18,7 @@ angular.module('app', [
   'app.profile',
   'app.pay',
   'app.svi',
+  'app.svi_menu',
   'security',
   'settings',
   'Toaster',
@@ -179,6 +180,13 @@ angular.module('app', [
 
   $scope.goHome = function () {
     $state.go('sidemenu.home');
+  };
+
+  $rootScope.isState = function (obj) {
+    return $state.current.name === 'sidemenu.filter_color' ||
+                  $state.current.name === 'sidemenu.filter_region' ||
+                  $state.current.name === 'sidemenu.svi' ||
+                  $state.current.name === 'sidemenu.winemaker';
   };
 
   //  TODO VERIFY WITH STATUS BAR

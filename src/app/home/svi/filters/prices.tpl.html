@@ -1,0 +1,24 @@
+<ion-view title="Gamme de Prix" id="price-range-view">
+  <ion-content has-bouncing="false">
+    <div class="list">
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="checkbox" ng-model="colors.Rouge" ng-change="setColors('Rouge', colors.Rouge)">
+         </label>
+         Rouge
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="checkbox" ng-model="colors.Blanc" ng-change="setColors('Blanc', colors.Blanc)">
+         </label>
+         Blanc
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="checkbox" ng-model="colors['Rosé']" ng-change="setColors('Rosé', colors['Rosé'])">
+         </label>
+         Rosé
+      </li>
+    </div>
+  </ion-content>
+</ion-view>

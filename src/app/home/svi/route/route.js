@@ -9,11 +9,11 @@ angular.module('app.svi', [ 'WinemakerFactory',
   .config(function ($stateProvider, $urlRouterProvider, deskProvider) {
     $stateProvider
       .state('sidemenu.svi', {
-          url: "/salon-vignerons-independants",
+          url: "/parcours",
           views: {
             menuContent: {
               controller: 'sviCtrl',
-              templateUrl: 'home/svi/svi.tpl.html'
+              templateUrl: 'home/svi/route/route.tpl.html'
             }
           },
           resolve: {

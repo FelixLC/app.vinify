@@ -23,11 +23,11 @@
     "test",
     "tests"
   ],
-  "_release": "2472bc9bef",
+  "_release": "9643191f23",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "2472bc9befa256780d106a8e53a9dea12b7341ed"
+    "commit": "9643191f2359e18d543c4abf1581f91f6729445f"
   },
   "_source": "git://github.com/laurihy/angular-payments.git",
   "_target": "*",

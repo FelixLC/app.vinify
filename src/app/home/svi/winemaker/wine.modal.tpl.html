@@ -1,0 +1,49 @@
+  <ion-modal-view>
+    <ion-header-bar class="bar-positive">
+          <h1 class="title">Fiche Vin</h1>
+          <button class="button" ng-click="closeWineModal()">Terminé</button>
+    </ion-header-bar>
+    <ion-content id="wine-modal-view">
+    <div class="row row-center">
+      <div class="col col-20 centered">
+          <img class="picto-3x" src="assets/wines/mystery-bottle.png" alt="">
+      </div>
+      <div class="col">
+        <h3>{{wine.display_name}}</h3>
+        <p>{{wine.vintage}}</p>
+      </div>
+    </div>
+    <div class="row row-center">
+      <div class="col col-20 centered">
+        <img class="picto-2x" src="assets/svi/france.svg" alt="">
+      </div>
+      <div class="col">
+        <h4>{{wine.region}}</h4>
+        <p>{{wine.appellation}}</p>
+      </div>
+    </div>
+    <div class="row row-center">
+      <div class="col col-20 centered">
+        <img class="picto-2x" src="assets/svi/grapes.svg" alt="">
+      </div>
+      <div class="col">
+        <h4>{{wine.svi_profile.variety_1}}</h4>
+        <p>{{wine.svi_profile.variety_2}} <span ng-if="wine.svi_profile.variety_3">{{wine.svi_profile.variety_3}}</span></p>
+      </div>
+    </div>
+    <div class="item">
+      <h3>Commentaire</h3>
+      <input type="text" ng-model="comment" placeholder="taper pour mettre un commentaire">
+    </div>
+    <div class="row row-center">
+      <div class="col centered">
+        <img  ng-click="closeWineModal()" class="picto-2x" src="assets/svi/heart_broken.svg" alt="">
+        <p>Je n'aime pas</p>
+      </div>
+      <div class="col centered">
+        <img  ng-click="closeWineModal()" class="picto-2x" src="assets/svi/heart.svg" alt="">
+        <p>J'aime</p>
+      </div>
+    </div>
+    </ion-content>
+  </ion-modal-view>

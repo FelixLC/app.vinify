@@ -1,10 +1,102 @@
-#winemaker-view .item-thumbnail-left > img {
-  max-height: 100%;
+@import 'route/route.less';
+
+#svi-menu {
+  padding-top: 0;
+  margin-top: 0;
 }
-#winemaker-view .item-thumbnail-left {
-  padding-top: 20px;
-  padding-bottom: 20px;
+
+#svi-menu .section {
+  padding: @padding;
+  cursor: pointer;
+  position: relative;
+
+    .home-header {
+      h4, h3, p {color: #FFF;}
+
+      h3 {
+        text-transform: uppercase;
+      }
+
+      h4 {
+        font-size: 16px;
+      }
+      position: absolute;
+      bottom: 0;
+      width: 90%;
+      color: #fff;
+    }
+    .chevron-right{
+      color: #fff;
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+    }
 }
-#winemaker-view .picto {
-  height: 20px;
+
+#section-my-wines {
+  @bckg_url: 'svi/background_wines.png';
+  @break: 40%;
+  .shade(@bckg_url, @break);
+}
+
+#section-route {
+  @bckg_url: 'svi/background_taste.png';
+  @break: 0%;
+  .shade(@bckg_url, @break);
+}
+
+#section-winemakers {
+  @bckg_url: 'svi/background_vineyard.png';
+  @break: 0%;
+  .shade(@bckg_url, @break);
+}
+
+.item-row-stand p {
+  font-size: 20px;
+  font-family: 'robotobold';
+  color: #fff;
+  margin: 0;
+  line-height: 80px;
+  height: 80px;
+  text-align: center;
+}
+
+.item-row-stand--ffb511 {
+  background-color: #ffb511;
+}
+.item-row-stand--aa0061 {
+  background-color: #aa0061;
+}
+.item-row-stand--440099 {
+  background-color: #440099;
+}
+.item-row-stand--fa4616 {
+  background-color: #fa4616;
+}
+.item-row-stand--7b6469 {
+  background-color: #7b6469;
+}
+.item-row-stand--be3a34 {
+  background-color: #be3a34;
+}
+.item-row-stand--c1c6c8 {
+  background-color: #c1c6c8 ;
+}
+.item-row-stand--007367 {
+  background-color: #007367;
+}
+.item-row-stand--ec86d0 {
+  background-color: #ec86d0;
+}
+.item-row-stand--7a9b62 {
+  background-color: #7a9b62;
+}
+.item-row-stand--8c4799 {
+  background-color: #8c4799;
+}
+.item-row-stand--71c5e8 {
+  background-color: #71c5e8;
+}
+.item-row-stand--0072ce {
+  background-color: #0072ce;
 }

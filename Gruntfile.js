@@ -20,6 +20,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-aws-s3');
   grunt.loadNpmTasks('grunt-contrib-connect');
 
   /**
@@ -36,6 +37,72 @@ module.exports = function ( grunt ) {
      * We read in our `package.json` file so we can access the package name and
      * version. It's already there, so we don't repeat ourselves here.
      */
+
+    /**
+     * Load our secret access keys
+     */
+    aws: grunt.file.readJSON('aws-keys.json'),
+    aws_s3: {
+      options: {
+        accessKeyId: '<%= aws.AWSAccessKeyId %>', // Use the variables
+        secretAccessKey: '<%= aws.AWSSecretKey %>', // You can also use env variables
+        region: 'eu-west-1',
+        uploadConcurrency: 5, // 5 simultaneous uploads
+        downloadConcurrency: 5 // 5 simultaneous downloads
+      },
+      staging: {
+        options: {
+          bucket: 'staging.vinify.co',
+          differential: 'true'
+        },
+        files: [
+          {dest: 'assets/', 'action': 'delete', cwd: 'bin/assets/'},
+          {expand: true, cwd: 'bin/', src: ['*.html'], dest: '', params: {CacheControl: 'max-age=0', ContentType: 'text/html; charset=utf-8'}},
+          {expand: true, cwd: 'bin/assets/', src: ['**'], exclude: ["**/*.js", "**/*.css"], dest: 'assets/'},
+          {expand: true, cwd: 'dist/assets/',  src: ['**/*js'], dest: 'assets/', params: {ContentType: 'application/javascript; charset=utf-8', ContentEncoding: 'gzip'}},
+          {expand: true, cwd: 'dist/assets/',  src: ['**/*css'], dest: 'assets/', params: {ContentType: 'text/css; charset=utf-8', ContentEncoding: 'gzip'}}
+        ]
+      },
+      production: {
+        options: {
+          bucket: 'svi-viniapp'
+        },
+        files: [
+          // {dest: 'assets/', 'action': 'delete', cwd: 'bin/assets/', differential: 'true'},
+          {expand: true, cwd: 'bin/', src: ['**/*'], dest: '', params: {CacheControl: 'max-age=0'}, differential: 'true'}
+        ]
+      },
+      clean_production: {
+        options: {
+          bucket: 'my-wonderful-production-bucket',
+          debug: true // Doesn't actually delete but shows log
+        },
+        files: [
+          {dest: 'app/', action: 'delete'},
+          {dest: 'assets/', exclude: "**/*.tgz", action: 'delete'}, // will not delete the tgz
+          {dest: 'assets/large/', exclude: "**/*copy*", flipExclude: true, action: 'delete'} // will delete everything that has copy in the name
+        ]
+      },
+      download_production: {
+        options: {
+          bucket: 'my-wonderful-production-bucket'
+        },
+        files: [
+          {dest: 'app/', cwd: 'backup/', action: 'download'}, // Downloads the content of app/ to backup/
+          {dest: 'assets/', cwd: 'backup-assets/', exclude: "**/*copy*", action: 'download'} // Downloads everything which doesn't have copy in the name
+        ]
+      },
+      secret: {
+        options: {
+          bucket: 'my-wonderful-private-bucket',
+          access: 'private'
+        },
+        files: [
+          {expand: true, cwd: 'secret_garden/', src: ['*.key'], dest: 'secret/'}
+        ]
+      }
+    },
+
     pkg: grunt.file.readJSON("package.json"),
     connect: {
       server: {

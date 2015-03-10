@@ -1,0 +1,26 @@
+<ion-view title="Les vignerons" id="winemaker_list">
+  <ion-content overflow-scroll="false">
+    <div class="padding">
+      <h3>Filtres</h3>
+    </div>
+    <div class="list">
+      <a href ui-sref="sidemenu.filter_color" class="item">Couleur</a>
+      <a href ui-sref="sidemenu.filter_region" class="item">Région</a>
+      <!-- <a href ui-sref="sidemenu.filter_color" class="item"></a> -->
+    </div>
+    <div class="padding">
+      <!-- <h3>Mon parcours</h3> -->
+      <p class="centered">Cliquez sur un producteur pour voir ses vins</p>
+    </div>
+    <ion-list>
+      <ion-item class="item-thumbnail-left" collection-repeat="winemaker in winemakers">
+        <div class="item-image item-row-stand item-row-stand--aa0061">
+          <p>{{winemaker.row}} {{winemaker.stand}}</p>
+        </div>
+        <h3 ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" >{{winemaker.winemaker_name}}</h3>
+        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{winemaker.region}}</p>
+        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{winemaker.appellation}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

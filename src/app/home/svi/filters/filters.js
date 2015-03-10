@@ -29,6 +29,15 @@
                   templateUrl: "home/svi/filters/regions.tpl.html"
                 }
               }
+          })
+          .state('sidemenu.filter_prices', {
+              url: "/filtre-prix",
+              views: {
+                menuContent: {
+                  controller: 'filterCtrl',
+                  templateUrl: "home/svi/filters/prices.tpl.html"
+                }
+              }
           });
       })
       .controller('filterCtrl', function filterCtrl ($scope, Filters, _) {
@@ -48,6 +57,14 @@
         var filter = {};
 
         var regions = {};
+
+        var prices = {
+          1: true,
+          2: true,
+          3: true,
+          4: true,
+          5: true
+        };
         var colors = {
           Rouge: true,
           'Rosé': true,
@@ -61,7 +78,7 @@
             }
             return regions;
           } else {
-            WinemakerFactory.query().then(function (winemakers) {
+            WinemakerFactory.queryAll().then(function (winemakers) {
               console.log(winemakers);
               _(winemakers)
                                     .pluck('region')
@@ -93,6 +110,17 @@
 
         filter.setColors = function (key, value) {
           colors[key] = value;
+        };
+
+        filter.getPrices = function (success) {
+          if (success) {
+            success(prices);
+          }
+          return prices;
+        };
+
+        filter.setPrices = function (key, value) {
+          prices[key] = value;
         };
 
         return filter;
