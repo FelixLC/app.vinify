@@ -10,17 +10,17 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'ngCordova', 'Toaster', 's
             }
           },
           resolve: {
-            winemakers: function (WinemakerFactory) {
-              return WinemakerFactory.query();
+            winemaker: function (WinemakerFactory, $stateParams) {
+              return WinemakerFactory.getWinemaker($stateParams.uuid);
             }
           }
       });
   })
-  .controller('winemakerCtrl', function vinibarCtrl (
-    $scope, toasters, winemakers, $stateParams, WinemakerFactory, Filters, _, settings, $ionicModal) {
+  .controller('winemakerCtrl', function winemakerCtrl (
+    $scope, toasters, winemaker, $stateParams, WinemakerFactory, Filters, _, settings, $ionicModal) {
 
     var init = function () {
-      $scope.winemaker = _.findWhere(winemakers, { uuid: $stateParams.uuid });
+      $scope.winemaker = winemaker.data;
     };
     init();
 
@@ -30,7 +30,6 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'ngCordova', 'Toaster', 's
       animation: 'slide-in-up'
     }).then(function (modal) {
       $scope.wineModal = modal;
-      console.log($scope.wineModal);
     });
 
     //  Open & close the modal

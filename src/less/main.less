@@ -6,6 +6,7 @@
 @import '../app/home/profile/profile.less';
 @import '../app/home/ratedwine/ratedwine.less';
 @import '../app/home/svi/svi.less';
+@import '../app/home/quiz/quiz.less';
 @import '../app/home/vinibar/vinibar.less';
 @import '../app/home/wine/wine.less';
 @import '../app/sidemenu/sidemenu.less';
@@ -468,14 +469,20 @@ p.segmented-control {
 #wine-view .item-get-more {
   border-bottom: none;
 }
-#update-rating-view  .checkbox input:before, .checkbox .checkbox-icon:before,
-#wine-view  .checkbox input:before, .checkbox .checkbox-icon:before {
-    border-color: @primary;
+
+.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+  background: @primary;
+  border-color: @primary;
 }
-#update-rating-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before,
-#wine-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
-    background: @primary;
+.checkbox-positive input:before, .checkbox-positive .checkbox-icon:before {
+  border-color: @primary;
 }
+
+.checkbox-positive input:checked:before, .checkbox-positive input:checked + .checkbox-icon:before {
+  background: @primary;
+  border-color: @primary;
+}
+
 #update-rating-view .item-note-primary,
 #wine-view .item-note-primary {
   color: @primary;

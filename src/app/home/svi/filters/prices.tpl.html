@@ -3,21 +3,33 @@
     <div class="list">
       <li class="item item-checkbox">
          <label class="checkbox">
-           <input type="checkbox" ng-model="colors.Rouge" ng-change="setColors('Rouge', colors.Rouge)">
+           <input type="checkbox" ng-model="prices.price_level_1" ng-change="setPrices(price_level_1, prices.price_level_1)">
          </label>
-         Rouge
+         Moins de 10€
       </li>
       <li class="item item-checkbox">
          <label class="checkbox">
-           <input type="checkbox" ng-model="colors.Blanc" ng-change="setColors('Blanc', colors.Blanc)">
+           <input type="checkbox" ng-model="prices.price_level_2" ng-change="setPrices(price_level_2, prices.price_level_2)">
          </label>
-         Blanc
+         10 à 15€
       </li>
       <li class="item item-checkbox">
          <label class="checkbox">
-           <input type="checkbox" ng-model="colors['Rosé']" ng-change="setColors('Rosé', colors['Rosé'])">
+           <input type="checkbox" ng-model="prices.price_level_3" ng-change="setPrices(price_level_3, prices.price_level_3)">
          </label>
-         Rosé
+         15 à 20€
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="checkbox" ng-model="prices.price_level_4" ng-change="setPrices(price_level_4, prices.price_level_4)">
+         </label>
+         20 à 30€
+      </li>
+      <li class="item item-checkbox">
+         <label class="checkbox">
+           <input type="checkbox" ng-model="prices.price_level_5" ng-change="setPrices(price_level_5, prices.price_level_5)">
+         </label>
+         Plus de 30€
       </li>
     </div>
   </ion-content>

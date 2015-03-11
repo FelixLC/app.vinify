@@ -18,6 +18,7 @@ angular.module('app', [
   'app.profile',
   'app.pay',
   'app.svi',
+  'app.quiz',
   'app.svi_menu',
   'security',
   'settings',
@@ -68,6 +69,10 @@ angular.module('app', [
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/home");
   })
+
+.config(function($ionicConfigProvider) {
+  $ionicConfigProvider.backButton.text('').icon('ion-ios7-arrow-left');
+})
 
   .config([ '$httpProvider', function ($httpProvider) {
     delete $httpProvider.defaults.headers.common['X-Requested-With'];

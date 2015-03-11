@@ -1,0 +1,49 @@
+<ion-view title="Le Matin" id="coffee-view">
+  <ion-nav-back-button class="button-clear">
+    <i class="ion-arrow-left-c"></i>
+  </ion-nav-back-button>
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Vous prenez votre café</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_1.answ" name="quest_1" value="1">
+          <div class="item-content">
+            Noir
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_1.answ" name="quest_1" value="2">
+          <div class="item-content">
+            Sucré
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_1.answ" name="quest_1" value="3">
+          <div class="item-content">
+            A la crème
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_1.answ" name="quest_1" value="4">
+          <div class="item-content">
+            Pas de café
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ui-sref="sidemenu.quiz.juice" align-title="center" class="bar-positive">
+    <h1 class="title">Valider</h1>
+  </ion-footer-bar>
+</ion-view>

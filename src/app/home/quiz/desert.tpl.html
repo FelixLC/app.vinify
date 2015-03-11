@@ -1,0 +1,39 @@
+<ion-view title="Au dessert" id="desert-view">
+  <ion-nav-back-button class="button-clear">
+    <i class="ion-arrow-left-c"></i>
+  </ion-nav-back-button>
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Quels desserts vous font envie ?</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <li class="item item-checkbox">
+           <label class="checkbox">
+             <input type="checkbox" ng-model="visitor.survey.quest_5.answ_1">
+           </label>
+           Mille-feuille à la vanille
+        </li>
+        <li class="item item-checkbox">
+           <label class="checkbox">
+             <input type="checkbox" ng-model="visitor.survey.quest_5.answ_2">
+           </label>
+           Ganache chocolat à la cannelle
+        </li>
+        <li class="item item-checkbox">
+           <label class="checkbox">
+             <input type="checkbox" ng-model="visitor.survey.quest_5.answ_3">
+           </label>
+           Carpaccio de fruits & sorbet
+        </li>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ui-sref="sidemenu.quiz.signup" align-title="center" class="bar-positive">
+    <h1 class="title">Terminer</h1>
+  </ion-footer-bar>
+</ion-view>

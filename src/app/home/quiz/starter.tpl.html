@@ -1,0 +1,39 @@
+<ion-view title="En entrée" id="starter-view">
+  <ion-nav-back-button class="button-clear">
+    <i class="ion-arrow-left-c"></i>
+  </ion-nav-back-button>
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Quels plats vous font envie ?</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <li class="item item-checkbox">
+           <label class="checkbox">
+             <input type="checkbox" ng-model="visitor.survey.quest_4.answ_1">
+           </label>
+           Assiette d'huîtres
+        </li>
+        <li class="item item-checkbox">
+           <label class="checkbox">
+             <input type="checkbox" ng-model="visitor.survey.quest_4.answ_2">
+           </label>
+           Pain toasté et tapenade d'olives
+        </li>
+        <li class="item item-checkbox">
+           <label class="checkbox">
+             <input type="checkbox" ng-model="visitor.survey.quest_4.answ_3">
+           </label>
+           Foie gras et pain d'épices
+        </li>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ui-sref="sidemenu.quiz.desert" align-title="center" class="bar-positive">
+    <h1 class="title">Valider</h1>
+  </ion-footer-bar>
+</ion-view>

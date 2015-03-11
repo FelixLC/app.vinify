@@ -1,0 +1,42 @@
+<ion-view title="Le Matin" id="juice-view">
+  <ion-nav-back-button class="button-clear">
+    <i class="ion-arrow-left-c"></i>
+  </ion-nav-back-button>
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Pour vous désalterer, ce sera</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_2.answ" name="quest_2" value="1">
+          <div class="item-content">
+            Un jus de pamplemousse
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_2.answ" name="quest_2" value="2">
+          <div class="item-content">
+            Un jus de pomme
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+        <label class="item item-radio">
+          <input type="radio"  ng-model="visitor.survey.quest_2.answ" name="quest_2" value="3">
+          <div class="item-content">
+            Un jus de fruits exotiques
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ui-sref="sidemenu.quiz.cuisine" align-title="center" class="bar-positive">
+    <h1 class="title">Valider</h1>
+  </ion-footer-bar>
+</ion-view>

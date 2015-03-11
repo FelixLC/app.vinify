@@ -51,6 +51,19 @@
   .shade(@bckg_url, @break);
 }
 
+.item-row-stand {
+  border-radius: 40px;
+  top: 20px;
+}
+
+#winemaker-list .item-thumbnail-left .item-image,
+#svi .item-thumbnail-left .item-image {
+  top: 16px;
+}
+#winemaker-list .item-thumbnail-left,
+#svi .item-thumbnail-left {
+  padding-bottom: 8px;
+}
 .item-row-stand p {
   font-size: 20px;
   font-family: 'robotobold';
@@ -59,6 +72,18 @@
   line-height: 80px;
   height: 80px;
   text-align: center;
+}
+.item-avatar .item-row-stand p {
+  font-size: 16px;
+  font-family: 'robotobold';
+  color: #fff;
+  margin: 0;
+  line-height: 40px;
+  height: 40px;
+  text-align: center;
+}
+.item-avatar > p {
+  line-height: 1.5;
 }
 
 .item-row-stand--ffb511 {
@@ -99,4 +124,26 @@
 }
 .item-row-stand--0072ce {
   background-color: #0072ce;
+}
+
+.full-width {
+  width: 100%;
+}
+
+#price-range-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before,
+#color-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before,
+#region-view .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
+  background: @color-svi;
+  border-color: @color-svi;
+}
+#price-range-view .checkbox-positive input:before, .checkbox-positive .checkbox-icon:before,
+#color-view .checkbox-positive input:before, .checkbox-positive .checkbox-icon:before,
+#region-view .checkbox-positive input:before, .checkbox-positive .checkbox-icon:before {
+  border-color: @color-svi;
+}
+#price-range-view .checkbox-positive input:checked:before, .checkbox-positive input:checked + .checkbox-icon:before,
+#color-view .checkbox-positive input:checked:before, .checkbox-positive input:checked + .checkbox-icon:before,
+#region-view .checkbox-positive input:checked:before, .checkbox-positive input:checked + .checkbox-icon:before {
+  background: @color-svi;
+  border-color: @color-svi;
 }

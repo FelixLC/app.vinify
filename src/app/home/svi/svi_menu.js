@@ -13,7 +13,7 @@ angular.module('app.svi_menu', [
           }
       });
   })
-  .controller('sviMenuCtrl', function vinibarCtrl ($scope) {
+  .controller('sviMenuCtrl', function sviMenuCtrl ($scope) {
 
     var init = function () {
     };

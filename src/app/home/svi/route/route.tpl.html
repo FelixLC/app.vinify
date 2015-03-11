@@ -4,26 +4,38 @@
       <h3>Filtres</h3>
     </div>
     <div class="list">
-      <a href ui-sref="sidemenu.filter_color" class="item">Couleur</a>
-      <a href ui-sref="sidemenu.filter_region" class="item">Région</a>
+      <a href ui-sref="sidemenu.filter_color" class="item">
+        Couleur
+        <span class="item-note"><i class="icon ion-chevron-right"></i></span>
+      </a>
+      <a href ui-sref="sidemenu.filter_region" class="item">
+        Région
+        <span class="item-note"><i class="icon ion-chevron-right"></i></span>
+      </a>
+      <a href ui-sref="sidemenu.filter_price" class="item">
+        Prix
+        <span class="item-note"><i class="icon ion-chevron-right"></i></span>
+      </a>
       <!-- <a href ui-sref="sidemenu.filter_color" class="item"></a> -->
     </div>
     <div class="padding">
       <h3>Mon parcours</h3>
       <p class="centered">Cliquez sur un producteur pour voir ses vins</p>
     </div>
-    <div class="list">
-      <div class="item item-thumbnail-left" ng-repeat="winemaker in winemakers | regionFilter">
-        <img ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" src="assets/svi/logo_vi_red.png" alt="">
-        <h3 ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" >{{::winemaker.winemaker_name}}</h3>
-        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{::winemaker.region}}</p>
-        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{::winemaker.appellation}}</p>
-<!--         <div class="pins">
-          <div ng-if="hasColor(winemaker)['red']" class="pin red-pin"></div>
-          <div ng-if="hasColor(winemaker)['white']" class="pin white-pin"></div>
-          <div ng-if="hasColor(winemaker)['rose']" class="pin rose-pin"></div>
-        </div> -->
-      </div>
-    </div>
+    <ion-list>
+      <ion-item class="item-thumbnail-left" collection-repeat="winemaker in winemakers">
+        <div ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="item-image item-row-stand item-row-stand--{{winemaker.svi_color}}">
+          <p>{{winemaker.row}} {{winemaker.stand}}</p>
+        </div>
+        <h3 ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" >{{winemaker.winemaker_name}}</h3>
+        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{winemaker.region}}</p>
+        <p ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="vinitext">{{winemaker.appellation}}</p>
+        <div class="pins">
+          <div ng-if="winemaker.red"  class="pin red-pin"></div>
+          <div ng-if="winemaker.white"  class="pin white-pin"></div>
+          <div ng-if="winemaker.rose"  class="pin rose-pin"></div>
+        </div>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>
