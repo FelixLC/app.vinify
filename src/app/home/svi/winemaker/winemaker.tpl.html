@@ -16,7 +16,7 @@
           </div>
           <p ng-if="!winemaker.wines.length">Ce vigneron n'a pas rempli son profil, vous le trouverez
           au <span class="p-highlight">stand {{winemaker.stand}}, allée {{winemaker.row}}</span></p>
-          <p ng-if="winemaker.wines.length">Vous trouverez ce vigneron au stand {{winemaker.stand}}, allée {{winemaker.row}}</p>
+          <p ng-if="winemaker.wines.length">Vous trouverez ce vigneron au  <span class="p-highlight">stand {{winemaker.stand}}, allée {{winemaker.row}}</span></p>
         </div>
       </div>
     </div>
@@ -60,15 +60,18 @@
       <div class="list">
         <div class="item item-thumbnail-left" ng-repeat="wine in winemaker.wines">
           <img ng-click="openWineModal(wine)" src="assets/wines/mystery-bottle.png" alt="">
-          <h3 ng-click="openWineModal(wine)" >{{::wine.display_name}}
-        <span class="item-note">
-          <img class="picto" src="assets/svi/heart.svg" alt="">
-        </span>
-          </h3>
-          <p>{{::wine.region}} - {{::wine.vintage}}</p>
+          <h3 ng-click="openWineModal(wine)" >{{::wine.display_name}}</h3>
+          <p>{{::wine.region}} - {{::wine.vintage}}
+            <span class="item-note">
+              <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/heart_outline.svg" alt="">
+              <img ng-if="wine.svi_bottle.like === 1" class="picto" src="assets/svi/heart.svg" alt="">
+              <img ng-if="wine.svi_bottle.like === -1" class="picto" src="assets/svi/heart_broken.svg" alt="">
+            </span>
+          </p>
           <p>{{::wine.appellation}}
             <span class="item-note">
-              <img ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment.svg" alt="">
+              <img ng-if="!wine.svi_bottle" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment_outline.svg" alt="">
+              <img ng-if="wine.svi_bottle.comment" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment.svg" alt="">
             </span>
           </p>
         </div>

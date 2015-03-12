@@ -1,4 +1,4 @@
-angular.module('app.winemaker', [ 'WinemakerFactory', 'ngCordova', 'Toaster', 'settings', 'lodash' ])
+angular.module('app.winemaker', [ 'WinemakerFactory', 'LikeFactory', 'ngCordova', 'Toaster', 'settings', 'lodash' ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('sidemenu.winemaker', {
@@ -17,7 +17,7 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'ngCordova', 'Toaster', 's
       });
   })
   .controller('winemakerCtrl', function winemakerCtrl (
-    $scope, toasters, winemaker, $stateParams, WinemakerFactory, Filters, _, settings, $ionicModal) {
+    $scope, toasters, winemaker, $stateParams, WinemakerFactory, Filters, _, settings, $ionicModal, Like) {
 
     var init = function () {
       $scope.winemaker = winemaker.data;
@@ -35,6 +35,19 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'ngCordova', 'Toaster', 's
     //  Open & close the modal
     $scope.openWineModal = function (wine) {
       $scope.wine = wine;
+
+      $scope.likeBottle = function (bottle) {
+        bottle.like = 1;
+      };
+
+      $scope.dislikeBottle = function (bottle) {
+        bottle.like = -1;
+      };
+
+      $scope.bottle = new Like (wine.uuid, {
+        like: wine.svi_bottle ? wine.svi_bottle.like : 0,
+        comment: wine.svi_bottle ? wine.svi_bottle.comment : ''
+      });
       $scope.wineModal.show();
     };
 
@@ -42,4 +55,14 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'ngCordova', 'Toaster', 's
       $scope.wineModal.hide();
     };
 
+    $scope.likeWineModal = function (bottle) {
+      bottle.likeAndComment(
+        function (response) {
+          $scope.winemaker = response;
+          $scope.wineModal.hide();
+        },
+        function (error) {
+          toasters.pop('Oops, une erreur est survenue', 'short', 'info');
+        });
+    };
   });

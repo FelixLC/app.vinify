@@ -19,7 +19,7 @@
       },
 
       getWinemaker: function (uuid) {
-        return $http.get(settings.restApiEndPoint + '/svi/winemakers/' + uuid + '/')
+        return $http.get(settings.restApiEndPoint + '/detail/winemakerbottles/' + uuid + '/')
           .success(function (data, status, headers, config) {
             return data;
           })
@@ -30,7 +30,7 @@
 
       queryAll: function () {
         if (_.isEmpty(winemakers)) {
-          return $http.get(settings.restApiEndPoint + '/svi/winemakers/')
+          return $http.get(settings.restApiEndPoint + '/overview/winemakers/')
             .success(function (data, status, headers, config) {
               winemakers = data;
             });
@@ -48,7 +48,7 @@
 
       getRecommendations: function (success, failure) {
         if (_.isEmpty(recommendedWinemakers)) {
-          return $http.get(settings.apiEndPoint + '/backoffice/svi/recommendations/')
+          return $http.get(settings.apiEndPoint + '/svi/recommendations/get')
             .success(function (data, status, headers, config) {
               api.setRecommendations(data);
               Mixpanel.track('Recommendations given');

@@ -21,6 +21,7 @@ angular.module('app', [
   'app.svi',
   'app.quiz',
   'app.svi_menu',
+  'app.favourites',
   'security',
   'settings',
   'Toaster',

@@ -77,7 +77,7 @@ angular.module('app.quiz', [ 'visitorFactory', 'Toaster', 'WinemakerFactory', 'L
       Loading.show();
       visitor.createUser(
         function (user) {
-          WinemakerFactory.getRecommendations(
+          visitor.computeRecommendations(
             function (recommendations) {
               $state.go('sidemenu.svi_menu');
               Loading.hide();

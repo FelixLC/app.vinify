@@ -1,0 +1,26 @@
+<ion-view title="Mes Vins" id="svi">
+  <ion-content overflow-scroll="false">
+    <div class="padding">
+      <h3>Je retrouve tous les vins que j'ai goûté au salon</h3>
+    </div>
+  <div class="list">
+    <div class="item item-thumbnail-left" ng-repeat="wine in favourites">
+      <img ng-click="openWineModal(wine)" src="assets/wines/mystery-bottle.png" alt="">
+      <h3 ng-click="openWineModal(wine)" >{{::wine.display_name}}
+      <span class="item-note">
+        <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/heart_outline.svg" alt="">
+        <img ng-if="wine.svi_bottle.like === 1" class="picto" src="assets/svi/heart.svg" alt="">
+        <img ng-if="wine.svi_bottle.like === -1" class="picto" src="assets/svi/heart_broken.svg" alt="">
+      </span>
+      </h3>
+      <p>{{::wine.region}} - {{::wine.vintage}}</p>
+      <p>{{::wine.appellation}}
+        <span class="item-note">
+          <img ng-if="!wine.svi_bottle" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment_outline.svg" alt="">
+          <img ng-if="wine.svi_bottle.comment" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment.svg" alt="">
+        </span>
+      </p>
+    </div>
+  </div>
+  </ion-content>
+</ion-view>

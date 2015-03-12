@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-      .module('visitorFactory', [ 'settings', 'Analytics' ])
+      .module('visitorFactory', [ 'settings', 'Analytics', 'WinemakerFactory' ])
       .factory('Visitor', Visitor);
 
     /* @ngInject */
-  function Visitor (settings, $window, Mixpanel, $http) {
+  function Visitor (settings, $window, Mixpanel, $http, WinemakerFactory) {
     // Survey constructor
     var Survey = function () {
 
@@ -87,9 +87,10 @@
         });
     };
 
-    VisitorSVI.prototype.getRecommendations = function (success, failure) {
-      return $http.get(settings.apiEndPoint + '/backoffice/svi/recommendations/')
+    VisitorSVI.prototype.computeRecommendations = function (success, failure) {
+      return $http.get(settings.apiEndPoint + '/api/svi/recommendations/compute')
         .success(function (data, status, headers, config) {
+          WinemakerFactory.setRecommendations(data);
           Mixpanel.track('Recommendations given');
           if (success && angular.isFunction(success)) {
             success(data);

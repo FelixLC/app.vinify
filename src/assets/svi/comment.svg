@@ -5,7 +5,7 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="WineList" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="producteur_wines" sketch:type="MSArtboardGroup" transform="translate(-550.000000, -1388.000000)" fill="#9E1130">
+        <g id="producteur_wines" sketch:type="MSArtboardGroup" transform="translate(-550.000000, -1388.000000)" fill="#cb0001">
             <g id="Wine" sketch:type="MSLayerGroup" transform="translate(-12.000000, 1279.000000)">
                 <path d="M562,129.125 C562,134.6335 564.197273,139.61438 567.743182,143.25298 L567.681818,155 L577.203182,148.6267 C578.712273,149.00298 580.265909,149.25 581.886364,149.25 C592.867273,149.25 601.772727,140.23768 601.772727,129.125 C601.772727,118.01232 592.867273,109 581.886364,109 C570.905455,109 562,118.01232 562,129.125 Z" id="Shape" sketch:type="MSShapeGroup"></path>
             </g>

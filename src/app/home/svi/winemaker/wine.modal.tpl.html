@@ -1,7 +1,8 @@
   <ion-modal-view>
     <ion-header-bar class="bar-positive">
+          <button class="button" ng-click="closeWineModal()">Annuler</button>
           <h1 class="title">Fiche Vin</h1>
-          <button class="button" ng-click="closeWineModal()">Terminé</button>
+          <button class="button" ng-click="likeWineModal(bottle)">Terminé</button>
     </ion-header-bar>
     <ion-content id="wine-modal-view">
     <div class="row row-center">
@@ -37,12 +38,12 @@
     </div>
     <div class="row row-center">
       <div class="col centered">
-        <img  ng-click="closeWineModal()" class="picto-2x" src="assets/svi/heart_broken.svg" alt="">
-        <p>Je n'aime pas</p>
+        <img  ng-click="dislikeBottle(bottle)" class="picto-2x" ng-src="assets/svi/heart_broken{{bottle.like}}.svg" alt="">
+        <p ng-class="{ 'p-highlight': botte.like < 0 }">Je n'aime pas</p>
       </div>
       <div class="col centered">
-        <img  ng-click="closeWineModal()" class="picto-2x" src="assets/svi/heart.svg" alt="">
-        <p>J'aime</p>
+        <img  ng-click="likeBottle(bottle)" class="picto-2x" ng-src="assets/svi/heart{{bottle.like}}.svg" alt="">
+        <p ng-class="{ 'p-highlight': botte.like > 0 }">J'aime</p>
       </div>
     </div>
     </ion-content>
