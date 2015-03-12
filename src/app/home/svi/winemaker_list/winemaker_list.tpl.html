@@ -22,8 +22,8 @@
       <!-- <h3>Mon parcours</h3> -->
       <p class="centered">Cliquez sur un producteur pour voir ses vins</p>
     </div>
-    <ion-list>
-      <ion-item class="item-thumbnail-left" collection-repeat="winemaker in winemakers">
+    <div class="list">
+      <div class="item item-collection-repeat item-thumbnail-left full-width" collection-repeat="winemaker in winemakers" collection-item-height="'111px'" collection-item-width="collectionWidth">
         <div ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="item-image item-row-stand item-row-stand--{{winemaker.svi_color}}">
           <p>{{winemaker.row}} {{winemaker.stand}}</p>
         </div>
@@ -35,7 +35,7 @@
           <div ng-if="winemaker.white"  class="pin white-pin"></div>
           <div ng-if="winemaker.rose"  class="pin rose-pin"></div>
         </div>
-      </ion-item>
-    </ion-list>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

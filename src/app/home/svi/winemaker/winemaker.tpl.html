@@ -8,15 +8,19 @@
           </div>
       </div>
     </div>
-    <div class="content-container" ng-if="winemaker.wines.length">
+    <div class="content-container">
       <div class="list">
         <div class="item item-avatar item-text-wrap">
           <div class="item-image item-row-stand item-row-stand--{{winemaker.svi_color}}">
             <p>{{winemaker.row}} {{winemaker.stand}}</p>
           </div>
-          <p>Vous trouverez ce vigneron au stand {{winemaker.stand}}, allée {{winemaker.row}}</p>
+          <p ng-if="!winemaker.wines.length">Ce vigneron n'a pas rempli son profil, vous le trouverez
+          au <span class="p-highlight">stand {{winemaker.stand}}, allée {{winemaker.row}}</span></p>
+          <p ng-if="winemaker.wines.length">Vous trouverez ce vigneron au stand {{winemaker.stand}}, allée {{winemaker.row}}</p>
         </div>
       </div>
+    </div>
+    <div class="content-container" ng-if="winemaker.wines.length">
       <div ng-if="::winemaker.description" class="row">
         <div class="col">
           <h4>Description</h4>

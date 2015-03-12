@@ -7,28 +7,37 @@
               <p class="padding p-white" ng-show="authError">
                 {{authError}}
               </p>
+
+        <div class="margin-top item-text-wrap" ng-show="!connect">
+          <div><button class="button button-white" ui-sref="sidemenu.quiz.coffee">Salon des vignerons</button></div>
+          <p class="p-white">créer un compte et découvrir mon parcours</p>
+          <div><button class="margin-top button button-outline-white" ng-click="connect = true">Se connecter</button></div>
+          <p class="p-white">retrouver mes vins et mon vinibar</p>
+        </div>
               <!-- TODO SUPPR -->
-        <div class="list card">
-            <label for="email" class="item item-input">
-              <!-- <span class="input-label">Email</span> -->
-              <input id="email" name="email" autocomplete="email" type="email" ng-model="user.email" required placeholder="Email">
-            </label>
-            <label for="password" class="item item-input">
-              <!-- <span class="input-label">Mot de Passe</span> -->
-              <input id="password" autocomplete="password" name="pass" type="password" ng-model="user.password" required placeholder="Mot de Passe">
-            </label>
-        </div>
-
-        <div>
-          <button class="button button-outline-white" ng-click="login()" ng-disabled='form.$invalid'>Se connecter</button>
-        </div>
-
-        <div class="row">
-          <div class="col links">
-            <a ng-click="password()" target="_blank" class="p-white">Mot de passe oublié</a>
+        <div ng-if="connect">
+          <div class="list card">
+              <label for="email" class="item item-input">
+                <!-- <span class="input-label">Email</span> -->
+                <input id="email" name="email" autocomplete="email" type="email" ng-model="user.email" required placeholder="Email">
+              </label>
+              <label for="password" class="item item-input">
+                <!-- <span class="input-label">Mot de Passe</span> -->
+                <input id="password" autocomplete="password" name="pass" type="password" ng-model="user.password" required placeholder="Mot de Passe">
+              </label>
           </div>
-          <div class="col links">
-            <a ng-click="questionnaire()" target="_blank" class="p-white">Je n'ai pas de compte</a>
+
+          <div>
+            <button class="button button-outline-white" ng-click="login()" ng-disabled='form.$invalid'>Se connecter</button>
+          </div>
+
+          <div class="row">
+            <div class="col links">
+              <a ng-click="password()" target="_blank" class="p-white">Mot de passe oublié</a>
+            </div>
+            <div class="col links">
+              <a ng-click="questionnaire()" target="_blank" class="p-white">Je n'ai pas de compte</a>
+            </div>
           </div>
         </div>
     </form>

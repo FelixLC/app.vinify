@@ -1,12 +1,9 @@
-<ion-view title="Vinibar" hide-back-button="true" id="vinibar">
+<ion-view title="Vinibar" id="vinibar">
 	<ion-nav-buttons side="right">
 		<button class="button" ng-click="searchToggle()">
 			<i class="icon ion-search"></i>
 		</button>
 	</ion-nav-buttons>
-      <ion-nav-buttons side="left">
-        <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
-      </ion-nav-buttons>
 	<ion-header-bar align-title="left" class="bar-positive bar-subheader bar-segmented-control">
 		<p ng-if="!search.toggle" class="segmented-control">
 				<span class="segmented">

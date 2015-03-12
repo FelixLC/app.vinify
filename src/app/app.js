@@ -17,6 +17,7 @@ angular.module('app', [
   'app.deliverymode',
   'app.profile',
   'app.pay',
+  'Loading',
   'app.svi',
   'app.quiz',
   'app.svi_menu',
@@ -71,7 +72,7 @@ angular.module('app', [
   })
 
 .config(function($ionicConfigProvider) {
-  $ionicConfigProvider.backButton.text('').icon('ion-ios7-arrow-left');
+  $ionicConfigProvider.backButton.text('').previousTitleText(false);
 })
 
   .config([ '$httpProvider', function ($httpProvider) {
@@ -80,27 +81,10 @@ angular.module('app', [
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   } ])
 
-.controller('AppCtrl', function ($scope,
-                                                              $state,
-                                                              $rootScope,
-                                                              $ionicSideMenuDelegate,
-                                                              $ionicModal,
-                                                              $window,
-                                                              OfflineQueue,
-                                                              $ionicPlatform,
-                                                              $ionicLoading,
-                                                              $cordovaToast,
-                                                              $cordovaNetwork,
-                                                              $cordovaSplashscreen,
-                                                              Bottles,
-                                                              Update,
-                                                              security,
-                                                              User,
-                                                              Referrals,
-                                                              settings,
-                                                              toasters,
-                                                              OfflineMixpanel,
-                                                              Mixpanel) {
+.controller('AppCtrl', function (
+  $scope, $state, $rootScope, $ionicModal, $window, OfflineQueue,
+  $ionicPlatform, $cordovaNetwork, $cordovaSplashscreen, Bottles,
+  Loading, Update, security, User, Referrals, settings, toasters, OfflineMixpanel, Mixpanel) {
 
   Mixpanel.track('Logged In', { platform: (settings.desktop) ? 'desktop' : 'app' });
   console.log('app');
@@ -136,6 +120,14 @@ angular.module('app', [
     }
   });
 
+  $scope.$on("$stateChangeStart", function () {
+    Loading.show();
+  });
+
+  $scope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
+    Loading.hide();
+  });
+
   $rootScope.settings = settings;
 
   $scope.windowSize = {
@@ -149,39 +141,6 @@ angular.module('app', [
       // we check if there is an update
     }
   });
-
-  $scope.toggleLeft = function () {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
-
-  //  Trigger the loading indicator
-  $scope.show = function () {
-
-    //  Show the loading overlay and text
-    $scope.loading = $ionicLoading.show({
-
-      //  The text to display in the loading indicator
-      content: '<i class="icon ion-loading-a">',
-
-      //  The animation to use
-      animation: 'fade-in',
-
-      //  Will a dark overlay or backdrop cover the entire view
-      showBackdrop: true,
-
-      //  The maximum width of the loading indicator
-      //  Text will be wrapped if longer than maxWidth
-      maxWidth: 0,
-
-      //  The delay in showing the indicator
-      showDelay: 500
-    });
-  };
-
-  //  Hide the loading indicator
-  $scope.hide = function () {
-    $ionicLoading.hide();
-  };
 
   $scope.goHome = function () {
     $state.go('sidemenu.home');

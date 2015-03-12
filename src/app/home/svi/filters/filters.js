@@ -60,8 +60,15 @@
 
           for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            if ((colors.red && item.red) || (colors.white && item.white) || (colors.rose && item.rose)) {
-              filtered.push(item);
+
+            // if all is toggle, let all through
+            if (colors.red && colors.white && colors.rose) {
+
+              return items;
+            } else {
+              if ((colors.red && item.red) || (colors.white && item.white) || (colors.rose && item.rose)) {
+                filtered.push(item);
+              }
             }
           }
 
@@ -74,12 +81,20 @@
 
           for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            if ((prices.price_level_1 && item.price_level_1) ||
-              (prices.price_level_2 && item.price_level_2) ||
-              (prices.price_level_3 && item.price_level_3) ||
-              (prices.price_level_4 && item.price_level_4) ||
-              (prices.price_level_5 && item.price_level_5)) {
-              filtered.push(item);
+
+            // if all is toggle, let all through
+            if (prices.price_level_1 && prices.price_level_2 &&
+              prices.price_level_3 && prices.price_level_4 && prices.price_level_5) {
+
+              return items;
+            } else {
+              if ((prices.price_level_1 && item.price_level_1) ||
+                (prices.price_level_2 && item.price_level_2) ||
+                (prices.price_level_3 && item.price_level_3) ||
+                (prices.price_level_4 && item.price_level_4) ||
+                (prices.price_level_5 && item.price_level_5)) {
+                filtered.push(item);
+              }
             }
           }
 

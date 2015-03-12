@@ -29,11 +29,14 @@ angular.module('app.winemaker_list', [
   })
 
   .controller('winemakerListCtrl', function winemakerListCtrl (
-    $scope, WinemakerFactory, winemakers, toasters, Filters, _, settings, regions, colors, prices, $filter) {
+    $scope, WinemakerFactory, winemakers, toasters, Filters, _, settings, regions, colors, prices, $filter, $window) {
 
     var init = function () {
+      console.log(winemakers.data);
       $scope.winemakers =
         $filter('price')($filter('color')($filter('region')(winemakers.data, regions), colors), prices);
+
+      $scope.collectionWidth = $window.innerWidth;
     };
     init();
 
