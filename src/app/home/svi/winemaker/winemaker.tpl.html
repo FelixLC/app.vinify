@@ -27,6 +27,30 @@
           <p>{{::winemaker.description}}</p>
         </div>
       </div>
+      <div class="padding">
+        <!-- <h3>Mon parcours</h3> -->
+        <p class="centered">Cliquez sur un vin pour afficher ses détails ou mettre un commentaire</p>
+      </div>
+      <div class="list">
+        <div ng-click="openWineModal(wine)" class="item item-thumbnail-left item-wine-bottle" ng-repeat="wine in winemaker.wines">
+          <img ng-if="isRecommended(wine.uuid)" src="assets/utils/logo_mini.png" alt="">
+          <img ng-if="!isRecommended(wine.uuid)" src="assets/wines/mystery-bottle.png" alt="">
+          <h3 >{{::wine.display_name}}</h3>
+          <p>{{::wine.region}} - {{::wine.vintage}}
+            <span class="item-note">
+              <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/heart_outline.svg" alt="">
+              <img ng-if="wine.svi_bottle.like === 1" class="picto" src="assets/svi/heart.svg" alt="">
+              <img ng-if="wine.svi_bottle.like === -1" class="picto" src="assets/svi/heart_broken.svg" alt="">
+            </span>
+          </p>
+          <p>{{::wine.appellation}}
+            <span class="item-note">
+              <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/comment_outline.svg" alt="">
+              <img ng-if="wine.svi_bottle.comment" class="picto" src="assets/svi/comment.svg" alt="">
+            </span>
+          </p>
+        </div>
+      </div>
       <div class="card">
         <div class="item item-text-wrap">
           <div class="row">
@@ -54,26 +78,14 @@
               <p>Voir le commentaire</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="list">
-        <div class="item item-thumbnail-left" ng-repeat="wine in winemaker.wines">
-          <img ng-click="openWineModal(wine)" src="assets/wines/mystery-bottle.png" alt="">
-          <h3 ng-click="openWineModal(wine)" >{{::wine.display_name}}</h3>
-          <p>{{::wine.region}} - {{::wine.vintage}}
-            <span class="item-note">
-              <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/heart_outline.svg" alt="">
-              <img ng-if="wine.svi_bottle.like === 1" class="picto" src="assets/svi/heart.svg" alt="">
-              <img ng-if="wine.svi_bottle.like === -1" class="picto" src="assets/svi/heart_broken.svg" alt="">
-            </span>
-          </p>
-          <p>{{::wine.appellation}}
-            <span class="item-note">
-              <img ng-if="!wine.svi_bottle" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment_outline.svg" alt="">
-              <img ng-if="wine.svi_bottle.comment" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment.svg" alt="">
-            </span>
-          </p>
+          <div class="row row-center">
+            <div class="col col-20">
+              <img class="picto-2x" src="assets/utils/logo_mini.png" alt="">
+            </div>
+            <div class="col centered">
+              <p>Recommandé par Vinify en fonction de vos réponses</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

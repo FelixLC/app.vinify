@@ -59,7 +59,6 @@
                                                                                       Rating,
                                                                                       GroupRating,
                                                                                       OfflineQueue,
-                                                                                      $ionicLoading,
                                                                                       $cordovaToast,
                                                                                       $ionicPlatform,
                                                                                       $cordovaNetwork,

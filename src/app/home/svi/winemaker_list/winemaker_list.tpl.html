@@ -1,9 +1,9 @@
 <ion-view cache-view="false" title="Les vignerons" id="winemaker-list">
   <ion-content overflow-scroll="false">
-    <div class="padding">
-      <h3>Filtres</h3>
-    </div>
     <div class="list">
+      <div class="item item-divider">
+        Filtres
+      </div>
       <a href ui-sref="sidemenu.filter_color" class="item">
         Couleur
         <span class="item-note"><i class="icon ion-chevron-right"></i></span>
@@ -16,14 +16,21 @@
         Prix
         <span class="item-note"><i class="icon ion-chevron-right"></i></span>
       </a>
-      <!-- <a href ui-sref="sidemenu.filter_color" class="item"></a> -->
-    </div>
-    <div class="padding">
-      <!-- <h3>Mon parcours</h3> -->
-      <p class="centered">Cliquez sur un producteur pour voir ses vins</p>
-    </div>
-    <div class="list">
-      <div class="item item-collection-repeat item-thumbnail-left full-width" collection-repeat="winemaker in winemakers" collection-item-height="'111px'" collection-item-width="collectionWidth">
+      <div class="item item-divider">
+        Recherche
+      </div>
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" placeholder="nom, appellation, stand (ex. L24)" class="full-width" ng-change="searchWinemakers(search.value)" ng-model="search.value">
+        </label>
+        <button ng-click="unSearch()" class="button button-small">
+          Annuler
+        </button>
+      </div>
+      <div class="item item-divider">
+        Domaines
+      </div>
+      <div class="item item-collection-repeat item-thumbnail-left" collection-repeat="winemaker in winemakers">
         <div ui-sref="sidemenu.winemaker({ uuid: winemaker.uuid })" class="item-image item-row-stand item-row-stand--{{winemaker.svi_color}}">
           <p>{{winemaker.row}} {{winemaker.stand}}</p>
         </div>

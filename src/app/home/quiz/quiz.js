@@ -68,28 +68,62 @@ angular.module('app.quiz', [ 'visitorFactory', 'Toaster', 'WinemakerFactory', 'L
           }
       });
   })
-  .controller('quizCtrl', function quizCtrl ($scope, Visitor, toasters, WinemakerFactory, $state, Loading) {
+  .controller('quizCtrl', function quizCtrl ($scope, Visitor, toasters, WinemakerFactory, $state, Loading, $ionicHistory) {
     var init = function () {
       $scope.visitor = new Visitor();
     };
     init();
+
+    $scope.coffeeToJuice = function (survey) {
+      if (survey.quest_1.answ) {
+        $state.go('sidemenu.quiz.juice');
+      } else {
+        toasters.pop('Merci de choisir une réponse', 'bottom', 'info');
+      }
+    };
+
+    $scope.juiceToCuisine = function (survey) {
+      if (survey.quest_2.answ) {
+        $state.go('sidemenu.quiz.cuisine');
+      } else {
+        toasters.pop('Merci de choisir une réponse', 'bottom', 'info');
+      }
+    };
+
+    $scope.cuisineToStarter = function (survey) {
+      if (survey.quest_3.answ_1 || survey.quest_3.answ_2 || survey.quest_3.answ_3 || survey.quest_3.answ_4 || survey.quest_3.answ_5) {
+        $state.go('sidemenu.quiz.starter');
+      } else {
+        toasters.pop('Merci de choisir au moins une réponse', 'bottom', 'info');
+      }
+    };
+
+    $scope.starterToDesert = function (survey) {
+      $state.go('sidemenu.quiz.desert');
+    };
+
+    $scope.desertToSignup = function (survey) {
+      $state.go('sidemenu.quiz.signup');
+    };
+
     $scope.createAndRecommend = function (visitor) {
-      Loading.show();
       visitor.createUser(
         function (user) {
           visitor.computeRecommendations(
             function (recommendations) {
+              $ionicHistory.nextViewOptions({
+                disableAnimate: false,
+                disableBack: true
+              });
+              $ionicHistory.clearHistory();
               $state.go('sidemenu.svi_menu');
-              Loading.hide();
             },
             function (error) {
-              toasters.pop('Oops, une erreur est survenue', 'short', 'info');
-              Loading.hide();
+              toasters.pop('Oops, une erreur est survenue', 'bottom', 'info');
             });
         },
         function (error) {
-          toasters.pop('Oops, un email est déja associé à ce compte', 'short', 'info');
-          Loading.hide();
+          toasters.pop('Oops, un email est déja associé à ce compte', 'bottom', 'info');
         });
     };
   });

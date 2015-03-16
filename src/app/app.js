@@ -21,6 +21,7 @@ angular.module('app', [
   'app.svi',
   'app.quiz',
   'app.svi_menu',
+  'app.slidebox',
   'app.favourites',
   'security',
   'settings',
@@ -121,6 +122,14 @@ angular.module('app', [
     }
   });
 
+  $rootScope.settings = settings;
+
+  $scope.windowSize = {
+    height: ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
+    width: $window.innerWidth
+  };
+
+
   $scope.$on("$stateChangeStart", function () {
     Loading.show();
   });
@@ -128,13 +137,6 @@ angular.module('app', [
   $scope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
     Loading.hide();
   });
-
-  $rootScope.settings = settings;
-
-  $scope.windowSize = {
-    height: ionic.Platform.isIOS() ? ($window.innerHeight - 20) : $window.innerHeight,
-    width: $window.innerWidth
-  };
 
   $ionicPlatform.ready(function () {
     if (ionic.Platform.isWebView()) { // if we are in cordova

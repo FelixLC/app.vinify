@@ -1,7 +1,7 @@
 <ion-view title="Vinibar" id="vinibar">
 	<ion-nav-buttons side="right">
 		<button class="button" ng-click="searchToggle()">
-			<i class="icon ion-search"></i>
+			<i class="icon ion-ios-search-strong"></i>
 		</button>
 	</ion-nav-buttons>
 	<ion-header-bar align-title="left" class="bar-positive bar-subheader bar-segmented-control">
@@ -11,12 +11,12 @@
 						<label><input type="radio" name="list" ng-model="segmentedControl.value" value="rated"><span class="label">Notés</span></label>
 				</span>
 				<button ng-click="update()" class="button button-icon button-refresh">
-					<i ng-hide="spin" class="icon ion-refresh"></i>
+					<i ng-hide="spin" class="icon ion-ios-refresh-empty"></i>
 				</button>
 		</p>
 		<div ng-if="search.toggle" class="item-input-inset search-vinibar">
 			<label class="item-input-wrapper">
-				<i class="icon ion-ios7-search placeholder-icon"></i>
+				<i class="icon ion-ios-search placeholder-icon"></i>
 				<input type="search" ng-model="search.value" focus-on="focusMe" placeholder="Search">
 			</label>
 			<div class="button-clear pointer" ng-click="search.value = ''; search.toggle = !search.toggle ">
@@ -35,13 +35,15 @@
 			<h3>Une commande est en route !</h3>
 			<p>Cliquez ici si vous l'avez reçue</p>
 		</a>
-		<a  ng-if="user.status == 1" class="item centered" ng-click="questionnaire()">
-			<h3>Vous n'avez pas encore de vinibar !</h3>
-			<p>Cliquez ici pour démarrer l'aventure</p>
+		<a  ng-if="user.status == 1" class="item item-text-wrap centered" ng-click="questionnaire()">
+			<h3>L'aventure Vinify démarre avec un Vinibar</h3>
+			<p>6 bouteilles choisies pour moi <br> en fonction de mes goûts</p>
+			<p>Vinify, c'est mon caviste, qui me connaît <br> et me conseille</p>
 		</a>
-		<a ng-if="user.status == 2 || user.status == 2.5" class="item centered" ng-click="payOrder()">
-			<h3>Vous n'avez pas finalisé votre commande!</h3>
-			<p>Cliquez ici pour continuer l'aventure</p>
+		<a ng-if="user.status == 2 || user.status == 2.5" class="item item-text-wrap centered" ng-click="payOrder()">
+			<h3>L'aventure Vinify démarre avec un Vinibar</h3>
+			<p>6 bouteilles choisies pour moi <br> en fonction de mes goûts</p>
+			<p>Vinify, c'est mon caviste, qui me connaît <br> et me conseille</p>
 		</a>
 		<ion-list ng-if="segmentedControl.value === 'rated'">
 			<a ng-repeat="bottle in bottleList.results | filter: {date_rated: '!null'}  | filter: searchFilter " class="item item-thumbnail-left" href="#/ratedwine/{{::bottle.uuid}}">
@@ -50,8 +52,8 @@
 					<p class="vinitext">
 							{{::bottle.wine.region}}
 							<span class="item-note">
-								<i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
-								<i ng-hide="isInteger(bottle.rating)" class="icon ion-ios7-star-half full-star"></i>
+								<i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios-star full-star"></i>
+								<i ng-hide="isInteger(bottle.rating)" class="icon ion-ios-star-half full-star"></i>
 							</span>
 							<br>
 							{{::bottle.wine.appellation}}

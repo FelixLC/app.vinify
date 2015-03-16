@@ -28,13 +28,17 @@
         <img class="picto-2x" src="assets/svi/grapes.svg" alt="">
       </div>
       <div class="col">
-        <h4>{{wine.svi_profile.variety_1}}</h4>
-        <p>{{wine.svi_profile.variety_2}} <span ng-if="wine.svi_profile.variety_3">{{wine.svi_profile.variety_3}}</span></p>
+        <h4>{{wine.variety_1}}</h4>
+        <p>{{wine.variety_2}} <span ng-if="wine.variety_3">{{wine.variety_3}}</span></p>
       </div>
     </div>
     <div class="item">
+      <h3>Producteur: {{wine.winemaker_name}}</h3>
+      <p ng-click="goToWinemaker(wine.winemaker)"><span class="link-dotted">Voir le producteur</span></p>
+    </div>
+    <div class="item">
       <h3>Commentaire</h3>
-      <input type="text" ng-model="comment" placeholder="taper pour mettre un commentaire" class="full-width">
+      <input type="text" ng-model="bottle.comment" placeholder="taper pour mettre un commentaire" class="full-width">
     </div>
     <div class="row row-center">
       <div class="col centered">
@@ -47,4 +51,7 @@
       </div>
     </div>
     </ion-content>
+    <ion-footer-bar ng-click="likeWineModal(bottle)" align-title="center" class="bar-positive">
+      <h1 class="title">Valider</h1>
+    </ion-footer-bar>
   </ion-modal-view>

@@ -13,7 +13,7 @@
 		</p>
 		<div ng-if="search.toggle" class="item-input-inset search-vinibar">
 			<label class="item-input-wrapper">
-				<i class="icon ion-ios7-search placeholder-icon"></i>
+				<i class="icon ion-ios-search placeholder-icon"></i>
 				<input type="search"  focus-on="focusMe" ng-model="search.value" placeholder="Search">
 			</label>
 			<div class="button-clear pointer" ng-click="search.value = '' ">
@@ -42,8 +42,8 @@
 					<p class="vinitext">
 							{{::bottle.wine.region}}
 							<span class="item-note">
-								<i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
-								<i ng-hide="isInteger(bottle.rating)" class="icon ion-ios7-star-half full-star"></i>
+								<i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios-star full-star"></i>
+								<i ng-hide="isInteger(bottle.rating)" class="icon ion-ios-star-half full-star"></i>
 							</span>
 							<br>
 							{{::bottle.wine.appellation}}

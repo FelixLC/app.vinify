@@ -70,7 +70,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'
             // If we get here then there was a problem with the login request to the server
             // $scope.hide();
             Loading.hide();
-            $scope.authError = 'Il y a un problème de connexion. Merci de réessayer';
+            $scope.authError = 'Combinaison email/mot de passe erronée. Merci de réessayer';
           });
     } else { // not Webview
         console.log("try to login");
@@ -96,7 +96,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'
           // If we get here then there was a problem with the login request to the server
           // $scope.hide();
             Loading.hide();
-          $scope.authError = 'Il y a un problème de connexion. Merci de réessayer';
+          $scope.authError = 'Combinaison email/mot de passe erronée';
         });
     }
   };

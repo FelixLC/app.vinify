@@ -29,15 +29,37 @@ angular.module('app.winemaker_list', [
   })
 
   .controller('winemakerListCtrl', function winemakerListCtrl (
-    $scope, WinemakerFactory, winemakers, toasters, Filters, _, settings, regions, colors, prices, $filter, $window) {
+    $scope, WinemakerFactory, winemakers, toasters, Filters, _, settings, regions, colors, prices,
+    $filter, $window, $ionicScrollDelegate) {
 
     var init = function () {
-      console.log(winemakers.data);
-      $scope.winemakers =
-        $filter('price')($filter('color')($filter('region')(winemakers.data, regions), colors), prices);
-
+      $scope.search = {
+        value: ''
+      };
+      $scope.winemakers = $filter('price')(
+        $filter('color')(
+          $filter('region')(winemakers.data, regions),
+        colors),
+      prices);
       $scope.collectionWidth = $window.innerWidth;
     };
     init();
+
+    $scope.searchWinemakers = function (search) {
+      $scope.winemakers = $filter('nameOrRow')(
+        $filter('price')(
+          $filter('color')(
+            $filter('region')(winemakers.data, regions),
+            colors),
+          prices),
+        search);
+      $ionicScrollDelegate.resize();
+    };
+
+    $scope.unSearch = function () {
+      init();
+      $ionicScrollDelegate.resize();
+    };
+
 
   });

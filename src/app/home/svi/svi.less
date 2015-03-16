@@ -107,7 +107,7 @@
 .item-row-stand--c1c6c8 {
   background-color: #c1c6c8 ;
 }
-.item-row-stand--007367 {
+.item-row-stand--7367 {
   background-color: #007367;
 }
 .item-row-stand--ec86d0 {
@@ -122,7 +122,7 @@
 .item-row-stand--71c5e8 {
   background-color: #71c5e8;
 }
-.item-row-stand--0072ce {
+.item-row-stand--72ce {
   background-color: #0072ce;
 }
 
@@ -149,4 +149,50 @@
 #region-view .checkbox-positive input:checked:before, .checkbox-positive input:checked + .checkbox-icon:before {
   background: @color-svi;
   border-color: @color-svi;
+}
+
+#winemaker-view .item-thumbnail-left > img ,
+#favourites-view .item-thumbnail-left > img {
+  max-height: 100%;
+}
+#winemaker-view .item-thumbnail-left ,
+#favourites-view .item-thumbnail-left {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+#winemaker-view .picto ,
+#favourites-view .picto {
+  height: 20px;
+}
+#wine-modal-view .picto-2x {
+  height: 40px;
+}
+#wine-modal-view .picto-3x {
+  height: 70px;
+}
+#wine-modal-view p,
+#wine-modal-view h4,
+#wine-modal-view h3 {
+  margin: 0px;
+}
+
+#winemaker-view h3,
+#svi h3,
+#wine-modal-view h3 {
+  color: @color-svi;
+}
+
+#winemaker-view .wine-header h3{
+  color: #fff;
+}
+.svi-background {
+  background-color: @color-svi;
+}
+
+.item-thumbnail-left.item-wine-bottle > img:first-child {
+  width: 53px;
+  top: 19px;
+}
+.item-wine-bottle {
+  padding-left: 74px;
 }

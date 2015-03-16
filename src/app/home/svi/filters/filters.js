@@ -14,11 +14,6 @@
                   controller: 'filterCtrl',
                   templateUrl: "home/svi/filters/colors.tpl.html"
                 }
-              },
-              resolve: {
-                bottles: function (Bottles) {
-                  return Bottles.getList();
-                }
               }
           })
           .state('sidemenu.filter_region', {
@@ -75,6 +70,45 @@
           return filtered;
         };
       })
+      .filter('nameOrRow', function () {
+        return function (items, search) {
+          console.log(search);
+          var filtered = [];
+          var removeAccents = function (string) {
+            var strAccents = string.split('');
+            var strAccentsOut = new Array (strAccents.length);
+            var strAccentsLen = strAccents.length;
+            var accents = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+            var accentsOut = "AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz";
+            for (var y = 0; y < strAccentsLen; y++) {
+              if (accents.indexOf(strAccents[y]) != -1) {
+                strAccentsOut[y] = accentsOut.substr(accents.indexOf(strAccents[y]), 1);
+              } else {
+                strAccentsOut[y] = strAccents[y];
+              }
+            }
+            return strAccentsOut.join('');
+          };
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var winemakerName = removeAccents(item.winemaker_name);
+            var appellation = removeAccents(item.appellation);
+            var rowStand = item.row + item.stand;
+            var rowStandString = rowStand.toString();
+            var rowStandSpaced = item.row + ' ' + item.stand;
+            var rowStandSpacedString = rowStandSpaced.toString();
+            if (!!(winemakerName.toLowerCase().indexOf(search.toLowerCase() || '') !== -1 ||
+              appellation.toLowerCase().indexOf(search.toLowerCase() || '') !== -1 ||
+              rowStandSpacedString.toLowerCase().indexOf(search.toLowerCase() || '') !== -1 ||
+              rowStandString.toLowerCase().indexOf(search.toLowerCase() || '') !== -1)) {
+              filtered.push(item);
+            }
+
+          }
+
+          return filtered;
+        };
+      })
       .filter('price', function () {
         return function (items, prices) {
           var filtered = [];
@@ -107,6 +141,21 @@
         });
         $scope.colors = Filters.getColors();
         $scope.prices = Filters.getPrices();
+
+        $scope.selectAllRegions = function () {
+          _.forEach($scope.regions, function (value, key) {
+            value = true;
+            $scope.setRegions(key, value);
+          });
+        };
+
+        $scope.unselectAllRegions = function () {
+          _.forEach($scope.regions, function (value, key) {
+            value = false;
+            $scope.setRegions(key, value);
+          });
+        };
+
         $scope.setRegions = function (key, value) {
           Filters.setRegions(key, value);
         };

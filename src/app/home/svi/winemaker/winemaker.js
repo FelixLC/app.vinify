@@ -17,10 +17,11 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'LikeFactory', 'ngCordova'
       });
   })
   .controller('winemakerCtrl', function winemakerCtrl (
-    $scope, toasters, winemaker, $stateParams, WinemakerFactory, Filters, _, settings, $ionicModal, Like) {
+    $scope, $state, toasters, winemaker, $stateParams, WinemakerFactory, Filters, _, settings, $ionicModal, Like) {
 
     var init = function () {
       $scope.winemaker = winemaker.data;
+      $scope.isRecommended = WinemakerFactory.isRecommended;
     };
     init();
 
@@ -62,7 +63,12 @@ angular.module('app.winemaker', [ 'WinemakerFactory', 'LikeFactory', 'ngCordova'
           $scope.wineModal.hide();
         },
         function (error) {
-          toasters.pop('Oops, une erreur est survenue', 'short', 'info');
+          toasters.pop('Oops, une erreur est survenue', 'bottom', 'info');
         });
+    };
+
+    $scope.goToWinemaker = function (uuid) {
+      $state.go('sidemenu.winemaker', { uuid: uuid });
+      $scope.wineModal.hide();
     };
   });

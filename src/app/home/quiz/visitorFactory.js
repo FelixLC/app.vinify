@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-      .module('visitorFactory', [ 'settings', 'Analytics', 'WinemakerFactory' ])
+      .module('visitorFactory', [ 'settings', 'Analytics', 'WinemakerFactory', 'Loading', 'security.service', 'User' ])
       .factory('Visitor', Visitor);
 
     /* @ngInject */
-  function Visitor (settings, $window, Mixpanel, $http, WinemakerFactory) {
+  function Visitor (settings, $window, Mixpanel, $http, WinemakerFactory, Loading,  security, User) {
     // Survey constructor
     var Survey = function () {
 
@@ -65,8 +65,10 @@
 
     VisitorSVI.prototype.createUser = function (success, failure) {
       var self = this;
+      Loading.show('Si vous avez la moindre question ou si vous avez besoin d\'aide, <br> n\'hésitez pas à passer nous voir et déguster quelques vins sur notre stand');
       return $http.post(settings.apiEndPoint + '/users/createuser/', self)
         .success(function (data, status, headers, config) {
+          Loading.hide();
           $window.sessionStorage.token = data.token;
           Mixpanel.alias(data.uuid);
           Mixpanel.people.set({
@@ -74,12 +76,17 @@
           });
           Mixpanel.track('Visitor Created');
           VisitorSVI.uuid = data.uuid;
+          // Set User For This Service (useful For Isloggedin)
+          security.currentUser = data;
 
+          // Set User In Angular And Local Storage
+          User.setUser(data);
           if (success && angular.isFunction(success)) {
             success(data);
           }
         })
         .error(function (error) {
+          Loading.hide();
           Mixpanel.track('Visitor Failed to be created');
           if (failure && angular.isFunction(failure)) {
             failure(error);
@@ -88,8 +95,10 @@
     };
 
     VisitorSVI.prototype.computeRecommendations = function (success, failure) {
-      return $http.get(settings.apiEndPoint + '/api/svi/recommendations/compute')
+      Loading.show('Merci de patienter, nous cherchons parmi les 500 vignerons ceux qui vous correspondent <br> cela peut prendre jusqu\'à 1 min');
+      return $http.get(settings.apiEndPoint + '/svi/recommendations/compute/')
         .success(function (data, status, headers, config) {
+          Loading.hide();
           WinemakerFactory.setRecommendations(data);
           Mixpanel.track('Recommendations given');
           if (success && angular.isFunction(success)) {
@@ -97,6 +106,7 @@
           }
         })
         .error(function (error) {
+          Loading.hide();
           Mixpanel.track('Recommendations failed');
           if (failure && angular.isFunction(failure)) {
             failure(error);

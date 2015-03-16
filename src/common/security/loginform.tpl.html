@@ -9,13 +9,13 @@
               </p>
 
         <div class="margin-top item-text-wrap" ng-show="!connect">
-          <div><button class="button button-white" ui-sref="sidemenu.quiz.coffee">Salon des vignerons</button></div>
+          <div><button class="button button-white" ui-sref="sidemenu.slidebox">Salon des vignerons</button></div>
           <p class="p-white">créer un compte et découvrir mon parcours</p>
           <div><button class="margin-top button button-outline-white" ng-click="connect = true">Se connecter</button></div>
           <p class="p-white">retrouver mes vins et mon vinibar</p>
         </div>
               <!-- TODO SUPPR -->
-        <div ng-if="connect">
+        <div ng-show="connect">
           <div class="list card">
               <label for="email" class="item item-input">
                 <!-- <span class="input-label">Email</span> -->
@@ -36,7 +36,7 @@
               <a ng-click="password()" target="_blank" class="p-white">Mot de passe oublié</a>
             </div>
             <div class="col links">
-              <a ng-click="questionnaire()" target="_blank" class="p-white">Je n'ai pas de compte</a>
+              <a ng-click="connect = false" target="_blank" class="p-white">Je n'ai pas de compte</a>
             </div>
           </div>
         </div>

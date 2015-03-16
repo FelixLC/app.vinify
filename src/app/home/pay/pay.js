@@ -50,7 +50,7 @@ angular.module('app.pay', [ 'Order', 'User', 'ionic', 'ngCordova', 'angularPayme
     $scope.submit = function (status, response) {
 
       if (response.error) {
-        toasters.pop('Merci de vérifier vos informations', 'short', 'info');
+        toasters.pop('Merci de vérifier vos informations', 'bottom', 'info');
       } else {
         Loading.show();
         Pay.chargeRefill($scope.serializedOrder.uuid, response.id)

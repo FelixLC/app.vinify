@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-      .module('WinemakerFactory', [ 'lodash', 'settings', 'Analytics' ])
+      .module('WinemakerFactory', [ 'lodash', 'settings', 'Analytics', 'Loading' ])
       .factory('WinemakerFactory', WinemakerFactory);
 
   /* @ngInject */
-  function WinemakerFactory ($q, _, $http, settings, Mixpanel) {
+  function WinemakerFactory ($q, _, $http, settings, Mixpanel, Loading) {
     var winemakers = [];
     var recommendedWinemakers = [];
     var recommendedWines = [];
@@ -48,8 +48,10 @@
 
       getRecommendations: function (success, failure) {
         if (_.isEmpty(recommendedWinemakers)) {
-          return $http.get(settings.apiEndPoint + '/svi/recommendations/get')
+          Loading.show('Merci de patienter, nous recherchons les vignerons qui vous correspondent');
+          return $http.get(settings.apiEndPoint + '/svi/recommendations/compute/')
             .success(function (data, status, headers, config) {
+              Loading.hide();
               api.setRecommendations(data);
               Mixpanel.track('Recommendations given');
               if (success && angular.isFunction(success)) {
@@ -57,6 +59,7 @@
               }
             })
             .error(function (error) {
+              Loading.hide();
               Mixpanel.track('Recommendations failed');
               if (failure && angular.isFunction(failure)) {
                 failure(data);
@@ -78,6 +81,10 @@
             }
           });
         }
+      },
+
+      isRecommended: function (uuid) {
+        return _.includes(recommendedWines, uuid);
       }
 
     };

@@ -1,23 +1,24 @@
-<ion-view title="Mes Vins" id="svi">
+<ion-view title="Mes Vins" id="favourites-view">
   <ion-content overflow-scroll="false">
     <div class="padding">
-      <h3>Je retrouve tous les vins que j'ai goûté au salon</h3>
+      <p class="centered">Je retrouve tous les vins que j'ai goûtés au salon</p>
     </div>
   <div class="list">
-    <div class="item item-thumbnail-left" ng-repeat="wine in favourites">
-      <img ng-click="openWineModal(wine)" src="assets/wines/mystery-bottle.png" alt="">
-      <h3 ng-click="openWineModal(wine)" >{{::wine.display_name}}
-      <span class="item-note">
-        <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/heart_outline.svg" alt="">
-        <img ng-if="wine.svi_bottle.like === 1" class="picto" src="assets/svi/heart.svg" alt="">
-        <img ng-if="wine.svi_bottle.like === -1" class="picto" src="assets/svi/heart_broken.svg" alt="">
-      </span>
+    <div class="item item-thumbnail-left item-wine-bottle" ng-repeat="fav in favourites">
+      <img ng-click="openWineModal(fav)" src="assets/wines/mystery-bottle.png" alt="">
+      <h3 ng-click="openWineModal(fav)" >{{::fav.wine.display_name}}
       </h3>
-      <p>{{::wine.region}} - {{::wine.vintage}}</p>
-      <p>{{::wine.appellation}}
+      <p ng-click="openWineModal(fav)">{{::fav.wine.region}} - {{::fav.wine.vintage}}
         <span class="item-note">
-          <img ng-if="!wine.svi_bottle" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment_outline.svg" alt="">
-          <img ng-if="wine.svi_bottle.comment" ng-click="openWineModal(wine)" class="picto" src="assets/svi/comment.svg" alt="">
+          <img ng-if="fav.like === 0" class="picto" src="assets/svi/heart_outline.svg" alt="">
+          <img ng-if="fav.like > 0" class="picto" src="assets/svi/heart.svg" alt="">
+          <img ng-if="fav.like < 0" class="picto" src="assets/svi/heart_broken.svg" alt="">
+        </span>
+      </p>
+      <p ng-click="openWineModal(fav)">{{::fav.wine.appellation}}
+        <span class="item-note">
+          <img ng-if="!fav.comment" ng-click="openWineModal(fav)" class="picto" src="assets/svi/comment_outline.svg" alt="">
+          <img ng-if="fav.comment" ng-click="openWineModal(fav)" class="picto" src="assets/svi/comment.svg" alt="">
         </span>
       </p>
     </div>

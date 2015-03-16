@@ -5,26 +5,15 @@ angular.module('Loading', ['ionic'])
 .factory('Loading', function ($ionicLoading) {
 
   // Trigger the loading indicator
-  var show = function () {
+  var show = function (text) {
 
+    var content = text ? text + '<br> <ion-spinner></ion-spinner>' : '<ion-spinner></ion-spinner>';
     // Show the loading overlay and text
-     $ionicLoading.show({
+    $ionicLoading.show({
 
       // The text to display in the loading indicator
-      content: '<i class="icon ion-loading-c">',
+      template: content
 
-      // The animation to use
-      animation: 'fade-in',
-
-      // Will a dark overlay or backdrop cover the entire view
-      showBackdrop: true,
-
-      // The maximum width of the loading indicator
-      // Text will be wrapped if longer than maxWidth
-      maxWidth: 0,
-
-      // The delay in showing the indicator
-      showDelay: 500
     });
   };
 
