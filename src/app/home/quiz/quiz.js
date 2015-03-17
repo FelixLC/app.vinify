@@ -3,7 +3,7 @@ angular.module('app.quiz', [ 'visitorFactory', 'Toaster', 'WinemakerFactory', 'L
   .config(function ($stateProvider) {
     $stateProvider
       .state('sidemenu.quiz', {
-          url: "/questionnaire",
+          url: "/questionnaire?type",
           views: {
             menuContent: {
               controller: 'quizCtrl',
@@ -51,6 +51,14 @@ angular.module('app.quiz', [ 'visitorFactory', 'Toaster', 'WinemakerFactory', 'L
             }
           }
       })
+      .state('sidemenu.quiz.balance', {
+          url: "/le-vin-et-moi",
+          views: {
+            quizzes: {
+              templateUrl: 'home/quiz/balance.tpl.html'
+            }
+          }
+      })
       .state('sidemenu.quiz.signup', {
           url: "/login",
           views: {
@@ -68,9 +76,20 @@ angular.module('app.quiz', [ 'visitorFactory', 'Toaster', 'WinemakerFactory', 'L
           }
       });
   })
-  .controller('quizCtrl', function quizCtrl ($scope, Visitor, toasters, WinemakerFactory, $state, Loading, $ionicHistory) {
+  .controller('quizCtrl',
+    function quizCtrl ($scope, Visitor, toasters, WinemakerFactory, $state, Loading, $ionicHistory, $stateParams) {
+
     var init = function () {
+      $scope.type = $stateParams.type;
       $scope.visitor = new Visitor();
+      $scope.regions = [
+        'Je n\'en ai pas',
+        'Bourgogne',
+        'Vallée de la Loire',
+        'Alsace',
+        'Vallée du Rhône',
+        'Bordeaux'
+      ];
     };
     init();
 
@@ -103,11 +122,19 @@ angular.module('app.quiz', [ 'visitorFactory', 'Toaster', 'WinemakerFactory', 'L
     };
 
     $scope.desertToSignup = function (survey) {
-      $state.go('sidemenu.quiz.signup');
+      if ($stateParams.type === 'svi') {
+        $state.go('sidemenu.quiz.signup');
+      } else {
+        $state.go('sidemenu.quiz.balance');
+      }
+    };
+
+    $scope.desertToBalance = function (survey) {
+      $state.go('sidemenu.quiz.balance');
     };
 
     $scope.createAndRecommend = function (visitor) {
-      visitor.createUser(
+      visitor.createSVIUser(
         function (user) {
           visitor.computeRecommendations(
             function (recommendations) {

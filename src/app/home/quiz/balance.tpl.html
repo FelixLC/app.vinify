@@ -1,0 +1,99 @@
+<ion-view title="Le Vin et Vous" id="balance-view">
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Quelques questions sur vous</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <div class="item item-divider">
+          Ma région préférée
+        </div>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Région
+          </div>
+          <select>
+            <option ng-repeat="region in regions" ng-model="visitor.survey.quest_7">{{region}}</option>
+          </select>
+        </label>
+        <div class="item item-divider">
+          J'aime le rouge :
+        </div>
+        <label class="item">
+          <div class="row">
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_1 == 0}"
+              ng-click="visitor.survey.quest_6.answ_1 = 0">
+              <p>Pas du tout</p>
+            </div>
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_1 == 1}"
+              ng-click="visitor.survey.quest_6.answ_1 = 1">
+              <p>Un peu</p>
+            </div>
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_1 == 2}"
+              ng-click="visitor.survey.quest_6.answ_1 = 2">
+              <p>Beaucoup</p>
+            </div>
+          </div>
+        </label>
+        <div class="item item-divider">
+          J'aime le blanc
+        </div>
+        <label class="item">
+          <div class="row">
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_2 == 0}"
+              ng-click="visitor.survey.quest_6.answ_2 = 0">
+              <p>Pas du tout</p>
+            </div>
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_2 == 1}"
+              ng-click="visitor.survey.quest_6.answ_2 = 1">
+              <p>Un peu</p>
+            </div>
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_2 == 2}"
+              ng-click="visitor.survey.quest_6.answ_2 = 2">
+              <p>Beaucoup</p>
+            </div>
+          </div>
+        </label>
+        <div class="item item-divider">
+          J'aime le rosé
+        </div>
+        <label class="item">
+          <div class="row">
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_3 == 0}"
+              ng-click="visitor.survey.quest_6.answ_3 = 0">
+              <p>Pas du tout</p>
+            </div>
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_3 == 1}"
+              ng-click="visitor.survey.quest_6.answ_3 = 1">
+              <p>Un peu</p>
+            </div>
+            <div class="col col-33 centered"
+              ng-class="{selected: visitor.survey.quest_6.answ_3 == 2}"
+              ng-click="visitor.survey.quest_6.answ_3 = 2">
+              <p>Beaucoup</p>
+            </div>
+          </div>
+        </label>
+        <div class="item item-divider">
+          Un vin qui vous a marqué ?
+        </div>
+          <textarea name="textarea" type="text" id="comments" class="full-width" rows="4" class="form-control" ng-model="visitor.survey.infos" placeholder="Un vin qui vous a marqué, vos cépages préférés, une expérience dans le vin que vous souhaitez partager ..."></textarea>
+      </div>
+    </div>
+    <div class="bar-footer-button">
+      <h1 class="title">Valider</h1>
+    </div>
+  </ion-content>
+</ion-view>

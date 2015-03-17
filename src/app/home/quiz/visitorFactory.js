@@ -53,7 +53,7 @@
     };
 
     // instantiate our initial object
-    var VisitorSVI = function () {
+    var VisitorApp = function () {
       this.uuid = "";
       this.first_name = '';
       this.last_name = '';
@@ -63,7 +63,7 @@
       this.initial_referrer = 'svi_champerret';
     };
 
-    VisitorSVI.prototype.createUser = function (success, failure) {
+    VisitorApp.prototype.createSVIUser = function (success, failure) {
       var self = this;
       Loading.show('Si vous avez la moindre question ou si vous avez besoin d\'aide, <br> n\'hésitez pas à passer nous voir et déguster quelques vins sur notre stand');
       return $http.post(settings.apiEndPoint + '/users/createuser/', self)
@@ -75,7 +75,7 @@
             "Email ": data.email
           });
           Mixpanel.track('Visitor Created');
-          VisitorSVI.uuid = data.uuid;
+          VisitorApp.uuid = data.uuid;
           // Set User For This Service (useful For Isloggedin)
           security.currentUser = data;
 
@@ -94,7 +94,7 @@
         });
     };
 
-    VisitorSVI.prototype.computeRecommendations = function (success, failure) {
+    VisitorApp.prototype.computeRecommendations = function (success, failure) {
       Loading.show('Merci de patienter, nous cherchons parmi les 500 vignerons ceux qui vous correspondent <br> cela peut prendre jusqu\'à 1 min');
       return $http.get(settings.apiEndPoint + '/svi/recommendations/compute/')
         .success(function (data, status, headers, config) {
@@ -114,6 +114,6 @@
         });
     };
 
-    return VisitorSVI;
+    return VisitorApp;
   }
 })();

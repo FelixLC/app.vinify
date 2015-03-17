@@ -33,7 +33,7 @@
       </div>
       <div class="list">
         <div ng-click="openWineModal(wine)" class="item item-thumbnail-left item-wine-bottle" ng-repeat="wine in winemaker.wines">
-          <img ng-if="isRecommended(wine.uuid)" src="assets/utils/logo_mini.png" alt="">
+          <img ng-if="isRecommended(wine.uuid)" class="wine-recommended" src="assets/utils/logo_mini.png" alt="">
           <img ng-if="!isRecommended(wine.uuid)" src="assets/wines/mystery-bottle.png" alt="">
           <h3 >{{::wine.display_name}}</h3>
           <p>{{::wine.region}} - {{::wine.vintage}}
@@ -46,6 +46,7 @@
           <p>{{::wine.appellation}}
             <span class="item-note">
               <img ng-if="!wine.svi_bottle" class="picto" src="assets/svi/comment_outline.svg" alt="">
+              <img ng-if="wine.svi_bottle && !wine.svi_bottle.comment" class="picto" src="assets/svi/comment_outline.svg" alt="">
               <img ng-if="wine.svi_bottle.comment" class="picto" src="assets/svi/comment.svg" alt="">
             </span>
           </p>
