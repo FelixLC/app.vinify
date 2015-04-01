@@ -1,0 +1,35 @@
+<ion-view view-title="Inscription" id="signup-client-view">
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Merci pour vos réponses</h3>
+            <p>Créez votre compte pour démarrer l'aventure</p>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Prénom</span>
+          <input type="text" placeholder="Prénom" ng-model="visitor.first_name">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Nom</span>
+          <input type="text" placeholder="Nom" ng-model="visitor.last_name">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Email</span>
+          <input type="text" placeholder="Email" ng-model="visitor.email">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Min. 5 charactères</span>
+          <input type="password" placeholder="Mot de Passe" ng-model="visitor.password">
+        </label>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ng-click="create(visitor)" align-title="center" class="bar-positive">
+    <h1 class="title">Continuer</h1>
+  </ion-footer-bar>
+</ion-view>

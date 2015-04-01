@@ -1,4 +1,4 @@
-angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 'settings' ])
+angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 'settings', 'visitorFactory' ])
   .config(function ($stateProvider, $urlRouterProvider, deskProvider) {
     $stateProvider
       .state('sidemenu.vinibar', {
@@ -46,13 +46,9 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
       });
     };
   })
-.controller('vinibarCtrl', function vinibarCtrl ($scope,
-                                                                                          User,
-                                                                                          Bottles,
-                                                                                          bottles,
-                                                                                          SegmentedControlState,
-                                                                                          toasters,
-                                                                                          settings) {
+.controller('vinibarCtrl',
+  function vinibarCtrl ($scope, User, currentVisitor, Visitor, Bottles, bottles,
+    SegmentedControlState, toasters, settings, $state) {
 
   var init = function () {
     $scope.spin = false;
@@ -89,7 +85,13 @@ angular.module('app.vinibar', [ 'ngResource', 'User', 'ngCordova', 'Toaster', 's
   };
 
   $scope.payOrder = function () {
-    window.open('https://start.vinify.co/#/paiement/login', '_system', 'location=yes');
+    var client = new Visitor();
+    client.uuid = $scope.user.uuid;
+    client.first_name = $scope.user.first_name;
+    client.last_name = $scope.user.last_name;
+    client.email = $scope.user.email;
+    currentVisitor.instance = client;
+    $state.go('sidemenu.userinfos.civil_state');
   };
 
   $scope.getNumber = function (num) {

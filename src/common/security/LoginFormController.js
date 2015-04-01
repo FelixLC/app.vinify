@@ -13,6 +13,7 @@ angular.module('security.login.form', ['ngCordova', 'ionic', 'Loading', 'Update'
 .controller('LoginFormController', ['$location', '$window', 'Loading', '$rootScope','$scope', 'security', '$cordovaToast', '$cordovaNetwork', '$ionicPlatform', 'Update', function ($location, $window, Loading, $rootScope, $scope, security, $cordovaToast, $cordovaNetwork, $ionicPlatform, Update) {
   // The model for this form
   $scope.user = {};
+  $scope.connect = 'init';
 
   $scope.questionnaire = function () {
     window.open('https://start.vinify.co/#/welcome?r=mobile', '_system', 'location=yes');

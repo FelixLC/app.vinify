@@ -1,4 +1,4 @@
-  angular.module('app.home', ['User', 'Update', 'ngCordova' ])
+  angular.module('app.home', ['User', 'Update', 'ngCordova', 'visitorFactory' ])
       .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
           .state('sidemenu.home', {
@@ -8,15 +8,50 @@
                   controller: 'homeCtrl',
                   templateUrl: "home/home.tpl.html"
                 }
+              },
+              resolve: {
+                user: function (User) {
+                  return User.getUser();
+                }
               }
           });
      })
 
-      .controller('homeCtrl', function homeCtrl ($scope, $rootScope, $http, $state, Update, $window, $ionicPlatform, User) {
+      .controller('homeCtrl',
+        function homeCtrl ($scope, $rootScope, $http, $state,
+          Update, $window, $ionicPlatform, User, user, $ionicPopup, Visitor, currentVisitor) {
 
         $scope.stateGo = function (to) {
           $state.go('sidemenu.' + to);
         };
+
+         // An alert dialog
+        $scope.showAlert = function () {
+          var alertPopup = $ionicPopup.alert({
+             title: 'L\'aventure Vinify démarre avec un Vinibar',
+             template: '6 bouteilles choisies pour moi <br> en fonction de mes goûts'
+           });
+          alertPopup.then(function (res) {
+            var client = new Visitor();
+            client.uuid = user.uuid;
+            client.first_name = user.first_name;
+            client.last_name = user.last_name;
+            client.email = user.email;
+            currentVisitor.instance = client;
+            $state.go('sidemenu.userinfos.civil_state');
+          });
+        };
+
+        $scope.canOrder = function () {
+          if (User.getUser()['status'] == 2 || User.getUser()['status'] == 2.5) {
+            $scope.showAlert();
+          } else if (User.getUser()['status'] < 2) {
+            $state.go('sidemenu.quiz.coffee');
+          } else {
+            $state.go('sidemenu.order');
+          }
+        };
+
         $scope.update = Update.isOutdated;
         // $scope.update = Update.isOutdated;
         $scope.appStore = function () {

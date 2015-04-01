@@ -19,15 +19,15 @@
           </ion-header-bar>
           <ion-content>
             <ul class="list side-list">
-              <a href ui-sref="sidemenu.home" class="item" menu-close><i class="icon ion-home"></i> Accueil</a>
-              <a href ui-sref="sidemenu.vinibar" class="item" menu-close><i class="icon ion-wineglass"></i> Vinibar</a>
-              <a href ui-sref="sidemenu.order" class="item" menu-close><i class="icon ion-ios-cart"></i> Recharger</a>
-              <a href ui-sref="sidemenu.profile" class="item" menu-close><i class="icon ion-person"></i> Profil</a>
-              <a href ui-sref="sidemenu.orders" class="item" menu-close><i class="icon ion-clock"></i> Mes commandes</a>
-              <a href ui-sref="sidemenu.svi_menu" class="item" menu-close><i class="icon ion-wineglass"></i> Vignerons Indépendants</a>
+              <a ng-if="visible.toggle()" href ui-sref="sidemenu.home" class="item" menu-close><i class="icon ion-home"></i> Accueil</a>
+              <a ng-if="visible.toggle()" href ui-sref="sidemenu.vinibar" class="item" menu-close><i class="icon ion-wineglass"></i> Vinibar</a>
+              <a ng-if="visible.toggle()" ng-click="canOrder()" class="item" menu-close><i class="icon ion-ios-cart"></i> Recharger</a>
+              <a ng-if="visible.toggle()" href ui-sref="sidemenu.profile" class="item" menu-close><i class="icon ion-person"></i> Profil</a>
+              <a ng-if="visible.toggle()" href ui-sref="sidemenu.orders" class="item" menu-close><i class="icon ion-clock"></i> Mes commandes</a>
+              <a ng-if="visible.toggle()" href ui-sref="sidemenu.svi_menu" class="item" menu-close><i class="icon ion-wineglass"></i> Vignerons Indépendants</a>
               <a href ng-click="feedback()" class="item" menu-close><i class="icon ion-help-circled"></i> Feedback</a>
               <a ng-click="logOut()" class="item" menu-close><i class="icon ion-log-out"></i> Se Déconnecter</a>
-              <a href ng-click="openPasswordModal()" class="item" menu-close><i class="icon ion-locked"></i> Mot de passe</a>
+              <a ng-if="visible.toggle()" href ng-click="openPasswordModal()" class="item" menu-close><i class="icon ion-locked"></i> Mot de passe</a>
             </ul>
           </ion-content>
         </ion-side-menu>

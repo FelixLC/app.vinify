@@ -1,0 +1,17 @@
+  <ion-modal-view>
+    <ion-header-bar class="bar-positive">
+          <button class="button" ng-click="closeCouponModal()">Annuler</button>
+          <h1 class="title">Coupon</h1>
+    </ion-header-bar>
+    <ion-content>
+    <div class="item item-text-wrap">
+      Rentrez votre coupon
+    </div>
+    <label class="item item-input">
+        <input type="text" ng-model="coupon.coupon" name="coupon" autocomplete="coupon" placeholder="VINICHOUETTE">
+    </label>
+    </ion-content>
+    <ion-footer-bar ng-click="validateCoupon(coupon)" align-title="center" class="bar-positive">
+      <h1 class="title">Valider</h1>
+    </ion-footer-bar>
+  </ion-modal-view>

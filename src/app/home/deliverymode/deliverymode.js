@@ -23,9 +23,9 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   Addresses.getList().then(function (response) {
     $scope.addresses = response.data;
   });
-  console.log($scope.addresses);
+
   $scope.user = User.getUser();
-  console.log(User.getUser());
+
   $scope.mrShop = {
     hasChanged: false
   };

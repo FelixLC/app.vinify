@@ -65,11 +65,11 @@ module.exports = function ( grunt ) {
       },
       production: {
         options: {
-          bucket: 'svi-viniapp'
+          bucket: 'salon.vinify.co'
         },
         files: [
           // {dest: 'assets/', 'action': 'delete', cwd: 'bin/assets/', differential: 'true'},
-          {expand: true, cwd: 'bin/', src: ['**/*'], dest: '', params: {CacheControl: 'max-age=0'}, differential: 'true'}
+          {expand: true, cwd: 'build/', src: ['**/*'], dest: '', params: {CacheControl: 'max-age=0'}, differential: 'true'}
         ]
       },
       clean_production: {
@@ -422,7 +422,8 @@ module.exports = function ( grunt ) {
         noarg: true,
         sub: true,
         boss: true,
-        eqnull: true
+        eqnull: true,
+        ignores: 'src/common/services/mixpanel.min.js'
       },
       globals: {}
     },

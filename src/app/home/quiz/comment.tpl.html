@@ -1,0 +1,26 @@
+<ion-view view-title="Le Vin et Vous" id="comment-view">
+  <ion-content has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Un vin qui vous a marqué ?</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <div class="item">
+          <textarea class="full-width" name="textarea" type="text" id="comments"
+            rows="6" class="form-control" ng-model="visitor.survey.infos"
+            placeholder="Un vin qui vous a marqué, vos cépages préférés,
+            une expérience dans le vin que vous souhaitez partager ...">
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ui-sref="sidemenu.quiz.signup_client" align-title="center"
+    class="bar-positive">
+    <h1 class="title">Valider</h1>
+  </ion-footer-bar>
+</ion-view>

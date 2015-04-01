@@ -1,0 +1,40 @@
+<ion-view view-title="Facturation" id="billing-view">
+  <ion-content has-bouncing="false">
+    <form name="form_billing" class="list">
+      <div class="item item-divider">
+        Addresse de Facturation
+      </div>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.company" name="company" autocomplete="company" placeholder="Société">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.street" name="street" autocomplete="street" placeholder="N° et Rue *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.street_2" name="street" autocomplete="street" placeholder="N° et Rue *">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.city" name="city" autocomplete="city" placeholder="Ville *" required>
+      </label>
+      <label class="item item-input">
+          <input type="number" ng-model="client.userinfos.billing_address.zipcode" name="zipcode" autocomplete="zipcode" placeholder="Code Postal *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.country" name="country" autocomplete="country" placeholder="Pays *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.intercom" name="intercom" autocomplete="intercom" placeholder="Interphone">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.billing_address.digicode" name="digicode" autocomplete="digicode" placeholder="Code">
+      </label>
+      <label class="item item-input">
+          <textarea type="text" ng-model="client.userinfos.billing_address.other_info" name="other_info" autocomplete="other_info" placeholder="Infos Suppl. (Code, Escalier ..)"></textarea>
+      </label>
+      <li class="item centered">
+        <button class="bar-footer-button centered" ng-click="registerBilling(form_billing)">Valider</button>
+      </li>
+
+    </form>
+    </ion-content>
+  </ion-modal-view>

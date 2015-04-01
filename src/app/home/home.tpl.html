@@ -1,4 +1,9 @@
       <ion-view hide-back-button="true" title="Accueil">
+      <ion-nav-buttons side="left">
+        <button class="button" ng-click="toggleLeft()">
+          <i class="icon ion-navicon-round"></i>
+        </button>
+      </ion-nav-buttons>
         <ion-content has-bouncing="false" id="home">
           <div ng-click="appStore()" id="update-app" ng-show="update">
               <p class="centered"><i class="icon ion-alert-circled"></i> Votre version n'est pas à jour. <br>Cliquez ici pour télécharger la nouvelle version</p>
@@ -15,7 +20,7 @@
             </div>
           </div>
           <!-- <div class="section" id="section-order" ng-click="stateGo('order')"> -->
-          <div ng-style="calcHeight" class="section" id="section-order" ng-click="stateGo('order')">
+          <div ng-style="calcHeight" class="section" id="section-order" ng-click="canOrder()">
             <div class="home-header">
               <h3>Recharger</h3>
               <h4>Commander de nouveaux vins</h4>

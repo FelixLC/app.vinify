@@ -1,0 +1,25 @@
+<ion-view view-title="Le Vin et Vous" id="region-view">
+  <ion-content overflow-scroll="false" has-bouncing="false">
+    <div class="wine-header">
+      <div class="row row-center">
+          <div class="col centered">
+            <h3>Votre région préférée :</h3>
+          </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <div class="list">
+        <label class="item item-radio" ng-repeat="region in regions">
+          <input type="radio"  ng-model="visitor.survey.quest_7.answ" name="quest_7" ng-value="region">
+          <div class="item-content">
+            {{region}}
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar ui-sref="sidemenu.quiz.red" align-title="center" class="bar-positive">
+    <h1 class="title">Valider</h1>
+  </ion-footer-bar>
+</ion-view>

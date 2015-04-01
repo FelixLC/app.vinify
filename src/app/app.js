@@ -20,6 +20,7 @@ angular.module('app', [
   'Loading',
   'app.svi',
   'app.quiz',
+  'app.userinfos',
   'app.svi_menu',
   'app.slidebox',
   'app.favourites',
@@ -84,11 +85,11 @@ angular.module('app', [
   } ])
 
 .controller('AppCtrl', function (
-  $scope, $state, $rootScope, $ionicModal, $window, OfflineQueue,
-  $ionicPlatform, $cordovaNetwork, $cordovaSplashscreen, Bottles,
+  $scope, $state, $rootScope, $ionicModal, $window, OfflineQueue, $ionicHistory,
+  $ionicPlatform, $cordovaNetwork, $cordovaSplashscreen, Bottles, $ionicSideMenuDelegate,
   Loading, Update, security, User, Referrals, settings, toasters, OfflineMixpanel, Mixpanel) {
 
-  Mixpanel.track('Logged In', { platform: (settings.desktop) ? 'desktop' : 'app' });
+  // Mixpanel.track('Logged In', { platform: (settings.desktop) ? 'desktop' : 'app' });
   console.log('app');
   //  Catches online event and fires Offline Queue
   $rootScope.$on('online', function (event) {
@@ -241,6 +242,14 @@ angular.module('app', [
 
   $scope.closeUpdateModal = function () {
     $scope.update.hide();
+  };
+
+  $scope.toggleLeft = function () {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+
+  $scope.goLeft = function () {
+    $ionicHistory.goBack();
   };
 
 });

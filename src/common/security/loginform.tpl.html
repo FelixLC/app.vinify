@@ -1,4 +1,4 @@
-<ion-view title="Login" ng-controller="LoginFormController"  class="full-background-primary" >
+<ion-view view-title="Login" ng-controller="LoginFormController"  class="full-background-primary" >
   <ion-content has-header="true" has-footer="false" id="login-screen">
 
     <img src="assets/utils/logo-vinify-primary.svg" alt="logo-vinify">
@@ -8,23 +8,19 @@
                 {{authError}}
               </p>
 
-        <div class="margin-top item-text-wrap" ng-show="!connect">
-          <div><button class="button button-white" ui-sref="sidemenu.slidebox">Salon des vignerons</button></div>
-          <p class="p-white">découvrir mon parcours</p>
-          <div class="row">
+        <div class="margin-top item-text-wrap" ng-show="connect === 'init' ">
+        <p class="p-white">Vinify, le caviste qui vous connaît <br> toujours à portée de main</p>
+          <div class="row margin-top ">
             <div class="col">
-              <button class="margin-top button button-outline-white" ng-click="connect = true">Se connecter</button>
-              <p class="p-white">retrouver mes vins</p>
+              <button class="margin-top button button-outline-white" ng-click="connect = 'user' ">Se connecter</button>
             </div>
             <div class="col">
-              <button class="margin-top button button-outline-white" ui-sref="sidemenu.quiz.coffee({ type: 'client' })">Créer un compte</button>
-              <p class="p-white">démarrer l'aventure</p>
+              <button class="margin-top button button-outline-white" ng-click="connect = 'start' ">Créer un compte</button>
             </div>
           </div>
-
         </div>
               <!-- TODO SUPPR -->
-        <div ng-show="connect">
+        <div ng-show="connect === 'user'">
           <div class="list card">
               <label for="email" class="item item-input">
                 <!-- <span class="input-label">Email</span> -->
@@ -45,7 +41,24 @@
               <a ng-click="password()" target="_blank" class="p-white">Mot de passe oublié</a>
             </div>
             <div class="col links">
-              <a ng-click="connect = false" target="_blank" class="p-white">Je n'ai pas de compte</a>
+              <a ng-click="connect = 'init'" target="_blank" class="p-white">Je n'ai pas de compte</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div ng-show="connect === 'start' ">
+          <div class="margin-top item-text-wrap">
+            <div class="row">
+              <div class="col">
+                <p><button class="margin-top button button-outline-white" ui-sref="sidemenu.slidebox">Salon des Vignerons Indépendants</button></p>
+                <p><button class="margin-top button button-outline-white" ui-sref="sidemenu.quiz.coffee({ type: 'client' })">Expérience Vinify</button></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col links">
+                <a ng-click="connect = 'init'" target="_blank" class="p-white">J'ai déjà un compte</a>
+              </div>
             </div>
           </div>
         </div>

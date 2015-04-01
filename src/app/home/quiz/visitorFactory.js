@@ -3,10 +3,11 @@
 
   angular
       .module('visitorFactory', [ 'settings', 'Analytics', 'WinemakerFactory', 'Loading', 'security.service', 'User' ])
-      .factory('Visitor', Visitor);
+      .factory('Visitor', Visitor)
+      .factory('currentVisitor', currentVisitor);
 
     /* @ngInject */
-  function Visitor (settings, $window, Mixpanel, $http, WinemakerFactory, Loading,  security, User) {
+  function Visitor (settings, $window, Mixpanel, $http, WinemakerFactory, Loading,  security, User, currentVisitor) {
     // Survey constructor
     var Survey = function () {
 
@@ -60,7 +61,26 @@
       this.email = '';
       this.password = '';
       this.survey = new Survey();
+      this.userinfos = new Userinfos();
       this.initial_referrer = 'svi_champerret';
+      this.order_type = null;
+      this.referral = null;
+      this.coupon = "";
+      this.order = {};
+    };
+
+    // Userinfos constructor
+    var Userinfos = function () {
+      this.same_billing = true;
+      this.billing_address = {};
+      this.delivery_address = {};
+      this.billing_address.company = "";
+      this.billing_address.other_info = "";
+      this.delivery_address.company = "";
+      this.delivery_address.other_info = "";
+      this.delivery_address.country = "france";
+      this.billing_address.country = "";
+      this.delivery_mode = null;
     };
 
     VisitorApp.prototype.createSVIUser = function (success, failure) {
@@ -114,6 +134,71 @@
         });
     };
 
+    VisitorApp.prototype.createUser = function (success, failure) {
+      var self = this;
+      Loading.show('Bienvenue chez votre nouveau caviste');
+      return $http.post(settings.apiEndPoint + '/users/createuser/', self)
+        .success(function (data, status, headers, config) {
+          Loading.hide();
+          $window.sessionStorage.token = data.token;
+          Mixpanel.alias(data.uuid);
+          Mixpanel.people.set({
+            "Email ": data.email
+          });
+          Mixpanel.track('Client Created');
+          VisitorApp.uuid = data.uuid;
+          // Set User For This Service (useful For Isloggedin)
+          security.currentUser = data;
+
+          // Set User In Angular And Local Storage
+          User.setUser(data);
+
+          // set user.uuid for further use
+          currentVisitor.instance.uuid = data.uuid;
+          if (success && angular.isFunction(success)) {
+            success(data);
+          }
+        })
+        .error(function (error) {
+          Loading.hide();
+          Mixpanel.track('Client Failed to be created');
+          if (failure && angular.isFunction(failure)) {
+            failure(error);
+          }
+        });
+    };
+
+    VisitorApp.prototype.addUserInfo = function (success, failure) {
+
+      if (this.userinfos.same_billing) {
+        this.userinfos.billing_address = this.userinfos.delivery_address;
+      }
+
+      var data = this.userinfos;
+      data.delivery_address.first_name = data.first_name;
+      data.delivery_address.last_name = data.last_name;
+      data.billing_address.first_name = data.first_name;
+      data.billing_address.last_name = data.last_name;
+      data.delivery_address.user = this.uuid;
+      data.billing_address.user = this.uuid;
+
+      var request = $http.post(settings.apiEndPoint + '/users/adduserinfo/', data)
+        .success(function (data, status, headers, config) {
+          success(data);
+        }).error(function (data, status, headers, config) {
+          failure(data);
+        });
+
+      return request;
+    };
+
     return VisitorApp;
   }
+
+  function currentVisitor () {
+    return {
+      instance: {}
+    };
+  }
+
 })();

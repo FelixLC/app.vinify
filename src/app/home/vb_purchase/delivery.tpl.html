@@ -1,0 +1,57 @@
+<ion-view view-title="Livraison" id="delivery-view">
+  <ion-nav-buttons side="right">
+    <button></button>
+  </ion-nav-buttons>
+  <ion-content has-bouncing="false">
+    <form name="form_address" class="list">
+      <div class="item item-divider">
+        Addresse de Livraison
+      </div>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.delivery_address.company" name="company" autocomplete="company" placeholder="Société">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.delivery_address.street" name="street" autocomplete="street" placeholder="N° et Rue *" required>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.delivery_address.city" name="city" autocomplete="city" placeholder="Ville *" required>
+      </label>
+      <label class="item item-input">
+          <input type="number" ng-model="client.userinfos.delivery_address.zipcode" name="zipcode" autocomplete="zipcode" placeholder="Code Postal *" required>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Pays *
+        </div>
+        <select ng-model="client.userinfos.delivery_address.country"
+          name="country"
+          required
+          ng-class="{'input-error' : submitted && form_commander.country.$invalid}">
+          <option selected="true" value="france">France</option>
+        </select>
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.delivery_address.intercom" name="intercom" autocomplete="intercom" placeholder="Interphone">
+      </label>
+      <label class="item item-input">
+          <input type="text" ng-model="client.userinfos.delivery_address.digicode" name="digicode" autocomplete="digicode" placeholder="Code">
+      </label>
+      <label class="item item-input">
+          <textarea type="text" ng-model="client.userinfos.delivery_address.other_info" name="other_info" autocomplete="other_info" placeholder="Infos Suppl. (Code, Escalier ..)"></textarea>
+      </label>
+      <li class="item item-text-wrap centered">
+        <div class="row">
+          <div class="col col-50">
+            <p class="p-button"><span class="link-dotted link-dotted-primary" ng-click="addCoupon(form_address)">Ajouter un coupon de réduction</span></p>
+          </div>
+          <div class="col col-50">
+            <p class="p-button"><span class="link-dotted link-dotted-primary" ng-click="addBilling(form_address)">Ajouter une adresse de facturation</span></p>
+          </div>
+        </div>
+      </li>
+      <div ng-click="registerDelivery(form_address)" class="bar-footer-button centered">
+        Valider
+      </div>
+    </form>
+    </ion-content>
+  </ion-modal-view>

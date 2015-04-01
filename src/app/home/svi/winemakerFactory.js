@@ -66,6 +66,7 @@
               }
             });
         } else {
+          Loading.hide();
           if (success && angular.isFunction(success)) {
             success({
               data: {

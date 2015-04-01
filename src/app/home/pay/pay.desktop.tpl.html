@@ -1,9 +1,9 @@
-<ion-view title="Commander" id="pay-view">
+<ion-view view-title="Commander" id="pay-view">
   <ion-nav-buttons side="right">
     <button ng-click="toggleTest()" ng-show="userIs.staff && !settings.test" class="button button-icon ion-toggle"></button>
     <button ng-click="toggleTest()" ng-show="userIs.staff && settings.test" class="button button-icon ion-toggle-filled"></button>
   </ion-nav-buttons>
- <ion-content overflow-scroll="true" has-bouncing="false">
+ <ion-content overflow-scroll="false" has-bouncing="false">
    <div ng-style="calcHeight" class="pay-header">
        <h3 class="centered">Récapitulatif de ma commande</h3>
    </div>
@@ -12,8 +12,9 @@
        <div class="item item-text-wrap item-bill">
          <div class="row">
            <div class="col">
-             <h3 ng-if="serializedOrder.quantity == 1">{{::serializedOrder.quantity}} recharge</h3>
-             <h3 ng-if="serializedOrder.quantity == 2">{{::serializedOrder.quantity}} recharges</h3>
+             <h3 ng-if="serializedOrder.quantity == 1 && serializedOrder.order_type != 'Vinibar' ">{{::serializedOrder.quantity}} recharge</h3>
+             <h3 ng-if="serializedOrder.quantity == 2 && serializedOrder.order_type != 'Vinibar' ">{{::serializedOrder.quantity}} recharges</h3>
+             <h3 ng-if="serializedOrder.order_type === 'Vinibar' ">1 Vinibar</h3>
            </div>
            <div class="col">
              <p class="subtitle">{{::calcPrice()}} €</p>
