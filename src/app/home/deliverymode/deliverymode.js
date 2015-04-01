@@ -17,8 +17,15 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
 
   // init
   var appropriatedHeight = ($window.innerHeight - 135) / 4;
-  $scope.order = orderInstance;
-  $scope.order.data.delivery_mode = 'Point Relais';
+  orderInstance.getOrderInstance().then(
+    function (order) {
+      $scope.order = order;
+      $scope.order.data.delivery_mode = 'Point Relais';
+    },
+    function (newOrder) {
+      toasters.pop('Oops, une erreur est survenue.', 'top', 'info');
+      $state.go('sidemenu.order');
+    });
   $scope.form = { show: false };
   Addresses.getList().then(function (response) {
     $scope.addresses = response.data;
@@ -35,21 +42,31 @@ angular.module('app.deliverymode', [ 'Order', 'User', 'Loading', 'ngCordova', 'T
   deliveryCosts.get('FR',
     function (costs) {
       $scope.deliveryPrices = {
-        'Point Relais': [ costs[0]['relay3'], costs[0]['relay6'] ],
-        Vinify: [ costs[0]['pickup3'], costs[0]['pickup6'] ],
-        Colissimo: [ costs[0]['classic3'], costs[0]['classic6'] ]
+        'Point Relais': [ costs[0]['relay3'], costs[0]['relay6'], costs[0]['relay12'] ],
+        Vinify: [ costs[0]['pickup3'], costs[0]['pickup6'], costs[0]['pickup12'] ],
+        Colissimo: [ costs[0]['classic3'], costs[0]['classic6'], costs[0]['classic12'] ]
       };
     },
     function () {
       $scope.deliveryPrices = {
-        'Point Relais': [ 4.90, 8.90 ],
+        'Point Relais': [ 4.90, 8.90, 15.45 ],
         Vinify: [ 0, 0 ],
-        Colissimo: [ 8.90, 11.90 ]
+        Colissimo: [ 8.90, 11.90, 19.00 ]
       };
     });
   $scope.credits = {
     has: !!$scope.user.credits,
     value: $scope.user.credits
+  };
+
+  $scope.getDeliveryPrice = function (order, deliveryMode) {
+    if (parseInt(order.getBottleNumber(), 10) === 3) {
+      return $scope.deliveryPrices[deliveryMode][0];
+    } else if (parseInt(order.getBottleNumber(), 10) === 6) {
+      return $scope.deliveryPrices[deliveryMode][1];
+    } else if (parseInt(order.getBottleNumber(), 10) === 12) {
+      return $scope.deliveryPrices[deliveryMode][2];
+    }
   };
 
   $scope.createRefillOrder = function () {

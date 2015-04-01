@@ -1,0 +1,98 @@
+  <ion-modal-view>
+    <ion-header-bar class="bar-positive">
+          <h1 class="title">Mon vin</h1>
+          <button class="button" ng-click="closeWineModal()">Ok</button>
+    </ion-header-bar>
+    <ion-content>
+      <div class="wine-header">
+        <div class="row row-center">
+            <div class="col centered">
+              <h3>{{wine.display_name}}</h3>
+              <h4>{{wine.region}} - {{wine.appellation}}</h4>
+              <!-- <h4>{{wine.appellation}}</h4> -->
+            </div>
+        </div>
+        <div class="row row-header-bottom row-center">
+            <div class="col col-75">
+              <div class="row row-center align-left">
+                <div class="col col-20">
+                      <img class="img-grapes" src="assets/utils/grapes.svg" alt="grapes-logo">
+                </div>
+                <div class="col">
+                      <p>{{wine.variety}}</p>
+                      <!-- <h4>{{wine.variety}}</h4> -->
+                </div>
+              </div>
+            </div>
+            <div class="col align-right">
+              <div class="row">
+                <div class="col centered"><p>
+                  {{wine.vintage}} <br>
+                  <span ng-repeat="a in getRange(wine) track by $index">€</span>
+                </p></div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div ng-if="wine.occasion" class="occasion">A boire {{wine.occasion}}</div>
+        <div class="wine-content">
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_glass.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Description</h4>
+              <p>{{wine.tasting}}</p>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_forks.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Accords mets/vin</h4>
+              <p>{{wine.food}}</p>
+            </div>
+          </div>
+          <div class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_grapes.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Producteur</h4>
+              <p>{{wine.domain}}</p>
+            </div>
+          </div>
+          <div ng-if="wine.testimonial" class="row row-center">
+            <div class="col col-20 centered">
+              <img class="logo-wine-desc" src="assets/utils/logo_star.png" alt="">
+            </div>
+            <div class="col">
+              <h4>Un commentaire client</h4>
+              <p>{{wine.testimonial}}</p>
+            </div>
+          </div>
+
+          <div class="row row-center row-advice">
+            <div class="col col-20 centered">
+              <img src="assets/utils/termometer.svg" alt="">
+            </div>
+            <div class="col">
+              <h4>Conseils de service</h4>
+              <p class="advice advice-temp ">
+                Temp. de dégustation : <br>
+                <span class="temp">{{wine.temperature_min}}°C - {{wine.temperature_max}}°C </span>
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="item item-text-wrap">
+              <h2 class="centered">À savoir</h2>
+              <p>{{wine.education}}</p>
+            </div>
+          </div>
+    </div>
+
+    </ion-content>
+  </ion-modal-view>

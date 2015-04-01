@@ -1,3 +1,4 @@
+
 .order-header {
 	@bckg_url: 'img/refill.png';
 	@break: 100%;
@@ -106,4 +107,36 @@
 }
 #order-view .row-buttons button {
 	margin-top: 10px;
+}
+@import  'refill/refill.less';
+@import  'picking/picking.less';
+
+#order-view .order-refill {
+  @bckg_url: 'img/wine-cellar.png';
+  @break: 0%;
+  .shade(@bckg_url, @break);
+}
+#order-view .order-picking {
+  @bckg_url: 'img/blur-bottles.png';
+  @break: 0%;
+  .shade(@bckg_url, @break);
+}
+#order-view .order-picking,
+#order-view .order-refill {
+  cursor: pointer;
+  position: relative;
+  color: #fff;
+  font-size: 16px;
+  font-family: 'robotobold';
+}
+#order-view .order-picking .title,
+#order-view .order-refill .title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+#order-view .section {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
 }

@@ -27,8 +27,8 @@
                 </svg>
               </div>
               <div class="col">
-                <h2>Colissimo - {{displayPrice(deliveryPrices['Colissimo'][order.data.quantity - 1])}} €</h2>
-                <p>Livraison suivie par la Poste. (2 - 3j ouvrés)</p>
+                <h2>Colissimo - {{::getDeliveryPrice(order, 'Colissimo')}} €</h2>
+                <p>Livraison suivie par la Poste.</p>
               </div>
             </div>
           </div>
@@ -56,8 +56,8 @@
                 </svg>
               </div>
               <div class="col">
-                <h2>Point Relais -  {{displayPrice(deliveryPrices['Point Relais'][order.data.quantity - 1])}}  €</h2>
-                <p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous. (2 - 3j ouvrés)</p>
+                <h2>Point Relais -  {{::getDeliveryPrice(order, 'Point Relais')}}  €</h2>
+                <p>Venez retirer votre colis dans le Mondial Relay le plus proche de chez vous.</p>
               </div>
             </div>
           </div>

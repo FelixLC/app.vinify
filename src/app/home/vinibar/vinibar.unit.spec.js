@@ -45,6 +45,40 @@ describe('Controller: app.vinibar', function () {
     $httpBackend.whenGET(/(\w+\/)(\w+\/)*\w+\.tpl\.html/).respond(function(method,url,data) {
       return [200, users, {}];
     });
+    // TODO: removes
+    $httpBackend.whenGET('home/home.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/picking/parts/recommended.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/picking/picking.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/picking/parts/my_wines.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/refill/refill.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('sidemenu/sidemenu.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/colors.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+    // TODO: removes
+    $httpBackend.whenGET('home/order/regions.tpl.html').respond(function(method,url,data) {
+      return [200, users, {}];
+    });
+
+
 
     vinibarCtrl = $controller('vinibarCtrl', {
       $scope: $scope,

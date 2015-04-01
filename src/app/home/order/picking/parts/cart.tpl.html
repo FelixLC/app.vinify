@@ -1,0 +1,60 @@
+<h3 class="padding">Mon Panier</h3>
+<div class="card">
+  <div class="item item-gray row">
+    <div class="col centered">Total</div>
+    <div class="col centered">{{order.getBottleNumber()}} bouteilles</div>
+    <div class="col centered">{{order.getTotalPrice() | number:1}} €</div>
+  </div>
+</div>
+<div class="row-buttons padding">
+  <div class="centered">
+    <button ng-if="!order.hasRefills()" class="button button-outline-primary centered" ui-sref="sidemenu.refill">Ajouter une recharge caviste</button>
+    <button class="button button-outline-primary centered" ng-click="createRefillOrder(order)">Choisir la livraison</button>
+  </div>
+</div>
+<div class="list">
+  <a ng-repeat="wine in order.data.picking" class="item item-thumbnail-left">
+      <img ng-src="assets/wines/{{wine.product_code}}.png" err-src="assets/wines/mystery-png" alt="">
+      <h3>{{::wine.display_name}}</h3>
+      <i ng-if="wine.rating" ng-repeat="i in ::getNumber(wine.rating) track by $index" class="icon ion-ios7-star full-star"></i>
+      <i ng-if="wine.rating" ng-hide="isInteger(wine.rating)" class="icon ion-ios7-star-half full-star"></i>
+    <span class="attributes">
+      <img ng-if="wine.match" src="assets/utils/heart.svg" alt=""> <span ng-if="wine.match" class="match">{{::wine.match * 100 | number:1}} %</span>
+      <img class="coin" src="assets/utils/coin.svg" alt=""> <span class="price">{{::wine.public_price | number:1}} €</span>
+      </span>
+      <p class="vinitext">
+          {{::wine.region}}
+          <span class="plus-minus item-note">
+            <span class="minus" ng-click="removeBottle(wine)"><i class="icon ion-chevron-down"></i></span>
+            <span class="number">{{picking[wine.uuid]}}</span>
+            <span class="plus" ng-click="addBottle(wine, { match: bottle.match, rating: bottle.rating })"><i class="icon ion-chevron-up"></i></span>
+          </span>
+          <br>
+          {{::wine.appellation}}
+          <span class="item-note link-dotted">en savoir plus</span>
+      </p>
+  </a>
+  <div class="item item-thumbnail-left" ng-repeat="refill in order.data.refills">
+    <img ng-if="refill['price_level'] === '29.90' " class="order-france-logo" src="assets/utils/logo_france.png" alt="cepage">
+    <img ng-if="refill['price_level'] === '39.90' " class="order-france-logo" src="assets/utils/logo_grapes.png" alt="cepage">
+    <img ng-if="refill['price_level'] === '49.90' " class="order-france-logo" src="assets/utils/logo_glass.png" alt="cepage">
+    <img ng-if="refill['price_level'] === '59.90' " class="order-france-logo" src="assets/utils/logo_mini.png" alt="cepage">
+    <h3>Recharge
+      <span ng-if="refill['price_level'] === '29.90'">Découverte</span>
+      <span ng-if="refill['price_level'] === '39.90'">Exploration</span>
+      <span ng-if="refill['price_level'] === '49.90'">Dégustation</span>
+      <span ng-if="refill['price_level'] === '59.90'">Exception</span>
+    </h3>
+    <p>3 bouteilles <span class="item-note item-note-strong">{{refill['price_level']}} €</span></p>
+    <div ng-if="refill['split']['red'] >=1" class="pin red-pin"></div>
+    <div ng-if="refill['split']['red'] >=2" class="pin red-pin"></div>
+    <div ng-if="refill['split']['red'] >=3" class="pin red-pin"></div>
+    <div ng-if="refill['split']['white'] >=1" class="pin white-pin"></div>
+    <div ng-if="refill['split']['white'] >=2" class="pin white-pin"></div>
+    <div ng-if="refill['split']['white'] >=3" class="pin white-pin"></div>
+    <div ng-if="refill['split']['rose'] >=1" class="pin rose-pin"></div>
+    <div ng-if="refill['split']['rose'] >=2" class="pin rose-pin"></div>
+    <div ng-if="refill['split']['rose'] >=3" class="pin rose-pin"></div>
+    <span ng-click="removeRefill(refill['refill_number'])" class="item-note link-dotted">supprimer</span>
+  </div>
+</div>

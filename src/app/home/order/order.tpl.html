@@ -1,14 +1,8 @@
-<ion-view view-title="Commander" id="order-view">
+<!-- <ion-view view-title="Commander" id="order-view">
   <ion-content has-bouncing="false">
     <div class="content-container">
       <div class="card">
-<!--         <label class="item item-input item-select">
-          <div class="input-label">
-            Première recharge
-          </div>
-          <select ng-model="order.data.refills[0]['price_level']" ng-options="value as key for (key, value) in prices">
-          </select>
-        </label> -->
+
         <div ng-if="!states.hideFirstCard" class="item item-text-wrap bottle-number-selector">
           <h2 class="centered">Je choisis ma gamme de prix <br> (3 bouteilles)</h2>
           <p class="segmented-control">
@@ -19,11 +13,6 @@
                   <label><input type="radio" name="list_1" ng-model="order.data.refills[0]['price_level']" value="59.90"><span class="label">59€90</span></label>
               </span>
           </p>
-<!--           <div class="button-bar">
-            <a  ng-class="{highlighted: order.data.refills[0]['price_level'] == '29.90' }" ng-click="order.data.refills[0]['price_level'] = 29.90 " class="button">29€90</a>
-            <a  ng-class="{highlighted: order.data.refills[0]['price_level'] == '39.90' }" ng-click="order.data.refills[0]['price_level'] = 39.90 " class="button">39€90</a>
-            <a  ng-class="{highlighted: order.data.refills[0]['price_level'] == '49.90' }" ng-click="order.data.refills[0]['price_level'] = 49.90 " class="button">49€90</a>
-          </div> -->
         </div>
         <div class="item">
           <div class="row row-center">
@@ -186,99 +175,27 @@
         <div class="centered margin-top">
           <button class="button button-outline-primary centered" ng-click="createRefillOrder()">Choisir la livraison</button>
         </div>
-      </div>
-<!--     <div class="bottle-number-selector">
-      <h4 class="centered">Nombre de bouteilles</h4>
-      <p class="segmented-control">
-          <span class="segmented">
-              <label><input type="radio" name="list" ng-model="order.data.data.quantity" value="1"><span class="label">3 bouteilles</span></label>
-              <label><input type="radio" name="list" ng-model="order.data.data.quantity" value="2"><span class="label">6 bouteilles</span></label>
-          </span>
-      </p>
-    </div>
+      </div> -->
 
-    <div class="list list-select">
-      <h4>Composition des recharges</h4>
-      <div class="row">
-        <div class="col">
-          <label class="item-input item-select">
-            <div class="input-label">
-              <div class="red-pin"></div>
-              <div ng-show="order.data.data.split.red > 0" class="red-pin"></div>
-              <div ng-show="order.data.data.split.red > 1" class="red-pin"></div>
-            </div>
-            <select ng-model="order.data.data.split.red">
-              <option value="0">Pas du tout</option>
-              <option value="1">Un peu</option>
-              <option value="2">Beaucoup</option>
-            </select>
-          </label>
-        </div>
-        <div class="col">
-          <label class="item-input item-select">
-            <div class="input-label">
-              <div class="white-pin"></div>
-              <div ng-show="order.data.data.split.white > 0" class="white-pin"></div>
-              <div ng-show="order.data.data.split.white > 1" class="white-pin"></div>
-            </div>
-            <select ng-model="order.data.data.split.white">
-              <option value="0">Pas du tout</option>
-              <option value="1">Un peu</option>
-              <option value="2">Beaucoup</option>
-            </select>
-          </label>
-        </div>
-        <div class="col">
-          <label class="item-input item-select">
-            <div class="input-label">
-              <div class="rose-pin"></div>
-              <div ng-show="order.data.data.split.rose > 0" class="rose-pin"></div>
-              <div ng-show="order.data.data.split.rose > 1" class="rose-pin"></div>
-            </div>
-            <select ng-model="order.data.data.split.rose">
-              <option value="0">Pas du tout</option>
-              <option value="1">Un peu</option>
-              <option value="2">Beaucoup</option>
-            </select>
-          </label>
-        </div>
+<ion-view view-title="Recharger" hide-back-button="true" id="order-view">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon ion-navicon" ng-click="toggleLeft()" ng-hide="$exposeAside.active"></button>
+  </ion-nav-buttons>
+  <ion-content class="padding-margin-fix" has-bouncing="false">
+    <div ui-sref="sidemenu.refill" class="order-refill centered" ng-style="calcHalfHeight">
+      <div class="section">
+        <span class="title">Recharge Caviste</span> <br>
+        Vinify choisit pour moi <br>
+        des vins que je vais aimer
+
       </div>
     </div>
-
-    <div class="list first-refill">
-      <div class="item price-selector">
-        <h4 class="centered">Recharge 1</h4>
-        <div class="button-bar">
-          <a  ng-class="{highlighted: price.levelA == '29.90' }" ng-click="price.levelA = 29.90 " class="button">29€90</a>
-          <a  ng-class="{highlighted: price.levelA == '39.90' }" ng-click="price.levelA = 39.90 " class="button">39€90</a>
-          <a  ng-class="{highlighted: price.levelA == '49.90' }" ng-click="price.levelA = 49.90 " class="button">49€90</a>
-        </div>
-      </div>
-      <div ng-show="order.data.data.quantity == '2'" class="item price-selector">
-        <h4 class="centered">Recharge 2</h4>
-        <div class="button-bar">
-          <a  ng-class="{highlighted: price.levelB == '29.90' }" ng-click="price.levelB = 29.90 " class="button">29€90</a>
-          <a  ng-class="{highlighted: price.levelB == '39.90' }" ng-click="price.levelB = 39.90 " class="button">39€90</a>
-          <a  ng-class="{highlighted: price.levelB == '49.90' }" ng-click="price.levelB = 49.90 " class="button">49€90</a>
-        </div>
-      </div>
-     </div>
-
-    <div class="list card" ng-show="order.data.data.quantity == '1'">
-      <div class="item item-text-wrap refill-description">
-        <p ng-show="price.levelA == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-        <p ng-show="price.levelA == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-        <p ng-show="price.levelA == '49.90' ">Des vins fins, élégants et racés.</ A moi les grandes appellations !p>
+    <div class="order-picking centered"  ng-style="calcHalfHeight">
+      <div ui-sref="sidemenu.picking.recommended" class="section">
+        <span class="title">Recharge à la carte</span> <br>
+        Je choisis moi-même mes vins parmi mes vins<br>
+        et les recommandations Vinify
       </div>
     </div>
-
-    <div class="list card" ng-show="order.data.data.quantity == '2'">
-      <div class="item item-text-wrap refill-description">
-        <p ng-show="price.levelB == '29.90' ">Je découvre mes goûts sur toutes les régions françaises à prix doux.</p>
-        <p ng-show="price.levelB == '39.90' ">J'explore les appellations et les cépages de France et d'ailleurs.</p>
-        <p ng-show="price.levelB == '49.90' ">Des vins fins, élégants et racés.</ A moi les grandes appellations !p>
-      </div>
-    </div> -->
-
   </ion-content>
 </ion-view>

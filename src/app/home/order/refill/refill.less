@@ -1,0 +1,129 @@
+.order-header {
+  @bckg_url: 'img/refill.png';
+  @break: 100%;
+  .shade(@bckg_url, @break);
+}
+
+.bottle-number-selector {
+  // margin-top: 20px;
+
+  .segmented input:checked + .label {
+    border-color: @primary;
+    background-color: @primary;
+    color: #fff;
+  }
+
+  .segmented .label {
+    border-color:  @primary;
+    background-color: #fff;
+    color: @primary;
+    max-width: 140px;
+  }
+
+}
+.second-refill {
+  margin-bottom: 0;
+}
+.first-refill {
+  margin-bottom: 0;
+  // .item {
+  //  background-color: @grey; }
+}
+
+.refill-description {
+  p {
+    font-size: 16px;
+  }
+}
+
+.list-select {
+  margin-bottom: 0;
+}
+.list-select h4 {
+  text-align: center;
+  margin: 10px 0 0 0;
+}
+.list-select h4 span {
+  font-size: 14px;
+  font-family: 'robotolight';
+}
+.list-select .item-select select {
+  width: 40%;
+  padding-left: 0;
+  color: #FFF;
+}
+.list-select .item-select .input-label {
+  padding: 7px 0;
+  width: 60%;
+}
+.pins {
+  text-align: left;
+  // position: absolute;
+  // left:16px;
+}
+.pin {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+.pin.red-pin {
+  background-color: @primary;
+}
+.pin.white-pin {
+  background-color: @white-wine;
+}
+.pin.rose-pin {
+  background-color: @primary;
+  opacity: 0.5;
+}
+.pin:nth-child(even) {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.list-select .item-select .input-label {
+  padding: 7px 0;
+  width: 60%;
+}
+
+.order-france-logo {
+  max-height: 64px;
+  max-width: 100%;
+}
+
+#refill-view .segmented .label {
+  width: 65px;
+}
+
+#refill-view .row-buttons {
+  text-align: center;
+}
+#refill-view .row-buttons > div {
+  display: inline;
+}
+#refill-view .row-buttons button {
+  margin-top: 10px;
+}
+
+#refill-view .selected-tab {
+  border-bottom: 3px solid @primary;
+  color: @primary;
+  font-family: 'robotobold';
+  -webkit-transition:0.5s;
+  transition:0.5s;
+}
+#refill-view .price-selector {
+  margin-bottom: -16px;
+  padding-bottom: 0;
+}
+#refill-view .close-item {
+  color: @primary;
+  position: absolute;
+  cursor: pointer;
+  top: -10px;
+  right: -7px;
+}
+#refill-view .card,
+#refill-view .item {
+  overflow: visible;
+}
