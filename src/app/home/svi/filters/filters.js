@@ -70,6 +70,43 @@
           return filtered;
         };
       })
+      .filter('wineColor', function () {
+        return function (items, colors) {
+          console.log(colors);
+          var filtered = [];
+
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+
+            // if all is toggle, let all through
+            if (colors.red && colors.white && colors.rose) {
+
+              return items;
+            } else {
+              if ((colors.red && item.wine.color === 'red') || (colors.white && item.wine.color === 'white') ||
+                (colors.rose && item.wine.color === 'rose')) {
+                filtered.push(item);
+              }
+            }
+          }
+
+          return filtered;
+        };
+      })
+      .filter('wineRegion', function () {
+        return function (items, regions) {
+          var filtered = [];
+
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (regions[item.wine.region]) {
+              filtered.push(item);
+            }
+          }
+
+          return filtered;
+        };
+      })
       .filter('nameOrRow', function () {
         return function (items, search) {
           console.log(search);

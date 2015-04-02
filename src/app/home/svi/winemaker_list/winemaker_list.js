@@ -37,7 +37,7 @@ angular.module('app.winemaker_list', [
         value: ''
       };
       $scope.winemakers = $filter('price')(
-        $filter('color')(
+        $filter('winemakerColor')(
           $filter('region')(winemakers.data, regions),
         colors),
       prices);
@@ -48,7 +48,7 @@ angular.module('app.winemaker_list', [
     $scope.searchWinemakers = function (search) {
       $scope.winemakers = $filter('nameOrRow')(
         $filter('price')(
-          $filter('color')(
+          $filter('winemakerColor')(
             $filter('region')(winemakers.data, regions),
             colors),
           prices),

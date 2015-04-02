@@ -15,11 +15,11 @@
 <!-- <a href class="item">Gamme de Prix</a> -->
 <h3 class="padding">Mes Vins</h3>
 <div class="list">
-  <div ng-repeat="bottle in bottleList.results | regionFilter | colorFilter | filter: searchFilter " class="item item-thumbnail-left">
+  <div class="item item-collection-repeat item-thumbnail-left" collection-repeat="bottle in bottleList">
       <img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
       <h3>{{::bottle.wine.display_name}}</h3>
-      <i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios7-star full-star"></i>
-      <i ng-hide="isInteger(bottle.rating)" class="icon ion-ios7-star-half full-star"></i>
+      <i ng-repeat="i in getNumber(bottle.rating) track by $index" class="icon ion-ios-star full-star"></i>
+      <i ng-hide="isInteger(bottle.rating)" class="icon ion-ios-star-half full-star"></i>
     <span class="attributes">
       <img class="coin" src="assets/utils/coin.svg" alt=""> <span class="price">{{::bottle.wine.public_price | number:1}} €</span>
       </span>

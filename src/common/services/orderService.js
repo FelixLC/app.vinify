@@ -4,6 +4,7 @@
   angular
       .module('Order', [ 'settings', 'Update', 'lodash' ])
       .factory('Order', Order)
+      .factory('Picking', Picking)
       .factory('orderInstance', orderInstance)
       .factory('SerializedOrder', SerializedOrder);
 
@@ -198,6 +199,24 @@
   // Store the Order
   function SerializedOrder () {
     return {};
+  }
+
+  function Picking (_) {
+    var Instance = function (recommandationList, bottleList) {
+      var picking = {};
+      _(recommandationList).pluck('wine')
+                                                                  .pluck('uuid')
+                                                                  .forEach(function (id) {
+                                                                    picking[id] = 0;
+                                                                  }).value();
+      _(bottleList).pluck('wine')
+                                              .pluck('uuid')
+                                              .forEach(function (id) {
+                                                picking[id] = 0;
+                                              }).value();
+      return picking;
+    };
+    return Instance;
   }
 
 })();
