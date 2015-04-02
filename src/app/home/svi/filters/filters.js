@@ -83,8 +83,8 @@
 
               return items;
             } else {
-              if ((colors.red && item.wine.color === 'red') || (colors.white && item.wine.color === 'white') ||
-                (colors.rose && item.wine.color === 'rose')) {
+              if ((colors.red && item.wine.color === 'Rouge') || (colors.white && item.wine.color === 'Blanc') ||
+                (colors.rose && item.wine.color === 'Rose')) {
                 filtered.push(item);
               }
             }

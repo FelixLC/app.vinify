@@ -77,7 +77,7 @@
           $scope.search = {
             value: ''
           };
-          console.log(recommandations.data);
+
           $scope.bottleList = $filter('wineColor')(
               $filter('wineRegion')(bottles.data.results, regions),
             colors);
