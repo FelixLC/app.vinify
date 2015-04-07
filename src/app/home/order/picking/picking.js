@@ -86,7 +86,7 @@
               $filter('wineRegion')(recommandations.data, regions),
             colors);
 
-          $scope.picking = new Picking($scope.recommandationList, $scope.bottleList);
+          $scope.picking = new Picking($scope.recommandationList, $scope.bottleList, order.data.picking);
         };
 
         init();
@@ -152,6 +152,7 @@
         $scope.addBottle = function (wine, properties) {
           if ($scope.order.getBottleNumber() < 12) {
             $scope.picking[wine.uuid]++;
+            console.log(wine.uuid, $scope.picking[wine.uuid]);
             $scope.order.addPicking(wine, properties);
           } else {
             toasters.pop('Vous avez atteint le maximum pour une commande. Ecrivez-nous si vous souhaitez un commande plus importante.', 'top', 'info');
@@ -166,8 +167,6 @@
         };
 
         $scope.goToCart = function (order) {
-
-          console.log($scope.picking);
 
           if (order.isValid()) {
             if (ionic.Platform.isWebView() && !$cordovaNetwork.isOnline()) { // if we are in cordova && not online

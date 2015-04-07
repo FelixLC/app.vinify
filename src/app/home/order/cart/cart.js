@@ -25,50 +25,16 @@
           });
       })
       .controller('cartCtrl',
-        function cartCtrl ($scope,
-                                                  $rootScope,
-                                                  $ionicModal,
-                                                  Order,
-                                                  User,
-                                                  deliveryCosts,
-                                                  toasters,
-                                                  bottles,
-                                                  $state,
-                                                  recommandations,
-                                                  _,
-                                                  orderInstance,
-                                                  $ionicScrollDelegate) {
-
-        // search by id for wine.quantity in an array of wine
-        var idToQuantity = function (id, array) {
-          return _.result(_.find(array, function (obj) {
-                          return obj.uuid === id;
-                        }), 'quantity') || 0;
-        };
-
-        // build scope picking list
-        var buildPicking = function (recommandationList, bottleList, orderPicking) {
-          $scope.picking = {};
-          _(recommandationList).pluck('wine')
-                                                        .pluck('uuid')
-                                                        .forEach(function (id) {
-                                                          $scope.picking[id] = idToQuantity(id, orderPicking);
-                                                        }).value();
-
-          _(bottleList).pluck('wine')
-                                    .pluck('uuid')
-                                    .forEach(function (id) {
-                                      $scope.picking[id] = idToQuantity(id, orderPicking);
-                                    }).value();
-        };
+        function cartCtrl ($scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles,
+          $state, recommandations, _, orderInstance, $ionicScrollDelegate, Picking) {
 
         var init = function () {
-          $scope.bottleList = bottles.data;
+          $scope.bottleList = bottles.data.results;
           $scope.recommandationList = recommandations.data;
           orderInstance.getOrderInstance().then(
             function (order) {
               $scope.order = order;
-              buildPicking($scope.recommandationList, $scope.bottleList, $scope.order.data.picking);
+              $scope.picking = new Picking($scope.recommandationList, $scope.bottleList, $scope.order.data.picking);
             },
             function (newOrder) {
               $scope.order = newOrder;

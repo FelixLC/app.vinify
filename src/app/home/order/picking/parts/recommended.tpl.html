@@ -15,23 +15,23 @@
 <!-- <a href class="item">Gamme de Prix</a> -->
 <h3 class="padding">Mes Vins</h3>
 <div class="list">
-  <div class="item item-collection-repeat item-thumbnail-left" collection-repeat="bottle in ::recommandationList">
-      <img ng-src="assets/wines/{{::bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
-      <h3>{{::bottle.wine.display_name}}</h3>
+  <div class="item item-collection-repeat item-thumbnail-left" collection-repeat="bottle in recommandationList">
+      <img ng-src="assets/wines/{{bottle.wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
+      <h3>{{bottle.wine.display_name}}</h3>
     <span class="attributes">
-      <img src="assets/utils/heart.svg" alt=""> <span class="match">{{::bottle.match * 100 | number:1}} %</span>
-      <img src="assets/utils/coin.svg" alt=""> <span class="price">{{::bottle.wine.public_price | number:1}} €</span>
+      <img src="assets/utils/heart.svg" alt=""> <span class="match">{{bottle.match * 100 | number:1}} %</span>
+      <img src="assets/utils/coin.svg" alt=""> <span class="price">{{bottle.wine.public_price | number:1}} €</span>
     </span>
       <p class="vinitext">
-          {{::bottle.wine.region}}
+          {{bottle.wine.region}}
           <span class="plus-minus item-note">
             <span class="minus" ng-click="removeBottle(bottle.wine)"><i class="icon ion-chevron-down"></i></span>
             <span class="number">{{picking[bottle.wine.uuid]}}</span>
             <span class="plus" ng-click="addBottle(bottle.wine, { match: bottle.match })"><i class="icon ion-chevron-up"></i></span>
           </span>
           <br>
-          {{::bottle.wine.appellation}}
-          <span ng-click="openWineModal(bottle.wine)" class="item-note">en savoir plus</span>
+          {{bottle.wine.appellation}}
+          <span ng-click="openWineModal(bottle.wine)" class="item-note">en savoir +</span>
       </p>
   </div>
 </div>

@@ -62,7 +62,7 @@
       this.password = '';
       this.survey = new Survey();
       this.userinfos = new Userinfos();
-      this.initial_referrer = 'svi_champerret';
+      this.initial_referrer = '';
       this.order_type = null;
       this.referral = null;
       this.coupon = "";

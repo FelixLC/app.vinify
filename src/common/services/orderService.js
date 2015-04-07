@@ -202,17 +202,25 @@
   }
 
   function Picking (_) {
-    var Instance = function (recommandationList, bottleList) {
+
+    // search by id for wine.quantity in an array of wine
+    var idToQuantity = function (id, array) {
+      return _.result(_.find(array, function (obj) {
+                      return obj.uuid === id;
+                    }), 'quantity') || 0;
+    };
+
+    var Instance = function (recommandationList, bottleList, orderPicking) {
       var picking = {};
       _(recommandationList).pluck('wine')
                                                                   .pluck('uuid')
                                                                   .forEach(function (id) {
-                                                                    picking[id] = 0;
+                                                                    picking[id] = idToQuantity(id, orderPicking);
                                                                   }).value();
       _(bottleList).pluck('wine')
                                               .pluck('uuid')
                                               .forEach(function (id) {
-                                                picking[id] = 0;
+                                                picking[id] = idToQuantity(id, orderPicking);
                                               }).value();
       return picking;
     };
