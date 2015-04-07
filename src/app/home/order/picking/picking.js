@@ -155,7 +155,8 @@
             console.log(wine.uuid, $scope.picking[wine.uuid]);
             $scope.order.addPicking(wine, properties);
           } else {
-            toasters.pop('Vous avez atteint le maximum pour une commande. Ecrivez-nous si vous souhaitez un commande plus importante.', 'top', 'info');
+            toasters.pop('Vous avez atteint le maximum pour une commande.' +
+              'Ecrivez-nous si vous souhaitez un commande plus importante.', 'top', 'info');
           }
         };
 
