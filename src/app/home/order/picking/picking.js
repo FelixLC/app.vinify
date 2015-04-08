@@ -1,5 +1,6 @@
   angular.module('app.order.picking', [ 'Order',
           'User',
+          'HighjackBack',
           'settings',
           'Toaster',
           'lodash',
@@ -27,6 +28,9 @@
                 },
                 colors: function (Filters) {
                   return Filters.getColors();
+                },
+                prices: function (Filters) {
+                  return Filters.getPrices();
                 },
                 order: function (orderInstance) {
                   return orderInstance.getOrderInstance().then(
@@ -65,8 +69,8 @@
           });
       })
       .controller('pickingCtrl', function pickingCtrl (
-        $scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles, $state, Picking,
-        recommandations, _, orderInstance, order, $ionicScrollDelegate, Filters, $filter, settings, regions, colors) {
+        $scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles, $state, Picking, backButton,
+        recommandations, _, orderInstance, order, $ionicScrollDelegate, Filters, $filter, settings, regions, colors, prices) {
 
 
 
@@ -78,13 +82,17 @@
             value: ''
           };
 
-          $scope.bottleList = $filter('wineColor')(
+          $scope.bottleList = $filter('winePrice')(
+            $filter('wineColor')(
               $filter('wineRegion')(bottles.data.results, regions),
-            colors);
+            colors),
+          prices);
 
-          $scope.recommandationList = $filter('wineColor')(
+          $scope.recommandationList = $filter('winePrice')(
+            $filter('wineColor')(
               $filter('wineRegion')(recommandations.data, regions),
-            colors);
+            colors),
+          prices);
 
           $scope.picking = new Picking($scope.recommandationList, $scope.bottleList, order.data.picking);
         };
@@ -146,7 +154,11 @@
         };
 
         $scope.isInteger = function (num) {
-          return (Math.floor(num) == num);
+          if (num) {
+            return (Math.floor(num) == num);
+          } else {
+            return true;
+          }
         };
 
         $scope.addBottle = function (wine, properties) {
@@ -174,6 +186,8 @@
               $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
             } else {
               orderInstance.setOrderInstance(order);
+              // highjacks back button for cart
+              backButton.setView();
               $state.go('sidemenu.cart');
             }
           } else if (order.getBottleNumber() === 9) {
@@ -181,6 +195,8 @@
               $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
             } else {
               orderInstance.setOrderInstance(order);
+              // highjacks back button for cart
+              backButton.setView();
               $state.go('sidemenu.cart');
             }
           } else {
@@ -195,6 +211,8 @@
               $cordovaToast.show('Oops, vous n\'êtes pas connecté. Merci de réessayer ...', 'short', 'top');
             } else {
               orderInstance.setOrderInstance($scope.order);
+              // highjacks back button for cart
+              backButton.setView();
               $state.go('sidemenu.deliverymode');
             }
           } else {

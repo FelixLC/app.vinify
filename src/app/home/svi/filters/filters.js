@@ -172,6 +172,32 @@
           return filtered;
         };
       })
+      .filter('winePrice', function () {
+        return function (items, prices) {
+          var filtered = [];
+
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+
+            // if all is toggle, let all through
+            if (prices.price_level_1 && prices.price_level_2 &&
+              prices.price_level_3 && prices.price_level_4 && prices.price_level_5) {
+
+              return items;
+            } else {
+              if ((prices.price_level_1 && item.wine.public_price < 10) ||
+                (prices.price_level_2 && item.wine.public_price < 15 && item.wine.public_price >= 10) ||
+                (prices.price_level_3 && item.wine.public_price < 20 && item.wine.public_price >= 15) ||
+                (prices.price_level_4 && item.wine.public_price < 30 && item.wine.public_price >= 20) ||
+                (prices.price_level_5 && item.wine.public_price > 30)) {
+                filtered.push(item);
+              }
+            }
+          }
+
+          return filtered;
+        };
+      })
       .controller('filterCtrl', function filterCtrl ($scope, Filters, _) {
         Filters.getRegions(function (regions) {
           $scope.regions = regions;

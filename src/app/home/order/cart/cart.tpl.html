@@ -1,4 +1,7 @@
-<ion-view title="Panier" cache-view="false" id="cart-view">
+<ion-view title="Panier" hide-back-button="true" cache-view="false" id="cart-view">
+  <ion-nav-buttons side="left">
+    <button ng-click="myGoBack()" class="button button-icon ion-ios-arrow-left"></button>
+  </ion-nav-buttons>
   <ion-nav-buttons side="right">
     <button class="button button-icon">
       <svg version="1.1" class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" xml:space="preserve">
@@ -43,7 +46,6 @@
                 </span>
                 <br>
                 {{::wine.appellation}}
-                <span class="item-note link-dotted">en savoir plus</span>
             </p>
         </div>
         <div class="item item-thumbnail-left" ng-repeat="refill in order.data.refills">

@@ -1,6 +1,7 @@
   angular.module('app.order.cart', [ 'Order',
           'User',
           'settings',
+          'HighjackBack',
           'Toaster',
           'lodash'
       ])
@@ -26,7 +27,7 @@
       })
       .controller('cartCtrl',
         function cartCtrl ($scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles,
-          $state, recommandations, _, orderInstance, $ionicScrollDelegate, Picking) {
+          $state, recommandations, _, orderInstance, $ionicScrollDelegate, Picking, backButton) {
 
         var init = function () {
           $scope.bottleList = bottles.data.results;
@@ -72,6 +73,10 @@
         };
 
         init();
+
+        $scope.myGoBack = function () {
+          backButton.goBack();
+        };
 
         $scope.removeRefill = function (i) {
           $scope.order.removeRefill(i);
