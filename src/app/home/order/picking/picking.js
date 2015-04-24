@@ -68,6 +68,17 @@
               }
           });
       })
+      .directive('errSrc', function () {
+        return {
+          link: function (scope, element, attrs) {
+            element.bind('error', function () {
+              if (attrs.src != attrs.errSrc) {
+                attrs.$set('src', attrs.errSrc);
+              }
+            });
+          }
+        };
+      })
       .controller('pickingCtrl', function pickingCtrl (
         $scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles, $state, Picking, backButton,
         recommandations, _, orderInstance, order, $ionicScrollDelegate, Filters, $filter, settings, regions, colors, prices) {

@@ -81,8 +81,8 @@
       </div>
       <div class="row-buttons padding">
         <div class="centered">
-          <button class="button button-outline-primary centered" ng-click="goPicking(order)" ng-if="order.getBottleNumber < 12">Ajouter des vins à la carte</button>
-          <button ng-if="order.getBottleNumber < 10" class="button button-outline-primary centered" ui-sref="sidemenu.refill">Ajouter une recharge caviste</button>
+          <button class="button button-outline-primary centered" ng-click="goPicking(order)" ng-if="order.getBottleNumber() < 12">Ajouter des vins à la carte</button>
+          <button ng-if="order.getBottleNumber() < 10" class="button button-outline-primary centered" ui-sref="sidemenu.refill">Ajouter une recharge caviste</button>
           <button class="button button-outline-primary centered" ng-click="createRefillOrder(order)">Choisir la livraison</button>
         </div>
       </div>

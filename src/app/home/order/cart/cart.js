@@ -2,6 +2,8 @@
           'User',
           'settings',
           'HighjackBack',
+          'ngCordova',
+          'ionic',
           'Toaster',
           'lodash'
       ])
@@ -25,9 +27,20 @@
               }
           });
       })
+      .directive('errSrc', function () {
+        return {
+          link: function (scope, element, attrs) {
+            element.bind('error', function () {
+              if (attrs.src != attrs.errSrc) {
+                attrs.$set('src', attrs.errSrc);
+              }
+            });
+          }
+        };
+      })
       .controller('cartCtrl',
         function cartCtrl ($scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles,
-          $state, recommandations, _, orderInstance, $ionicScrollDelegate, Picking, backButton) {
+          $state, recommandations, _, orderInstance, $ionicScrollDelegate, Picking, backButton, $ionicPlatform, $cordovaNetwork) {
 
         var init = function () {
           $scope.bottleList = bottles.data.results;

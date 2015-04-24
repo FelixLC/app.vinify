@@ -34,6 +34,17 @@
           }
         };
       })
+      .directive('errSrc', function () {
+        return {
+          link: function (scope, element, attrs) {
+            element.bind('error', function () {
+              if (attrs.src != attrs.errSrc) {
+                attrs.$set('src', attrs.errSrc);
+              }
+            });
+          }
+        };
+      })
       .controller('refillCtrl', function refillCtrl ($scope, $rootScope, $http, $state, Order, orderInstance, SerializedOrder, $window, $ionicPlatform, $cordovaNetwork, User, deliveryCosts, $ionicScrollDelegate, toasters) {
 
         orderInstance.getOrderInstance().then(
