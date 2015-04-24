@@ -39,7 +39,7 @@
         };
       })
       .controller('cartCtrl',
-        function cartCtrl ($scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles,
+        function cartCtrl ($scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles, $ionicHistory,
           $state, recommandations, _, orderInstance, $ionicScrollDelegate, Picking, backButton, $ionicPlatform, $cordovaNetwork) {
 
         var init = function () {

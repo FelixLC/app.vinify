@@ -14,7 +14,7 @@
 </div>
 <div class="list">
   <a ng-repeat="wine in order.data.picking" class="item item-thumbnail-left">
-      <img ng-src="assets/wines/{{wine.product_code}}.png" err-src="assets/wines/mystery-png" alt="">
+      <img ng-src="assets/wines/{{wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
       <h3>{{::wine.display_name}}</h3>
       <i ng-if="wine.rating" ng-repeat="i in ::getNumber(wine.rating) track by $index" class="icon ion-ios7-star full-star"></i>
       <i ng-if="wine.rating" ng-hide="isInteger(wine.rating)" class="icon ion-ios7-star-half full-star"></i>

@@ -44,28 +44,20 @@
               }
           })
           .state('sidemenu.picking.recommended', {
-              url: "/recommandations",
-              views: {
-                pickingTab: {
-                  templateUrl: "home/order/picking/parts/recommended.tpl.html"
-                }
+            url: "/recommandations",
+            views: {
+              pickingTab: {
+                templateUrl: "home/order/picking/parts/recommended.tpl.html"
               }
+            }
           })
           .state('sidemenu.picking.my_wines', {
-              url: "/mes-vins",
-              views: {
-                pickingTab: {
-                  templateUrl: "home/order/picking/parts/my_wines.tpl.html"
-                }
+            url: "/mes-vins",
+            views: {
+              pickingTab: {
+                templateUrl: "home/order/picking/parts/my_wines.tpl.html"
               }
-          })
-          .state('sidemenu.picking.cart', {
-              url: "/panier",
-              views: {
-                pickingTab: {
-                  templateUrl: "home/order/picking/parts/cart.tpl.html"
-                }
-              }
+            }
           });
       })
       .directive('errSrc', function () {
@@ -80,12 +72,17 @@
         };
       })
       .controller('pickingCtrl', function pickingCtrl (
-        $scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles, $state, Picking, backButton,
+        $scope, $rootScope, $ionicModal, Order, User, deliveryCosts, toasters, bottles, $state, Picking, backButton, $ionicHistory,
         recommandations, _, orderInstance, order, $ionicScrollDelegate, Filters, $filter, settings, regions, colors, prices) {
 
 
 
         var init = function () {
+          console.log(backButton.previousView, $ionicHistory.currentStateName());
+          if (backButton.previousView && backButton.previousView != $ionicHistory.currentStateName()) {
+            $state.go(backButton.previousView);
+          }
+
           $scope.order = order;
           $scope.user = User.getUser();
 

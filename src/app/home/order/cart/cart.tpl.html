@@ -1,7 +1,7 @@
-<ion-view title="Panier" hide-back-button="true" cache-view="false" id="cart-view">
-  <ion-nav-buttons side="left">
+<ion-view title="Panier" cache-view="false" id="cart-view">
+<!--   <ion-nav-buttons side="left">
     <button ng-click="myGoBack()" class="button button-icon ion-ios-arrow-left"></button>
-  </ion-nav-buttons>
+  </ion-nav-buttons> -->
   <ion-nav-buttons side="right">
     <button class="button button-icon">
       <svg version="1.1" class="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30px" height="30px" xml:space="preserve">
@@ -29,7 +29,7 @@
       </div>
       <div class="list">
         <div ng-repeat="wine in order.data.picking" class="item item-thumbnail-left">
-            <img ng-src="assets/wines/{{wine.product_code}}.png" err-src="assets/wines/mystery-png" alt="">
+            <img ng-src="assets/wines/{{wine.product_code}}.png" err-src="assets/wines/mystery-bottle.png" alt="">
             <h3>{{::wine.display_name}}</h3>
             <i ng-if="wine.rating" ng-repeat="i in ::getNumber(wine.rating) track by $index" class="icon ion-ios7-star full-star"></i>
             <i ng-if="wine.rating" ng-hide="isInteger(wine.rating)" class="icon ion-ios7-star-half full-star"></i>

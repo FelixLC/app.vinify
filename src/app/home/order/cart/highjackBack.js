@@ -8,9 +8,9 @@
   /* @ngInject */
   function backButton ($ionicHistory, $state) {
       var service = {
-          previousView: '',
-          goBack: goBack,
-          setView: setView
+        previousView: '',
+        goBack: goBack,
+        setView: setView
       };
 
       // //////////////

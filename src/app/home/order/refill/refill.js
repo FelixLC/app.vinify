@@ -50,13 +50,29 @@
         orderInstance.getOrderInstance().then(
           function (order) {
             $scope.order = order;
-            if($scope.order.data.refills.length === 0) {
+            if ($scope.order.data.refills.length === 0) {
               $scope.order.addRefill("39.90");
+              $scope.states = {
+                current: 1,
+                hideFirstCard: false,
+                hideSecondCard: false
+              };
+            } else {
+              $scope.states = {
+                current: 0,
+                hideFirstCard: true,
+                hideSecondCard: false
+              };
             }
           },
           function (newOrder) {
             $scope.order = newOrder;
             $scope.order.addRefill("39.90");
+            $scope.states = {
+              current: 1,
+              hideFirstCard: false,
+              hideSecondCard: false
+            };
           });
         // prepare for next screen
         User.updateUser(function (user) {
@@ -71,12 +87,6 @@
           "39.90": 39.90,
           "49.90": 49.90,
           "59.90": 59.90
-        };
-
-        $scope.states = {
-          current: 1,
-          hideFirstCard: false,
-          hideSecondCard: false
         };
 
         $scope.changeRed = function (split) {
